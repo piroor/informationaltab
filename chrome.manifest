@@ -1,0 +1,8 @@
+content	tabthumbnail	jar:chrome/tabthumbnail.jar!/content/tabthumbnail/
+
+overlay	chrome://browser/content/browser.xul	chrome://tabthumbnail/content/tabthumbnail.xul
+
+locale	tabthumbnail	en-US	jar:chrome/tabthumbnail.jar!/locale/en-US/tabthumbnail/
+locale	tabthumbnail	ja	jar:chrome/tabthumbnail.jar!/locale/ja/tabthumbnail/
+
+skin	tabthumbnail	classic/1.0	jar:chrome/tabthumbnail.jar!/skin/classic/tabthumbnail/

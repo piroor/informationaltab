@@ -1,0 +1,36 @@
+<!ENTITY popup.selection.removeTabs  "Close Selected Tabs">
+<!ENTITY popup.selection.reloadTabs  "Reload Selected Tabs">
+<!ENTITY popup.selection.addBookmark "Bookmark Selected Tabs to New Folder">
+<!ENTITY popup.selection.duplicateTabs "Duplicate Selected Tabs">
+<!ENTITY popup.selection.splitWindow "Open in New Window">
+
+<!ENTITY popup.context.removeLeftTabs.horizontal  "Close Left Tabs">
+<!ENTITY popup.context.removeLeftTabs.vertical    "Close Above Tabs">
+<!ENTITY popup.context.removeRightTabs.horizontal "Close Right Tabs">
+<!ENTITY popup.context.removeRightTabs.vertical   "Close Below Tabs">
+<!ENTITY popup.context.removeAll                  "Close All Tabs">
+<!ENTITY popup.context.duplicate                  "Duplicate Tab">
+
+
+
+<!ENTITY config.title        "Configuration of Thumbnail in Tab">
+
+<!ENTITY config.tabs.general "General">
+
+<!ENTITY config.tabdragmode.caption "Action for dragging of tabs">
+<!ENTITY config.tabdragmode.default "Default (move and rearrange tabs)">
+<!ENTITY config.tabdragmode.select  "Select tabs">
+<!ENTITY config.tabdragmode.switch  "Switch tabs dynamically">
+
+<!ENTITY config.tabclickmode.caption "Action for Ctrl(Command)-Click of tabs">
+<!ENTITY config.tabclickmode.default "Close Tab">
+<!ENTITY config.tabclickmode.toggle  "Toggle Selection of Tab">
+
+<!ENTITY config.tabs.selectionMenu    "Tab Selection Menu">
+<!ENTITY config.selectionMenu.caption "Available items of the popup menu for selected tabs">
+
+<!ENTITY config.tabs.contextMenu    "Tab Context Menu">
+<!ENTITY config.contextMenu.caption "Available items of the context menu on tabs">
+<!ENTITY config.contextMenu.removeLeftTabs  "Close Left (Above) Tabs">
+<!ENTITY config.contextMenu.removeRightTabs "Close Right (Below) Tabs">
+

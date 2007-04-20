@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/"?>
+
+<!DOCTYPE prefwindow [
+<!ENTITY % mainDTD SYSTEM "chrome://tabthumbnail/locale/tabthumbnail.dtd">
+%mainDTD;
+]>
+
+<prefwindow id="tabthumbnail-config"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	title="&config.title;"
+	onload="sizeToContent();">
+
+<prefpane id="prefpane-general" label="&config.tabs.general;">
+	<preferences>
+		<preference id="extensions.tabthumbnail.tabdrag.mode"
+			name="extensions.tabthumbnail.tabdrag.mode"
+			type="int"/>
+		<preference id="extensions.tabthumbnail.tabclick.mode"
+			name="extensions.tabthumbnail.tabclick.mode"
+			type="int"/>
+	</preferences>
+	<groupbox>
+		<caption label="&config.tabdragmode.caption;"/>
+		<vbox>
+			<radiogroup id="extensions.tabthumbnail.tabdrag.mode-radiogroup"
+				preference="extensions.tabthumbnail.tabdrag.mode"
+				orient="vertical">
+				<radio value="0" label="&config.tabdragmode.default;"/>
+				<radio value="1" label="&config.tabdragmode.select;"/>
+				<radio value="2" label="&config.tabdragmode.switch;"/>
+			</radiogroup>
+		</vbox>
+	</groupbox>
+	<groupbox>
+		<caption label="&config.tabclickmode.caption;"/>
+		<vbox>
+			<radiogroup id="extensions.tabthumbnail.tabclick.mode-radiogroup"
+				preference="extensions.tabthumbnail.tabclick.mode"
+				orient="vertical">
+				<radio value="0" label="&config.tabclickmode.default;"/>
+				<radio value="1" label="&config.tabclickmode.toggle;"/>
+			</radiogroup>
+		</vbox>
+	</groupbox>
+</prefpane>
+
+<prefpane id="prefpane-selection-menu" label="&config.tabs.selectionMenu;">
+	<preferences id="prefpane-selection-menu-preferences">
+		<preference id="extensions.tabthumbnail.show.tabthumbnail-selection-reloadTabs"
+			name="extensions.tabthumbnail.show.tabthumbnail-selection-reloadTabs"
+			type="bool"/>
+		<preference id="extensions.tabthumbnail.show.tabthumbnail-selection-addBookmark"
+			name="extensions.tabthumbnail.show.tabthumbnail-selection-addBookmark"
+			type="bool"/>
+		<preference id="extensions.tabthumbnail.show.tabthumbnail-selection-duplicateTabs"
+			name="extensions.tabthumbnail.show.tabthumbnail-selection-duplicateTabs"
+			type="bool"/>
+		<preference id="extensions.tabthumbnail.show.tabthumbnail-selection-splitWindow"
+			name="extensions.tabthumbnail.show.tabthumbnail-selection-splitWindow"
+			type="bool"/>
+		<preference id="extensions.tabthumbnail.show.tabthumbnail-selection-removeTabs"
+			name="extensions.tabthumbnail.show.tabthumbnail-selection-removeTabs"
+			type="bool"/>
+	</preferences>
+	<groupbox>
+		<caption label="&config.selectionMenu.caption;"/>
+		<vbox id="prefpane-selection-menu-items">
+			<checkbox id="extensions.tabthumbnail.show.tabthumbnail-selection-reloadTabs-check"
+				preference="extensions.tabthumbnail.show.tabthumbnail-selection-reloadTabs"
+				label="&popup.selection.reloadTabs;"/>
+			<checkbox id="extensions.tabthumbnail.show.tabthumbnail-selection-addBookmark-check"
+				preference="extensions.tabthumbnail.show.tabthumbnail-selection-addBookmark"
+				label="&popup.selection.addBookmark;"/>
+			<checkbox id="extensions.tabthumbnail.show.tabthumbnail-selection-duplicateTabs-check"
+				preference="extensions.tabthumbnail.show.tabthumbnail-selection-duplicateTabs"
+				label="&popup.selection.duplicateTabs;"/>
+			<checkbox id="extensions.tabthumbnail.show.tabthumbnail-selection-splitWindow-check"
+				preference="extensions.tabthumbnail.show.tabthumbnail-selection-splitWindow"
+				label="&popup.selection.splitWindow;"/>
+			<checkbox id="extensions.tabthumbnail.show.tabthumbnail-selection-removeTabs-check"
+				preference="extensions.tabthumbnail.show.tabthumbnail-selection-removeTabs"
+				label="&popup.selection.removeTabs;"/>
+		</vbox>
+	</groupbox>
+</prefpane>
+
+<prefpane id="prefpane-context-menu" label="&config.tabs.contextMenu;">
+	<preferences id="prefpane-context-menu-preferences">
+		<preference id="extensions.tabthumbnail.show.tabthumbnail-context-duplicate"
+			name="extensions.tabthumbnail.show.tabthumbnail-context-duplicate"
+			type="bool"/>
+		<preference id="extensions.tabthumbnail.show.tabthumbnail-context-removeAll"
+			name="extensions.tabthumbnail.show.tabthumbnail-context-removeAll"
+			type="bool"/>
+		<preference id="extensions.tabthumbnail.show.tabthumbnail-context-removeLeftTabs"
+			name="extensions.tabthumbnail.show.tabthumbnail-context-removeLeftTabs"
+			type="bool"/>
+		<preference id="extensions.tabthumbnail.show.tabthumbnail-context-removeRightTabs"
+			name="extensions.tabthumbnail.show.tabthumbnail-context-removeRightTabs"
+			type="bool"/>
+	</preferences>
+	<groupbox>
+		<caption label="&config.contextMenu.caption;"/>
+		<vbox id="prefpane-context-menu-items">
+			<checkbox id="extensions.tabthumbnail.show.tabthumbnail-context-duplicate"
+				preference="extensions.tabthumbnail.show.tabthumbnail-context-duplicate"
+				label="&popup.context.duplicate;"/>
+			<checkbox id="extensions.tabthumbnail.show.tabthumbnail-context-removeAll"
+				preference="extensions.tabthumbnail.show.tabthumbnail-context-removeAll"
+				label="&popup.context.removeAll;"/>
+			<checkbox id="extensions.tabthumbnail.show.tabthumbnail-context-removeLeftTabs-check"
+				preference="extensions.tabthumbnail.show.tabthumbnail-context-removeLeftTabs"
+				label="&config.contextMenu.removeLeftTabs;"/>
+			<checkbox id="extensions.tabthumbnail.show.tabthumbnail-context-removeRightTabs"
+				preference="extensions.tabthumbnail.show.tabthumbnail-context-removeRightTabs"
+				label="&config.contextMenu.removeRightTabs;"/>
+		</vbox>
+	</groupbox>
+</prefpane>
+
+
+</prefwindow>
+
