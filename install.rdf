@@ -7,7 +7,7 @@
                    em:name="Thumbnail in Tab"
                    em:version="0.1.2007042003"
                    em:creator="SHIMODA Hiroshi"
-                   em:description="Provides feature to close multiple tabs."
+                   em:description="Provides thumbnail in each tab."
                    em:homepageURL="http://piro.sakura.ne.jp/xul/tabthumbnail/"
                    em:iconURL="chrome://tabthumbnail/content/icon32.png"
                    em:optionsURL="chrome://tabthumbnail/content/config.xul"

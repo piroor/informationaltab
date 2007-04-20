@@ -1,36 +1,3 @@
-<!ENTITY popup.selection.removeTabs    "すべて閉じる">
-<!ENTITY popup.selection.reloadTabs    "すべて再読み込み">
-<!ENTITY popup.selection.addBookmark   "フォルダにまとめてブックマーク">
-<!ENTITY popup.selection.duplicateTabs "すべて複製">
-<!ENTITY popup.selection.splitWindow   "新しいウィンドウで開く">
-
-<!ENTITY popup.context.removeLeftTabs.horizontal  "左のタブをすべて閉じる">
-<!ENTITY popup.context.removeLeftTabs.vertical    "上のタブをすべて閉じる">
-<!ENTITY popup.context.removeRightTabs.horizontal "右のタブをすべて閉じる">
-<!ENTITY popup.context.removeRightTabs.vertical   "下のタブをすべて閉じる">
-<!ENTITY popup.context.removeAll                  "すべてのタブを閉じる">
-<!ENTITY popup.context.duplicate                  "タブを複製">
-
-
-
 <!ENTITY config.title        "マルチタブハンドラの設定">
 
 <!ENTITY config.tabs.general "全般">
-
-<!ENTITY config.tabdragmode.caption "タブをドラッグした時">
-<!ENTITY config.tabdragmode.default "タブを移動する">
-<!ENTITY config.tabdragmode.select  "タブを選択して、ポップアップメニューで動作を決定する">
-<!ENTITY config.tabdragmode.switch  "タブをダイナミックに切り換える">
-
-<!ENTITY config.tabclickmode.caption "タブをCtrl（Command）-クリックした時">
-<!ENTITY config.tabclickmode.default "タブを閉じる">
-<!ENTITY config.tabclickmode.toggle  "タブを選択する">
-
-<!ENTITY config.tabs.selectionMenu    "タブ選択時のメニュー">
-<!ENTITY config.selectionMenu.caption "タブ選択時のメニューに表示する項目">
-
-<!ENTITY config.tabs.contextMenu    "タブのコンテキストメニュー">
-<!ENTITY config.contextMenu.caption "タブのコンテキストメニューに追加する項目">
-<!ENTITY config.contextMenu.removeLeftTabs  "左（上）のタブをすべて閉じる">
-<!ENTITY config.contextMenu.removeRightTabs "右（下）のタブをすべて閉じる">
-

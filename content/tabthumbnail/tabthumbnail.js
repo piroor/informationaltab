@@ -28,11 +28,6 @@ var TabThumbnailService = {
 	 
 	initTabBrowser : function(aTabBrowser) 
 	{
-		aTabBrowser.mTabContainer.addEventListener('draggesture', this, true);
-		aTabBrowser.mTabContainer.addEventListener('mouseover',   this, true);
-		aTabBrowser.mTabContainer.addEventListener('mousemove',   this, true);
-		aTabBrowser.mTabContainer.addEventListener('mousedown',   this, true);
-
 		var addTabMethod = 'addTab';
 		var removeTabMethod = 'removeTab';
 		if (aTabBrowser.__tabextensions__addTab) {
@@ -63,17 +58,6 @@ var TabThumbnailService = {
 			}
 			return retVal;
 		};
-
-		eval(
-			'aTabBrowser.warnAboutClosingTabs = '+
-			aTabBrowser.warnAboutClosingTabs.toSource().replace(
-				/\)/, ', aNumTabs)'
-			).replace(
-				/var numTabs = /, 'var numTabs = aNumTabs || '
-			)
-		);
-
-		this.initTabBrowserContextMenu(aTabBrowser);
 
 		var tabs = aTabBrowser.mTabContainer.childNodes;
 		for (var i = 0, maxi = tabs.length; i < maxi; i++)
@@ -119,6 +103,8 @@ var TabThumbnailService = {
 				label.parentNode.appendChild(canvas);
 				break;
 		}
+
+		aTab.__tabthumbnail__canvas = canvas;
 	},
  	 
 	destroy : function() 
@@ -138,13 +124,6 @@ var TabThumbnailService = {
 	 
 	destroyTabBrowser : function(aTabBrowser) 
 	{
-		aTabBrowser.mTabContainer.removeEventListener('draggesture', this, true);
-		aTabBrowser.mTabContainer.removeEventListener('mouseover',   this, true);
-		aTabBrowser.mTabContainer.removeEventListener('mousemove',   this, true);
-		aTabBrowser.mTabContainer.removeEventListener('mousedown',   this, true);
-
-		var tabContextMenu = document.getAnonymousElementByAttribute(aTabBrowser, 'anonid', 'tabContextMenu');
-		tabContextMenu.removeEventListener('popupshowing', this, false);
 	},
  
 	destroyTab : function(aTab) 
@@ -200,6 +179,8 @@ var TabThumbnailService = {
   
 	updateThumbnail : function(aTab, aBrowser) 
 	{
+		var canvas = aTab.__tabthumbnail__canvas;
+		canvas.getContext('2d');
 	},
  
 /* Event Handling */ 
