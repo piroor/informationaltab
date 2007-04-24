@@ -77,19 +77,18 @@ var InformationalTabService = {
 		if (aTab.__informationaltab__progressListener) return;
 
 		var filter = Components.classes['@mozilla.org/appshell/component/browser-status-filter;1'].createInstance(Components.interfaces.nsIWebProgress);
-		var listener = this.createProgressListener(aTab, aTab.linkedBrowser);
+		var listener = new InformationalTabProgressListener(aTab, aTab.linkedBrowser);
 		filter.addProgressListener(listener, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
 		aTab.linkedBrowser.webProgress.addProgressListener(filter, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
 
 		aTab.__informationaltab__progressListener = listener;
 		aTab.__informationaltab__progressFilter   = filter;
-
+return;
 
 		var canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
-		var label  =  document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');;
+		var label  =  document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 
-		label.setAttribute('class', label.getAttribute('class')+' progress-bar');
-		switch(this.getPref('extensions.informationaltab.position'))
+		switch(this.getPref('extensions.informationaltab.thumbnail.position'))
 		{
 			case this.POSITION_BEFORE_FAVICON:
 				label.parentNode.insertBefore(canvas, label.parentNode.firstChild);
@@ -104,9 +103,10 @@ var InformationalTabService = {
 				break;
 		}
 
+
 		aTab.__informationaltab__canvas = canvas;
 	},
- 	 
+  
 	destroy : function() 
 	{
 		this.destroyTabBrowser(gBrowser);
@@ -137,48 +137,10 @@ var InformationalTabService = {
 		catch(e) {
 		}
 	},
-  
-	createProgressListener : function(aTab, aBrowser) 
-	{
-		return {
-			mTab           : aTab,
-			mBrowser       : aBrowser,
-			onProgressChange: function (aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress)
-			{
-			},
-			onStateChange : function(aWebProgress, aRequest, aStateFlags, aStatus)
-			{
-				const nsIWebProgressListener = Components.interfaces.nsIWebProgressListener;
-				if (
-					aStateFlags & nsIWebProgressListener.STATE_STOP &&
-					aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
-					) {
-					InformationalTab.updateThumbnail(this.mTab, this.mBrowser);
-				}
-			},
-			onLocationChange : function(aWebProgress, aRequest, aLocation)
-			{
-			},
-			onStatusChange : function(aWebProgress, aRequest, aStatus, aMessage)
-			{
-			},
-			onSecurityChange : function(aWebProgress, aRequest, aState)
-			{
-			},
-			QueryInterface : function(aIID)
-			{
-				if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
-					aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-					aIID.equals(Components.interfaces.nsISupports))
-					return this;
-				throw Components.results.NS_NOINTERFACE;
-			}
-
-		};
-	},
-  
+  	 
 	updateThumbnail : function(aTab, aBrowser) 
 	{
+return;
 		var canvas = aTab.__informationaltab__canvas;
 		canvas.getContext('2d');
 	},
@@ -317,4 +279,55 @@ var InformationalTabService = {
 
 window.addEventListener('load', InformationalTabService, false);
 window.addEventListener('unload', InformationalTabService, false);
+ 
+function InformationalTabProgressListener(aTab, aBrowser) 
+{
+	this.mTab = aTab;
+	this.mBrowser = aBrowser;
+}
+InformationalTabProgressListener.prototype = {
+	mTab           : null,
+	mBrowser       : null,
+	onProgressChange: function (aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress)
+	{
+		if (aMaxTotalProgress < 1)
+			return;
+
+		var label = document.getAnonymousElementByAttribute(this.mTab, 'class', 'tab-text');
+
+		var percentage = parseInt((aCurTotalProgress * 100) / aMaxTotalProgress);
+		if (percentage > 0 && percentage < 100)
+			label.setAttribute('informationaltab-progress', percentage);
+		else if (percentage <= 0 || percentage >= 100)
+			label.removeAttribute('informationaltab-progress');
+	},
+	onStateChange : function(aWebProgress, aRequest, aStateFlags, aStatus)
+	{
+		const nsIWebProgressListener = Components.interfaces.nsIWebProgressListener;
+		if (
+			aStateFlags & nsIWebProgressListener.STATE_STOP &&
+			aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
+			) {
+			InformationalTab.updateThumbnail(this.mTab, this.mBrowser);
+		}
+	},
+	onLocationChange : function(aWebProgress, aRequest, aLocation)
+	{
+	},
+	onStatusChange : function(aWebProgress, aRequest, aStatus, aMessage)
+	{
+	},
+	onSecurityChange : function(aWebProgress, aRequest, aState)
+	{
+	},
+	QueryInterface : function(aIID)
+	{
+		if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
+			aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+			aIID.equals(Components.interfaces.nsISupports))
+			return this;
+		throw Components.results.NS_NOINTERFACE;
+	}
+
+};
  

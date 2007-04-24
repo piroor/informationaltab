@@ -1,2 +1,33 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
+
+label.tab-text > stack > * > .tab-progress {
+	visibility: collapse;
+}
+label.tab-text[informationaltab-progress] > stack > * > .tab-progress {
+	visibility: visible;
+}
+
+
+label.tab-text > stack,
+label.tab-text > stack > *,
+label.tab-text > stack > * > .tab-progress,
+label.tab-text > stack > * > .tab-real-text {
+	margin: 0;
+	padding: 0;
+	text-indent: 0;
+}
+
+label.tab-text > stack > * > .tab-progress {
+	height: 0.3em;
+	min-height: 0.3em;
+	max-height: 0.3em;
+	-moz-appearance: none;
+	border: none;
+	outline: none;
+}
+label.tab-text > stack > * > .tab-progress > .progress-bar,
+label.tab-text > stack > * > .tab-progress > .progress-remainder {
+	-moz-appearance: none;
+}
+

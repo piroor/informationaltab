@@ -1,2 +1,6 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
+tabs.tabbrowser-tabs label.tab-text {
+	-moz-binding: url("informationaltab.xml#tab-label") !important;
+}
+
