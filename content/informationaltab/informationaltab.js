@@ -64,7 +64,7 @@ var InformationalTabService = {
 		aTabBrowser[addTabMethod] = function() {
 			var tab = originalAddTab.apply(this, arguments);
 			try {
-				InformationalTabService.initTab(tab);
+				InformationalTabService.initTab(tab, this);
 				InformationalTabService.updateAllThumbnails(this);
 			}
 			catch(e) {
@@ -78,7 +78,7 @@ var InformationalTabService = {
 			var retVal = originalRemoveTab.apply(this, arguments);
 			try {
 				if (aTab.parentNode)
-					InformationalTabService.initTab(aTab);
+					InformationalTabService.initTab(aTab, this);
 
 				InformationalTabService.updateAllThumbnails(this);
 			}
@@ -90,7 +90,7 @@ var InformationalTabService = {
 		var tabs = aTabBrowser.mTabContainer.childNodes;
 		for (var i = 0, maxi = tabs.length; i < maxi; i++)
 		{
-			this.initTab(tabs[i]);
+			this.initTab(tabs[i], aTabBrowser);
 		}
 
 		delete addTabMethod;
@@ -100,12 +100,12 @@ var InformationalTabService = {
 		delete tabs;
 	},
  
-	initTab : function(aTab) 
+	initTab : function(aTab, aTabBrowser) 
 	{
 		if (aTab.__informationaltab__progressListener) return;
 
 		var filter = Components.classes['@mozilla.org/appshell/component/browser-status-filter;1'].createInstance(Components.interfaces.nsIWebProgress);
-		var listener = new InformationalTabProgressListener(aTab);
+		var listener = new InformationalTabProgressListener(aTab, aTabBrowser);
 		filter.addProgressListener(listener, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
 		aTab.linkedBrowser.webProgress.addProgressListener(filter, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
 		aTab.__informationaltab__progressListener = listener;
@@ -161,10 +161,15 @@ var InformationalTabService = {
 		try {
 			aTab.linkedBrowser.webProgress.removeProgressListener(aTab.__informationaltab__progressFilter);
 			aTab.cachedCanvas.progressFilter.removeProgressListener(aTab.__informationaltab__progressListener);
+
+			delete aTab.__informationaltab__progressListener.mTab;
+			delete aTab.__informationaltab__progressListener.mTabBrowser;
+
 			delete aTab.__informationaltab__progressFilter;
 			delete aTab.__informationaltab__progressListener;
 
 			aTab.linkedBrowser.removeEventListener('scroll', aTab.__informationaltab__eventListener, false);
+			delete aTab.__informationaltab__eventListener.mTab;
 			delete aTab.__informationaltab__eventListener;
 		}
 		catch(e) {
@@ -312,9 +317,32 @@ var InformationalTabService = {
 			case 'resize':
 				this.updateAllThumbnails(gBrowser);
 				break;
+
+			case 'select':
+				var tab = aEvent.originalTarget.selectedItem;
+				alert(tab.localName+'\n');
+				if (!this.isScrollable(tab.linkedBrowser.contentWindow))
+					tab.removeAttribute('informationaltab-unread');
+				break;
 		}
 	},
-  
+	 
+	isScrollable : function(aFrame) 
+	{
+		if (!aFrame) return false;
+
+		if (aFrame.scrollMaxY > 0)
+			return true;
+
+		var children = aFrame.frames;
+		if (children && children.length)
+			for (var i = 0, maxi = children.length; i  <maxi; i++)
+				if (arguments.callee(children[i]))
+					return true;
+
+		return false;
+	},
+ 	  
 /* Pref Listener */ 
 	 
 	domain : 'extensions.informationaltab', 
@@ -472,12 +500,14 @@ var InformationalTabService = {
 window.addEventListener('load', InformationalTabService, false);
 window.addEventListener('unload', InformationalTabService, false);
  
-function InformationalTabProgressListener(aTab) 
+function InformationalTabProgressListener(aTab, aTabBrowser) 
 {
 	this.mTab = aTab;
+	this.mTabBrowser = aTabBrowser;
 }
 InformationalTabProgressListener.prototype = {
-	mTab : null,
+	mTab        : null,
+	mTabBrowser : null,
 	onProgressChange: function(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress)
 	{
 		if (aMaxTotalProgress < 1)
@@ -504,10 +534,14 @@ InformationalTabProgressListener.prototype = {
 			aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
 			) {
 			InformationalTabService.updateThumbnail(this.mTab);
+			if (this.mTabBrowser.selectedTab == this.mTab &&
+				!InformationalTabService.isScrollable(this.mTab.linkedBrowser.contentWindow))
+				this.mTab.removeAttribute('informationaltab-unread');
 		}
 	},
 	onLocationChange : function(aWebProgress, aRequest, aLocation)
 	{
+		this.mTab.setAttribute('informationaltab-unread', true);
 	},
 	onStatusChange : function(aWebProgress, aRequest, aStatus, aMessage)
 	{
@@ -536,9 +570,12 @@ InformationalTabEventListener.prototype = {
 		switch (aEvent.type)
 		{
 			case 'scroll':
+				if (aEvent.originalTarget.toString().indexOf('Document') < 0)
+					return;
+				this.mTab.removeAttribute('informationaltab-unread');
 				InformationalTabService.updateThumbnail(this.mTab);
 				break;
 		}
 	}
 };
- 	
+ 

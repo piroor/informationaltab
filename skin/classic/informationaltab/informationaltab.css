@@ -1,5 +1,14 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
+/* unread state */
+
+tab[informationaltab-unread="true"] .tab-text {
+	font-style: italic;
+}
+
+
+
+/* progressbar */
 
 label.tab-text > stack > * > .tab-progress {
 	visibility: collapse;
@@ -7,7 +16,6 @@ label.tab-text > stack > * > .tab-progress {
 label.tab-text[informationaltab-progress] > stack > * > .tab-progress {
 	visibility: visible;
 }
-
 
 label.tab-text > stack,
 label.tab-text > stack > *,
