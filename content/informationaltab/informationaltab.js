@@ -322,6 +322,33 @@ var InformationalTabService = {
 		window.setTimeout('InformationalTabService.updateAllThumbnailsTimer = null;', aThis.thumbnailUpdateDelay);
 	},
  
+	repositionThumbnail : function(aTabBrowser) 
+	{
+		var tabs = aTabBrowser.mTabContainer.childNodes;
+		var label;
+		var canvas;
+		var pos = this.getPref('extensions.informationaltab.thumbnail.position');
+		for (var i = 0, maxi = tabs.length; i < maxi; i++)
+		{
+			canvas = tabs[i].__informationaltab__canvas;
+			label  = document.getAnonymousElementByAttribute(tabs[i], 'class', 'tab-text');
+			canvas.parentNode.removeChild(canvas);
+			switch(pos)
+			{
+				case this.POSITION_BEFORE_FAVICON:
+					label.parentNode.insertBefore(canvas, label.parentNode.firstChild);
+					break;
+				case this.POSITION_BEFORE_LABEL:
+					label.parentNode.insertBefore(canvas, label);
+					break;
+				case this.POSITION_BEFORE_CLOSEBOX:
+					label.parentNode.appendChild(canvas);
+					break;
+			}
+			this.updateThumbnail(tabs[i]);
+		}
+	},
+ 	
 	updateTabStyle : function(aTab, aSelected) 
 	{
 		var canvasH = parseInt(aTab.__informationaltab__canvas.height);
@@ -437,6 +464,10 @@ var InformationalTabService = {
 					document.documentElement.removeAttribute('informationaltab-thumbnail-enabled');
 				}
 				break;
+
+			case 'extensions.informationaltab.thumbnail.position':
+				this.repositionThumbnail(gBrowser);
+				return;
 
 			case 'extensions.informationaltab.thumbnail.size_mode':
 				this.thumbnailSizeMode = value;
@@ -673,4 +704,4 @@ InformationalTabEventListener.prototype = {
 		}
 	}
 };
- 	
+ 
