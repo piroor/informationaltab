@@ -160,7 +160,7 @@ var InformationalTabService = {
 	{
 		try {
 			aTab.linkedBrowser.webProgress.removeProgressListener(aTab.__informationaltab__progressFilter);
-			aTab.cachedCanvas.progressFilter.removeProgressListener(aTab.__informationaltab__progressListener);
+			aTab.__informationaltab__progressFilter.removeProgressListener(aTab.__informationaltab__progressListener);
 
 			delete aTab.__informationaltab__progressListener.mLabel;
 			delete aTab.__informationaltab__progressListener.mTab;
@@ -174,6 +174,7 @@ var InformationalTabService = {
 			delete aTab.__informationaltab__eventListener;
 		}
 		catch(e) {
+			dump(e+'\n');
 		}
 	},
    

@@ -7,7 +7,7 @@
                    em:name="Informational Tab"
                    em:version="0.1.2007042003"
                    em:creator="SHIMODA Hiroshi"
-                   em:description="Provides thumbnail in each tab."
+                   em:description="Provides thumbnail, progress meter, or others to each tab."
                    em:homepageURL="http://piro.sakura.ne.jp/xul/informationaltab/"
                    em:iconURL="chrome://informationaltab/content/icon32.png"
                    em:optionsURL="chrome://informationaltab/content/config.xul"
