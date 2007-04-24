@@ -11,6 +11,7 @@ label.tab-text[informationaltab-progress] > stack > * > .tab-progress {
 
 label.tab-text > stack,
 label.tab-text > stack > *,
+label.tab-text > stack > * > spacer,
 label.tab-text > stack > * > .tab-progress,
 label.tab-text > stack > * > .tab-real-text {
 	margin: 0;
@@ -22,6 +23,7 @@ label.tab-text > stack > * > .tab-progress {
 	height: 0.3em;
 	min-height: 0.3em;
 	max-height: 0.3em;
+	min-width: 0;
 	-moz-appearance: none;
 	border: none;
 	outline: none;
