@@ -11,6 +11,14 @@
 <!ENTITY config.thumbnail.position.1   "↑">
 <!ENTITY config.thumbnail.position.2   "↑">
 
+<!ENTITY config.thumbnail.size_mode.caption  "The size of preview">
+<!ENTITY config.thumbnail.size_mode.fixed    "Fixed size:">
+<!ENTITY config.thumbnail.max.before         "">
+<!ENTITY config.thumbnail.max.after          "pixels">
+<!ENTITY config.thumbnail.size_mode.flexible "Flexible size:">
+<!ENTITY config.thumbnail.pow.before         "">
+<!ENTITY config.thumbnail.pow.after          "&#37; of tab width">
+
 
 <!ENTITY config.tabs.progress "Loading status">
 

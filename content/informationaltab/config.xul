@@ -59,6 +59,38 @@
 			</hbox>
 		</radiogroup>
 	</groupbox>
+
+	<groupbox>
+		<caption label="&config.thumbnail.size_mode.caption;"/>
+		<radiogroup id="extensions.informationaltab.thumbnail.size_mode-radiogroup"
+			preference="extensions.informationaltab.thumbnail.size_mode"
+			orient="vertical">
+			<hbox align="center">
+				<radio value="0"
+					label="&config.thumbnail.size_mode.fixed;"/>
+				<label value="&config.thumbnail.max.before;"
+					control="extensions.informationaltab.thumbnail.max-textbox"/>
+				<textbox id="extensions.informationaltab.thumbnail.max-textbox"
+					preference="extensions.informationaltab.thumbnail.max"
+					type="number"
+					min="0" increment="1" style="width:4em;"/>
+				<label value="&config.thumbnail.max.after;"
+					control="extensions.informationaltab.thumbnail.max-textbox"/>
+			</hbox>
+			<hbox align="center">
+				<radio value="1"
+					label="&config.thumbnail.size_mode.flexible;"/>
+				<label value="&config.thumbnail.pow.before;"
+					control="extensions.informationaltab.thumbnail.pow-textbox"/>
+				<textbox id="extensions.informationaltab.thumbnail.pow-textbox"
+					preference="extensions.informationaltab.thumbnail.pow"
+					type="number"
+					min="0" max="100" increment="1" style="width:4em;"/>
+				<label value="&config.thumbnail.pow.after;"
+					control="extensions.informationaltab.thumbnail.pow-textbox"/>
+			</hbox>
+		</radiogroup>
+	</groupbox>
 </prefpane>
 
 <prefpane id="prefpane-progress" label="&config.tabs.progress;">

@@ -11,6 +11,14 @@
 <!ENTITY config.thumbnail.position.1   "↑">
 <!ENTITY config.thumbnail.position.2   "↑">
 
+<!ENTITY config.thumbnail.size_mode.caption  "プレビューの大きさ">
+<!ENTITY config.thumbnail.size_mode.fixed    "大きさを固定する：">
+<!ENTITY config.thumbnail.max.before         "">
+<!ENTITY config.thumbnail.max.after          "ピクセル">
+<!ENTITY config.thumbnail.size_mode.flexible "タブの幅に合わせて変える：">
+<!ENTITY config.thumbnail.pow.before         "">
+<!ENTITY config.thumbnail.pow.after          "パーセント">
+
 
 <!ENTITY config.tabs.progress "読み込み状況">
 
