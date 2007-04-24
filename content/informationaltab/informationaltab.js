@@ -243,15 +243,20 @@ var InformationalTabService = {
 			var canvasW = Math.floor((aspectRatio < 1) ? (size * aspectRatio) : size );
 			var canvasH = Math.floor((aspectRatio > 1) ? (size / aspectRatio) : size );
 
+			var isImage = b.contentDocument.contentType.indexOf('image') == 0;
+
 			if (
 				(
 					aReason == aThis.UPDATE_RESIZE ||
 					aReason == aThis.UPDATE_REFLOW
 				) ?
-				!(
-					Math.abs(parseInt(canvas.width) - canvasW) <= 1 &&
-					Math.abs(parseInt(canvas.height) - canvasH) <= 1
-				) : true
+					!(
+						Math.abs(parseInt(canvas.width) - canvasW) <= 1 &&
+						Math.abs(parseInt(canvas.height) - canvasH) <= 1
+					) :
+				aReason == aThis.UPDATE_SCROLL ?
+					!isImage :
+					true
 				) {
 
 				canvas.width  = canvasW;
@@ -264,7 +269,7 @@ var InformationalTabService = {
 				try {
 					var ctx = canvas.getContext('2d');
 					ctx.clearRect(0, 0, canvasW, canvasH);
-					if (b.contentDocument.contentType.indexOf('image') != 0) {
+					if (!isImage) {
 						ctx.save();
 						ctx.scale(canvasW/w, canvasW/w);
 						ctx.drawWindow(win, 0/*win.scrollX*/, win.scrollY, w, h, aThis.thumbnailBG);
@@ -298,9 +303,8 @@ var InformationalTabService = {
 							var self = arguments.callee;
 							img.addEventListener('load', function() {
 								img.removeEventListener('load', arguments.callee, false);
-								self(aTab, aThis, img);
+								self(aTab, aReason, aThis, img);
 								delete self;
-								delete aThis;
 								delete img;
 								delete canvas;
 								delete ctx;
