@@ -42,6 +42,7 @@ var InformationalTabService = {
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.margin');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.update_delay');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.enabled');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.hide_statusbar_progress');
 
 		this.initTabBrowser(gBrowser);
 
@@ -315,6 +316,14 @@ var InformationalTabService = {
 
 			case 'extensions.informationaltab.progress.enabled':
 				this.progressEnabled = value;
+				break;
+
+			case 'extensions.informationaltab.hide_statusbar_progress':
+				var panel = document.getElementById('statusbar-progresspanel');
+				if (value)
+					panel.setAttribute('informationaltab-hidden', true);
+				else
+					panel.removeAttribute('informationaltab-hidden');
 				break;
 
 			default:

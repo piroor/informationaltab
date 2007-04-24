@@ -10,6 +10,8 @@ pref("extensions.informationaltab.thumbnail.update_delay", 10);
 
 pref("extensions.informationaltab.progress.enabled", true);
 
+pref("extensions.informationaltab.hide_statusbar_progress", true);
+
 
 pref("extensions.informationaltab@piro.sakura.ne.jp.name", "chrome://informationaltab/locale/informationaltab.properties");
 pref("extensions.informationaltab@piro.sakura.ne.jp.description", "chrome://informationaltab/locale/informationaltab.properties");

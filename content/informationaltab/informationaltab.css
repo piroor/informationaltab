@@ -4,3 +4,7 @@ tabs.tabbrowser-tabs label.tab-text {
 	-moz-binding: url("informationaltab.xml#tab-label") !important;
 }
 
+
+#statusbar-progresspanel[informationaltab-hidden="true"] {
+	visibility: collapse !important;
+}
