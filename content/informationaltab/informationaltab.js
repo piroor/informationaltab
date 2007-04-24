@@ -536,8 +536,13 @@ InformationalTabProgressListener.prototype = {
 			) {
 			InformationalTabService.updateThumbnail(this.mTab);
 			this.mLabel.setAttribute('value', this.mTab.getAttribute('label'));
-			if (this.mTabBrowser.selectedTab == this.mTab &&
-				!InformationalTabService.isScrollable(this.mTab.linkedBrowser.contentWindow))
+			if (
+				this.mTab.linkedBrowser.currentURI.spec == 'about:config' ||
+				(
+					this.mTabBrowser.selectedTab == this.mTab &&
+					!InformationalTabService.isScrollable(this.mTab.linkedBrowser.contentWindow)
+				)
+				)
 				this.mTab.removeAttribute('informationaltab-unread');
 		}
 	},
