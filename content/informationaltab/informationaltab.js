@@ -1,5 +1,5 @@
-var TabThumbnailService = { 
-	PREFROOT : 'extensions.tabthumbnail@piro.sakura.ne.jp',
+var InformationalTabService = { 
+	PREFROOT : 'extensions.informationaltab@piro.sakura.ne.jp',
 
 	POSITION_BEFORE_FAVICON  : 0,
 	POSITION_BEFORE_LABEL    : 1,
@@ -21,7 +21,7 @@ var TabThumbnailService = {
 		window.removeEventListener('load', this, false);
 
 //		this.addPrefListener(this);
-//		this.observe(null, 'nsPref:changed', 'extensions.tabthumbnail.tabdrag.mode');
+//		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.tabdrag.mode');
 
 		this.initTabBrowser(gBrowser);
 	},
@@ -39,7 +39,7 @@ var TabThumbnailService = {
 		aTabBrowser[addTabMethod] = function() {
 			var tab = originalAddTab.apply(this, arguments);
 			try {
-				TabThumbnailService.initTab(tab);
+				InformationalTabService.initTab(tab);
 			}
 			catch(e) {
 			}
@@ -48,11 +48,11 @@ var TabThumbnailService = {
 
 		var originalRemoveTab = aTabBrowser[removeTabMethod];
 		aTabBrowser[removeTabMethod] = function(aTab) {
-			TabThumbnailService.destroyTab(aTab);
+			InformationalTabService.destroyTab(aTab);
 			var retVal = originalRemoveTab.apply(this, arguments);
 			try {
 				if (aTab.parentNode)
-					TabThumbnailService.initTab(aTab);
+					InformationalTabService.initTab(aTab);
 			}
 			catch(e) {
 			}
@@ -74,22 +74,22 @@ var TabThumbnailService = {
  
 	initTab : function(aTab) 
 	{
-		if (aTab.__tabthumbnail__progressListener) return;
+		if (aTab.__informationaltab__progressListener) return;
 
 		var filter = Components.classes['@mozilla.org/appshell/component/browser-status-filter;1'].createInstance(Components.interfaces.nsIWebProgress);
 		var listener = this.createProgressListener(aTab, aTab.linkedBrowser);
 		filter.addProgressListener(listener, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
 		aTab.linkedBrowser.webProgress.addProgressListener(filter, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
 
-		aTab.__tabthumbnail__progressListener = listener;
-		aTab.__tabthumbnail__progressFilter   = filter;
+		aTab.__informationaltab__progressListener = listener;
+		aTab.__informationaltab__progressFilter   = filter;
 
 
 		var canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
 		var label  =  document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');;
 
 		label.setAttribute('class', label.getAttribute('class')+' progress-bar');
-		switch(this.getPref('extensions.tabthumbnail.position'))
+		switch(this.getPref('extensions.informationaltab.position'))
 		{
 			case this.POSITION_BEFORE_FAVICON:
 				label.parentNode.insertBefore(canvas, label.parentNode.firstChild);
@@ -104,7 +104,7 @@ var TabThumbnailService = {
 				break;
 		}
 
-		aTab.__tabthumbnail__canvas = canvas;
+		aTab.__informationaltab__canvas = canvas;
 	},
  	 
 	destroy : function() 
@@ -129,10 +129,10 @@ var TabThumbnailService = {
 	destroyTab : function(aTab) 
 	{
 		try {
-			aTab.linkedBrowser.webProgress.removeProgressListener(aTab.__tabthumbnail__progressFilter);
-			aTab.cachedCanvas.progressFilter.removeProgressListener(aTab.__tabthumbnail__progressListener);
-			delete aTab.__tabthumbnail__progressFilter;
-			delete aTab.__tabthumbnail__progressListener;
+			aTab.linkedBrowser.webProgress.removeProgressListener(aTab.__informationaltab__progressFilter);
+			aTab.cachedCanvas.progressFilter.removeProgressListener(aTab.__informationaltab__progressListener);
+			delete aTab.__informationaltab__progressFilter;
+			delete aTab.__informationaltab__progressListener;
 		}
 		catch(e) {
 		}
@@ -153,7 +153,7 @@ var TabThumbnailService = {
 					aStateFlags & nsIWebProgressListener.STATE_STOP &&
 					aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
 					) {
-					TabThumbnail.updateThumbnail(this.mTab, this.mBrowser);
+					InformationalTab.updateThumbnail(this.mTab, this.mBrowser);
 				}
 			},
 			onLocationChange : function(aWebProgress, aRequest, aLocation)
@@ -179,7 +179,7 @@ var TabThumbnailService = {
   
 	updateThumbnail : function(aTab, aBrowser) 
 	{
-		var canvas = aTab.__tabthumbnail__canvas;
+		var canvas = aTab.__informationaltab__canvas;
 		canvas.getContext('2d');
 	},
  
@@ -201,7 +201,7 @@ var TabThumbnailService = {
   
 /* Pref Listener */ 
 	 
-	domain : 'extensions.tabthumbnail', 
+	domain : 'extensions.informationaltab', 
  
 	observe : function(aSubject, aTopic, aPrefName) 
 	{
@@ -210,7 +210,7 @@ var TabThumbnailService = {
 		var value = this.getPref(aPrefName);
 		switch (aPrefName)
 		{
-			case 'extensions.tabthumbnail.tabdrag.mode':
+			case 'extensions.informationaltab.tabdrag.mode':
 				this.tabDragMode = value;
 				break;
 
@@ -315,6 +315,6 @@ var TabThumbnailService = {
    
 }; 
 
-window.addEventListener('load', TabThumbnailService, false);
-window.addEventListener('unload', TabThumbnailService, false);
+window.addEventListener('load', InformationalTabService, false);
+window.addEventListener('unload', InformationalTabService, false);
  

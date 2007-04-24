@@ -3,14 +3,14 @@
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
-                   em:id="tabthumbnail@piro.sakura.ne.jp"
-                   em:name="Thumbnail in Tab"
+                   em:id="informationaltab@piro.sakura.ne.jp"
+                   em:name="Informational Tab"
                    em:version="0.1.2007042003"
                    em:creator="SHIMODA Hiroshi"
                    em:description="Provides thumbnail in each tab."
-                   em:homepageURL="http://piro.sakura.ne.jp/xul/tabthumbnail/"
-                   em:iconURL="chrome://tabthumbnail/content/icon32.png"
-                   em:optionsURL="chrome://tabthumbnail/content/config.xul"
+                   em:homepageURL="http://piro.sakura.ne.jp/xul/informationaltab/"
+                   em:iconURL="chrome://informationaltab/content/icon32.png"
+                   em:optionsURL="chrome://informationaltab/content/config.xul"
                    em:updateURL="http://piro.sakura.ne.jp/xul/xul.rdf.en">
     <em:targetApplication>
       <RDF:Description em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"

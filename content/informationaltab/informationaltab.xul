@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://informationaltab/skin/informationaltab.css" type="text/css"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://informationaltab/locale/informationaltab.dtd">
+
+<overlay id="informationaltab-overlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+         xmlns:html="http://www.w3.org/1999/xhtml">
+
+<script src="informationaltab.js" type="application/x-javascript"/>
+
+
+</overlay>

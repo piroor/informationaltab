@@ -1,8 +1,8 @@
-content	tabthumbnail	jar:chrome/tabthumbnail.jar!/content/tabthumbnail/
+content	informationaltab	jar:chrome/informationaltab.jar!/content/informationaltab/
 
-overlay	chrome://browser/content/browser.xul	chrome://tabthumbnail/content/tabthumbnail.xul
+overlay	chrome://browser/content/browser.xul	chrome://informationaltab/content/informationaltab.xul
 
-locale	tabthumbnail	en-US	jar:chrome/tabthumbnail.jar!/locale/en-US/tabthumbnail/
-locale	tabthumbnail	ja	jar:chrome/tabthumbnail.jar!/locale/ja/tabthumbnail/
+locale	informationaltab	en-US	jar:chrome/informationaltab.jar!/locale/en-US/informationaltab/
+locale	informationaltab	ja	jar:chrome/informationaltab.jar!/locale/ja/informationaltab/
 
-skin	tabthumbnail	classic/1.0	jar:chrome/tabthumbnail.jar!/skin/classic/tabthumbnail/
+skin	informationaltab	classic/1.0	jar:chrome/informationaltab.jar!/skin/classic/informationaltab/

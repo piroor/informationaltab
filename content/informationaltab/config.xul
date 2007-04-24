@@ -3,29 +3,29 @@
 <?xml-stylesheet href="chrome://global/skin/"?>
 
 <!DOCTYPE prefwindow [
-<!ENTITY % mainDTD SYSTEM "chrome://tabthumbnail/locale/tabthumbnail.dtd">
+<!ENTITY % mainDTD SYSTEM "chrome://informationaltab/locale/informationaltab.dtd">
 %mainDTD;
 ]>
 
-<prefwindow id="tabthumbnail-config"
+<prefwindow id="informationaltab-config"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	title="&config.title;"
 	onload="sizeToContent();">
 
 <prefpane id="prefpane-general" label="&config.tabs.general;">
 	<preferences>
-		<preference id="extensions.tabthumbnail.tabdrag.mode"
-			name="extensions.tabthumbnail.tabdrag.mode"
+		<preference id="extensions.informationaltab.tabdrag.mode"
+			name="extensions.informationaltab.tabdrag.mode"
 			type="int"/>
-		<preference id="extensions.tabthumbnail.tabclick.mode"
-			name="extensions.tabthumbnail.tabclick.mode"
+		<preference id="extensions.informationaltab.tabclick.mode"
+			name="extensions.informationaltab.tabclick.mode"
 			type="int"/>
 	</preferences>
 	<groupbox>
 		<caption label="&config.tabdragmode.caption;"/>
 		<vbox>
-			<radiogroup id="extensions.tabthumbnail.tabdrag.mode-radiogroup"
-				preference="extensions.tabthumbnail.tabdrag.mode"
+			<radiogroup id="extensions.informationaltab.tabdrag.mode-radiogroup"
+				preference="extensions.informationaltab.tabdrag.mode"
 				orient="vertical">
 				<radio value="0" label="&config.tabdragmode.default;"/>
 				<radio value="1" label="&config.tabdragmode.select;"/>
@@ -36,8 +36,8 @@
 	<groupbox>
 		<caption label="&config.tabclickmode.caption;"/>
 		<vbox>
-			<radiogroup id="extensions.tabthumbnail.tabclick.mode-radiogroup"
-				preference="extensions.tabthumbnail.tabclick.mode"
+			<radiogroup id="extensions.informationaltab.tabclick.mode-radiogroup"
+				preference="extensions.informationaltab.tabclick.mode"
 				orient="vertical">
 				<radio value="0" label="&config.tabclickmode.default;"/>
 				<radio value="1" label="&config.tabclickmode.toggle;"/>
