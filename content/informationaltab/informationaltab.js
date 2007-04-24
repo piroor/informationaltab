@@ -16,6 +16,7 @@ var InformationalTabService = {
 	thumbnailMaxSizePow  : -1,
 	thumbnailMargin      : -1,
 	thumbnailUpdateDelay : -1,
+	thumbnailBG          : 'rgba(0,0,0,0.5)',
 	 
 /* Utilities */ 
 	 
@@ -41,6 +42,7 @@ var InformationalTabService = {
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.pow');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.margin');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.update_delay');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.background');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.enabled');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.hide_statusbar_progress');
 
@@ -175,7 +177,7 @@ var InformationalTabService = {
 
 		aTab.updateThumbnailTimer = window.setTimeout(this.updateThumbnailNow, this.thumbnailUpdateDelay, aTab, this);
 	},
-	updateThumbnailNow : function(aTab, aThis)
+	updateThumbnailNow : function(aTab, aThis, aImage)
 	{
 		if (!aThis) aThis = this;
 
@@ -192,8 +194,8 @@ var InformationalTabService = {
 			var size = aThis.thumbnailSizeMode == aThis.SIZE_MODE_FIXED ?
 						aThis.thumbnailMaxSize :
 						aTab.boxObject.width * aThis.thumbnailMaxSizePow / 100 ;
-			var canvasW = parseInt((aspectRatio < 0) ? (size * aspectRatio) : size );
-			var canvasH = parseInt((aspectRatio > 0) ? (size / aspectRatio) : size );
+			var canvasW = parseInt((aspectRatio < 1) ? (size * aspectRatio) : size );
+			var canvasH = parseInt((aspectRatio > 1) ? (size / aspectRatio) : size );
 
 			var margin = aThis.thumbnailMargin;
 			for (var i = 0, maxi = nodes.length; i < maxi; i++)
@@ -210,16 +212,52 @@ var InformationalTabService = {
 			try {
 				var ctx = canvas.getContext('2d');
 				ctx.clearRect(0, 0, canvasW, canvasH);
-				ctx.save();
-//				if (b.contentType.indexOf('image') != 0) {
+				if (b.contentDocument.contentType.indexOf('image') != 0) {
+					ctx.save();
 					ctx.scale(canvasW/w, canvasH/h);
-					ctx.drawWindow(win, 0/*win.scrollX*/, win.scrollY, w, h, 'rgb(255,255,255)');
-//				}
-//				else {
-//					ctx.scale(canvasW/w, canvasH/h);
-//					ctx.drawImage(new Image(b.currentURI.spec), 0, 0);
-//				}
-				ctx.restore();
+					ctx.drawWindow(win, 0/*win.scrollX*/, win.scrollY, w, h, aThis.thumbnailBG);
+					ctx.restore();
+				}
+				else {
+					if (aImage && aImage instanceof Image) {
+						ctx.fillStyle = aThis.thumbnailBG;
+						ctx.fillRect(0, 0, canvasW, canvasH);
+						var iW = parseInt(aImage.width);
+						var iH = parseInt(aImage.height);
+						var x = 0;
+						var y = 0;
+						ctx.save();
+						if ((iW / iH) < 1) {
+							iW = iW * canvasH / iH;
+							x = parseInt((canvasW - iW) / 2 );
+							iH = size;
+						}
+						else {
+							iH = iH * canvasW / iW;
+							y = parseInt((canvasH - iH) / 2 );
+							iW = size;
+						}
+						ctx.drawImage(aImage, x, y, iW, iH);
+						ctx.restore();
+					}
+					else {
+						var img = new Image();
+						img.src = b.currentURI.spec;
+						var self = arguments.callee;
+						img.addEventListener('load', function() {
+							img.removeEventListener('load', arguments.callee, false);
+							self(aTab, aThis, img);
+							delete self;
+							delete aThis;
+							delete img;
+							delete canvas;
+							delete ctx;
+							delete b;
+							delete win;
+						}, false);
+						return;
+					}
+				}
 			}
 			catch(e) {
 			}
@@ -312,6 +350,10 @@ var InformationalTabService = {
 
 			case 'extensions.informationaltab.thumbnail.update_delay':
 				this.thumbnailUpdateDelay = value;
+				break;
+
+			case 'extensions.informationaltab.thumbnail.background':
+				this.thumbnailBG = value;
 				break;
 
 			case 'extensions.informationaltab.progress.enabled':
