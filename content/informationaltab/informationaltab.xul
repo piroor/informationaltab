@@ -11,5 +11,9 @@
 
 <script src="informationaltab.js" type="application/x-javascript"/>
 
+<stringbundleset id="stringbundleset">
+	<stringbundle id="informationaltab-tab-style-bundle"
+		src="chrome://informationaltab/skin/tabstyle.properties"/>
+</stringbundleset>
 
 </overlay>

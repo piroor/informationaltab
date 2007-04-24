@@ -5,9 +5,7 @@ pref("extensions.informationaltab.thumbnail.position", 1);
 pref("extensions.informationaltab.thumbnail.size_mode", 0);
 pref("extensions.informationaltab.thumbnail.max",       45);
 pref("extensions.informationaltab.thumbnail.pow",       20);
-pref("extensions.informationaltab.thumbnail.margin",    4);
 pref("extensions.informationaltab.thumbnail.update_delay", 10);
-pref("extensions.informationaltab.thumbnail.background", "rgba(255,255,255,0.5)");
 
 pref("extensions.informationaltab.progress.enabled", true);
 

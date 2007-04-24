@@ -8,8 +8,8 @@ xhtml|canvas.informationaltab-thumbnail {
 }
 
 :root[informationaltab-thumbnail-enabled="true"] .tabbrowser-arrowscrollbox > scrollbox:not([orient="vertical"]) {
-	margin-top: 2px;
-	margin-bottom: 2px;
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
 
 /* progressbar */

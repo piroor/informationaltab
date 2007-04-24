@@ -15,9 +15,6 @@ var InformationalTabService = {
 	thumbnailMinSize     : 20,
 	thumbnailMaxSize     : 0,
 	thumbnailMaxSizePow  : 1,
-	thumbnailMargin      : 0,
-	thumbnailSelectedMargin   : 2,
-	thumbnailUnselectedMargin : 0,
 	thumbnailUpdateDelay : 0,
 	thumbnailBG          : 'rgba(0,0,0,0.5)',
 	 
@@ -29,12 +26,33 @@ var InformationalTabService = {
 	},
   
 /* Initializing */ 
-	 
+	
 	init : function() 
 	{
 		if (!('gBrowser' in window)) return;
 
 		window.removeEventListener('load', this, false);
+
+
+		this.styleStringBundle = document.getElementById('informationaltab-tab-style-bundle');
+
+		eval('this.thumbnailMinSize = '+this.styleStringBundle.getString('thumbnail_min_size'));
+
+		this.thumbnailHTabH  = this.styleStringBundle.getString('thumbnail_htab_height');
+		this.thumbnailHTabCH = this.styleStringBundle.getString('thumbnail_htab_contents_height');
+		this.thumbnailHTabS  = this.styleStringBundle.getString('thumbnail_htab_style');
+		this.thumbnailHTabHS  = this.styleStringBundle.getString('thumbnail_htab_height_selected');
+		this.thumbnailHTabCHS = this.styleStringBundle.getString('thumbnail_htab_contents_height_selected');
+		this.thumbnailHTabSS  = this.styleStringBundle.getString('thumbnail_htab_style_selected');
+		this.thumbnailVTabH  = this.styleStringBundle.getString('thumbnail_vtab_height');
+		this.thumbnailVTabCH = this.styleStringBundle.getString('thumbnail_vtab_contents_height');
+		this.thumbnailVTabS  = this.styleStringBundle.getString('thumbnail_vtab_style');
+		this.thumbnailVTabHS  = this.styleStringBundle.getString('thumbnail_vtab_height_selected');
+		this.thumbnailVTabCHS = this.styleStringBundle.getString('thumbnail_vtab_contents_height_selected');
+		this.thumbnailVTabSS  = this.styleStringBundle.getString('thumbnail_vtab_style_selected');
+
+		eval('this.thumbnailBG = "'+this.styleStringBundle.getString('thumbnail_background')+'"');
+
 
 		window.addEventListener('resize', this, false);
 
@@ -43,9 +61,7 @@ var InformationalTabService = {
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.size_mode');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.max');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.pow');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.margin');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.update_delay');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.background');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.enabled');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.hide_statusbar_progress');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.unread.enabled');
@@ -108,6 +124,8 @@ var InformationalTabService = {
 	{
 		if (aTab.__informationaltab__progressListener) return;
 
+		aTab.__informationaltab__parentTabBrowser = aTabBrowser;
+
 		var filter = Components.classes['@mozilla.org/appshell/component/browser-status-filter;1'].createInstance(Components.interfaces.nsIWebProgress);
 		var listener = new InformationalTabProgressListener(aTab);
 		filter.addProgressListener(listener, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
@@ -165,6 +183,8 @@ var InformationalTabService = {
 	destroyTab : function(aTab) 
 	{
 		try {
+			delete aTab.__informationaltab__parentTabBrowser;
+
 			aTab.linkedBrowser.webProgress.removeProgressListener(aTab.__informationaltab__progressFilter);
 			aTab.__informationaltab__progressFilter.removeProgressListener(aTab.__informationaltab__progressListener);
 
@@ -184,6 +204,8 @@ var InformationalTabService = {
 		}
 	},
    
+/* thumbnail */ 
+	 
 	updateThumbnail : function(aTab) 
 	{
 		if (aTab.updateThumbnailTimer) return;
@@ -195,7 +217,6 @@ var InformationalTabService = {
 		if (!aThis) aThis = this;
 
 		var canvas = aTab.__informationaltab__canvas;
-		var nodes = document.getAnonymousNodes(aTab);
 
 		if (aThis.thumbnailEnabled) {
 			var b   = aTab.linkedBrowser;
@@ -211,19 +232,13 @@ var InformationalTabService = {
 			var canvasW = parseInt((aspectRatio < 1) ? (size * aspectRatio) : size );
 			var canvasH = parseInt((aspectRatio > 1) ? (size / aspectRatio) : size );
 
-			var margin = aThis.thumbnailMargin;
-			var selected = (aTab.getAttribute('selected') == 'true') ? aThis.thumbnailSelectedMargin : aThis.thumbnailUnselectedMargin;
-			for (var i = 0, maxi = nodes.length; i < maxi; i++)
-			{
-				nodes[i].setAttribute('style', nodes[i].getAttribute('style')+';height:'+(canvasH+margin+selected)+'px !important');
-			}
-			aTab.setAttribute('style', aTab.getAttribute('style')+';height:'+(canvasH+margin+selected)+'px !important');
-
 			canvas.width  = canvasW;
 			canvas.height = canvasH;
 			canvas.style.width  = canvasW+'px';
 			canvas.style.height = canvasH+'px';
 			canvas.style.display = 'block';
+
+			aThis.updateTabStyle(aTab, aTab.getAttribute('selected') == 'true');
 
 			try {
 				var ctx = canvas.getContext('2d');
@@ -281,12 +296,7 @@ var InformationalTabService = {
 		else {
 			canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
 			canvas.style.display = 'none';
-
-			for (var i = 0, maxi = nodes.length; i < maxi; i++)
-			{
-				nodes[i].setAttribute('style', nodes[i].getAttribute('style').replace(/(^|;)height\s*:\s*[^;]*/, '$1'));
-			}
-			aTab.setAttribute('style', aTab.getAttribute('style').replace(/(^|;)height\s*:\s*[^;]*/, '$1'));
+			aThis.updateTabStyle(aTab, aTab.getAttribute('selected') == 'true');
 		}
 
 		aTab.updateThumbnailTimer = null;
@@ -312,6 +322,55 @@ var InformationalTabService = {
 		window.setTimeout('InformationalTabService.updateAllThumbnailsTimer = null;', aThis.thumbnailUpdateDelay);
 	},
  
+	updateTabStyle : function(aTab, aSelected) 
+	{
+		var canvasH = parseInt(aTab.__informationaltab__canvas.height);
+		var nodes = document.getAnonymousNodes(aTab);
+
+		if (this.thumbnailEnabled) {
+			var b = aTab.__informationaltab__parentTabBrowser;
+			var box = b.mTabContainer.mTabstrip || b.mTabContainer ;
+			var isVertical = ((box.getAttribute('orient') || window.getComputedStyle(box, '').getPropertyValue('-moz-box-orient')) == 'vertical');
+
+			if (aSelected) {
+				if (isVertical) {
+					eval('var tabH = '+this.thumbnailVTabHS.replace(/%canvas_height%/g, canvasH)+','+
+							'tabCH = '+this.thumbnailVTabCHS.replace(/%canvas_height%/g, canvasH)+','+
+							'tabS = "'+this.thumbnailVTabSS.replace(/%canvas_height%/g, canvasH)+'"');
+				}
+				else {
+					eval('var tabH = '+this.thumbnailHTabHS.replace(/%canvas_height%/g, canvasH)+','+
+							'tabCH = '+this.thumbnailHTabCHS.replace(/%canvas_height%/g, canvasH)+','+
+							'tabS = "'+this.thumbnailHTabSS.replace(/%canvas_height%/g, canvasH)+'"');
+				}
+			}
+			else {
+				if (isVertical) {
+					eval('var tabH = '+this.thumbnailVTabHS.replace(/%canvas_height%/g, canvasH)+','+
+							'tabCH = '+this.thumbnailVTabCHS.replace(/%canvas_height%/g, canvasH)+','+
+							'tabS = "'+this.thumbnailVTabSS.replace(/%canvas_height%/g, canvasH)+'"');
+				}
+				else {
+					eval('var tabH = '+this.thumbnailHTabH.replace(/%canvas_height%/g, canvasH)+','+
+							'tabCH = '+this.thumbnailHTabCH.replace(/%canvas_height%/g, canvasH)+','+
+							'tabS = "'+this.thumbnailHTabS.replace(/%canvas_height%/g, canvasH)+'"');
+				}
+			}
+			for (var i = 0, maxi = nodes.length; i < maxi; i++)
+			{
+				nodes[i].setAttribute('style', nodes[i].getAttribute('style')+';height:'+tabCH+'px !important;');
+			}
+			aTab.setAttribute('style', aTab.getAttribute('style')+';'+tabS+';height:'+tabH+'px !important;');
+		}
+		else {
+			for (var i = 0, maxi = nodes.length; i < maxi; i++)
+			{
+				nodes[i].setAttribute('style', nodes[i].getAttribute('style').replace(/(^|;)height\s*:\s*[^;]*/, '$1'));
+			}
+			aTab.setAttribute('style', aTab.getAttribute('style').replace(/(^|;)height\s*:\s*[^;]*/, '$1'));
+		}
+	},
+  
 /* Event Handling */ 
 	
 	handleEvent : function(aEvent) 
@@ -370,10 +429,13 @@ var InformationalTabService = {
 				this.thumbnailEnabled = value;
 				if (this.initialized)
 					this.updateAllThumbnails(gBrowser);
-				if (value)
+
+				if (value) {
 					document.documentElement.setAttribute('informationaltab-thumbnail-enabled', true);
-				else
+				}
+				else {
 					document.documentElement.removeAttribute('informationaltab-thumbnail-enabled');
+				}
 				break;
 
 			case 'extensions.informationaltab.thumbnail.size_mode':
@@ -382,22 +444,18 @@ var InformationalTabService = {
 
 			case 'extensions.informationaltab.thumbnail.max':
 				this.thumbnailMaxSize = value;
+				if (this.initialized && this.thumbnailSizeMode == this.SIZE_MODE_FIXED)
+					this.updateAllThumbnails(gBrowser);
 				break;
 
 			case 'extensions.informationaltab.thumbnail.pow':
 				this.thumbnailMaxSizePow = value;
-				break;
-
-			case 'extensions.informationaltab.thumbnail.margin':
-				this.thumbnailMargin = value;
+				if (this.initialized && this.thumbnailSizeMode == this.SIZE_MODE_FLEXIBLE)
+					this.updateAllThumbnails(gBrowser);
 				break;
 
 			case 'extensions.informationaltab.thumbnail.update_delay':
 				this.thumbnailUpdateDelay = value;
-				break;
-
-			case 'extensions.informationaltab.thumbnail.background':
-				this.thumbnailBG = value;
 				break;
 
 			case 'extensions.informationaltab.progress.enabled':
@@ -593,29 +651,22 @@ InformationalTabEventListener.prototype = {
 	mTab : null,
 	handleEvent: function(aEvent)
 	{
+		const ITS = InformationalTabService;
 		switch (aEvent.type)
 		{
 			case 'scroll':
 				if (aEvent.originalTarget.toString().indexOf('Document') < 0)
 					return;
 				this.mTab.removeAttribute('informationaltab-unread');
-				InformationalTabService.updateThumbnail(this.mTab);
+				ITS.updateThumbnail(this.mTab);
 				break;
 
 			case 'DOMAttrModified':
 				switch(aEvent.attrName)
 				{
 					case 'selected':
-						if (!InformationalTabService.thumbnailEnabled) return;
-						var nodes = document.getAnonymousNodes(this.mTab);
-						var canvasH = parseInt(this.mTab.__informationaltab__canvas.height);
-						var margin = InformationalTabService.thumbnailMargin;
-						var selected = (aEvent.newValue == 'true') ? InformationalTabService.thumbnailSelectedMargin : InformationalTabService.thumbnailUnselectedMargin;
-						for (var i = 0, maxi = nodes.length; i < maxi; i++)
-						{
-							nodes[i].setAttribute('style', nodes[i].getAttribute('style')+';height:'+(canvasH+margin+selected)+'px !important');
-						}
-						this.mTab.setAttribute('style', this.mTab.getAttribute('style')+';height:'+(canvasH+margin+selected)+'px !important');
+						if (!ITS.thumbnailEnabled) return;
+						ITS.updateTabStyle(this.mTab, aEvent.newValue == 'true');
 						break;
 				}
 				break;
