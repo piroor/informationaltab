@@ -535,7 +535,6 @@ InformationalTabProgressListener.prototype = {
 			aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
 			) {
 			InformationalTabService.updateThumbnail(this.mTab);
-			this.mLabel.setAttribute('value', this.mTab.getAttribute('label'));
 			if (
 				this.mTab.linkedBrowser.currentURI.spec == 'about:config' ||
 				(
@@ -549,7 +548,6 @@ InformationalTabProgressListener.prototype = {
 	onLocationChange : function(aWebProgress, aRequest, aLocation)
 	{
 		this.mTab.setAttribute('informationaltab-unread', true);
-		this.mLabel.setAttribute('value', this.mTab.getAttribute('label'));
 	},
 	onStatusChange : function(aWebProgress, aRequest, aStatus, aMessage)
 	{

@@ -31,6 +31,34 @@
 			</xul:hbox>
 		</xul:stack>
 	</content>
+	<implementation>
+		<constructor><![CDATA[
+			var node = this.parentNode;
+			while (node.localName != 'tab')
+				node = node.parentNode;
+			node.addEventListener('DOMAttrModified', this.eventHandler, false);
+		]]></constructor>
+		<destructor><![CDATA[
+			var node = this.parentNode;
+			while (node.localName != 'tab')
+				node = node.parentNode;
+			node.removeEventListener('DOMAttrModified', this.eventHandler, false);
+		]]></destructor>
+		<field name="eventHandler"><![CDATA[
+			({
+				mOwner : this,
+				handleEvent : function(aEvent)
+				{
+					switch (aEvent.attrName)
+					{
+						case 'label':
+							this.mOwner.setAttribute('value', aEvent.target.getAttribute('label'));
+							break;
+					}
+				}
+			})
+		]]></field>
+	</implementation>
 </binding>
 
 
