@@ -21,6 +21,12 @@ var InformationalTabService = {
 	PROGRESS_STATUSBAR : 0,
 	PROGRESS_TAB       : 1,
 	PROGRESS_BOTH      : 2,
+
+	UPDATE_INIT     : 0,
+	UPDATE_PAGELOAD : 1,
+	UPDATE_RESIZE   : 2,
+	UPDATE_SCROLL   : 3,
+	UPDATE_REFLOW   : 4,
 	 
 /* Utilities */ 
 	 
@@ -88,7 +94,7 @@ var InformationalTabService = {
 			var tab = originalAddTab.apply(this, arguments);
 			try {
 				InformationalTabService.initTab(tab, this);
-				InformationalTabService.updateAllThumbnails(this);
+				InformationalTabService.updateAllThumbnails(this, InformationalTabService.UPDATE_REFLOW);
 			}
 			catch(e) {
 			}
@@ -103,7 +109,7 @@ var InformationalTabService = {
 				if (aTab.parentNode)
 					InformationalTabService.initTab(aTab, this);
 
-				InformationalTabService.updateAllThumbnails(this);
+				InformationalTabService.updateAllThumbnails(this, InformationalTabService.UPDATE_REFLOW);
 			}
 			catch(e) {
 			}
@@ -156,7 +162,7 @@ var InformationalTabService = {
 				break;
 		}
 		aTab.__informationaltab__canvas = canvas;
-		this.updateThumbnail(aTab);
+		this.updateThumbnail(aTab, this.UPDATE_INIT);
 
 
 		aTab.__informationaltab__eventListener = new InformationalTabEventListener(aTab);
@@ -209,13 +215,15 @@ var InformationalTabService = {
    
 /* thumbnail */ 
 	 
-	updateThumbnail : function(aTab) 
+	updateThumbnail : function(aTab, aReason) 
 	{
 		if (aTab.updateThumbnailTimer) return;
 
-		aTab.updateThumbnailTimer = window.setTimeout(this.updateThumbnailNow, this.thumbnailUpdateDelay, aTab, this);
+		this.thumbnailUpdateCount++;
+
+		aTab.updateThumbnailTimer = window.setTimeout(this.updateThumbnailNow, this.thumbnailUpdateDelay, aTab, aReason, this);
 	},
-	updateThumbnailNow : function(aTab, aThis, aImage)
+	updateThumbnailNow : function(aTab, aReason, aThis, aImage)
 	{
 		if (!aThis) aThis = this;
 
@@ -232,68 +240,79 @@ var InformationalTabService = {
 						aThis.thumbnailMaxSize :
 						aTab.boxObject.width * aThis.thumbnailMaxSizePow / 100 ;
 			size = Math.max(size, aThis.thumbnailMinSize);
-			var canvasW = parseInt((aspectRatio < 1) ? (size * aspectRatio) : size );
-			var canvasH = parseInt((aspectRatio > 1) ? (size / aspectRatio) : size );
+			var canvasW = Math.floor((aspectRatio < 1) ? (size * aspectRatio) : size );
+			var canvasH = Math.floor((aspectRatio > 1) ? (size / aspectRatio) : size );
 
-			canvas.width  = canvasW;
-			canvas.height = canvasH;
-			canvas.style.width  = canvasW+'px';
-			canvas.style.height = canvasH+'px';
-			canvas.style.display = 'block';
+			if (
+				(
+					aReason == aThis.UPDATE_RESIZE ||
+					aReason == aThis.UPDATE_REFLOW
+				) ?
+				!(
+					Math.abs(parseInt(canvas.width) - canvasW) <= 1 &&
+					Math.abs(parseInt(canvas.height) - canvasH) <= 1
+				) : true
+				) {
 
-			aThis.updateTabStyle(aTab, aTab.getAttribute('selected') == 'true');
+				canvas.width  = canvasW;
+				canvas.height = canvasH;
+				canvas.style.width  = canvasW+'px';
+				canvas.style.height = canvasH+'px';
+				canvas.style.display = 'block';
+				aThis.updateTabStyle(aTab, aTab.getAttribute('selected') == 'true');
 
-			try {
-				var ctx = canvas.getContext('2d');
-				ctx.clearRect(0, 0, canvasW, canvasH);
-				if (b.contentDocument.contentType.indexOf('image') != 0) {
-					ctx.save();
-					ctx.scale(canvasW/w, canvasH/h);
-					ctx.drawWindow(win, 0/*win.scrollX*/, win.scrollY, w, h, aThis.thumbnailBG);
-					ctx.restore();
-				}
-				else {
-					if (aImage && aImage instanceof Image) {
-						ctx.fillStyle = aThis.thumbnailBG;
-						ctx.fillRect(0, 0, canvasW, canvasH);
-						var iW = parseInt(aImage.width);
-						var iH = parseInt(aImage.height);
-						var x = 0;
-						var y = 0;
+				try {
+					var ctx = canvas.getContext('2d');
+					ctx.clearRect(0, 0, canvasW, canvasH);
+					if (b.contentDocument.contentType.indexOf('image') != 0) {
 						ctx.save();
-						if ((iW / iH) < 1) {
-							iW = iW * canvasH / iH;
-							x = parseInt((canvasW - iW) / 2 );
-							iH = size;
-						}
-						else {
-							iH = iH * canvasW / iW;
-							y = parseInt((canvasH - iH) / 2 );
-							iW = size;
-						}
-						ctx.drawImage(aImage, x, y, iW, iH);
+						ctx.scale(canvasW/w, canvasW/w);
+						ctx.drawWindow(win, 0/*win.scrollX*/, win.scrollY, w, h, aThis.thumbnailBG);
 						ctx.restore();
 					}
 					else {
-						var img = new Image();
-						img.src = b.currentURI.spec;
-						var self = arguments.callee;
-						img.addEventListener('load', function() {
-							img.removeEventListener('load', arguments.callee, false);
-							self(aTab, aThis, img);
-							delete self;
-							delete aThis;
-							delete img;
-							delete canvas;
-							delete ctx;
-							delete b;
-							delete win;
-						}, false);
-						return;
+						if (aImage && aImage instanceof Image) {
+							ctx.fillStyle = aThis.thumbnailBG;
+							ctx.fillRect(0, 0, canvasW, canvasH);
+							var iW = parseInt(aImage.width);
+							var iH = parseInt(aImage.height);
+							var x = 0;
+							var y = 0;
+							ctx.save();
+							if ((iW / iH) < 1) {
+								iW = iW * canvasH / iH;
+								x = Math.floor((canvasW - iW) / 2 );
+								iH = size;
+							}
+							else {
+								iH = iH * canvasW / iW;
+								y = Math.floor((canvasH - iH) / 2 );
+								iW = size;
+							}
+							ctx.drawImage(aImage, x, y, iW, iH);
+							ctx.restore();
+						}
+						else {
+							var img = new Image();
+							img.src = b.currentURI.spec;
+							var self = arguments.callee;
+							img.addEventListener('load', function() {
+								img.removeEventListener('load', arguments.callee, false);
+								self(aTab, aThis, img);
+								delete self;
+								delete aThis;
+								delete img;
+								delete canvas;
+								delete ctx;
+								delete b;
+								delete win;
+							}, false);
+							return;
+						}
 					}
 				}
-			}
-			catch(e) {
+				catch(e) {
+				}
 			}
 		}
 		else {
@@ -302,27 +321,40 @@ var InformationalTabService = {
 			aThis.updateTabStyle(aTab, aTab.getAttribute('selected') == 'true');
 		}
 
+		if (aTab.updateThumbnailTimer) {
+			window.clearTimeout(aTab.updateThumbnailTimer);
+		}
 		aTab.updateThumbnailTimer = null;
+		aThis.thumbnailUpdateCount--;
 	},
  
-	updateAllThumbnails : function(aTabBrowser) 
+	updateAllThumbnails : function(aTabBrowser, aReason) 
 	{
-		if (this.updateAllThumbnailsTimer) return;
+		if (this.updateAllThumbnailsTimer ||
+			this.thumbnailUpdateCount) return;
 
-		this.updateAllThumbnailsTimer = window.setTimeout(this.updateAllThumbnailsNow, this.thumbnailUpdateDelay, aTabBrowser, this);
+		this.updateAllThumbnailsTimer = window.setTimeout(this.updateAllThumbnailsNow, this.thumbnailUpdateDelay, aTabBrowser, aReason, this);
 	},
 	updateAllThumbnailsTimer : null,
-	updateAllThumbnailsNow : function(aTabBrowser, aThis)
+	thumbnailUpdateCount : 0,
+	updateAllThumbnailsNow : function(aTabBrowser, aReason, aThis)
 	{
 		if (!aThis) aThis = this;
 
 		var tabs = aTabBrowser.mTabContainer.childNodes;
 		for (var i = 0, maxi = tabs.length; i < maxi; i++)
 		{
-			aThis.updateThumbnail(tabs[i]);
+			aThis.thumbnailUpdateCount++;
+			aThis.updateThumbnailNow(tabs[i], aReason);
 		}
 
-		window.setTimeout('InformationalTabService.updateAllThumbnailsTimer = null;', aThis.thumbnailUpdateDelay);
+		window.setTimeout(function() {
+			if (aThis.thumbnailUpdateCount) {
+				window.setTimeout(arguments.callee, aThis.thumbnailUpdateDelay);
+				return;
+			}
+			aThis.updateAllThumbnailsTimer = null;
+		}, aThis.thumbnailUpdateDelay);
 	},
  
 	repositionThumbnail : function(aTabBrowser) 
@@ -348,7 +380,7 @@ var InformationalTabService = {
 					label.parentNode.appendChild(canvas);
 					break;
 			}
-			this.updateThumbnail(tabs[i]);
+			this.updateThumbnail(tabs[i], this.UPDATE_INIT);
 		}
 	},
  	
@@ -416,7 +448,7 @@ var InformationalTabService = {
 				break;
 
 			case 'resize':
-				this.updateAllThumbnails(gBrowser);
+				this.updateAllThumbnails(gBrowser, this.UPDATE_RESIZE);
 				break;
 
 			case 'select':
@@ -458,7 +490,7 @@ var InformationalTabService = {
 			case 'extensions.informationaltab.thumbnail.enabled':
 				this.thumbnailEnabled = value;
 				if (this.initialized)
-					this.updateAllThumbnails(gBrowser);
+					this.updateAllThumbnails(gBrowser, this.UPDATE_INIT);
 
 				if (value) {
 					document.documentElement.setAttribute('informationaltab-thumbnail-enabled', true);
@@ -474,18 +506,20 @@ var InformationalTabService = {
 
 			case 'extensions.informationaltab.thumbnail.size_mode':
 				this.thumbnailSizeMode = value;
+				if (this.initialized)
+					this.updateAllThumbnails(gBrowser, this.UPDATE_RESIZE);
 				break;
 
 			case 'extensions.informationaltab.thumbnail.max':
 				this.thumbnailMaxSize = value;
 				if (this.initialized && this.thumbnailSizeMode == this.SIZE_MODE_FIXED)
-					this.updateAllThumbnails(gBrowser);
+					this.updateAllThumbnails(gBrowser, this.UPDATE_RESIZE);
 				break;
 
 			case 'extensions.informationaltab.thumbnail.pow':
 				this.thumbnailMaxSizePow = value;
 				if (this.initialized && this.thumbnailSizeMode == this.SIZE_MODE_FLEXIBLE)
-					this.updateAllThumbnails(gBrowser);
+					this.updateAllThumbnails(gBrowser, this.UPDATE_RESIZE);
 				break;
 
 			case 'extensions.informationaltab.thumbnail.update_delay':
@@ -644,7 +678,7 @@ InformationalTabProgressListener.prototype = {
 			aStateFlags & nsIWebProgressListener.STATE_STOP &&
 			aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
 			) {
-			InformationalTabService.updateThumbnail(this.mTab);
+			InformationalTabService.updateThumbnail(this.mTab, InformationalTabService.UPDATE_PAGELOAD);
 			if (
 				this.mTab.linkedBrowser.currentURI.spec == 'about:config' ||
 				(
@@ -690,7 +724,7 @@ InformationalTabEventListener.prototype = {
 				if (aEvent.originalTarget.toString().indexOf('Document') < 0)
 					return;
 				this.mTab.removeAttribute('informationaltab-unread');
-				ITS.updateThumbnail(this.mTab);
+				ITS.updateThumbnail(this.mTab, ITS.UPDATE_SCROLL);
 				break;
 
 			case 'DOMAttrModified':
