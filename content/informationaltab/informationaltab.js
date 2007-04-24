@@ -15,6 +15,8 @@ var InformationalTabService = {
 	thumbnailMaxSize     : -1,
 	thumbnailMaxSizePow  : -1,
 	thumbnailMargin      : -1,
+	thumbnailSelectedMargin   : 2,
+	thumbnailUnselectedMargin : 0,
 	thumbnailUpdateDelay : -1,
 	thumbnailBG          : 'rgba(0,0,0,0.5)',
 	 
@@ -45,6 +47,7 @@ var InformationalTabService = {
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.background');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.enabled');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.hide_statusbar_progress');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.unread.enabled');
 
 		this.initTabBrowser(gBrowser);
 
@@ -105,7 +108,7 @@ var InformationalTabService = {
 		if (aTab.__informationaltab__progressListener) return;
 
 		var filter = Components.classes['@mozilla.org/appshell/component/browser-status-filter;1'].createInstance(Components.interfaces.nsIWebProgress);
-		var listener = new InformationalTabProgressListener(aTab, aTabBrowser);
+		var listener = new InformationalTabProgressListener(aTab);
 		filter.addProgressListener(listener, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
 		aTab.linkedBrowser.webProgress.addProgressListener(filter, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
 		aTab.__informationaltab__progressListener = listener;
@@ -113,8 +116,9 @@ var InformationalTabService = {
 
 
 		var canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
-		canvas.width = 0;
-		canvas.height = 0;
+		canvas.setAttribute('class', 'informationaltab-thumbnail');
+		canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
+		canvas.style.display = 'none';
 
 		var label  =  document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 		switch(this.getPref('extensions.informationaltab.thumbnail.position'))
@@ -135,6 +139,7 @@ var InformationalTabService = {
 
 		aTab.__informationaltab__eventListener = new InformationalTabEventListener(aTab);
 		aTab.linkedBrowser.addEventListener('scroll', aTab.__informationaltab__eventListener, false);
+		aTab.addEventListener('DOMAttrModified', aTab.__informationaltab__eventListener, false);
 	},
   
 	destroy : function() 
@@ -164,12 +169,12 @@ var InformationalTabService = {
 
 			delete aTab.__informationaltab__progressListener.mLabel;
 			delete aTab.__informationaltab__progressListener.mTab;
-			delete aTab.__informationaltab__progressListener.mTabBrowser;
 
 			delete aTab.__informationaltab__progressFilter;
 			delete aTab.__informationaltab__progressListener;
 
 			aTab.linkedBrowser.removeEventListener('scroll', aTab.__informationaltab__eventListener, false);
+			aTab.removeEventListener('DOMAttrModified', aTab.__informationaltab__eventListener, false);
 			delete aTab.__informationaltab__eventListener.mTab;
 			delete aTab.__informationaltab__eventListener;
 		}
@@ -205,16 +210,18 @@ var InformationalTabService = {
 			var canvasH = parseInt((aspectRatio > 1) ? (size / aspectRatio) : size );
 
 			var margin = aThis.thumbnailMargin;
+			var selected = (aTab.getAttribute('selected') == 'true') ? aThis.thumbnailSelectedMargin : aThis.thumbnailUnselectedMargin;
 			for (var i = 0, maxi = nodes.length; i < maxi; i++)
 			{
-				nodes[i].setAttribute('style', nodes[i].getAttribute('style')+';height:'+(canvasH+margin)+'px !important');
+				nodes[i].setAttribute('style', nodes[i].getAttribute('style')+';height:'+(canvasH+margin+selected)+'px !important');
 			}
-			aTab.setAttribute('style', aTab.getAttribute('style')+';height:'+(canvasH+margin)+'px !important');
+			aTab.setAttribute('style', aTab.getAttribute('style')+';height:'+(canvasH+margin+selected)+'px !important');
 
 			canvas.width  = canvasW;
 			canvas.height = canvasH;
 			canvas.style.width  = canvasW+'px';
 			canvas.style.height = canvasH+'px';
+			canvas.style.display = 'block';
 
 			try {
 				var ctx = canvas.getContext('2d');
@@ -271,6 +278,7 @@ var InformationalTabService = {
 		}
 		else {
 			canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
+			canvas.style.display = 'none';
 
 			for (var i = 0, maxi = nodes.length; i < maxi; i++)
 			{
@@ -303,7 +311,7 @@ var InformationalTabService = {
 	},
  
 /* Event Handling */ 
-	 
+	
 	handleEvent : function(aEvent) 
 	{
 		switch (aEvent.type)
@@ -344,9 +352,9 @@ var InformationalTabService = {
 
 		return false;
 	},
- 	  
+   
 /* Pref Listener */ 
-	 
+	
 	domain : 'extensions.informationaltab', 
  
 	observe : function(aSubject, aTopic, aPrefName) 
@@ -360,6 +368,10 @@ var InformationalTabService = {
 				this.thumbnailEnabled = value;
 				if (this.initialized)
 					this.updateAllThumbnails(gBrowser);
+				if (value)
+					document.documentElement.setAttribute('informationaltab-thumbnail-enabled', true);
+				else
+					document.documentElement.removeAttribute('informationaltab-thumbnail-enabled');
 				break;
 
 			case 'extensions.informationaltab.thumbnail.size_mode':
@@ -398,13 +410,20 @@ var InformationalTabService = {
 					panel.removeAttribute('informationaltab-hidden');
 				break;
 
+			case 'extensions.informationaltab.unread.enabled':
+				if (value)
+					document.documentElement.setAttribute('informationaltab-indicate-unread', true);
+				else
+					document.documentElement.removeAttribute('informationaltab-indicate-unread');
+				break;
+
 			default:
 				break;
 		}
 	},
   
 /* Save/Load Prefs */ 
-	 
+	
 	get Prefs() 
 	{
 		if (!this._Prefs) {
@@ -502,16 +521,14 @@ var InformationalTabService = {
 window.addEventListener('load', InformationalTabService, false);
 window.addEventListener('unload', InformationalTabService, false);
  
-function InformationalTabProgressListener(aTab, aTabBrowser) 
+function InformationalTabProgressListener(aTab) 
 {
 	this.mTab = aTab;
-	this.mTabBrowser = aTabBrowser;
-
 	this.mLabel = document.getAnonymousElementByAttribute(this.mTab, 'class', 'tab-text');
 }
 InformationalTabProgressListener.prototype = {
-	mTab        : null,
-	mTabBrowser : null,
+	mTab   : null,
+	mLabel : null,
 	onProgressChange: function(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress)
 	{
 		if (aMaxTotalProgress < 1)
@@ -539,7 +556,7 @@ InformationalTabProgressListener.prototype = {
 			if (
 				this.mTab.linkedBrowser.currentURI.spec == 'about:config' ||
 				(
-					this.mTabBrowser.selectedTab == this.mTab &&
+					(this.mTab.getAttribute('selected') == 'true') &&
 					!InformationalTabService.isScrollable(this.mTab.linkedBrowser.contentWindow)
 				)
 				)
@@ -582,7 +599,25 @@ InformationalTabEventListener.prototype = {
 				this.mTab.removeAttribute('informationaltab-unread');
 				InformationalTabService.updateThumbnail(this.mTab);
 				break;
+
+			case 'DOMAttrModified':
+				switch(aEvent.attrName)
+				{
+					case 'selected':
+						if (!InformationalTabService.thumbnailEnabled) return;
+						var nodes = document.getAnonymousNodes(this.mTab);
+						var canvasH = parseInt(this.mTab.__informationaltab__canvas.height);
+						var margin = InformationalTabService.thumbnailMargin;
+						var selected = (aEvent.newValue == 'true') ? InformationalTabService.thumbnailSelectedMargin : InformationalTabService.thumbnailUnselectedMargin;
+						for (var i = 0, maxi = nodes.length; i < maxi; i++)
+						{
+							nodes[i].setAttribute('style', nodes[i].getAttribute('style')+';height:'+(canvasH+margin+selected)+'px !important');
+						}
+						this.mTab.setAttribute('style', this.mTab.getAttribute('style')+';height:'+(canvasH+margin+selected)+'px !important');
+						break;
+				}
+				break;
 		}
 	}
 };
- 
+ 	

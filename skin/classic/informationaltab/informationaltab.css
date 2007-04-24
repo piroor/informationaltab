@@ -1,12 +1,16 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace xhtml url("http://www.w3.org/1999/xhtml");
 
-/* unread state */
+/* thumbnail */
 
-tab[informationaltab-unread="true"] .tab-text {
-	font-style: italic;
+xhtml|canvas.informationaltab-thumbnail {
+	border: 1px solid ThreeDShadow;
 }
 
-
+:root[informationaltab-thumbnail-enabled="true"] .tabbrowser-arrowscrollbox > scrollbox:not([orient="vertical"]) {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
 
 /* progressbar */
 
@@ -28,16 +32,25 @@ label.tab-text > stack > * > .tab-real-text {
 }
 
 label.tab-text > stack > * > .tab-progress {
-	height: 0.3em;
-	min-height: 0.3em;
-	max-height: 0.3em;
+	height: 0.4em;
+	min-height: 0.4em;
+	max-height: 0.4em;
 	min-width: 0;
 	-moz-appearance: none;
 	border: none;
 	outline: none;
+
+	position: relative;
+	margin-top: 0.2em;
+	margin-bottom: -0.2em;
 }
 label.tab-text > stack > * > .tab-progress > .progress-bar,
 label.tab-text > stack > * > .tab-progress > .progress-remainder {
 	-moz-appearance: none;
 }
 
+/* unread state */
+
+:root[informationaltab-indicate-unread="true"] tab[informationaltab-unread="true"] .tab-text {
+	font-style: italic;
+}
