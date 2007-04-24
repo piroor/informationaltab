@@ -1,7 +1,7 @@
 <!ENTITY config.title        "情報化タブの設定">
 
 
-<!ENTITY config.tabs.thumbnail "縮小表示">
+<!ENTITY config.tabs.thumbnail "プレビュー">
 
 <!ENTITY config.thumbnail.enabled "タブのプレビューを縮小表示する">
 

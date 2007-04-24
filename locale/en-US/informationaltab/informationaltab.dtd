@@ -1,3 +1,25 @@
 <!ENTITY config.title        "Configuration of Informational Tab">
 
-<!ENTITY config.tabs.general "General">
+
+<!ENTITY config.tabs.thumbnail "Preview">
+
+<!ENTITY config.thumbnail.enabled "Show thumbnail-style preview in each tab">
+
+<!ENTITY config.thumbnail.position.caption "Show preview at:">
+<!ENTITY config.thumbnail.position.label   "(Title of tab)">
+<!ENTITY config.thumbnail.position.0   "↑">
+<!ENTITY config.thumbnail.position.1   "↑">
+<!ENTITY config.thumbnail.position.2   "↑">
+
+
+<!ENTITY config.tabs.progress "Loading status">
+
+<!ENTITY config.progress.mode.caption   "Indicate loading status by progress meter in">
+<!ENTITY config.progress.mode.statusbar "the Status Bar">
+<!ENTITY config.progress.mode.tab       "Each Tab">
+<!ENTITY config.progress.mode.both      "both Status Bar and Each Tab">
+
+
+<!ENTITY config.tabs.unread "Unread status">
+
+<!ENTITY config.unread.enabled "Emphasise unread tabs">
