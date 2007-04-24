@@ -8,16 +8,17 @@ var InformationalTabService = {
 	POSITION_BEFORE_LABEL    : 1,
 	POSITION_BEFORE_CLOSEBOX : 2,
 
-	thumbnailSizeMode  : -1,
+	thumbnailSizeMode  : 0,
 	SIZE_MODE_FIXED    : 0,
 	SIZE_MODE_FLEXIBLE : 1,
 
-	thumbnailMaxSize     : -1,
-	thumbnailMaxSizePow  : -1,
-	thumbnailMargin      : -1,
+	thumbnailMinSize     : 20,
+	thumbnailMaxSize     : 0,
+	thumbnailMaxSizePow  : 1,
+	thumbnailMargin      : 0,
 	thumbnailSelectedMargin   : 2,
 	thumbnailUnselectedMargin : 0,
-	thumbnailUpdateDelay : -1,
+	thumbnailUpdateDelay : 0,
 	thumbnailBG          : 'rgba(0,0,0,0.5)',
 	 
 /* Utilities */ 
@@ -206,6 +207,7 @@ var InformationalTabService = {
 			var size = aThis.thumbnailSizeMode == aThis.SIZE_MODE_FIXED ?
 						aThis.thumbnailMaxSize :
 						aTab.boxObject.width * aThis.thumbnailMaxSizePow / 100 ;
+			size = Math.max(size, aThis.thumbnailMinSize);
 			var canvasW = parseInt((aspectRatio < 1) ? (size * aspectRatio) : size );
 			var canvasH = parseInt((aspectRatio > 1) ? (size / aspectRatio) : size );
 
