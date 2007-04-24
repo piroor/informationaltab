@@ -1,3 +1,25 @@
-<!ENTITY config.title        "マルチタブハンドラの設定">
+<!ENTITY config.title        "情報化タブの設定">
 
-<!ENTITY config.tabs.general "全般">
+
+<!ENTITY config.tabs.thumbnail "縮小表示">
+
+<!ENTITY config.thumbnail.enabled "タブのプレビューを縮小表示する">
+
+<!ENTITY config.thumbnail.position.caption "プレビューの表示位置">
+<!ENTITY config.thumbnail.position.label   "(タブのタイトル)">
+<!ENTITY config.thumbnail.position.0   "↑">
+<!ENTITY config.thumbnail.position.1   "↑">
+<!ENTITY config.thumbnail.position.2   "↑">
+
+
+<!ENTITY config.tabs.progress "読み込み状況">
+
+<!ENTITY config.progress.mode.caption   "読み込み状況の表示">
+<!ENTITY config.progress.mode.statusbar "ステータスバーにのみ表示する">
+<!ENTITY config.progress.mode.tab       "それぞれのタブに表示する">
+<!ENTITY config.progress.mode.both      "タブとステータスバーの両方に表示する">
+
+
+<!ENTITY config.tabs.unread "未読タブ">
+
+<!ENTITY config.unread.enabled "未読のタブの表示を変える">

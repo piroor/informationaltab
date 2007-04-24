@@ -9,7 +9,7 @@
                    em:creator="SHIMODA Hiroshi"
                    em:description="Provides thumbnail, progress meter, or others to each tab."
                    em:homepageURL="http://piro.sakura.ne.jp/xul/informationaltab/"
-                   em:iconURL="chrome://informationaltab/content/icon32.png"
+                   em:iconURL=""
                    em:optionsURL="chrome://informationaltab/content/config.xul"
                    em:updateURL="http://piro.sakura.ne.jp/xul/xul.rdf.en">
     <em:targetApplication>

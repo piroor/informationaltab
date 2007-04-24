@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
 <?xml-stylesheet href="chrome://global/skin/"?>
+<?xml-stylesheet href="config.css"?>
 
 <!DOCTYPE prefwindow [
 <!ENTITY % mainDTD SYSTEM "chrome://informationaltab/locale/informationaltab.dtd">
@@ -12,38 +13,83 @@
 	title="&config.title;"
 	onload="sizeToContent();">
 
-<prefpane id="prefpane-general" label="&config.tabs.general;">
+<prefpane id="prefpane-thumbnail" label="&config.tabs.thumbnail;">
 	<preferences>
-		<preference id="extensions.informationaltab.tabdrag.mode"
-			name="extensions.informationaltab.tabdrag.mode"
+		<preference id="extensions.informationaltab.thumbnail.enabled"
+			name="extensions.informationaltab.thumbnail.enabled"
+			type="bool"/>
+		<preference id="extensions.informationaltab.thumbnail.position"
+			name="extensions.informationaltab.thumbnail.position"
 			type="int"/>
-		<preference id="extensions.informationaltab.tabclick.mode"
-			name="extensions.informationaltab.tabclick.mode"
+		<preference id="extensions.informationaltab.thumbnail.size_mode"
+			name="extensions.informationaltab.thumbnail.size_mode"
+			type="int"/>
+		<preference id="extensions.informationaltab.thumbnail.max"
+			name="extensions.informationaltab.thumbnail.max"
+			type="int"/>
+		<preference id="extensions.informationaltab.thumbnail.pow"
+			name="extensions.informationaltab.thumbnail.pow"
+			type="int"/>
+	</preferences>
+
+	<checkbox id="extensions.informationaltab.thumbnail.enabled-check"
+		preference="extensions.informationaltab.thumbnail.enabled"
+		label="&config.thumbnail.enabled;"/>
+
+	<groupbox>
+		<caption label="&config.thumbnail.position.caption;"/>
+		<radiogroup id="extensions.informationaltab.thumbnail.position-radiogroup"
+			preference="extensions.informationaltab.thumbnail.position"
+			orient="horizontal">
+			<hbox class="dummy-tab">
+				<hbox class="tab-image-left"/>
+				<hbox class="tab-image-middle">
+					<radio value="0"
+						 label="&config.thumbnail.position.0;"/>
+					<image class="tab-icon"/>
+					<radio value="1"
+						 label="&config.thumbnail.position.1;"/>
+					<label class="tab-text"
+						 value="&config.thumbnail.position.label;"/>
+					<radio value="2"
+						 label="&config.thumbnail.position.2;"/>
+				</hbox>
+					<image class="toolbarbutton-icon"/>
+				<hbox class="tab-image-right"/>
+			</hbox>
+		</radiogroup>
+	</groupbox>
+</prefpane>
+
+<prefpane id="prefpane-progress" label="&config.tabs.progress;">
+	<preferences>
+		<preference id="extensions.informationaltab.progress.mode"
+			name="extensions.informationaltab.progress.mode"
 			type="int"/>
 	</preferences>
 	<groupbox>
-		<caption label="&config.tabdragmode.caption;"/>
+		<caption label="&config.progress.mode.caption;"/>
 		<vbox>
-			<radiogroup id="extensions.informationaltab.tabdrag.mode-radiogroup"
-				preference="extensions.informationaltab.tabdrag.mode"
+			<radiogroup id="extensions.informationaltab.progress.mode-radiogroup"
+				preference="extensions.informationaltab.progress.mode"
 				orient="vertical">
-				<radio value="0" label="&config.tabdragmode.default;"/>
-				<radio value="1" label="&config.tabdragmode.select;"/>
-				<radio value="2" label="&config.tabdragmode.switch;"/>
+				<radio value="0" label="&config.progress.mode.statusbar;"/>
+				<radio value="1" label="&config.progress.mode.tab;"/>
+				<radio value="2" label="&config.progress.mode.both;"/>
 			</radiogroup>
 		</vbox>
 	</groupbox>
-	<groupbox>
-		<caption label="&config.tabclickmode.caption;"/>
-		<vbox>
-			<radiogroup id="extensions.informationaltab.tabclick.mode-radiogroup"
-				preference="extensions.informationaltab.tabclick.mode"
-				orient="vertical">
-				<radio value="0" label="&config.tabclickmode.default;"/>
-				<radio value="1" label="&config.tabclickmode.toggle;"/>
-			</radiogroup>
-		</vbox>
-	</groupbox>
+</prefpane>
+
+<prefpane id="prefpane-unread" label="&config.tabs.unread;">
+	<preferences>
+		<preference id="extensions.informationaltab.unread.enabled"
+			name="extensions.informationaltab.unread.enabled"
+			type="bool"/>
+	</preferences>
+	<checkbox id="extensions.informationaltab.unread.enabled-check"
+		preference="extensions.informationaltab.unread.enabled"
+		label="&config.unread.enabled;"/>
 </prefpane>
 
 </prefwindow>

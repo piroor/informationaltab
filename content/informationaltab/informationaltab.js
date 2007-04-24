@@ -2,7 +2,6 @@ var InformationalTabService = {
 	PREFROOT : 'extensions.informationaltab@piro.sakura.ne.jp',
 
 	thumbnailEnabled : false,
-	progressEnabled  : false,
 
 	POSITION_BEFORE_FAVICON  : 0,
 	POSITION_BEFORE_LABEL    : 1,
@@ -17,6 +16,11 @@ var InformationalTabService = {
 	thumbnailMaxSizePow  : 1,
 	thumbnailUpdateDelay : 0,
 	thumbnailBG          : 'rgba(0,0,0,0.5)',
+
+	progressMode  : 1,
+	PROGRESS_STATUSBAR : 0,
+	PROGRESS_TAB       : 1,
+	PROGRESS_BOTH      : 2,
 	 
 /* Utilities */ 
 	 
@@ -62,8 +66,7 @@ var InformationalTabService = {
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.max');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.pow');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.update_delay');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.enabled');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.hide_statusbar_progress');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.mode');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.unread.enabled');
 
 		this.initTabBrowser(gBrowser);
@@ -489,13 +492,11 @@ var InformationalTabService = {
 				this.thumbnailUpdateDelay = value;
 				break;
 
-			case 'extensions.informationaltab.progress.enabled':
-				this.progressEnabled = value;
-				break;
-
-			case 'extensions.informationaltab.hide_statusbar_progress':
+			case 'extensions.informationaltab.progress.mode':
+				this.progressMode = value;
 				var panel = document.getElementById('statusbar-progresspanel');
-				if (value)
+				if (value == this.PROGRESS_STATUSBAR ||
+					value == this.PROGRESS_BOTH)
 					panel.setAttribute('informationaltab-hidden', true);
 				else
 					panel.removeAttribute('informationaltab-hidden');
@@ -625,7 +626,7 @@ InformationalTabProgressListener.prototype = {
 		if (aMaxTotalProgress < 1)
 			return;
 
-		if (!InformationalTabService.progressEnabled) {
+		if (InformationalTabService.progressMode == InformationalTabService.PROGRESS_STATUSBAR)) {
 			this.mLabel.removeAttribute('informationaltab-progress');
 			return;
 		}
