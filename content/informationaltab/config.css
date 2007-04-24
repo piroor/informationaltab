@@ -16,7 +16,7 @@
 .dummy-tab > .tab-image-left {
 	width: 8px;
 	height: 24px;
-	background: url("chrome://global/skin/icons/tab-left.png") no-repeat;
+	background: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/tab-left.png") no-repeat;
 	background-color: -moz-dialog;
 	-moz-border-radius-topleft: 3px;
 	-moz-box-align: start;
@@ -25,7 +25,7 @@
 .dummy-tab > .tab-image-middle,
 .dummy-tab > .tab-close-button {
 	height: 24px;
-	background: url("chrome://global/skin/icons/tab-middle.png") repeat-x;
+	background: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/tab-middle.png") repeat-x;
 	background-color: -moz-dialog;
 	-moz-box-align: start;
 }
@@ -33,7 +33,7 @@
 .dummy-tab > .tab-image-right {
 	width: 8px;
 	height: 24px;
-	background: url("chrome://global/skin/icons/tab-right.png") no-repeat;
+	background: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/tab-right.png") no-repeat;
 	background-color: -moz-dialog;
 	-moz-border-radius-topright: 3px;
 	-moz-box-align: start;
@@ -49,12 +49,12 @@
 	-moz-margin-end: 3px;
 	width: 16px;
 	height: 16px;
-	list-style-image: url("chrome://global/skin/icons/folder-item.png");
+	list-style-image: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/folder-item.png");
 	-moz-image-region: rect(0px, 16px, 16px, 0px);
 }
 
 .dummy-tab .toolbarbutton-icon {
-	background-image: url("chrome://global/skin/icons/tab-middle.png");
+	background-image: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/tab-middle.png");
 	-moz-image-region: rect(0px, 16px, 16px, 0px);
 	width: 16px;
 	height: 19px;
@@ -62,7 +62,7 @@
 	-moz-margin-end: 0px !important;
 	margin: 0;
 	padding-top: 3px;
-	list-style-image: url("chrome://global/skin/icons/close.png");
+	list-style-image: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/close.png");
 }
 
 

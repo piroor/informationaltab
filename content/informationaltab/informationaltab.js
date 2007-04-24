@@ -303,7 +303,7 @@ var InformationalTabService = {
 							var self = arguments.callee;
 							img.addEventListener('load', function() {
 								img.removeEventListener('load', arguments.callee, false);
-								self(aTab, aReason, aThis, img);
+								self(aTab, aThis.UPDATE_PAGELOAD, aThis, img);
 								delete self;
 								delete img;
 								delete canvas;
