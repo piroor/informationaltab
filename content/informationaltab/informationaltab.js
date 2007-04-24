@@ -497,9 +497,9 @@ var InformationalTabService = {
 				var panel = document.getElementById('statusbar-progresspanel');
 				if (value == this.PROGRESS_STATUSBAR ||
 					value == this.PROGRESS_BOTH)
-					panel.setAttribute('informationaltab-hidden', true);
-				else
 					panel.removeAttribute('informationaltab-hidden');
+				else
+					panel.setAttribute('informationaltab-hidden', true);
 				break;
 
 			case 'extensions.informationaltab.unread.enabled':
@@ -626,7 +626,7 @@ InformationalTabProgressListener.prototype = {
 		if (aMaxTotalProgress < 1)
 			return;
 
-		if (InformationalTabService.progressMode == InformationalTabService.PROGRESS_STATUSBAR)) {
+		if (InformationalTabService.progressMode == InformationalTabService.PROGRESS_STATUSBAR) {
 			this.mLabel.removeAttribute('informationaltab-progress');
 			return;
 		}
