@@ -162,6 +162,7 @@ var InformationalTabService = {
 			aTab.linkedBrowser.webProgress.removeProgressListener(aTab.__informationaltab__progressFilter);
 			aTab.cachedCanvas.progressFilter.removeProgressListener(aTab.__informationaltab__progressListener);
 
+			delete aTab.__informationaltab__progressListener.mLabel;
 			delete aTab.__informationaltab__progressListener.mTab;
 			delete aTab.__informationaltab__progressListener.mTabBrowser;
 
@@ -504,6 +505,8 @@ function InformationalTabProgressListener(aTab, aTabBrowser)
 {
 	this.mTab = aTab;
 	this.mTabBrowser = aTabBrowser;
+
+	this.mLabel = document.getAnonymousElementByAttribute(this.mTab, 'class', 'tab-text');
 }
 InformationalTabProgressListener.prototype = {
 	mTab        : null,
@@ -513,18 +516,16 @@ InformationalTabProgressListener.prototype = {
 		if (aMaxTotalProgress < 1)
 			return;
 
-		var label = document.getAnonymousElementByAttribute(this.mTab, 'class', 'tab-text');
-
 		if (!InformationalTabService.progressEnabled) {
-			label.removeAttribute('informationaltab-progress');
+			this.mLabel.removeAttribute('informationaltab-progress');
 			return;
 		}
 
 		var percentage = parseInt((aCurTotalProgress * 100) / aMaxTotalProgress);
 		if (percentage > 0 && percentage < 100)
-			label.setAttribute('informationaltab-progress', percentage);
+			this.mLabel.setAttribute('informationaltab-progress', percentage);
 		else if (percentage <= 0 || percentage >= 100)
-			label.removeAttribute('informationaltab-progress');
+			this.mLabel.removeAttribute('informationaltab-progress');
 	},
 	onStateChange : function(aWebProgress, aRequest, aStateFlags, aStatus)
 	{
@@ -534,6 +535,7 @@ InformationalTabProgressListener.prototype = {
 			aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
 			) {
 			InformationalTabService.updateThumbnail(this.mTab);
+			this.mLabel.setAttribute('value', this.mTab.getAttribute('label'));
 			if (this.mTabBrowser.selectedTab == this.mTab &&
 				!InformationalTabService.isScrollable(this.mTab.linkedBrowser.contentWindow))
 				this.mTab.removeAttribute('informationaltab-unread');
@@ -542,6 +544,7 @@ InformationalTabProgressListener.prototype = {
 	onLocationChange : function(aWebProgress, aRequest, aLocation)
 	{
 		this.mTab.setAttribute('informationaltab-unread', true);
+		this.mLabel.setAttribute('value', this.mTab.getAttribute('label'));
 	},
 	onStatusChange : function(aWebProgress, aRequest, aStatus, aMessage)
 	{
