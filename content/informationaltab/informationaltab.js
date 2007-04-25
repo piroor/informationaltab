@@ -89,9 +89,9 @@ var InformationalTabService = {
 			removeTabMethod = '__tabextensions__removeTab';
 		}
 
-		var originalAddTab = aTabBrowser[addTabMethod];
+		aTabBrowser.__informationaltab__originalAddTab = aTabBrowser[addTabMethod];
 		aTabBrowser[addTabMethod] = function() {
-			var tab = originalAddTab.apply(this, arguments);
+			var tab = this.__informationaltab__originalAddTab.apply(this, arguments);
 			try {
 				InformationalTabService.initTab(tab, this);
 				InformationalTabService.updateAllThumbnails(this, InformationalTabService.UPDATE_REFLOW);
@@ -101,10 +101,10 @@ var InformationalTabService = {
 			return tab;
 		};
 
-		var originalRemoveTab = aTabBrowser[removeTabMethod];
+		aTabBrowser.__informationaltab__originalRemoveTab = aTabBrowser[removeTabMethod];
 		aTabBrowser[removeTabMethod] = function(aTab) {
 			InformationalTabService.destroyTab(aTab);
-			var retVal = originalRemoveTab.apply(this, arguments);
+			var retVal = this.__informationaltab__originalRemoveTab.apply(this, arguments);
 			try {
 				if (aTab.parentNode)
 					InformationalTabService.initTab(aTab, this);
