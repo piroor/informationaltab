@@ -31,3 +31,14 @@
 <!ENTITY config.tabs.unread "未読タブ">
 
 <!ENTITY config.unread.enabled "未読のタブの表示を変える">
+
+
+<!ENTITY config.tabs.closebutton "閉じるボタン">
+
+<!ENTITY config.closebutton.mode.caption "タブの「閉じる」ボタン">
+<!ENTITY config.closebutton.mode.0   "現在のタブにだけ表示">
+<!ENTITY config.closebutton.mode.1   "全てのタブに表示（初期値）">
+<!ENTITY config.closebutton.mode.2   "表示しない">
+<!ENTITY config.closebutton.mode.3   "タブに表示せず、タブバー右端に表示（Firefox 1.5スタイル）">
+
+<!ENTITY config.closebutton.force_show "タブの幅が小さい時でも常に全てのタブに閉じるボタンを表示する">

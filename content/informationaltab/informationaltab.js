@@ -1,4 +1,5 @@
 var InformationalTabService = { 
+	ID       : 'informationaltab@piro.sakura.ne.jp',
 	PREFROOT : 'extensions.informationaltab@piro.sakura.ne.jp',
 
 	thumbnailEnabled : false,
@@ -34,6 +35,8 @@ var InformationalTabService = {
 	{
 		return gBrowser;
 	},
+ 
+	ObserverService : Components.classes['@mozilla.org/observer-service;1'].getService(Components.interfaces.nsIObserverService), 
   
 /* Initializing */ 
 	 
@@ -72,6 +75,10 @@ var InformationalTabService = {
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.update_delay');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.mode');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.unread.enabled');
+		this.observe(null, 'nsPref:changed', 'browser.tabs.tabClipWidth');
+
+		this.ObserverService.addObserver(this, 'em-action-requested', false);
+		this.ObserverService.addObserver(this, 'quit-application', false);
 
 		this.initTabBrowser(gBrowser);
 
@@ -187,6 +194,9 @@ var InformationalTabService = {
 
 		window.removeEventListener('unload', this, false);
 
+		this.ObserverService.removeObserver(this, 'em-action-requested');
+		this.ObserverService.removeObserver(this, 'quit-application');
+
 		this.removePrefListener(this);
 	},
 	 
@@ -206,7 +216,7 @@ var InformationalTabService = {
 			this.destroyTab(tabs[i]);
 		}
 	},
- 	
+ 
 	destroyTab : function(aTab) 
 	{
 		try {
@@ -456,7 +466,7 @@ var InformationalTabService = {
 	},
   
 /* Event Handling */ 
-	
+	 
 	handleEvent : function(aEvent) 
 	{
 		switch (aEvent.type)
@@ -477,7 +487,7 @@ var InformationalTabService = {
 				break;
 		}
 	},
-	 
+	
 	isScrollable : function(aFrame) 
 	{
 		if (!aFrame) return false;
@@ -493,12 +503,68 @@ var InformationalTabService = {
 
 		return false;
 	},
-   
+  
+	observe : function(aSubject, aTopic, aPrefName) 
+	{
+		switch (aTopic)
+		{
+			case 'nsPref:changed':
+				this.onChangePref(aSubject, aTopic, aPrefName);
+				break;
+
+			case 'em-action-requested':
+				if (!(aSubject instanceof Components.interfaces.nsIUpdateItem) ||
+					aSubject.id != this.ID)
+					return;
+				switch (aData)
+				{
+					case 'item-disabled':
+						this._toBeDisabled = true;
+						break;
+					case 'item-uninstalled':
+						this._toBeUninstalled = true;
+						break;
+					case 'item-cancel-action':
+						this._toBeDisabled = false;
+						this._toBeUninstalled = false;
+						break;
+				}
+				break;
+
+			case 'quit-application':
+				if (
+					!(this._toBeDisabled || this._toBeUninstalled) ||
+					this.getPref('extensions.informationaltab.restoring_backup_prefs')
+					)
+					return;
+				this.setPref('extensions.informationaltab.restoring_backup_prefs', true);
+				var backupValue;
+
+				backupValue = this.getPref('extensions.informationaltab.backup.browser.tabs.closeButtons');
+				if (backupValue > -1) {
+					this.clearPref('extensions.informationaltab.backup.browser.tabs.closeButtons');
+					this.setPref('browser.tabs.closeButtons', backupValue);
+				}
+
+				backupValue = this.getPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
+				if (backupValue > -1) {
+					this.clearPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
+					this.setPref('browser.tabs.tabClipWidth', backupValue);
+				}
+
+				this.setPref('extensions.informationaltab.restoring_backup_prefs', false);
+				break;
+		}
+	},
+  
 /* Pref Listener */ 
 	 
-	domain : 'extensions.informationaltab', 
+	domains : [ 
+		'extensions.informationaltab',
+		'browser.tabs'
+	],
  
-	observe : function(aSubject, aTopic, aPrefName) 
+	onChangePref : function(aSubject, aTopic, aPrefName) 
 	{
 		if (aTopic != 'nsPref:changed') return;
 
@@ -548,13 +614,68 @@ var InformationalTabService = {
 					document.documentElement.removeAttribute('informationaltab-indicate-unread');
 				break;
 
+
+			case 'browser.tabs.closeButtons':
+				if (this.updatingTabCloseButtonPrefs ||
+					this.getPref('extensions.informationaltab.restoring_backup_prefs'))
+					return;
+				this.updatingTabCloseButtonPrefs = true;
+				var backupValue = this.getPref('extensions.informationaltab.backup.browser.tabs.closeButtons');
+				if (backupValue < 0) {
+					this.setPref('extensions.informationaltab.backup.browser.tabs.closeButtons', value);
+				}
+				this.updatingTabCloseButtonPrefs = false;
+				break;
+
+
+			case 'extensions.informationaltab.close_buttons.force_show':
+				if (!value) {
+					var backupValue = this.getPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
+					if (backupValue < 0) return;
+					this.updatingTabWidthPrefs = true;
+					this.setPref('browser.tabs.tabClipWidth', backupValue);
+					this.clearPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
+					this.updatingTabWidthPrefs = false;
+				}
+				else {
+					this.updatingTabWidthPrefs = true;
+					this.setPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabClipWidth'));
+					this.setPref('browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabMinWidth'));
+					this.updatingTabWidthPrefs = false;
+				}
+				break;
+
+			case 'browser.tabs.tabClipWidth':
+				if (this.updatingTabWidthPrefs ||
+					!this.getPref('extensions.informationaltab.close_buttons.force_show') ||
+					this.getPref('extensions.informationaltab.restoring_backup_prefs'))
+					return;
+				this.updatingTabWidthPrefs = true;
+				this.setPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabClipWidth'));
+				this.setPref('browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabMinWidth'));
+				this.updatingTabWidthPrefs = false;
+				break;
+
+			case 'browser.tabs.tabMinWidth':
+				if (this.updatingTabWidthPrefs ||
+					!this.getPref('extensions.informationaltab.close_buttons.force_show') ||
+					this.getPref('extensions.informationaltab.restoring_backup_prefs'))
+					return;
+				this.updatingTabWidthPrefs = true;
+				this.setPref('browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabMinWidth'));
+				this.updatingTabWidthPrefs = false;
+				break;
+
+
 			default:
 				break;
 		}
 	},
-  
+	updatingTabCloseButtonPrefs : false,
+	updatingTabWidthPrefs : false,
+ 	 
 /* Save/Load Prefs */ 
-	
+	 
 	get Prefs() 
 	{
 		if (!this._Prefs) {

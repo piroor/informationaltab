@@ -13,5 +13,13 @@ pref("extensions.informationaltab.progress.mode", 1);
 pref("extensions.informationaltab.unread.enabled", true);
 
 
+pref("extensions.informationaltab.backup.browser.tabs.closeButtons", -1);
+pref("extensions.informationaltab.backup.browser.tabs.tabClipWidth", -1);
+pref("extensions.informationaltab.close_buttons.force_show", false);
+
+
+pref("extensions.informationaltab.restoring_backup_prefs", false);
+
+
 pref("extensions.informationaltab@piro.sakura.ne.jp.name", "chrome://informationaltab/locale/informationaltab.properties");
 pref("extensions.informationaltab@piro.sakura.ne.jp.description", "chrome://informationaltab/locale/informationaltab.properties");
