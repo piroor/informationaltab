@@ -140,8 +140,9 @@
 				preference="browser.tabs.closeButtons"
 				orient="vertical">
 				<radio value="0" label="&config.closebutton.mode.0;"/>
+				<radio value="1" label="&config.closebutton.mode.1;"/>
 				<hbox align="center">
-					<radio value="1" label="&config.closebutton.mode.1;"/>
+					<spacer style="width: 1em;"/>
 					<checkbox id="extensions.informationaltab.close_buttons.force_show-check"
 						preference="extensions.informationaltab.close_buttons.force_show"
 						label="&config.closebutton.force_show;"/>

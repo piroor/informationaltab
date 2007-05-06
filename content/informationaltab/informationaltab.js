@@ -573,7 +573,14 @@ var InformationalTabService = {
 				break;
 		}
 	},
-  
+	 
+	adjustTabstrip : function(aTabBrowser) 
+	{
+		aTabBrowser.mTabContainer.mTabClipWidth = this.getPref('browser.tabs.tabClipWidth');
+		aTabBrowser.mTabContainer.mTabMinWidth  = this.getPref('browser.tabs.tabMinWidth');
+		aTabBrowser.mTabContainer.adjustTabstrip();
+	},
+ 	  
 /* Pref Listener */ 
 	 
 	domains : [ 
@@ -650,7 +657,10 @@ var InformationalTabService = {
 					var backupValue = this.getPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
 					if (backupValue < 0) return;
 					this.updatingTabWidthPrefs = true;
-					this.setPref('browser.tabs.tabClipWidth', backupValue);
+					if (backupValue > this.getPref('browser.tabs.tabMinWidth'))
+						this.setPref('browser.tabs.tabClipWidth', backupValue);
+					else
+						this.clearPref('browser.tabs.tabClipWidth');
 					this.clearPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
 					this.updatingTabWidthPrefs = false;
 				}
@@ -660,6 +670,7 @@ var InformationalTabService = {
 					this.setPref('browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabMinWidth'));
 					this.updatingTabWidthPrefs = false;
 				}
+				this.adjustTabstrip(gBrowser);
 				break;
 
 			case 'browser.tabs.tabClipWidth':
@@ -671,6 +682,7 @@ var InformationalTabService = {
 				this.setPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabClipWidth'));
 				this.setPref('browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabMinWidth'));
 				this.updatingTabWidthPrefs = false;
+				this.adjustTabstrip(gBrowser);
 				break;
 
 			case 'browser.tabs.tabMinWidth':
@@ -681,6 +693,7 @@ var InformationalTabService = {
 				this.updatingTabWidthPrefs = true;
 				this.setPref('browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabMinWidth'));
 				this.updatingTabWidthPrefs = false;
+				this.adjustTabstrip(gBrowser);
 				break;
 
 
@@ -690,7 +703,7 @@ var InformationalTabService = {
 	},
 	updatingTabCloseButtonPrefs : false,
 	updatingTabWidthPrefs : false,
- 	 
+  
 /* Save/Load Prefs */ 
 	 
 	get Prefs() 
