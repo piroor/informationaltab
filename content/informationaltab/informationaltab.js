@@ -139,6 +139,7 @@ var InformationalTabService = {
 
 		aTabBrowser.__informationaltab__eventListener = new InformationalTabBrowserEventListener(aTabBrowser);
 		window.addEventListener('resize', aTabBrowser.__informationaltab__eventListener, false);
+		aTabBrowser.addEventListener('TabMove', this, false);
 
 		delete addTabMethod;
 		delete removeTabMethod;
@@ -160,7 +161,14 @@ var InformationalTabService = {
 		aTab.__informationaltab__progressListener = listener;
 		aTab.__informationaltab__progressFilter   = filter;
 
+		this.insertCanvasToTab(aTab, aTabBrowser);
 
+		aTab.__informationaltab__eventListener = new InformationalTabEventListener(aTab, aTabBrowser);
+		aTab.linkedBrowser.addEventListener('scroll', aTab.__informationaltab__eventListener, false);
+		aTab.addEventListener('DOMAttrModified', aTab.__informationaltab__eventListener, false);
+	},
+	insertCanvasToTab : function(aTab, aTabBrowser)
+	{
 		var canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
 		canvas.setAttribute('class', 'informationaltab-thumbnail');
 		canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
@@ -181,11 +189,6 @@ var InformationalTabService = {
 		}
 		aTab.__informationaltab__canvas = canvas;
 		this.updateThumbnail(aTab, aTabBrowser, this.UPDATE_INIT);
-
-
-		aTab.__informationaltab__eventListener = new InformationalTabEventListener(aTab, aTabBrowser);
-		aTab.linkedBrowser.addEventListener('scroll', aTab.__informationaltab__eventListener, false);
-		aTab.addEventListener('DOMAttrModified', aTab.__informationaltab__eventListener, false);
 	},
   
 	destroy : function() 
@@ -210,6 +213,8 @@ var InformationalTabService = {
 		delete aTabBrowser.__informationaltab__eventListener.mTabBrowser;
 		delete aTabBrowser.__informationaltab__eventListener;
 
+		aTabBrowser.removeEventListener('TabMove', this, false);
+
 		var tabs = aTabBrowser.mTabContainer.childNodes;
 		for (var i = 0, maxi = tabs.length; i < maxi; i++)
 		{
@@ -220,6 +225,10 @@ var InformationalTabService = {
 	destroyTab : function(aTab) 
 	{
 		try {
+			if (aTab.__informationaltab__canvas)
+				aTab.__informationaltab__canvas.parentNode.removeChild(aTab.__informationaltab__canvas);
+			delete aTab.__informationaltab__canvas;
+
 			delete aTab.__informationaltab__parentTabBrowser;
 
 			aTab.linkedBrowser.webProgress.removeProgressListener(aTab.__informationaltab__progressFilter);
@@ -484,6 +493,14 @@ var InformationalTabService = {
 				alert(tab.localName+'\n');
 				if (!this.isScrollable(tab.linkedBrowser.contentWindow))
 					tab.removeAttribute('informationaltab-unread');
+				break;
+
+			case 'TabMove':
+				var b = aEvent.originalTarget;
+				while (b.localName != 'tabbrowser')
+					b = b.parentNode;
+				this.destroyTab(aEvent.originalTarget);
+				this.initTab(aEvent.originalTarget, b);
 				break;
 		}
 	},
