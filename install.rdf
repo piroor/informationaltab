@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="informationaltab@piro.sakura.ne.jp"
                    em:name="Informational Tab"
-                   em:version="0.1.2007042503"
+                   em:version="0.2.2007050601"
                    em:creator="SHIMODA Hiroshi"
                    em:description="Provides thumbnail, progress meter, or others to each tab."
                    em:homepageURL="http://piro.sakura.ne.jp/xul/informationaltab/"
