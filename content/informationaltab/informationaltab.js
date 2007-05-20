@@ -521,12 +521,12 @@ var InformationalTabService = {
 		return false;
 	},
   
-	observe : function(aSubject, aTopic, aPrefName) 
+	observe : function(aSubject, aTopic, aData) 
 	{
 		switch (aTopic)
 		{
 			case 'nsPref:changed':
-				this.onChangePref(aSubject, aTopic, aPrefName);
+				this.onChangePref(aSubject, aTopic, aData);
 				break;
 
 			case 'em-action-requested':
