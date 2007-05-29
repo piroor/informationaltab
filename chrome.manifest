@@ -4,5 +4,6 @@ overlay	chrome://browser/content/browser.xul	chrome://informationaltab/content/i
 
 locale	informationaltab	en-US	jar:chrome/informationaltab.jar!/locale/en-US/informationaltab/
 locale	informationaltab	ja	jar:chrome/informationaltab.jar!/locale/ja/informationaltab/
+locale	informationaltab	hu-HU	jar:chrome/informationaltab.jar!/locale/hu-HU/informationaltab/
 
 skin	informationaltab	classic/1.0	jar:chrome/informationaltab.jar!/skin/classic/informationaltab/

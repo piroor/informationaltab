@@ -1,0 +1,44 @@
+<!ENTITY config.title        "Informational Tab beállítások">
+
+
+<!ENTITY config.tabs.thumbnail "Gyorsnézet">
+
+<!ENTITY config.thumbnail.enabled "Gyorsnézet megjelenítése az összes fülön">
+
+<!ENTITY config.thumbnail.position.caption "A gyorsnézet helyzete:">
+<!ENTITY config.thumbnail.position.label   "(A fül neve)">
+<!ENTITY config.thumbnail.position.0   "↑">
+<!ENTITY config.thumbnail.position.1   "↑">
+<!ENTITY config.thumbnail.position.2   "↑">
+
+<!ENTITY config.thumbnail.size_mode.caption  "A gyorsnézet mérete">
+<!ENTITY config.thumbnail.size_mode.fixed    "Rögzített méret:">
+<!ENTITY config.thumbnail.max.before         "">
+<!ENTITY config.thumbnail.max.after          "képpont">
+<!ENTITY config.thumbnail.size_mode.flexible "Rugalmas méret:">
+<!ENTITY config.thumbnail.pow.before         "A fül szélességének">
+<!ENTITY config.thumbnail.pow.after          "&#37;-a">
+
+
+<!ENTITY config.tabs.progress "Betöltés állapotjelző">
+
+<!ENTITY config.progress.mode.caption   "Az oldal betöltés-állapotjelzőjének megjelenítése">
+<!ENTITY config.progress.mode.statusbar "Az állapotsoron">
+<!ENTITY config.progress.mode.tab       "Minden egyes fülön">
+<!ENTITY config.progress.mode.both      "Mindkettőn (állapotsor és fülek)">
+
+
+<!ENTITY config.tabs.unread "Olvasatlan lapok">
+
+<!ENTITY config.unread.enabled "Az olvasatlan lapok füleinek kiemelése">
+
+
+<!ENTITY config.tabs.closebutton "Bezárás bomb">
+
+<!ENTITY config.closebutton.mode.caption "A fül bezárás gombjának megjelenítése">
+<!ENTITY config.closebutton.mode.0   "Csak az aktív lapnál">
+<!ENTITY config.closebutton.mode.1   "Az összes fülön (alapértelmezett)">
+<!ENTITY config.closebutton.mode.2   "Ne jelenjen meg a bezárás gomb sehol sem">
+<!ENTITY config.closebutton.mode.3   "Egyetlen bezárás gomb a fül-sáv végén (Firefox 1.5)">
+
+<!ENTITY config.closebutton.force_show "Ha elég hely van a fülön a gomb megjelenítéséhez">
