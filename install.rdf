@@ -1,18 +1,18 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="informationaltab@piro.sakura.ne.jp"
                    em:name="Informational Tab"
-                   em:version="0.2.2007050601"
+                   em:version="0.2.2007060601"
                    em:creator="SHIMODA Hiroshi"
                    em:description="Provides thumbnail, progress meter, or others to each tab."
                    em:homepageURL="http://piro.sakura.ne.jp/xul/informationaltab/"
                    em:iconURL=""
                    em:optionsURL="chrome://informationaltab/content/config.xul"
                    em:updateURL="http://piro.sakura.ne.jp/xul/xul.rdf.en">
-    <em:translator>Mikes Kaszman Istvan (hu-HU locale)</em:translator>
+    <em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
     <em:targetApplication>
       <RDF:Description em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                        em:minVersion="2.0"
