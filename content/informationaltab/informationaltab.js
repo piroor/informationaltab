@@ -174,14 +174,25 @@ var InformationalTabService = {
 		canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
 		canvas.style.display = 'none';
 
-		var label  =  document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
+		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 		switch(this.getPref('extensions.informationaltab.thumbnail.position'))
 		{
 			case this.POSITION_BEFORE_FAVICON:
-				label.parentNode.insertBefore(canvas, label.parentNode.firstChild);
+				if (aTabBrowser.getAttribute('treestyletab-tabbar-position') == 'right') {
+					var left = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-image-left');
+					if (left) left.appendChild(canvas);
+				}
+				else {
+					label.parentNode.insertBefore(canvas, label.parentNode.firstChild);
+				}
 				break;
 			case this.POSITION_BEFORE_LABEL:
-				label.parentNode.insertBefore(canvas, label);
+				if (aTabBrowser.getAttribute('treestyletab-tabbar-position') == 'right') {
+					label.parentNode.insertBefore(canvas, label.parentNode.firstChild);
+				}
+				else {
+					label.parentNode.insertBefore(canvas, label);
+				}
 				break;
 			case this.POSITION_BEFORE_CLOSEBOX:
 				label.parentNode.appendChild(canvas);
@@ -925,7 +936,10 @@ function InformationalTabPrefListener(aTabBrowser)
 }
 InformationalTabPrefListener.prototype = {
 	mTabBrowser : null,
-	domain : 'extensions.informationaltab',
+	domains : [
+		'extensions.informationaltab',
+		'extensions.treestyletab'
+	],
  	observe : function(aSubject, aTopic, aPrefName)
 	{
 		if (aTopic != 'nsPref:changed') return;
@@ -940,6 +954,7 @@ InformationalTabPrefListener.prototype = {
 				break;
 
 			case 'extensions.informationaltab.thumbnail.position':
+			case 'extensions.treestyletab.tabbar.position':
 				ITS.repositionThumbnail(this.mTabBrowser);
 				return;
 
