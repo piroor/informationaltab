@@ -178,7 +178,8 @@ var InformationalTabService = {
 		switch(this.getPref('extensions.informationaltab.thumbnail.position'))
 		{
 			case this.POSITION_BEFORE_FAVICON:
-				if (aTabBrowser.getAttribute('treestyletab-tabbar-position') == 'right') {
+				if (aTabBrowser.getAttribute('treestyletab-vertical') == 'true' &&
+					aTabBrowser.getAttribute('treestyletab-appearance-inverted') == 'true') {
 					var left = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-image-left');
 					if (left) left.appendChild(canvas);
 				}
@@ -187,7 +188,8 @@ var InformationalTabService = {
 				}
 				break;
 			case this.POSITION_BEFORE_LABEL:
-				if (aTabBrowser.getAttribute('treestyletab-tabbar-position') == 'right') {
+				if (aTabBrowser.getAttribute('treestyletab-vertical') == 'true' &&
+					aTabBrowser.getAttribute('treestyletab-appearance-inverted') == 'true') {
 					label.parentNode.insertBefore(canvas, label.parentNode.firstChild);
 				}
 				else {
