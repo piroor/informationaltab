@@ -2,6 +2,8 @@ var InformationalTabService = {
 	ID       : 'informationaltab@piro.sakura.ne.jp',
 	PREFROOT : 'extensions.informationaltab@piro.sakura.ne.jp',
 
+	disabled : false,
+
 	thumbnailEnabled : false,
 
 	POSITION_BEFORE_FAVICON  : 0,
@@ -30,7 +32,7 @@ var InformationalTabService = {
 	UPDATE_REFLOW   : 4,
 	 
 /* Utilities */ 
-	 
+	
 	get browser() 
 	{
 		return gBrowser;
@@ -51,15 +53,15 @@ var InformationalTabService = {
 
 		eval('this.thumbnailMinSize = '+this.styleStringBundle.getString('thumbnail_min_size'));
 
-		this.thumbnailHTabH  = this.styleStringBundle.getString('thumbnail_htab_height');
-		this.thumbnailHTabCH = this.styleStringBundle.getString('thumbnail_htab_contents_height');
-		this.thumbnailHTabS  = this.styleStringBundle.getString('thumbnail_htab_style');
+		this.thumbnailHTabH   = this.styleStringBundle.getString('thumbnail_htab_height');
+		this.thumbnailHTabCH  = this.styleStringBundle.getString('thumbnail_htab_contents_height');
+		this.thumbnailHTabS   = this.styleStringBundle.getString('thumbnail_htab_style');
 		this.thumbnailHTabHS  = this.styleStringBundle.getString('thumbnail_htab_height_selected');
 		this.thumbnailHTabCHS = this.styleStringBundle.getString('thumbnail_htab_contents_height_selected');
 		this.thumbnailHTabSS  = this.styleStringBundle.getString('thumbnail_htab_style_selected');
-		this.thumbnailVTabH  = this.styleStringBundle.getString('thumbnail_vtab_height');
-		this.thumbnailVTabCH = this.styleStringBundle.getString('thumbnail_vtab_contents_height');
-		this.thumbnailVTabS  = this.styleStringBundle.getString('thumbnail_vtab_style');
+		this.thumbnailVTabH   = this.styleStringBundle.getString('thumbnail_vtab_height');
+		this.thumbnailVTabCH  = this.styleStringBundle.getString('thumbnail_vtab_contents_height');
+		this.thumbnailVTabS   = this.styleStringBundle.getString('thumbnail_vtab_style');
 		this.thumbnailVTabHS  = this.styleStringBundle.getString('thumbnail_vtab_height_selected');
 		this.thumbnailVTabCHS = this.styleStringBundle.getString('thumbnail_vtab_contents_height_selected');
 		this.thumbnailVTabSS  = this.styleStringBundle.getString('thumbnail_vtab_style_selected');
@@ -80,11 +82,27 @@ var InformationalTabService = {
 		this.ObserverService.addObserver(this, 'em-action-requested', false);
 		this.ObserverService.addObserver(this, 'quit-application', false);
 
+
+		if ('PrintUtils' in window) {
+			eval('PrintUtils.printPreview = '+
+				PrintUtils.printPreview.toSource().replace(
+					'{',
+					'{ InformationalTabService.disableAllFeatures();'
+				)
+			);
+			eval('PrintUtils.exitPrintPreview = '+
+				PrintUtils.exitPrintPreview.toSource().replace(
+					'_content.focus();',
+					'_content.focus(); InformationalTabService.enableAllFeatures();'
+				)
+			);
+		}
+
 		this.initTabBrowser(gBrowser);
 
 		this.initialized = true;
 	},
-	 
+	
 	initTabBrowser : function(aTabBrowser) 
 	{
 		aTabBrowser.thumbnailUpdateCount = 0;
@@ -215,7 +233,7 @@ var InformationalTabService = {
 
 		this.removePrefListener(this);
 	},
-	 
+	
 	destroyTabBrowser : function(aTabBrowser) 
 	{
 		this.removePrefListener(aTabBrowser.__informationaltab__prefListener);
@@ -264,12 +282,21 @@ var InformationalTabService = {
 			dump(e+'\n');
 		}
 	},
-   
+  
+	disableAllFeatures : function() 
+	{
+		this.disabled = true;
+	},
+	enableAllFeatures : function()
+	{
+		this.disabled = false;
+	},
+ 	 
 /* thumbnail */ 
-	 
+	
 	updateThumbnail : function(aTab, aTabBrowser, aReason) 
 	{
-		if (aTab.updateThumbnailTimer) return;
+		if (this.disabled || aTab.updateThumbnailTimer) return;
 
 		aTabBrowser.thumbnailUpdateCount++;
 
@@ -386,7 +413,8 @@ var InformationalTabService = {
  
 	updateAllThumbnails : function(aTabBrowser, aReason) 
 	{
-		if (aTabBrowser.updateAllThumbnailsTimer ||
+		if (this.disabled ||
+			aTabBrowser.updateAllThumbnailsTimer ||
 			aTabBrowser.thumbnailUpdateCount) return;
 
 		aTabBrowser.updateAllThumbnailsTimer = window.setTimeout(this.updateAllThumbnailsNow, this.thumbnailUpdateDelay, aTabBrowser, aReason, this);
@@ -413,6 +441,8 @@ var InformationalTabService = {
  
 	repositionThumbnail : function(aTabBrowser) 
 	{
+		if (this.disabled) return;
+
 		var tabs = aTabBrowser.mTabContainer.childNodes;
 		var label;
 		var canvas;
@@ -440,6 +470,8 @@ var InformationalTabService = {
  
 	updateTabStyle : function(aTab, aSelected) 
 	{
+		if (this.disabled) return;
+
 		var canvasH = parseInt(aTab.__informationaltab__canvas.height);
 		var nodes = document.getAnonymousNodes(aTab);
 
@@ -488,7 +520,7 @@ var InformationalTabService = {
 	},
   
 /* Event Handling */ 
-	 
+	
 	handleEvent : function(aEvent) 
 	{
 		switch (aEvent.type)
@@ -502,6 +534,7 @@ var InformationalTabService = {
 				break;
 
 			case 'select':
+				if (this.disabled) return;
 				var tab = aEvent.originalTarget.selectedItem;
 				alert(tab.localName+'\n');
 				if (!this.isScrollable(tab.linkedBrowser.contentWindow))
@@ -509,6 +542,7 @@ var InformationalTabService = {
 				break;
 
 			case 'TabMove':
+				if (this.disabled) return;
 				var b = aEvent.originalTarget;
 				while (b.localName != 'tabbrowser')
 					b = b.parentNode;
@@ -586,16 +620,16 @@ var InformationalTabService = {
 				break;
 		}
 	},
-	 
+	
 	adjustTabstrip : function(aTabBrowser) 
 	{
 		aTabBrowser.mTabContainer.mTabClipWidth = this.getPref('browser.tabs.tabClipWidth');
 		aTabBrowser.mTabContainer.mTabMinWidth  = this.getPref('browser.tabs.tabMinWidth');
 		aTabBrowser.mTabContainer.adjustTabstrip();
 	},
- 	  
+   
 /* Pref Listener */ 
-	 
+	
 	domains : [ 
 		'extensions.informationaltab',
 		'browser.tabs'
