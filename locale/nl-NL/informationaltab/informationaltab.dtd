@@ -1,0 +1,44 @@
+<!ENTITY config.title        "Instellingen van de Informatie Tab">
+
+
+<!ENTITY config.tabs.thumbnail "Voorvertoning">
+
+<!ENTITY config.thumbnail.enabled "Toon voorvertoningen met hokjes in elke tab.">
+
+<!ENTITY config.thumbnail.position.caption "Toon voorvertoning op:">
+<!ENTITY config.thumbnail.position.label   "(Titel van de tab)">
+<!ENTITY config.thumbnail.position.0   "↑">
+<!ENTITY config.thumbnail.position.1   "↑">
+<!ENTITY config.thumbnail.position.2   "↑">
+
+<!ENTITY config.thumbnail.size_mode.caption  "De grootte van de voorvertoning">
+<!ENTITY config.thumbnail.size_mode.fixed    "Vaste grootte:">
+<!ENTITY config.thumbnail.max.before         "">
+<!ENTITY config.thumbnail.max.after          "pixels">
+<!ENTITY config.thumbnail.size_mode.flexible "Flexibele grootte:">
+<!ENTITY config.thumbnail.pow.before         "">
+<!ENTITY config.thumbnail.pow.after          "&#37; van de tab breedte">
+
+
+<!ENTITY config.tabs.progress "Voortgangs meter">
+
+<!ENTITY config.progress.mode.caption   "Toon de voortgangs meter in">
+<!ENTITY config.progress.mode.statusbar "de Statusbalk">
+<!ENTITY config.progress.mode.tab       "elke tab">
+<!ENTITY config.progress.mode.both      "bij de Statusbalk en elke tab">
+
+
+<!ENTITY config.tabs.unread "Ongelezen tabs">
+
+<!ENTITY config.unread.enabled "Benadruk ongelezen tabs">
+
+
+<!ENTITY config.tabs.closebutton "Sluitknop">
+
+<!ENTITY config.closebutton.mode.caption "Sluitknoppen op de tabs">
+<!ENTITY config.closebutton.mode.0   "Toon een sluitknop enkel op de actieve tab">
+<!ENTITY config.closebutton.mode.1   "Toon sluitknoppen op alle tabs (Standaard)">
+<!ENTITY config.closebutton.mode.2   "Toon geen enkel sluitknoppen">
+<!ENTITY config.closebutton.mode.3   "Toon een sluitknop enkel op het einde van de tabbalk (Firefox 1.5 stijl)">
+
+<!ENTITY config.closebutton.force_show "Toon sluitknoppen, zelfs als er geen plaats is voor de knoppen">
