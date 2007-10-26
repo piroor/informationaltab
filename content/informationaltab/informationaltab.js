@@ -313,7 +313,7 @@ var InformationalTabService = {
 			var win = b.contentWindow;
 			var w   = win.innerWidth;
 			var h   = win.innerHeight;
-			var aspectRatio = w / h;
+			var aspectRatio = aThis.getPref('extensions.informationaltab.thumbnail.fix_aspect_ratio') ? (1 / 0.75) : (w / h) ;
 
 			var size = aThis.thumbnailSizeMode == aThis.SIZE_MODE_FIXED ?
 						aThis.thumbnailMaxSize :
@@ -350,7 +350,10 @@ var InformationalTabService = {
 					ctx.clearRect(0, 0, canvasW, canvasH);
 					if (!isImage) {
 						ctx.save();
-						ctx.scale(canvasW/w, canvasW/w);
+						if (h * canvasW/w < canvasH)
+							ctx.scale(canvasH/h, canvasH/h);
+						else
+							ctx.scale(canvasW/w, canvasW/w);
 						ctx.drawWindow(win, 0/*win.scrollX*/, win.scrollY, w, h, aThis.thumbnailBG);
 						ctx.restore();
 					}
