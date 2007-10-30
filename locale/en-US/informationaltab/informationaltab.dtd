@@ -37,7 +37,7 @@
 
 <!ENTITY config.closebutton.mode.caption "Close buttons on tabs">
 <!ENTITY config.closebutton.mode.0   "Show a close button on the active tab only">
-<!ENTITY config.closebutton.mode.1   "Show close buttons on all tabs (defualt)">
+<!ENTITY config.closebutton.mode.1   "Show close buttons on all tabs (default)">
 <!ENTITY config.closebutton.mode.2   "Don’t show any close buttons">
 <!ENTITY config.closebutton.mode.3   "Show a single close button at the end of the tab bar (Firefox 1.5 style)">
 
