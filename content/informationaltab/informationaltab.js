@@ -107,40 +107,6 @@ var InformationalTabService = {
 	{
 		aTabBrowser.thumbnailUpdateCount = 0;
 
-		var addTabMethod = 'addTab';
-		var removeTabMethod = 'removeTab';
-		if (aTabBrowser.__tabextensions__addTab) {
-			addTabMethod = '__tabextensions__addTab';
-			removeTabMethod = '__tabextensions__removeTab';
-		}
-
-		aTabBrowser.__informationaltab__originalAddTab = aTabBrowser[addTabMethod];
-		aTabBrowser[addTabMethod] = function() {
-			var tab = this.__informationaltab__originalAddTab.apply(this, arguments);
-			try {
-				InformationalTabService.initTab(tab, this);
-				InformationalTabService.updateAllThumbnails(this, InformationalTabService.UPDATE_REFLOW);
-			}
-			catch(e) {
-			}
-			return tab;
-		};
-
-		aTabBrowser.__informationaltab__originalRemoveTab = aTabBrowser[removeTabMethod];
-		aTabBrowser[removeTabMethod] = function(aTab) {
-			InformationalTabService.destroyTab(aTab);
-			var retVal = this.__informationaltab__originalRemoveTab.apply(this, arguments);
-			try {
-				if (aTab.parentNode)
-					InformationalTabService.initTab(aTab, this);
-
-				InformationalTabService.updateAllThumbnails(this, InformationalTabService.UPDATE_REFLOW);
-			}
-			catch(e) {
-			}
-			return retVal;
-		};
-
 		var tabs = aTabBrowser.mTabContainer.childNodes;
 		for (var i = 0, maxi = tabs.length; i < maxi; i++)
 		{
@@ -157,10 +123,10 @@ var InformationalTabService = {
 
 		aTabBrowser.__informationaltab__eventListener = new InformationalTabBrowserEventListener(aTabBrowser);
 		window.addEventListener('resize', aTabBrowser.__informationaltab__eventListener, false);
-		aTabBrowser.addEventListener('TabMove', this, false);
+		aTabBrowser.addEventListener('TabOpen',  this, false);
+		aTabBrowser.addEventListener('TabClose', this, false);
+		aTabBrowser.addEventListener('TabMove',  this, false);
 
-		delete addTabMethod;
-		delete removeTabMethod;
 		delete i;
 		delete maxi;
 		delete tabs;
@@ -244,7 +210,9 @@ var InformationalTabService = {
 		delete aTabBrowser.__informationaltab__eventListener.mTabBrowser;
 		delete aTabBrowser.__informationaltab__eventListener;
 
-		aTabBrowser.removeEventListener('TabMove', this, false);
+		aTabBrowser.removeEventListener('TabOpen',  this, false);
+		aTabBrowser.removeEventListener('TabClose', this, false);
+		aTabBrowser.removeEventListener('TabMove',  this, false);
 
 		var tabs = aTabBrowser.mTabContainer.childNodes;
 		for (var i = 0, maxi = tabs.length; i < maxi; i++)
@@ -542,6 +510,18 @@ var InformationalTabService = {
 				alert(tab.localName+'\n');
 				if (!this.isScrollable(tab.linkedBrowser.contentWindow))
 					tab.removeAttribute('informationaltab-unread');
+				break;
+
+			case 'TabOpen':
+				this.initTab(aEvent.target, this);
+				this.updateAllThumbnails(aEvent.currentTarget, this.UPDATE_REFLOW);
+				break;
+
+			case 'TabClose':
+				this.destroyTab(aEvent.target);
+				window.setTimeout(function(aSelf, aBrowser) {
+					aSelf.updateAllThumbnails(aBrowser, aSelf.UPDATE_REFLOW);
+				}, 0, this, aEvent.currentTarget);
 				break;
 
 			case 'TabMove':
