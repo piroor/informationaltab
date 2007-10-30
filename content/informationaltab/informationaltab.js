@@ -513,12 +513,12 @@ var InformationalTabService = {
 				break;
 
 			case 'TabOpen':
-				this.initTab(aEvent.target, this);
+				this.initTab(aEvent.originalTarget, aEvent.currentTarget);
 				this.updateAllThumbnails(aEvent.currentTarget, this.UPDATE_REFLOW);
 				break;
 
 			case 'TabClose':
-				this.destroyTab(aEvent.target);
+				this.destroyTab(aEvent.originalTarget, aEvent.currentTarget);
 				window.setTimeout(function(aSelf, aBrowser) {
 					aSelf.updateAllThumbnails(aBrowser, aSelf.UPDATE_REFLOW);
 				}, 0, this, aEvent.currentTarget);
