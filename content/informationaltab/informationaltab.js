@@ -337,12 +337,12 @@ var InformationalTabService = {
 							if ((iW / iH) < 1) {
 								iW = iW * canvasH / iH;
 								x = Math.floor((canvasW - iW) / 2 );
-								iH = size;
+								iH = canvasH;
 							}
 							else {
 								iH = iH * canvasW / iW;
 								y = Math.floor((canvasH - iH) / 2 );
-								iW = size;
+								iW = canvasW;
 							}
 							ctx.drawImage(aImage, x, y, iW, iH);
 							ctx.restore();
