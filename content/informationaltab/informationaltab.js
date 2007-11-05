@@ -839,26 +839,47 @@ function InformationalTabProgressListener(aTab, aTabBrowser)
 	this.mTab = aTab;
 	this.mLabel = document.getAnonymousElementByAttribute(this.mTab, 'class', 'tab-text');
 	this.mTabBrowser = aTabBrowser;
+
+	// Tab Mix Plus
+	this.mProgress = document.getAnonymousElementByAttribute(this.mTab, 'class', 'tab-text-container');
+	if (this.mProgress)
+		this.mProgress = this.mProgress.getElementsByAttribute('class', 'tab-progress')[0];
+	else
+		this.mProgress = null;
+
 }
 InformationalTabProgressListener.prototype = {
 	mTab        : null,
 	mLabel      : null,
 	mTabBrowser : null,
+	mProgress   : null,
 	onProgressChange: function(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress)
 	{
 		if (aMaxTotalProgress < 1)
 			return;
 
-		if (InformationalTabService.progressMode == InformationalTabService.PROGRESS_STATUSBAR) {
-			this.mLabel.removeAttribute('informationaltab-progress');
-			return;
-		}
-
 		var percentage = parseInt((aCurTotalProgress * 100) / aMaxTotalProgress);
-		if (percentage > 0 && percentage < 100)
-			this.mLabel.setAttribute('informationaltab-progress', percentage);
-		else if (percentage <= 0 || percentage >= 100)
+
+		if (this.mProgress) { // Tab Mix Plus
+			this.updateProgress(this.mTab, 'tab-progress', percentage);
+			this.updateProgress(this.mProgress, 'value', percentage);
+dump(this.mTab.getAttribute('tab-progress')+'/'+this.mProgress.getAttribute('value')+'\n');
+		}
+		else if (InformationalTabService.progressMode == InformationalTabService.PROGRESS_STATUSBAR) {
 			this.mLabel.removeAttribute('informationaltab-progress');
+		}
+		else {
+			this.updateProgress(this.mLabel, 'informationaltab-progress', percentage);
+		}
+	},
+	updateProgress : function(aTarget, aAttr, aPercentage)
+	{
+		if (aPercentage > 0 && aPercentage < 100) {
+			aTarget.setAttribute(aAttr, aPercentage);
+		}
+		else if (aPercentage <= 0 || aPercentage >= 100) {
+			aTarget.removeAttribute(aAttr);
+		}
 	},
 	onStateChange : function(aWebProgress, aRequest, aStateFlags, aStatus)
 	{

@@ -17,7 +17,8 @@ xhtml|canvas.informationaltab-thumbnail {
 label.tab-text > stack > * > .tab-progress {
 	visibility: collapse;
 }
-label.tab-text[informationaltab-progress] > stack > * > .tab-progress {
+/* [tab-progress] is added by Tab Mix Plus */
+.tabbrowser-tab:not([tab-progress]) label.tab-text[informationaltab-progress] > stack > * > .tab-progress {
 	visibility: visible;
 }
 
