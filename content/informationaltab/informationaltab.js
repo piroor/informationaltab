@@ -102,7 +102,7 @@ var InformationalTabService = {
 
 		this.initialized = true;
 	},
-	
+	 
 	initTabBrowser : function(aTabBrowser) 
 	{
 		aTabBrowser.thumbnailUpdateCount = 0;
@@ -145,47 +145,11 @@ var InformationalTabService = {
 		aTab.__informationaltab__progressListener = listener;
 		aTab.__informationaltab__progressFilter   = filter;
 
-		this.insertCanvasToTab(aTab, aTabBrowser);
+		this.initThumbnail(aTab, aTabBrowser);
 
 		aTab.__informationaltab__eventListener = new InformationalTabEventListener(aTab, aTabBrowser);
 		aTab.linkedBrowser.addEventListener('scroll', aTab.__informationaltab__eventListener, false);
 		aTab.addEventListener('DOMAttrModified', aTab.__informationaltab__eventListener, false);
-	},
-	insertCanvasToTab : function(aTab, aTabBrowser)
-	{
-		var canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
-		canvas.setAttribute('class', 'informationaltab-thumbnail');
-		canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
-		canvas.style.display = 'none';
-
-		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
-		switch(this.getPref('extensions.informationaltab.thumbnail.position'))
-		{
-			case this.POSITION_BEFORE_FAVICON:
-				if (aTabBrowser.getAttribute('treestyletab-vertical') == 'true' &&
-					aTabBrowser.getAttribute('treestyletab-appearance-inverted') == 'true') {
-					var left = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-image-left');
-					if (left) left.appendChild(canvas);
-				}
-				else {
-					label.parentNode.insertBefore(canvas, label.parentNode.firstChild);
-				}
-				break;
-			case this.POSITION_BEFORE_LABEL:
-				if (aTabBrowser.getAttribute('treestyletab-vertical') == 'true' &&
-					aTabBrowser.getAttribute('treestyletab-appearance-inverted') == 'true') {
-					label.parentNode.insertBefore(canvas, label.parentNode.firstChild);
-				}
-				else {
-					label.parentNode.insertBefore(canvas, label);
-				}
-				break;
-			case this.POSITION_BEFORE_CLOSEBOX:
-				label.parentNode.appendChild(canvas);
-				break;
-		}
-		aTab.__informationaltab__canvas = canvas;
-		this.updateThumbnail(aTab, aTabBrowser, this.UPDATE_INIT);
 	},
   
 	destroy : function() 
@@ -259,9 +223,58 @@ var InformationalTabService = {
 	{
 		this.disabled = false;
 	},
- 	 
+  
 /* thumbnail */ 
-	
+	 
+	initThumbnail : function(aTab, aTabBrowser) 
+	{
+		var canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
+		canvas.setAttribute('class', 'informationaltab-thumbnail');
+		canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
+		canvas.style.display = 'none';
+
+		this.insertThumbnailTo(canvas, aTab, aTabBrowser, this.getPref('extensions.informationaltab.thumbnail.position'));
+
+		aTab.__informationaltab__canvas = canvas;
+		this.updateThumbnail(aTab, aTabBrowser, this.UPDATE_INIT);
+	},
+ 	
+	insertThumbnailTo : function(aCanvas, aTab, aTabBrowser, aPos) 
+	{
+		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container') || // Tab Mix Plus
+					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
+		switch(aPos)
+		{
+			case this.POSITION_BEFORE_FAVICON:
+				if (aTabBrowser.getAttribute('treestyletab-vertical') == 'true' &&
+					aTabBrowser.getAttribute('treestyletab-appearance-inverted') == 'true') {
+					var left = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-image-left');
+					if (left) left.appendChild(aCanvas);
+				}
+				else {
+					label.parentNode.insertBefore(aCanvas, label.parentNode.firstChild);
+				}
+				break;
+			case this.POSITION_BEFORE_LABEL:
+				if (aTabBrowser.getAttribute('treestyletab-vertical') == 'true' &&
+					aTabBrowser.getAttribute('treestyletab-appearance-inverted') == 'true') {
+					label.parentNode.insertBefore(aCanvas, label.parentNode.firstChild);
+				}
+				else {
+					label.parentNode.insertBefore(aCanvas, label);
+				}
+				break;
+			case this.POSITION_BEFORE_CLOSEBOX:
+				if (label.nextSibling) { // Tab Mix Plus
+					label.parentNode.insertBefore(aCanvas, label.nextSibling);
+				}
+				else {
+					label.parentNode.appendChild(aCanvas);
+				}
+				break;
+		}
+	},
+ 
 	updateThumbnail : function(aTab, aTabBrowser, aReason) 
 	{
 		if (this.disabled || aTab.updateThumbnailTimer) return;
@@ -421,20 +434,8 @@ var InformationalTabService = {
 		for (var i = 0, maxi = tabs.length; i < maxi; i++)
 		{
 			canvas = tabs[i].__informationaltab__canvas;
-			label  = document.getAnonymousElementByAttribute(tabs[i], 'class', 'tab-text');
 			canvas.parentNode.removeChild(canvas);
-			switch(pos)
-			{
-				case this.POSITION_BEFORE_FAVICON:
-					label.parentNode.insertBefore(canvas, label.parentNode.firstChild);
-					break;
-				case this.POSITION_BEFORE_LABEL:
-					label.parentNode.insertBefore(canvas, label);
-					break;
-				case this.POSITION_BEFORE_CLOSEBOX:
-					label.parentNode.appendChild(canvas);
-					break;
-			}
+			this.insertThumbnailTo(canvas, tabs[i], aTabBrowser, pos);
 			this.updateThumbnail(tabs[i], aTabBrowser, this.UPDATE_INIT);
 		}
 	},
