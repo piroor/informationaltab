@@ -863,7 +863,6 @@ InformationalTabProgressListener.prototype = {
 		if (this.mProgress) { // Tab Mix Plus
 			this.updateProgress(this.mTab, 'tab-progress', percentage);
 			this.updateProgress(this.mProgress, 'value', percentage);
-dump(this.mTab.getAttribute('tab-progress')+'/'+this.mProgress.getAttribute('value')+'\n');
 		}
 		else if (InformationalTabService.progressMode == InformationalTabService.PROGRESS_STATUSBAR) {
 			this.mLabel.removeAttribute('informationaltab-progress');
