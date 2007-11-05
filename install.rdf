@@ -15,6 +15,7 @@
 -->
     <em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
     <em:translator>Neglacio (nl-NL locale)</em:translator>
+    <em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
 
 
     <em:updateURL>http://piro.sakura.ne.jp/xul/update.rdf</em:updateURL>
@@ -40,6 +41,11 @@
       <RDF:Description em:locale="nl-NL"
                        em:name="Informational Tab"
                        em:description="Toont je een voorvertoning, een voortgangsmeter en vele anderen!"/>
+    </em:localized>
+    <em:localized>
+      <RDF:Description em:locale="it-IT"
+                       em:name="Informational Tab"
+                       em:description="Permette di aggiungere immagini d'anteprima, progressione di caricamento e altro su tutte le schede."/>
     </em:localized>
 
 

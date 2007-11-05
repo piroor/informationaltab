@@ -1,0 +1,44 @@
+<!ENTITY config.title        "Configurazione di Informational Tab">
+
+
+<!ENTITY config.tabs.thumbnail "Anteprima">
+
+<!ENTITY config.thumbnail.enabled "Mostra immagine d'anteprima su ogni scheda">
+
+<!ENTITY config.thumbnail.position.caption "Mostra anteprima alla sinistra del:">
+<!ENTITY config.thumbnail.position.label   "(Titolo della scheda)">
+<!ENTITY config.thumbnail.position.0   "↑">
+<!ENTITY config.thumbnail.position.1   "↑">
+<!ENTITY config.thumbnail.position.2   "↑">
+
+<!ENTITY config.thumbnail.size_mode.caption  "Dimensione immagine d'anteprima">
+<!ENTITY config.thumbnail.size_mode.fixed    "Dimensione fissa:">
+<!ENTITY config.thumbnail.max.before         "">
+<!ENTITY config.thumbnail.max.after          "pixel">
+<!ENTITY config.thumbnail.size_mode.flexible "Dimensione dinamica:">
+<!ENTITY config.thumbnail.pow.before         "">
+<!ENTITY config.thumbnail.pow.after          "&#37; della larghezza della scheda">
+
+
+<!ENTITY config.tabs.progress "Stato del caricamento">
+
+<!ENTITY config.progress.mode.caption   "Indica lo stato del caricamento attraverso una barra di progressione">
+<!ENTITY config.progress.mode.statusbar "nella barra di stato">
+<!ENTITY config.progress.mode.tab       "in ogni scheda">
+<!ENTITY config.progress.mode.both      "sia nella barra di stato che in ogni scheda">
+
+
+<!ENTITY config.tabs.unread "Stato non letto">
+
+<!ENTITY config.unread.enabled "Evidenzia schede non lette">
+
+
+<!ENTITY config.tabs.closebutton "Pulsante di chiusura">
+
+<!ENTITY config.closebutton.mode.caption "Pulsante di chiusura sulle schede">
+<!ENTITY config.closebutton.mode.0   "Mostra il pulsante solo sulla scheda attiva">
+<!ENTITY config.closebutton.mode.1   "Mostra il pulsante su tutte le schede (predefinito)">
+<!ENTITY config.closebutton.mode.2   "Non mostrare alcun pulsante di chiusura">
+<!ENTITY config.closebutton.mode.3   "Mostra un singolo pulsante di chiusura alla destra della barra delle schede (stile Firefox 1.5)">
+
+<!ENTITY config.closebutton.force_show "Mostra il pulsante di chiusura anche se le schede sono troppo piccole per visualizzarlo.">

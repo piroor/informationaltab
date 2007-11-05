@@ -6,5 +6,6 @@ locale	informationaltab	en-US	jar:chrome/informationaltab.jar!/locale/en-US/info
 locale	informationaltab	ja	jar:chrome/informationaltab.jar!/locale/ja/informationaltab/
 locale	informationaltab	hu-HU	jar:chrome/informationaltab.jar!/locale/hu-HU/informationaltab/
 locale	informationaltab	nl-NL	jar:chrome/informationaltab.jar!/locale/nl-NL/informationaltab/
+locale	informationaltab	it-IT	jar:chrome/informationaltab.jar!/locale/it-IT/informationaltab/
 
 skin	informationaltab	classic/1.0	jar:chrome/informationaltab.jar!/skin/classic/informationaltab/
