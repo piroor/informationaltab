@@ -20,6 +20,8 @@ var InformationalTabService = {
 	thumbnailUpdateDelay : 0,
 	thumbnailBG          : 'rgba(0,0,0,0.5)',
 
+	kCONTAINER : 'informationaltab-thumbnail-container',
+
 	progressMode  : 1,
 	PROGRESS_STATUSBAR : 0,
 	PROGRESS_TAB       : 1,
@@ -241,37 +243,48 @@ var InformationalTabService = {
  	
 	insertThumbnailTo : function(aCanvas, aTab, aTabBrowser, aPos) 
 	{
+		var container = document.createElement('hbox');
+		container.setAttribute('class', this.kCONTAINER);
+		container.appendChild(aCanvas);
+
+		var icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
 		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container') || // Tab Mix Plus
 					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
-		switch(aPos)
-		{
-			case this.POSITION_BEFORE_FAVICON:
-				if (aTabBrowser.getAttribute('treestyletab-vertical') == 'true' &&
-					aTabBrowser.getAttribute('treestyletab-appearance-inverted') == 'true') {
-					var left = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-image-left');
-					if (left) left.appendChild(aCanvas);
+
+		label.parentNode.appendChild(container);
+
+		var isTreeAvailable = 'TreeStyleTabService' in window;
+		if (isTreeAvailable)
+			TreeStyleTabService.initTabContents(aTab, aTabBrowser);
+
+		var nodes = label.parentNode.childNodes;;
+		if (isTreeAvailable &&
+			TreeStyleTabService.getTreePref('tabbar.position') == 'right' &&
+			TreeStyleTabService.getTreePref('tabbar.invertUI')) {
+			if (!isTreeAvailable) {
+				for (var i = 0, maxi = nodes.length; i < maxi; i++)
+				{
+					nodes[i].setAttribute('ordinal', (nodes.length - i + 1) * 10);
 				}
-				else {
-					label.parentNode.insertBefore(aCanvas, label.parentNode.firstChild);
+			}
+			container.setAttribute('ordinal',
+				(aPos == this.POSITION_BEFORE_FAVICON) ? parseInt(icon.getAttribute('ordinal')) + 5 :
+				(aPos == this.POSITION_BEFORE_LABEL) ? parseInt(label.getAttribute('ordinal')) + 5 :
+				1
+			);
+		}
+		else {
+			if (!isTreeAvailable) {
+				for (i = 0, maxi = nodes.length; i < maxi; i++)
+				{
+					nodes[i].setAttribute('ordinal', (i + 1) * 10);
 				}
-				break;
-			case this.POSITION_BEFORE_LABEL:
-				if (aTabBrowser.getAttribute('treestyletab-vertical') == 'true' &&
-					aTabBrowser.getAttribute('treestyletab-appearance-inverted') == 'true') {
-					label.parentNode.insertBefore(aCanvas, label.parentNode.firstChild);
-				}
-				else {
-					label.parentNode.insertBefore(aCanvas, label);
-				}
-				break;
-			case this.POSITION_BEFORE_CLOSEBOX:
-				if (label.nextSibling) { // Tab Mix Plus
-					label.parentNode.insertBefore(aCanvas, label.nextSibling);
-				}
-				else {
-					label.parentNode.appendChild(aCanvas);
-				}
-				break;
+			}
+			container.setAttribute('ordinal',
+				(aPos == this.POSITION_BEFORE_FAVICON) ? parseInt(icon.getAttribute('ordinal')) - 5 :
+				(aPos == this.POSITION_BEFORE_LABEL) ? parseInt(label.getAttribute('ordinal')) - 5 :
+				parseInt(label.getAttribute('ordinal')) + 100
+			);
 		}
 	},
  
@@ -434,6 +447,7 @@ var InformationalTabService = {
 		for (var i = 0, maxi = tabs.length; i < maxi; i++)
 		{
 			canvas = tabs[i].__informationaltab__canvas;
+			canvas.parentNode.parentNode.removeChild(canvas.parentNode);
 			canvas.parentNode.removeChild(canvas);
 			this.insertThumbnailTo(canvas, tabs[i], aTabBrowser, pos);
 			this.updateThumbnail(tabs[i], aTabBrowser, this.UPDATE_INIT);
@@ -993,6 +1007,9 @@ InformationalTabPrefListener.prototype = {
 					ITS.updateAllThumbnails(this.mTabBrowser, ITS.UPDATE_INIT);
 				break;
 
+			case 'extensions.treestyletab.tabbar.invertUI':
+				if (ITS.getPref('extensions.treestyletab.tabbar.position') != 'right')
+					return;
 			case 'extensions.informationaltab.thumbnail.position':
 			case 'extensions.treestyletab.tabbar.position':
 				ITS.repositionThumbnail(this.mTabBrowser);
