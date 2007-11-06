@@ -283,7 +283,7 @@ var InformationalTabService = {
 			container.setAttribute('ordinal',
 				(aPos == this.POSITION_BEFORE_FAVICON) ? parseInt(icon.getAttribute('ordinal')) - 5 :
 				(aPos == this.POSITION_BEFORE_LABEL) ? parseInt(label.getAttribute('ordinal')) - 5 :
-				parseInt(label.getAttribute('ordinal')) + 100
+				parseInt(label.getAttribute('ordinal')) + 5
 			);
 		}
 	},
