@@ -25,27 +25,32 @@
     <em:localized>
       <RDF:Description em:locale="en-US"
                        em:name="Informational Tab"
-                       em:description="Provides thumbnail, progress meter, or others to each tab."/>
+                       em:description="Provides thumbnail, progress meter, or others to each tab."
+                       em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"/>
     </em:localized>
     <em:localized>
       <RDF:Description em:locale="ja"
                        em:name="情報化タブ"
-                       em:description="タブの中にサムネイルや読み込み状況などを表示できるようにします"/>
+                       em:description="タブの中にサムネイルや読み込み状況などを表示できるようにします"
+                       em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html"/>
     </em:localized>
     <em:localized>
       <RDF:Description em:locale="hu-HU"
                        em:name="Informational Tab"
-                       em:description="Gyorsnézet és folyamatjelző megjelenítése a füleken."/>
+                       em:description="Gyorsnézet és folyamatjelző megjelenítése a füleken."
+                       em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"/>
     </em:localized>
     <em:localized>
       <RDF:Description em:locale="nl-NL"
                        em:name="Informational Tab"
-                       em:description="Toont je een voorvertoning, een voortgangsmeter en vele anderen!"/>
+                       em:description="Toont je een voorvertoning, een voortgangsmeter en vele anderen!"
+                       em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"/>
     </em:localized>
     <em:localized>
       <RDF:Description em:locale="it-IT"
                        em:name="Informational Tab"
-                       em:description="Permette di aggiungere immagini d'anteprima, progressione di caricamento e altro su tutte le schede."/>
+                       em:description="Permette di aggiungere immagini d'anteprima, progressione di caricamento e altro su tutte le schede."
+                       em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"/>
     </em:localized>
 
 
