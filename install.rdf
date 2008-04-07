@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="informationaltab@piro.sakura.ne.jp"
                    em:name="Informational Tab"
-                   em:version="0.2.2008030901"
+                   em:version="0.2.2008040701"
                    em:creator="SHIMODA Hiroshi"
                    em:description="Provides thumbnail, progress meter, or others to each tab."
                    em:homepageURL="http://piro.sakura.ne.jp/xul/informationaltab/"
@@ -59,7 +59,7 @@
       <!-- Firefox -->
       <RDF:Description em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                        em:minVersion="2.0"
-                       em:maxVersion="3.0b5pre" />
+                       em:maxVersion="3.0pre" />
     </em:targetApplication>
   </RDF:Description>
 </RDF:RDF>
