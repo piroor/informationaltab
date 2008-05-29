@@ -248,7 +248,8 @@ var InformationalTabService = {
 		container.appendChild(aCanvas);
 
 		var icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
-		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container') || // Tab Mix Plus
+		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-stack') || // Mac OS X
+					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container') || // Tab Mix Plus
 					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 
 		label.parentNode.appendChild(container);
@@ -257,7 +258,7 @@ var InformationalTabService = {
 		if (isTreeAvailable)
 			TreeStyleTabService.initTabContents(aTab, aTabBrowser);
 
-		var nodes = label.parentNode.childNodes;;
+		var nodes = label.parentNode.childNodes;
 		if (isTreeAvailable &&
 			TreeStyleTabService.getTreePref('tabbar.position') == 'right' &&
 			TreeStyleTabService.getTreePref('tabbar.invertUI')) {
