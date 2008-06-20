@@ -903,6 +903,7 @@ InformationalTabProgressListener.prototype = {
 			aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
 			) {
 			InformationalTabService.updateThumbnail(this.mTab, this.mTabBrowser, InformationalTabService.UPDATE_PAGELOAD);
+			this.mLabel.removeAttribute('informationaltab-progress');
 			if (
 				!this.mTab.linkedBrowser.currentURI ||
 				this.mTab.linkedBrowser.currentURI.spec == 'about:config' ||
