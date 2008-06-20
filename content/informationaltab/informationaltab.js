@@ -631,6 +631,7 @@ var InformationalTabService = {
 	
 	domains : [ 
 		'extensions.informationaltab',
+		'extensions.treestyletab',
 		'browser.tabs'
 	],
  
@@ -712,8 +713,7 @@ var InformationalTabService = {
 				}
 				else {
 					this.updatingTabWidthPrefs = true;
-					this.setPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabClipWidth'));
-					this.setPref('browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabMinWidth'));
+					this.overrideTabClipWidth(this.getPref('browser.tabs.tabMinWidth'));
 					this.updatingTabWidthPrefs = false;
 				}
 				this.adjustTabstrip(gBrowser);
@@ -725,8 +725,7 @@ var InformationalTabService = {
 					this.getPref('extensions.informationaltab.restoring_backup_prefs'))
 					return;
 				this.updatingTabWidthPrefs = true;
-				this.setPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabClipWidth'));
-				this.setPref('browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabMinWidth'));
+				this.overrideTabClipWidth(this.getPref('browser.tabs.tabMinWidth'));
 				this.updatingTabWidthPrefs = false;
 				this.adjustTabstrip(gBrowser);
 				break;
@@ -737,15 +736,50 @@ var InformationalTabService = {
 					this.getPref('extensions.informationaltab.restoring_backup_prefs'))
 					return;
 				this.updatingTabWidthPrefs = true;
-				this.setPref('browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabMinWidth'));
+				this.overrideTabClipWidth(this.getPref('browser.tabs.tabMinWidth'));
 				this.updatingTabWidthPrefs = false;
 				this.adjustTabstrip(gBrowser);
 				break;
 
+			case 'extensions.treestyletab.tabbar.position':
+			case 'extensions.treestyletab.tabbar.autoHide.mode':
+			case 'extensions.treestyletab.tabbar.width':
+			case 'extensions.treestyletab.tabbar.shrunkenWidth':
+				if (!('TreeStyleTabService' in window) ||
+					!this.getPref('extensions.informationaltab.close_buttons.force_show'))
+					return;
+				var pos = this.getPref('extensions.treestyletab.tabbar.position');
+				if (pos == 'left' || pos == 'right') {
+					var width = this.getPref('extensions.treestyletab.tabbar.width');
+					switch (this.getPref('extensions.treestyletab.tabbar.autoHide.mode'))
+					{
+						case TreeStyleTabService.kAUTOHIDE_MODE_DISABLED:
+							break;
+
+						case TreeStyleTabService.kAUTOHIDE_MODE_HIDE:
+							break;
+
+						default:
+						case TreeStyleTabService.kAUTOHIDE_MODE_SHRINK:
+							width = this.getPref('extensions.treestyletab.tabbar.shrunkenWidth');
+							break;
+					}
+					this.overrideTabClipWidth(width);
+				}
+				else {
+					this.overrideTabClipWidth(this.getPref('browser.tabs.tabMinWidth'));
+				}
+				break;
 
 			default:
 				break;
 		}
+	},
+	overrideTabClipWidth : function(aWidth)
+	{
+		if (!this.getPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth'))
+			this.setPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabClipWidth'));
+		this.setPref('browser.tabs.tabClipWidth', aWidth);
 	},
 	updatingTabCloseButtonPrefs : false,
 	updatingTabWidthPrefs : false,
