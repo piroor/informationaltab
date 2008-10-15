@@ -42,3 +42,8 @@
 <!ENTITY config.closebutton.mode.3   "Mostra un singolo pulsante di chiusura alla destra della barra delle schede (stile Firefox 1.5)">
 
 <!ENTITY config.closebutton.force_show "Mostra il pulsante di chiusura anche se le schede sono troppo piccole per visualizzarlo.">
+
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the last tab">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the last tab can be closed">
+<!ENTITY config.close_buttons.force_show.last_tab.2       "Show always (Firefox 3.0 style)">
+<!ENTITY config.close_buttons.force_show.last_tab.1       "Hide always (Firefox 3.1 style)">

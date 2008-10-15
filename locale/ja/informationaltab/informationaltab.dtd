@@ -42,3 +42,8 @@
 <!ENTITY config.closebutton.mode.3   "タブに表示せず、タブバー右端に表示（Firefox 1.5スタイル）">
 
 <!ENTITY config.closebutton.force_show "タブの幅が小さい時でも常に全てのタブに閉じるボタンを表示する">
+
+<!ENTITY config.close_buttons.force_show.last_tab.caption "最後のタブの「閉じる」ボタン">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "最後のタブを閉じられる場合のみ表示">
+<!ENTITY config.close_buttons.force_show.last_tab.2       "常に表示（Firefox 3.0スタイル）">
+<!ENTITY config.close_buttons.force_show.last_tab.1       "常に隠す（Firefox 3.1スタイル）">

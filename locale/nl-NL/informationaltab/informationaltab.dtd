@@ -42,3 +42,8 @@
 <!ENTITY config.closebutton.mode.3   "Toon een sluitknop enkel op het einde van de tabbalk (Firefox 1.5 stijl)">
 
 <!ENTITY config.closebutton.force_show "Toon sluitknoppen, zelfs als er geen plaats is voor de knoppen">
+
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the last tab">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the last tab can be closed">
+<!ENTITY config.close_buttons.force_show.last_tab.2       "Show always (Firefox 3.0 style)">
+<!ENTITY config.close_buttons.force_show.last_tab.1       "Hide always (Firefox 3.1 style)">

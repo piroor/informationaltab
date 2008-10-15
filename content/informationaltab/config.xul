@@ -132,6 +132,9 @@
 		<preference id="extensions.informationaltab.close_buttons.force_show"
 			name="extensions.informationaltab.close_buttons.force_show"
 			type="bool"/>
+		<preference id="extensions.informationaltab.close_buttons.force_show.last_tab"
+			name="extensions.informationaltab.close_buttons.force_show.last_tab"
+			type="int"/>
 	</preferences>
 	<groupbox>
 		<caption label="&config.closebutton.mode.caption;"/>
@@ -149,6 +152,18 @@
 				</hbox>
 				<radio value="3" label="&config.closebutton.mode.3;"/>
 				<radio value="2" label="&config.closebutton.mode.2;"/>
+			</radiogroup>
+		</vbox>
+	</groupbox>
+	<groupbox>
+		<caption label="&config.close_buttons.force_show.last_tab.caption;"/>
+		<vbox>
+			<radiogroup id="extensions.informationaltab.close_buttons.force_show.last_tab-radio"
+				preference="extensions.informationaltab.close_buttons.force_show.last_tab"
+				orient="vertical">
+				<radio value="0" label="&config.close_buttons.force_show.last_tab.0;"/>
+				<radio value="2" label="&config.close_buttons.force_show.last_tab.2;"/>
+				<radio value="1" label="&config.close_buttons.force_show.last_tab.1;"/>
 			</radiogroup>
 		</vbox>
 	</groupbox>

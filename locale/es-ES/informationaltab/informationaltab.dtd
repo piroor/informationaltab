@@ -42,3 +42,8 @@
 <!ENTITY config.closebutton.mode.3   "Mostrar sólo un botón de cerrar al final de la barra de pestañas (Estilo Firefox 1.5)">
 
 <!ENTITY config.closebutton.force_show "Mostrar los botones de cerrado incluso sí hay muchas pestañas como para mostrar los botones.">
+
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the last tab">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the last tab can be closed">
+<!ENTITY config.close_buttons.force_show.last_tab.2       "Show always (Firefox 3.0 style)">
+<!ENTITY config.close_buttons.force_show.last_tab.1       "Hide always (Firefox 3.1 style)">
