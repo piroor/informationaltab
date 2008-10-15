@@ -8,3 +8,8 @@ tabs.tabbrowser-tabs label.tab-text {
 #statusbar-progresspanel[informationaltab-hidden="true"] {
 	visibility: collapse !important;
 }
+
+:root[informationaltab-show-last-tab-close-button="true"] .tabbrowser-tabs:not([closebuttons="noclose"]):not([closebuttons="closeatend"]) > .tabbrowser-tab[selected="true"]:only-child > .tab-close-button,
+:root[informationaltab-show-last-tab-close-button="true"] .tabbrowser-tabs[closebuttons="alltabs"] > .tabbrowser-tab:only-child > .tab-close-button {
+	display: -moz-box;
+}

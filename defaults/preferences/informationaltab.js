@@ -17,6 +17,8 @@ pref("extensions.informationaltab.unread.enabled", true);
 pref("extensions.informationaltab.backup.browser.tabs.closeButtons", -1);
 pref("extensions.informationaltab.backup.browser.tabs.tabClipWidth", -1);
 pref("extensions.informationaltab.close_buttons.force_show", false);
+// 0 = auto, 1 = always hide, 2 = always show
+pref("extensions.informationaltab.close_buttons.force_show.last_tab", 0);
 
 
 pref("extensions.informationaltab.restoring_backup_prefs", false);

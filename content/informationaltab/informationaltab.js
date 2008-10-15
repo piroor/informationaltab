@@ -79,6 +79,7 @@ var InformationalTabService = {
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.update_delay');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.mode');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.unread.enabled');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.close_buttons.force_show.last_tab');
 		this.observe(null, 'nsPref:changed', 'browser.tabs.tabClipWidth');
 
 		this.ObserverService.addObserver(this, 'em-action-requested', false);
@@ -717,6 +718,16 @@ var InformationalTabService = {
 					this.updatingTabWidthPrefs = false;
 				}
 				this.adjustTabstrip(gBrowser);
+				break;
+
+			case 'extensions.informationaltab.close_buttons.force_show.last_tab':
+			case 'browser.tabs.closeWindowWithLastTab':
+				var mode = this.getPref('extensions.informationaltab.close_buttons.force_show.last_tab');
+				var closable = this.getPref('browser.tabs.closeWindowWithLastTab');
+				if (mode == 2 || (mode == 0 && closable))
+					document.documentElement.setAttribute('informationaltab-show-last-tab-close-button', true);
+				else
+					document.documentElement.removeAttribute('informationaltab-show-last-tab-close-button');
 				break;
 
 			case 'browser.tabs.tabClipWidth':
