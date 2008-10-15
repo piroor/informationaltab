@@ -723,7 +723,7 @@ var InformationalTabService = {
 			case 'extensions.informationaltab.close_buttons.force_show.last_tab':
 			case 'browser.tabs.closeWindowWithLastTab':
 				var mode = this.getPref('extensions.informationaltab.close_buttons.force_show.last_tab');
-				var closable = this.getPref('browser.tabs.closeWindowWithLastTab');
+				var closable = !this.getPref('browser.tabs.closeWindowWithLastTab');
 				if (mode == 2 || (mode == 0 && closable))
 					document.documentElement.setAttribute('informationaltab-show-last-tab-close-button', true);
 				else
