@@ -524,8 +524,7 @@ var InformationalTabService = {
 			case 'select':
 				if (this.disabled) return;
 				var tab = aEvent.originalTarget.selectedItem;
-				alert(tab.localName+'\n');
-				if (!this.isScrollable(tab.linkedBrowser.contentWindow))
+				if (this.isCompletelyShown(tab))
 					tab.removeAttribute('informationaltab-unread');
 				break;
 
@@ -552,6 +551,14 @@ var InformationalTabService = {
 		}
 	},
 	
+	isCompletelyShown : function(aTab) 
+	{
+		return (
+			!this.isScrollable(aTab.linkedBrowser.contentWindow) ||
+			aTab.linkedBrowser.contentDocument.contentType.indexOf('image/') == 0
+		);
+	},
+ 
 	isScrollable : function(aFrame) 
 	{
 		if (!aFrame) return false;
@@ -954,7 +961,7 @@ InformationalTabProgressListener.prototype = {
 				this.mTab.linkedBrowser.currentURI.spec == 'about:config' ||
 				(
 					(this.mTab.getAttribute('selected') == 'true') &&
-					!InformationalTabService.isScrollable(this.mTab.linkedBrowser.contentWindow)
+					InformationalTabService.isCompletelyShown(this.mTab)
 				)
 				)
 				this.mTab.removeAttribute('informationaltab-unread');
