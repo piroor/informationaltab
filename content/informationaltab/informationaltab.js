@@ -126,6 +126,7 @@ var InformationalTabService = {
 
 		aTabBrowser.__informationaltab__eventListener = new InformationalTabBrowserEventListener(aTabBrowser);
 		window.addEventListener('resize', aTabBrowser.__informationaltab__eventListener, false);
+		aTabBrowser.mTabContainer.addEventListener('select', this, false);
 		aTabBrowser.addEventListener('TabOpen',  this, false);
 		aTabBrowser.addEventListener('TabClose', this, false);
 		aTabBrowser.addEventListener('TabMove',  this, false);
@@ -177,6 +178,7 @@ var InformationalTabService = {
 		delete aTabBrowser.__informationaltab__eventListener.mTabBrowser;
 		delete aTabBrowser.__informationaltab__eventListener;
 
+		aTabBrowser.mTabContainer.removeEventListener('select', this, false);
 		aTabBrowser.removeEventListener('TabOpen',  this, false);
 		aTabBrowser.removeEventListener('TabClose', this, false);
 		aTabBrowser.removeEventListener('TabMove',  this, false);
