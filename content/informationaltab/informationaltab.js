@@ -122,14 +122,8 @@ var InformationalTabService = {
 
 		var listener = new InformationalTabPrefListener(aTabBrowser);
 		aTabBrowser.__informationaltab__prefListener = listener;
-		this.addPrefListener(listener);
-		listener.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.enabled');
-		listener.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.size_mode');
-		listener.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.max');
-		listener.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.pow');
 
 		aTabBrowser.__informationaltab__eventListener = new InformationalTabBrowserEventListener(aTabBrowser);
-		window.addEventListener('resize', aTabBrowser.__informationaltab__eventListener, false);
 		aTabBrowser.addEventListener('TabSelect', this, false);
 		aTabBrowser.addEventListener('TabOpen',  this, false);
 		aTabBrowser.addEventListener('TabClose', this, false);
@@ -146,7 +140,9 @@ var InformationalTabService = {
 
 		aTab.__informationaltab__parentTabBrowser = aTabBrowser;
 
-		var filter = Components.classes['@mozilla.org/appshell/component/browser-status-filter;1'].createInstance(Components.interfaces.nsIWebProgress);
+		var filter = Components
+				.classes['@mozilla.org/appshell/component/browser-status-filter;1']
+				.createInstance(Components.interfaces.nsIWebProgress);
 		var listener = new InformationalTabProgressListener(aTab, aTabBrowser);
 		filter.addProgressListener(listener, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
 		aTab.linkedBrowser.webProgress.addProgressListener(filter, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
@@ -156,9 +152,6 @@ var InformationalTabService = {
 		this.initThumbnail(aTab, aTabBrowser);
 
 		aTab.__informationaltab__eventListener = new InformationalTabEventListener(aTab, aTabBrowser);
-		aTab.linkedBrowser.addEventListener('scroll', aTab.__informationaltab__eventListener, false);
-//		aTab.linkedBrowser.addEventListener('MozAfterPaint', aTab.__informationaltab__eventListener, false);
-		aTab.addEventListener('DOMAttrModified', aTab.__informationaltab__eventListener, false);
 	},
   
 	destroy : function() 
@@ -175,12 +168,10 @@ var InformationalTabService = {
 	
 	destroyTabBrowser : function(aTabBrowser) 
 	{
-		this.removePrefListener(aTabBrowser.__informationaltab__prefListener);
-		delete aTabBrowser.__informationaltab__prefListener.mTabBrowser;
+		aTabBrowser.__informationaltab__prefListener.destroy();
 		delete aTabBrowser.__informationaltab__prefListener;
 
-		window.removeEventListener('resize', aTabBrowser.__informationaltab__eventListener, false);
-		delete aTabBrowser.__informationaltab__eventListener.mTabBrowser;
+		aTabBrowser.__informationaltab__eventListener.destroy();
 		delete aTabBrowser.__informationaltab__eventListener;
 
 		aTabBrowser.removeEventListener('TabSelect', this, false);
@@ -214,11 +205,7 @@ var InformationalTabService = {
 			delete aTab.__informationaltab__progressFilter;
 			delete aTab.__informationaltab__progressListener;
 
-			aTab.linkedBrowser.removeEventListener('scroll', aTab.__informationaltab__eventListener, false);
-//			aTab.linkedBrowser.removeEventListener('MozAfterPaint', aTab.__informationaltab__eventListener, false);
-			aTab.removeEventListener('DOMAttrModified', aTab.__informationaltab__eventListener, false);
-			delete aTab.__informationaltab__eventListener.mTab;
-			delete aTab.__informationaltab__eventListener.mTabBrowser;
+			aTab.__informationaltab__eventListener.destroy();
 			delete aTab.__informationaltab__eventListener;
 		}
 		catch(e) {
@@ -1021,12 +1008,34 @@ InformationalTabProgressListener.prototype = {
  
 function InformationalTabEventListener(aTab, aTabBrowser) 
 {
-	this.mTab = aTab;
-	this.mTabBrowser = aTabBrowser;
+	this.init(aTab, aTabBrowser);
 }
 InformationalTabEventListener.prototype = {
 	mTab : null,
 	mTabBrowser : null,
+	init : function(aTab, aTabBrowser)
+	{
+		this.mTab = aTab;
+		this.mTabBrowser = aTabBrowser;
+
+		this.mTab.linkedBrowser.addEventListener('scroll', this, false);
+		this.mTab.addEventListener('DOMAttrModified', this, false);
+		InformationalTabService.addPrefListener(this);
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.animation');
+	},
+	destroy : function()
+	{
+		if (this.watchingRedrawEvent) {
+			this.mTab.linkedBrowser.removeEventListener('MozAfterPaint', this, false);
+		}
+		this.mTab.linkedBrowser.removeEventListener('scroll', this, false);
+		this.mTab.removeEventListener('DOMAttrModified', this, false);
+
+		InformationalTabService.removePrefListener(this);
+
+		delete this.mTab;
+		delete this.mTabBrowser;
+	},
 	handleEvent: function(aEvent)
 	{
 		const ITS = InformationalTabService;
@@ -1054,15 +1063,53 @@ InformationalTabEventListener.prototype = {
 				ITS.updateThumbnail(this.mTab, this.mTabBrowser, ITS.UPDATE_REPAINT);
 				break;
 		}
+	},
+	watchingRedrawEvent : false,
+	domains : [
+		'extensions.informationaltab.thumbnail.animation'
+	],
+ 	observe : function(aSubject, aTopic, aPrefName)
+	{
+		if (aTopic != 'nsPref:changed') return;
+		const ITS = InformationalTabService;
+
+		var value = ITS.getPref(aPrefName);
+		switch (aPrefName)
+		{
+			case 'extensions.informationaltab.thumbnail.animation':
+				if (this.watchingRedrawEvent != value) {
+					if (value) {
+						this.mTab.linkedBrowser.addEventListener('MozAfterPaint', this, false);
+					}
+					else {
+						this.mTab.linkedBrowser.removeEventListener('MozAfterPaint', this, false);
+					}
+				}
+				this.watchingRedrawEvent = value;
+				break;
+
+			default:
+				break;
+		}
 	}
 };
  
 function InformationalTabBrowserEventListener(aTabBrowser) 
 {
-	this.mTabBrowser = aTabBrowser;
+	this.init(aTabBrowser);
 }
 InformationalTabBrowserEventListener.prototype = {
 	mTabBrowser : null,
+	init : function(aTabBrowser)
+	{
+		this.mTabBrowser = aTabBrowser;
+		window.addEventListener('resize', this, false);
+	},
+	destroy : function()
+	{
+		window.removeEventListener('resize', this, false);
+		delete this.mTabBrowser;
+	},
 	handleEvent: function(aEvent)
 	{
 		const ITS = InformationalTabService;
@@ -1077,10 +1124,24 @@ InformationalTabBrowserEventListener.prototype = {
  
 function InformationalTabPrefListener(aTabBrowser) 
 {
-	this.mTabBrowser = aTabBrowser;
+	this.init(aTabBrowser);
 }
 InformationalTabPrefListener.prototype = {
 	mTabBrowser : null,
+	init : function(aTabBrowser)
+	{
+		this.mTabBrowser = aTabBrowser;
+		InformationalTabService.addPrefListener(this);
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.enabled');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.size_mode');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.max');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.pow');
+	},
+	destroy : function()
+	{
+		InformationalTabService.removePrefListener(this);
+		delete this.mTabBrowser;
+	},
 	domains : [
 		'extensions.informationaltab',
 		'extensions.treestyletab'

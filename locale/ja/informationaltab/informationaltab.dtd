@@ -4,6 +4,7 @@
 <!ENTITY config.tabs.thumbnail "プレビュー">
 
 <!ENTITY config.thumbnail.enabled "タブのプレビューを縮小表示する">
+<!ENTITY config.thumbnail.animation "アニメーションに合わせてプレビューを更新する">
 
 <!ENTITY config.thumbnail.position.caption "プレビューの表示位置">
 <!ENTITY config.thumbnail.position.label   "(タブのタイトル)">

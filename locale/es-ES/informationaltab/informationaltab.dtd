@@ -4,6 +4,7 @@
 <!ENTITY config.tabs.thumbnail "Vista previa">
 
 <!ENTITY config.thumbnail.enabled "Mostrar miniaturas en cada pestaña">
+<!ENTITY config.thumbnail.animation "Repaint thumbnail in real time for animations">
 
 <!ENTITY config.thumbnail.position.caption "Mostrar vista previa en">
 <!ENTITY config.thumbnail.position.label   "(Título de la pestaña)">

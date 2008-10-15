@@ -30,11 +30,20 @@
 		<preference id="extensions.informationaltab.thumbnail.pow"
 			name="extensions.informationaltab.thumbnail.pow"
 			type="int"/>
+		<preference id="extensions.informationaltab.thumbnail.animation"
+			name="extensions.informationaltab.thumbnail.animation"
+			type="bool"/>
 	</preferences>
 
 	<checkbox id="extensions.informationaltab.thumbnail.enabled-check"
 		preference="extensions.informationaltab.thumbnail.enabled"
 		label="&config.thumbnail.enabled;"/>
+	<hbox align="center" id="animationCheck">
+		<spacer style="width: 1em;"/>
+		<checkbox id="extensions.informationaltab.thumbnail.animation-check"
+			preference="extensions.informationaltab.thumbnail.animation"
+			label="&config.thumbnail.animation;"/>
+	</hbox>
 
 	<groupbox>
 		<caption label="&config.thumbnail.position.caption;"/>

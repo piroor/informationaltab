@@ -4,6 +4,7 @@
 <!ENTITY config.tabs.thumbnail "Voorvertoning">
 
 <!ENTITY config.thumbnail.enabled "Toon voorvertoningen met hokjes in elke tab.">
+<!ENTITY config.thumbnail.animation "Repaint thumbnail in real time for animations">
 
 <!ENTITY config.thumbnail.position.caption "Toon voorvertoning op:">
 <!ENTITY config.thumbnail.position.label   "(Titel van de tab)">

@@ -1,5 +1,6 @@
 function init()
 {
+	var animation = document.getElementById('animationCheck');
 	var group = document.getElementById('lastTabCloseBoxGroup');
 
 	const XULAppInfo = Components.classes['@mozilla.org/xre/app-info;1']
@@ -18,9 +19,11 @@ function init()
 			version[2] >= 1
 		)
 		) {
+		animation.removeAttribute('hidden');
 		group.removeAttribute('hidden');
 	}
 	else {
+		animation.setAttribute('hidden', true);
 		group.setAttribute('hidden', true);
 	}
 
