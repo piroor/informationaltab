@@ -994,7 +994,8 @@ InformationalTabEventListener.prototype = {
 		switch (aEvent.type)
 		{
 			case 'scroll':
-				if (aEvent.originalTarget.toString().indexOf('Document') < 0)
+				if (aEvent.originalTarget.toString().indexOf('Document') < 0 ||
+					!this.mTab.selected)
 					return;
 				this.mTab.removeAttribute('informationaltab-unread');
 				ITS.updateThumbnail(this.mTab, this.mTabBrowser, ITS.UPDATE_SCROLL);
