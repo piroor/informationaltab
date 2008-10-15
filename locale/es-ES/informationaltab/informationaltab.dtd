@@ -47,3 +47,4 @@
 <!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the last tab can be closed">
 <!ENTITY config.close_buttons.force_show.last_tab.2       "Show always (Firefox 3.0 style)">
 <!ENTITY config.close_buttons.force_show.last_tab.1       "Hide always (Firefox 3.1 style)">
+<!ENTITY config.closeWindowWithLastTab "Allow to close the last tab">
