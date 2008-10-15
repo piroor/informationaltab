@@ -12,6 +12,8 @@ pref("extensions.informationaltab.thumbnail.fix_aspect_ratio", true);
 pref("extensions.informationaltab.progress.mode", 1);
 
 pref("extensions.informationaltab.unread.enabled", true);
+// 0 = just selected, 1 = scrolled
+pref("extensions.informationaltab.unread.readMethod", 1);
 
 
 pref("extensions.informationaltab.backup.browser.tabs.closeButtons", -1);

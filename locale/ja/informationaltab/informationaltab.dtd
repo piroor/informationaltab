@@ -32,6 +32,10 @@
 
 <!ENTITY config.unread.enabled "未読のタブの表示を変える">
 
+<!ENTITY config.unread.readMethod.caption "タブを既読にするタイミング">
+<!ENTITY config.unread.readMethod.0       "タブを選択した時">
+<!ENTITY config.unread.readMethod.1       "タブの内容をスクロールした時">
+
 
 <!ENTITY config.tabs.closebutton "閉じるボタン">
 

@@ -32,6 +32,10 @@
 
 <!ENTITY config.unread.enabled "Emphasise unread tabs">
 
+<!ENTITY config.unread.readMethod.caption "Make tabs &quot;read&quot; when">
+<!ENTITY config.unread.readMethod.0       "Just the tab is selected">
+<!ENTITY config.unread.readMethod.1       "Tab contents are scrolled">
+
 
 <!ENTITY config.tabs.closebutton "Close button">
 

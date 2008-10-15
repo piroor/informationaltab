@@ -118,10 +118,24 @@
 		<preference id="extensions.informationaltab.unread.enabled"
 			name="extensions.informationaltab.unread.enabled"
 			type="bool"/>
+		<preference id="extensions.informationaltab.unread.readMethod"
+			name="extensions.informationaltab.unread.readMethod"
+			type="int"/>
 	</preferences>
 	<checkbox id="extensions.informationaltab.unread.enabled-check"
 		preference="extensions.informationaltab.unread.enabled"
 		label="&config.unread.enabled;"/>
+	<groupbox>
+		<caption label="&config.unread.readMethod.caption;"/>
+		<vbox>
+			<radiogroup id="extensions.informationaltab.unread.readMethod-radiogroup"
+				preference="extensions.informationaltab.unread.readMethod"
+				orient="vertical">
+				<radio value="1" label="&config.unread.readMethod.1;"/>
+				<radio value="0" label="&config.unread.readMethod.0;"/>
+			</radiogroup>
+		</vbox>
+	</groupbox>
 </prefpane>
 
 <prefpane id="prefpane-closebutton" label="&config.tabs.closebutton;">

@@ -27,11 +27,14 @@ var InformationalTabService = {
 	PROGRESS_TAB       : 1,
 	PROGRESS_BOTH      : 2,
 
-	UPDATE_INIT     : 0,
-	UPDATE_PAGELOAD : 1,
-	UPDATE_RESIZE   : 2,
-	UPDATE_SCROLL   : 3,
-	UPDATE_REFLOW   : 4,
+	UPDATE_INIT     : 1,
+	UPDATE_PAGELOAD : 2,
+	UPDATE_RESIZE   : 4,
+	UPDATE_SCROLL   : 8,
+	UPDATE_REFLOW   : 16,
+	UPDATE_REPAINT  : 32,
+
+	readMethod : 0,
 	 
 /* Utilities */ 
 	
@@ -79,6 +82,7 @@ var InformationalTabService = {
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.update_delay');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.mode');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.unread.enabled');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.unread.readMethod');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.close_buttons.force_show.last_tab');
 		this.observe(null, 'nsPref:changed', 'browser.tabs.tabClipWidth');
 
@@ -126,7 +130,7 @@ var InformationalTabService = {
 
 		aTabBrowser.__informationaltab__eventListener = new InformationalTabBrowserEventListener(aTabBrowser);
 		window.addEventListener('resize', aTabBrowser.__informationaltab__eventListener, false);
-		aTabBrowser.mTabContainer.addEventListener('select', this, false);
+		aTabBrowser.addEventListener('TabSelect', this, false);
 		aTabBrowser.addEventListener('TabOpen',  this, false);
 		aTabBrowser.addEventListener('TabClose', this, false);
 		aTabBrowser.addEventListener('TabMove',  this, false);
@@ -153,6 +157,7 @@ var InformationalTabService = {
 
 		aTab.__informationaltab__eventListener = new InformationalTabEventListener(aTab, aTabBrowser);
 		aTab.linkedBrowser.addEventListener('scroll', aTab.__informationaltab__eventListener, false);
+//		aTab.linkedBrowser.addEventListener('MozAfterPaint', aTab.__informationaltab__eventListener, false);
 		aTab.addEventListener('DOMAttrModified', aTab.__informationaltab__eventListener, false);
 	},
   
@@ -178,7 +183,7 @@ var InformationalTabService = {
 		delete aTabBrowser.__informationaltab__eventListener.mTabBrowser;
 		delete aTabBrowser.__informationaltab__eventListener;
 
-		aTabBrowser.mTabContainer.removeEventListener('select', this, false);
+		aTabBrowser.removeEventListener('TabSelect', this, false);
 		aTabBrowser.removeEventListener('TabOpen',  this, false);
 		aTabBrowser.removeEventListener('TabClose', this, false);
 		aTabBrowser.removeEventListener('TabMove',  this, false);
@@ -210,6 +215,7 @@ var InformationalTabService = {
 			delete aTab.__informationaltab__progressListener;
 
 			aTab.linkedBrowser.removeEventListener('scroll', aTab.__informationaltab__eventListener, false);
+//			aTab.linkedBrowser.removeEventListener('MozAfterPaint', aTab.__informationaltab__eventListener, false);
 			aTab.removeEventListener('DOMAttrModified', aTab.__informationaltab__eventListener, false);
 			delete aTab.__informationaltab__eventListener.mTab;
 			delete aTab.__informationaltab__eventListener.mTabBrowser;
@@ -294,29 +300,46 @@ var InformationalTabService = {
  
 	updateThumbnail : function(aTab, aTabBrowser, aReason) 
 	{
+		if (!('__informationaltab__lastReason' in aTab)) {
+			aTab,__informationaltab__lastReason = 0;
+		}
+		if (aReason && !(aTab.__informationaltab__lastReason & aReason)) {
+			aTab.__informationaltab__lastReason |= aReason;
+		}
+
 		if (this.disabled || aTab.updateThumbnailTimer) return;
 
 		aTabBrowser.thumbnailUpdateCount++;
 
-		aTab.updateThumbnailTimer = window.setTimeout(this.updateThumbnailNow, this.thumbnailUpdateDelay, aTab, aTabBrowser, aReason, this);
+		aTab.updateThumbnailTimer = window.setTimeout(function(aSelf, aTab, aTabBrowser) {
+			aSelf.updateThumbnailNow(aTab, aTabBrowser);
+		}, this.thumbnailUpdateDelay, this, aTab, aTabBrowser);
 	},
-	updateThumbnailNow : function(aTab, aTabBrowser, aReason, aThis, aImage)
+	updateThumbnailNow : function(aTab, aTabBrowser, aReason, aImage)
 	{
-		if (!aThis) aThis = this;
+		if (!aReason) {
+			aReason = aTab.__informationaltab__lastReason;
+			aTab.__informationaltab__lastReason = 0;
+		}
+
+		if (aTab.updateThumbnailTimer) {
+			window.clearTimeout(aTab.updateThumbnailTimer);
+			aTab.updateThumbnailTimer = null;
+		}
 
 		var canvas = aTab.__informationaltab__canvas;
 
-		if (aThis.thumbnailEnabled) {
+		if (this.thumbnailEnabled) {
 			var b   = aTab.linkedBrowser;
 			var win = b.contentWindow;
 			var w   = win.innerWidth;
 			var h   = win.innerHeight;
-			var aspectRatio = aThis.getPref('extensions.informationaltab.thumbnail.fix_aspect_ratio') ? (1 / 0.75) : (w / h) ;
+			var aspectRatio = this.getPref('extensions.informationaltab.thumbnail.fix_aspect_ratio') ? (1 / 0.75) : (w / h) ;
 
-			var size = aThis.thumbnailSizeMode == aThis.SIZE_MODE_FIXED ?
-						aThis.thumbnailMaxSize :
-						aTab.boxObject.width * aThis.thumbnailMaxSizePow / 100 ;
-			size = Math.max(size, aThis.thumbnailMinSize);
+			var size = this.thumbnailSizeMode == this.SIZE_MODE_FIXED ?
+						this.thumbnailMaxSize :
+						aTab.boxObject.width * this.thumbnailMaxSizePow / 100 ;
+			size = Math.max(size, this.thumbnailMinSize);
 			var canvasW = Math.floor((aspectRatio < 1) ? (size * aspectRatio) : size );
 			var canvasH = Math.floor((aspectRatio > 1) ? (size / aspectRatio) : size );
 
@@ -324,14 +347,14 @@ var InformationalTabService = {
 
 			if (
 				(
-					aReason == aThis.UPDATE_RESIZE ||
-					aReason == aThis.UPDATE_REFLOW
+					aReason & this.UPDATE_RESIZE ||
+					aReason & this.UPDATE_REFLOW
 				) ?
 					!(
 						Math.abs(parseInt(canvas.width) - canvasW) <= 1 &&
 						Math.abs(parseInt(canvas.height) - canvasH) <= 1
 					) :
-				aReason == aThis.UPDATE_SCROLL ?
+				aReason & this.UPDATE_SCROLL ?
 					!isImage :
 					true
 				) {
@@ -341,7 +364,7 @@ var InformationalTabService = {
 				canvas.style.width  = canvasW+'px';
 				canvas.style.height = canvasH+'px';
 				canvas.style.display = 'block';
-				aThis.updateTabStyle(aTab, aTab.getAttribute('selected') == 'true');
+				this.updateTabStyle(aTab, aTab.getAttribute('selected') == 'true');
 
 				try {
 					var ctx = canvas.getContext('2d');
@@ -352,12 +375,12 @@ var InformationalTabService = {
 							ctx.scale(canvasH/h, canvasH/h);
 						else
 							ctx.scale(canvasW/w, canvasW/w);
-						ctx.drawWindow(win, 0/*win.scrollX*/, win.scrollY, w, h, aThis.thumbnailBG);
+						ctx.drawWindow(win, 0/*win.scrollX*/, win.scrollY, w, h, this.thumbnailBG);
 						ctx.restore();
 					}
 					else {
 						if (aImage && aImage instanceof Image) {
-							ctx.fillStyle = aThis.thumbnailBG;
+							ctx.fillStyle = this.thumbnailBG;
 							ctx.fillRect(0, 0, canvasW, canvasH);
 							var iW = parseInt(aImage.width);
 							var iH = parseInt(aImage.height);
@@ -380,11 +403,13 @@ var InformationalTabService = {
 						else {
 							var img = new Image();
 							img.src = b.currentURI.spec;
-							var self = arguments.callee;
+							var func = arguments.callee;
+							var self = this;
 							img.addEventListener('load', function() {
 								img.removeEventListener('load', arguments.callee, false);
-								self(aTab, aTabBrowser, aThis.UPDATE_PAGELOAD, aThis, img);
+								func.call(self, aTab, aTabBrowser, self.UPDATE_PAGELOAD, img);
 								delete self;
+								delete func;
 								delete img;
 								delete canvas;
 								delete ctx;
@@ -402,13 +427,9 @@ var InformationalTabService = {
 		else {
 			canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
 			canvas.style.display = 'none';
-			aThis.updateTabStyle(aTab, aTab.getAttribute('selected') == 'true');
+			this.updateTabStyle(aTab, aTab.getAttribute('selected') == 'true');
 		}
 
-		if (aTab.updateThumbnailTimer) {
-			window.clearTimeout(aTab.updateThumbnailTimer);
-		}
-		aTab.updateThumbnailTimer = null;
 		aTabBrowser.thumbnailUpdateCount--;
 	},
  
@@ -523,10 +544,10 @@ var InformationalTabService = {
 				this.destroy();
 				break;
 
-			case 'select':
+			case 'TabSelect':
 				if (this.disabled) return;
-				var tab = aEvent.originalTarget.selectedItem;
-				if (this.isCompletelyShown(tab))
+				var tab = aEvent.originalTarget;
+				if (this.isTabRead(tab, aEvent.type))
 					tab.removeAttribute('informationaltab-unread');
 				break;
 
@@ -553,15 +574,23 @@ var InformationalTabService = {
 		}
 	},
 	
-	isCompletelyShown : function(aTab) 
+	isTabRead : function(aTab, aEventType) 
 	{
-		return (
-			!this.isScrollable(aTab.linkedBrowser.contentWindow) ||
-			aTab.linkedBrowser.contentDocument.contentType.indexOf('image/') == 0
-		);
+		if (!aTab.selected) return false;
+		if (aTab.linkedBrowser.contentDocument.contentType.toLowerCase().indexOf('image/') == 0) return true;
+
+		var isScrollable = this.isFrameScrollable(aTab.linkedBrowser.contentWindow);
+		switch (this.readMethod)
+		{
+			case 1:
+				return !isScrollable || aEventType == 'scroll';
+
+			default:
+				return true;
+		}
 	},
  
-	isScrollable : function(aFrame) 
+	isFrameScrollable : function(aFrame) 
 	{
 		if (!aFrame) return false;
 
@@ -693,6 +722,10 @@ var InformationalTabService = {
 					document.documentElement.setAttribute('informationaltab-indicate-unread', true);
 				else
 					document.documentElement.removeAttribute('informationaltab-indicate-unread');
+				break;
+
+			case 'extensions.informationaltab.unread.readMethod':
+				this.readMethod = value;
 				break;
 
 
@@ -961,10 +994,7 @@ InformationalTabProgressListener.prototype = {
 			if (
 				!this.mTab.linkedBrowser.currentURI ||
 				this.mTab.linkedBrowser.currentURI.spec == 'about:config' ||
-				(
-					(this.mTab.getAttribute('selected') == 'true') &&
-					InformationalTabService.isCompletelyShown(this.mTab)
-				)
+				InformationalTabService.isTabRead(this.mTab, 'load')
 				)
 				this.mTab.removeAttribute('informationaltab-unread');
 		}
@@ -1004,7 +1034,7 @@ InformationalTabEventListener.prototype = {
 		{
 			case 'scroll':
 				if (aEvent.originalTarget.toString().indexOf('Document') < 0 ||
-					!this.mTab.selected)
+					!ITS.isTabRead(this.mTab, aEvent.type))
 					return;
 				this.mTab.removeAttribute('informationaltab-unread');
 				ITS.updateThumbnail(this.mTab, this.mTabBrowser, ITS.UPDATE_SCROLL);
@@ -1018,6 +1048,10 @@ InformationalTabEventListener.prototype = {
 						ITS.updateTabStyle(this.mTab, aEvent.newValue == 'true');
 						break;
 				}
+				break;
+
+			case 'MozAfterPaint':
+				ITS.updateThumbnail(this.mTab, this.mTabBrowser, ITS.UPDATE_REPAINT);
 				break;
 		}
 	}
