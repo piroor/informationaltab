@@ -11,7 +11,7 @@
 <prefwindow id="informationaltab-config"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	title="&config.title;"
-	onload="sizeToContent();">
+	onload="init();">
 
 <prefpane id="prefpane-thumbnail" label="&config.tabs.thumbnail;">
 	<preferences>
@@ -159,7 +159,7 @@
 			</radiogroup>
 		</vbox>
 	</groupbox>
-	<groupbox>
+	<groupbox id="lastTabCloseBoxGroup">
 		<caption label="&config.close_buttons.force_show.last_tab.caption;"/>
 		<vbox>
 			<radiogroup id="extensions.informationaltab.close_buttons.force_show.last_tab-radio"
@@ -179,5 +179,6 @@
 	</groupbox>
 </prefpane>
 
-</prefwindow>
+<script type="application/x-javascript" src="chrome://informationaltab/content/config.js"/>
 
+</prefwindow>
