@@ -338,6 +338,7 @@ var InformationalTabService = {
 		}
 
 		var canvas = aTab.__informationaltab__canvas;
+		if (!canvas) return;
 
 		if (this.thumbnailEnabled) {
 			var b   = aTab.linkedBrowser;
