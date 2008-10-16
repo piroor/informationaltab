@@ -44,9 +44,21 @@ var InformationalTabService = {
 	},
  
 	ObserverService : Components.classes['@mozilla.org/observer-service;1'].getService(Components.interfaces.nsIObserverService), 
+ 
+	getTabBrowserFromChild : function(aNode) 
+	{
+		if (!aNode) return null;
+		return aNode.ownerDocument.evaluate(
+				'ancestor-or-self::*[local-name()="tabbrowser"]',
+				aNode,
+				null,
+				XPathResult.FIRST_ORDERED_NODE_TYPE,
+				null
+			).singleNodeValue;
+	},
   
 /* Initializing */ 
-	 
+	
 	init : function() 
 	{
 		if (!('gBrowser' in window)) return;
@@ -109,7 +121,7 @@ var InformationalTabService = {
 
 		this.initialized = true;
 	},
-	 
+	
 	initTabBrowser : function(aTabBrowser) 
 	{
 		aTabBrowser.thumbnailUpdateCount = 0;
@@ -132,12 +144,23 @@ var InformationalTabService = {
 		delete i;
 		delete maxi;
 		delete tabs;
+
+		if ('swapBrowsersAndCloseOther' in aTabBrowser) {
+			eval('aTabBrowser.swapBrowsersAndCloseOther = '+aTabBrowser.swapBrowsersAndCloseOther.toSource().replace(
+				'{',
+				'{ InformationalTabService.destroyTab(aOurTab);'
+			).replace(
+				'if (tabCount == 1)',
+				'InformationalTabService.initTab(aOurTab) $&'
+			));
+		}
 	},
  
 	initTab : function(aTab, aTabBrowser) 
 	{
 		if (aTab.__informationaltab__progressListener) return;
 
+		if (!aTabBrowser) aTabBrowser = this.getTabBrowserFromChild(aTab);
 		aTab.__informationaltab__parentTabBrowser = aTabBrowser;
 
 		var filter = Components
@@ -223,7 +246,7 @@ var InformationalTabService = {
 	},
   
 /* thumbnail */ 
-	 
+	
 	initThumbnail : function(aTab, aTabBrowser) 
 	{
 		var canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
@@ -236,7 +259,7 @@ var InformationalTabService = {
 		aTab.__informationaltab__canvas = canvas;
 		this.updateThumbnail(aTab, aTabBrowser, this.UPDATE_INIT);
 	},
- 	
+ 
 	insertThumbnailTo : function(aCanvas, aTab, aTabBrowser, aPos) 
 	{
 		var container = document.createElement('hbox');
@@ -825,7 +848,7 @@ var InformationalTabService = {
 	updatingTabWidthPrefs : false,
   
 /* Save/Load Prefs */ 
-	 
+	
 	get Prefs() 
 	{
 		if (!this._Prefs) {
