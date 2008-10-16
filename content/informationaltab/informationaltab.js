@@ -151,7 +151,7 @@ var InformationalTabService = {
 				'{ InformationalTabService.destroyTab(aOurTab);'
 			).replace(
 				'if (tabCount == 1)',
-				'InformationalTabService.initTab(aOurTab) $&'
+				'InformationalTabService.initTab(aOurTab); $&'
 			));
 		}
 	},
