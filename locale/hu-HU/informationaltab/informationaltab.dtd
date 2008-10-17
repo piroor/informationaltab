@@ -1,18 +1,18 @@
-<!ENTITY config.title        "Informational Tab beállítások">
+<!ENTITY config.title        "Informational Tab - beállítások">
 
 
 <!ENTITY config.tabs.thumbnail "Gyorsnézet">
 
-<!ENTITY config.thumbnail.enabled "Gyorsnézet megjelenítése az összes fülön">
-<!ENTITY config.thumbnail.animation "Repaint thumbnail in real time for animations">
+<!ENTITY config.thumbnail.enabled "Gyorsnézet megjelenítése mindegyik fülön">
+<!ENTITY config.thumbnail.animation "Gyorsnézet valós idejű újratöltése az animációkhoz">
 
 <!ENTITY config.thumbnail.position.caption "A gyorsnézet helyzete:">
-<!ENTITY config.thumbnail.position.label   "(A fül neve)">
+<!ENTITY config.thumbnail.position.label   "(A lap neve)">
 <!ENTITY config.thumbnail.position.0   "↑">
 <!ENTITY config.thumbnail.position.1   "↑">
 <!ENTITY config.thumbnail.position.2   "↑">
 
-<!ENTITY config.thumbnail.size_mode.caption  "A gyorsnézet mérete">
+<!ENTITY config.thumbnail.size_mode.caption  "A gyorsnézet mérete:">
 <!ENTITY config.thumbnail.size_mode.fixed    "Rögzített méret:">
 <!ENTITY config.thumbnail.max.before         "">
 <!ENTITY config.thumbnail.max.after          "képpont">
@@ -25,31 +25,31 @@
 
 <!ENTITY config.progress.mode.caption   "Az oldal betöltés-állapotjelzőjének megjelenítése">
 <!ENTITY config.progress.mode.statusbar "Az állapotsoron">
-<!ENTITY config.progress.mode.tab       "Minden egyes fülön">
-<!ENTITY config.progress.mode.both      "Mindkettőn (állapotsor és fülek)">
+<!ENTITY config.progress.mode.tab       "Mindegyik fülön">
+<!ENTITY config.progress.mode.both      "Mindkettőn (állapotsor és fül)">
 
 
 <!ENTITY config.tabs.unread "Olvasatlan lapok">
 
 <!ENTITY config.unread.enabled "Az olvasatlan lapok füleinek kiemelése">
 
-<!ENTITY config.unread.readMethod.caption "Make tabs &quot;read&quot; when">
-<!ENTITY config.unread.readMethod.0       "Just the tab is selected">
-<!ENTITY config.unread.readMethod.1       "Tab contents are scrolled">
+<!ENTITY config.unread.readMethod.caption "Egy lap &quot;olvasott&quot; lesz">
+<!ENTITY config.unread.readMethod.0       "Csak a lap kijelölésével">
+<!ENTITY config.unread.readMethod.1       "A lap tartalmának görgetésével">
 
 
-<!ENTITY config.tabs.closebutton "Bezárás bomb">
+<!ENTITY config.tabs.closebutton "Bezárás gomb">
 
-<!ENTITY config.closebutton.mode.caption "A fül bezárás gombjának megjelenítése">
-<!ENTITY config.closebutton.mode.0   "Csak az aktív lapnál">
-<!ENTITY config.closebutton.mode.1   "Az összes fülön (alapértelmezett)">
+<!ENTITY config.closebutton.mode.caption "Fül bezárás gombjának megjelenítése...">
+<!ENTITY config.closebutton.mode.0   "Csak az aktív lap fülén">
+<!ENTITY config.closebutton.mode.1   "Mindegyik fülön (alapértelmezett)">
 <!ENTITY config.closebutton.mode.2   "Ne jelenjen meg a bezárás gomb sehol sem">
 <!ENTITY config.closebutton.mode.3   "Egyetlen bezárás gomb a fül-sáv végén (Firefox 1.5)">
 
 <!ENTITY config.closebutton.force_show "Ha elég hely van a fülön a gomb megjelenítéséhez">
 
-<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the last tab">
-<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the last tab can be closed">
-<!ENTITY config.close_buttons.force_show.last_tab.2       "Show always (Firefox 3.0 style)">
-<!ENTITY config.close_buttons.force_show.last_tab.1       "Hide always (Firefox 3.1 style)">
-<!ENTITY config.closeWindowWithLastTab "Allow to close the last tab">
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Az utolsó lap fülének bezárás gombja">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Megjelenítés csak akkor, ha az utolsó lap bezárható">
+<!ENTITY config.close_buttons.force_show.last_tab.2       "Megjelenítés mindig (Firefox 3.0 stílus)">
+<!ENTITY config.close_buttons.force_show.last_tab.1       "Elrejtés mindig (Firefox 3.1 stílus)">
+<!ENTITY config.closeWindowWithLastTab "Az utolsó lap bezárhatóságának engedélyezése">
