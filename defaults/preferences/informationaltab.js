@@ -1,5 +1,5 @@
 pref("extensions.informationaltab.thumbnail.enabled", true);
-// [0][favicon][1][label][2][closebox]
+// [0][favicon][1][label][2][closebox], [3] is above, [4] is below
 pref("extensions.informationaltab.thumbnail.position", 1);
 // 0 = fixed size, 1 = flexible size
 pref("extensions.informationaltab.thumbnail.size_mode", 0);
@@ -7,6 +7,7 @@ pref("extensions.informationaltab.thumbnail.max",       45);
 pref("extensions.informationaltab.thumbnail.pow",       20);
 pref("extensions.informationaltab.thumbnail.update_delay", 10);
 pref("extensions.informationaltab.thumbnail.fix_aspect_ratio", true);
+pref("extensions.informationaltab.thumbnail.fixed_aspect_ratio", "0.75");
 pref("extensions.informationaltab.thumbnail.animation", false);
 
 // 0 = only in status bar, 1 = only in each tab, 2 = both

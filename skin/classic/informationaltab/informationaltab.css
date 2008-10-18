@@ -14,7 +14,7 @@ xhtml|canvas.informationaltab-thumbnail {
 
 /* progressbar */
 
-label.tab-text > stack > * > .tab-progress {
+label.tab-text:not([informationaltab-progress]) > .tab-label-inner-box > stack > * > .tab-progress {
 	visibility: collapse;
 }
 /* [tab-progress] is added by Tab Mix Plus */
@@ -22,17 +22,18 @@ label.tab-text > stack > * > .tab-progress {
 	visibility: visible;
 }
 
-label.tab-text > stack,
-label.tab-text > stack > *,
-label.tab-text > stack > * > spacer,
-label.tab-text > stack > * > .tab-progress,
-label.tab-text > stack > * > .tab-real-text {
+label.tab-text > .tab-label-inner-box,
+label.tab-text > .tab-label-inner-box > *,
+label.tab-text > .tab-label-inner-box > stack > *,
+label.tab-text > .tab-label-inner-box > stack > * > spacer,
+label.tab-text > .tab-label-inner-box > stack > * > .tab-progress,
+label.tab-text > .tab-label-inner-box > stack > * > .tab-real-text {
 	margin: 0;
 	padding: 0;
 	text-indent: 0;
 }
 
-label.tab-text > stack > * > .tab-progress {
+label.tab-text > .tab-label-inner-box > stack > * > .tab-progress {
 	height: 0.4em;
 	min-height: 0.4em;
 	max-height: 0.4em;
@@ -45,9 +46,17 @@ label.tab-text > stack > * > .tab-progress {
 	margin-top: 0.2em;
 	margin-bottom: -0.2em;
 }
-label.tab-text > stack > * > .tab-progress > .progress-bar,
-label.tab-text > stack > * > .tab-progress > .progress-remainder {
+label.tab-text > .tab-label-inner-box > stack > * > .tab-progress > .progress-bar,
+label.tab-text > .tab-label-inner-box > stack > * > .tab-progress > .progress-remainder {
 	-moz-appearance: none;
+}
+
+/* thumbnail container */
+
+.label-top-box,
+.label-bottom-box,
+.tab-label-background-box {
+	-moz-box-pack: center;
 }
 
 /* unread state */

@@ -1,10 +1,4 @@
 <?xml version="1.0"?>
-
-<!DOCTYPE bindings [
-	<!ENTITY % mainDTD SYSTEM "chrome://informationaltab/locale/" >
-	%mainDTD;
-]>
-
 <bindings id="informationaltabBindings"
 	xmlns="http://www.mozilla.org/xbl"
 	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
@@ -12,24 +6,30 @@
 
 <binding id="tab-label" extends="xul:hbox">
 	<content>
-		<xul:stack xbl:inherits="flex">
-			<xul:vbox
-				flex="1">
-				<xul:spacer flex="1"/>
-				<xul:progressmeter
-					class="tab-progress"
-					mode="normal"
-					xbl:inherits="value=informationaltab-progress"/>
-			</xul:vbox>
-			<xul:hbox
-				flex="1"
-				align="center">
-				<xul:label
-					class="tab-real-text"
+		<xul:vbox class="tab-label-inner-box" flex="1">
+			<xul:hbox class="label-top-box"/>
+			<xul:stack xbl:inherits="flex" flex="1">
+				<xul:hbox class="label-behind-box"
+					flex="1"/>
+				<xul:vbox
+					flex="1">
+					<xul:spacer flex="1"/>
+					<xul:progressmeter
+						class="tab-progress"
+						mode="normal"
+						xbl:inherits="value=informationaltab-progress"/>
+				</xul:vbox>
+				<xul:hbox
 					flex="1"
-					xbl:inherits="value,crop,accesskey"/>
-			</xul:hbox>
-		</xul:stack>
+					align="center">
+					<xul:label
+						class="tab-real-text"
+						flex="1"
+						xbl:inherits="value,crop,accesskey"/>
+				</xul:hbox>
+			</xul:stack>
+			<xul:hbox class="label-bottom-box"/>
+		</xul:vbox>
 	</content>
 	<implementation>
 		<constructor><![CDATA[
@@ -54,6 +54,15 @@
 					this.mOwner.setAttribute('value', aEvent.target.getAttribute('label'));
 				}
 			})
+		]]></field>
+		<field name="labelTopBox"><![CDATA[
+			document.getAnonymousElementByAttribute(this, 'class', 'label-top-box')
+		]]></field>
+		<field name="labelBottomBox"><![CDATA[
+			document.getAnonymousElementByAttribute(this, 'class', 'label-bottom-box')
+		]]></field>
+		<field name="labelBehindBox"><![CDATA[
+			document.getAnonymousElementByAttribute(this, 'class', 'label-behind-box')
 		]]></field>
 	</implementation>
 </binding>

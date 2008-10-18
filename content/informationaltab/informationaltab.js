@@ -9,6 +9,9 @@ var InformationalTabService = {
 	POSITION_BEFORE_FAVICON  : 0,
 	POSITION_BEFORE_LABEL    : 1,
 	POSITION_BEFORE_CLOSEBOX : 2,
+	POSITION_ABOVE_LABEL     : 3,
+	POSITION_BELOW_LABEL     : 4,
+	POSITION_BEHIND_LABEL    : 5,
 
 	thumbnailSizeMode  : 0,
 	SIZE_MODE_FIXED    : 0,
@@ -17,6 +20,8 @@ var InformationalTabService = {
 	thumbnailMinSize     : 20,
 	thumbnailMaxSize     : 0,
 	thumbnailMaxSizePow  : 1,
+	thumbnailFixAspectRatio   : true,
+	thumbnailFixedAspectRatio : 1,
 	thumbnailUpdateDelay : 0,
 	thumbnailBG          : 'rgba(0,0,0,0.5)',
 
@@ -91,6 +96,8 @@ var InformationalTabService = {
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.size_mode');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.max');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.pow');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.fix_aspect_ratio');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.fixed_aspect_ratio');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.update_delay');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.mode');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.unread.enabled');
@@ -260,24 +267,50 @@ var InformationalTabService = {
 		this.updateThumbnail(aTab, aTabBrowser, this.UPDATE_INIT);
 	},
  
-	insertThumbnailTo : function(aCanvas, aTab, aTabBrowser, aPos) 
+	insertThumbnailTo : function(aCanvas, aTab, aTabBrowser, aPosition) 
 	{
 		var container = document.createElement('hbox');
 		container.setAttribute('class', this.kCONTAINER);
 		container.appendChild(aCanvas);
 
 		var icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
-		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-stack') || // Mac OS X
+		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
+		var labelBox = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-stack') || // Mac OS X
 					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container') || // Tab Mix Plus
-					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
+					label;
 
-		label.parentNode.appendChild(container);
+		switch (aPosition)
+		{
+			case this.POSITION_ABOVE_LABEL:
+				if (label.labelTopBox) {
+					label.labelTopBox.appendChild(container);
+					break;
+				}
+
+			case this.POSITION_BELOW_LABEL:
+				if (label.labelBottomBox) {
+					label.labelBottomBox.appendChild(container);
+					break;
+				}
+
+			case this.POSITION_BEHIND_LABEL:
+				if (label.labelBehindBox) {
+					label.labelBehindBox.appendChild(container);
+					break;
+				}
+
+				aPosition = this.POSITION_BEFORE_LABEL;
+
+			default:
+				labelBox.parentNode.appendChild(container);
+				break;
+		}
 
 		var isTreeAvailable = 'TreeStyleTabService' in window;
 		if (isTreeAvailable)
 			TreeStyleTabService.initTabContents(aTab, aTabBrowser);
 
-		var nodes = label.parentNode.childNodes;
+		var nodes = labelBox.parentNode.childNodes;
 		if (isTreeAvailable &&
 			TreeStyleTabService.getTreePref('tabbar.position') == 'right' &&
 			TreeStyleTabService.getTreePref('tabbar.invertUI')) {
@@ -288,8 +321,8 @@ var InformationalTabService = {
 				}
 			}
 			container.setAttribute('ordinal',
-				(aPos == this.POSITION_BEFORE_FAVICON) ? parseInt(icon.getAttribute('ordinal')) + 5 :
-				(aPos == this.POSITION_BEFORE_LABEL) ? parseInt(label.getAttribute('ordinal')) + 5 :
+				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(icon.getAttribute('ordinal')) + 5 :
+				(aPosition == this.POSITION_BEFORE_LABEL) ? parseInt(labelBox.getAttribute('ordinal')) + 5 :
 				1
 			);
 		}
@@ -301,9 +334,9 @@ var InformationalTabService = {
 				}
 			}
 			container.setAttribute('ordinal',
-				(aPos == this.POSITION_BEFORE_FAVICON) ? parseInt(icon.getAttribute('ordinal')) - 5 :
-				(aPos == this.POSITION_BEFORE_LABEL) ? parseInt(label.getAttribute('ordinal')) - 5 :
-				parseInt(label.getAttribute('ordinal')) + 5
+				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(icon.getAttribute('ordinal')) - 5 :
+				(aPosition == this.POSITION_BEFORE_LABEL) ? parseInt(labelBox.getAttribute('ordinal')) - 5 :
+				parseInt(labelBox.getAttribute('ordinal')) + 5
 			);
 		}
 	},
@@ -345,7 +378,7 @@ var InformationalTabService = {
 			var win = b.contentWindow;
 			var w   = win.innerWidth;
 			var h   = win.innerHeight;
-			var aspectRatio = this.getPref('extensions.informationaltab.thumbnail.fix_aspect_ratio') ? (1 / 0.75) : (w / h) ;
+			var aspectRatio = this.thumbnailFixAspectRatio ? this.thumbnailFixedAspectRatio : (w / h) ;
 
 			var size = this.thumbnailSizeMode == this.SIZE_MODE_FIXED ?
 						this.thumbnailMaxSize :
@@ -712,6 +745,14 @@ var InformationalTabService = {
 
 			case 'extensions.informationaltab.thumbnail.pow':
 				this.thumbnailMaxSizePow = value;
+				break;
+
+			case 'extensions.informationaltab.thumbnail.fix_aspect_ratio':
+				this.thumbnailFixAspectRatio = value;
+				break;
+
+			case 'extensions.informationaltab.thumbnail.fixed_aspect_ratio':
+				this.thumbnailFixedAspectRatio = 1 / Number(value);
 				break;
 
 			case 'extensions.informationaltab.thumbnail.update_delay':
@@ -1192,6 +1233,8 @@ InformationalTabPrefListener.prototype = {
 				return;
 
 			case 'extensions.informationaltab.thumbnail.size_mode':
+			case 'extensions.informationaltab.thumbnail.fix_aspect_ratio':
+			case 'extensions.informationaltab.thumbnail.fixed_aspect_ratio':
 				if (ITS.initialized)
 					ITS.updateAllThumbnails(this.mTabBrowser, ITS.UPDATE_RESIZE);
 				break;
