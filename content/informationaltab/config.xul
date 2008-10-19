@@ -51,6 +51,7 @@
 		<radiogroup id="extensions.informationaltab.thumbnail.position-radiogroup"
 			preference="extensions.informationaltab.thumbnail.position"
 			orient="vertical">
+			<hbox>
 			<hbox class="dummy-tab">
 				<hbox class="tab-image-left"/>
 				<hbox class="tab-image-middle">
@@ -131,6 +132,8 @@
 					</grid>
 				</hbox>
 				<hbox class="tab-image-right"/>
+			</hbox>
+			<spacer flex="1"/>
 			</hbox>
 			<hbox align="center">
 				<label value="&config.thumbnail.position.5;"/>
