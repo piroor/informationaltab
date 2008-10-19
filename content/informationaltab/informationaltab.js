@@ -527,7 +527,9 @@ var InformationalTabService = {
 	{
 		if (this.disabled) return;
 
-		var canvasH = parseInt(aTab.__informationaltab__canvas.height);
+		var label = document.getAnonymousElementByAttribute(this.mTab, 'class', 'tab-text');
+		var canvasH = Math.max(parseInt(aTab.__informationaltab__canvas.height), label.boxObject.height);
+
 		var nodes = document.getAnonymousNodes(aTab);
 
 		if (this.thumbnailEnabled) {
