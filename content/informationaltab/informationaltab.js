@@ -324,6 +324,8 @@ var InformationalTabService = {
 				break;
 		}
 
+		aTab.setAttribute('informationaltab-thumbnail-position', aPosition);
+
 		var isTreeAvailable = 'TreeStyleTabService' in window;
 		if (isTreeAvailable)
 			TreeStyleTabService.initTabContents(aTab, aTabBrowser);

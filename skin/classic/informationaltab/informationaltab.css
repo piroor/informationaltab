@@ -51,6 +51,10 @@ label.tab-text > .tab-label-inner-box > stack > * > .tab-progress > .progress-re
 	-moz-appearance: none;
 }
 
+.tabbrowser-tab[informationaltab-thumbnail-position^="5"] label {
+	text-shadow: 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog;
+}
+
 /* unread state */
 
 :root[informationaltab-indicate-unread="true"] tab[informationaltab-unread="true"] .tab-text {
