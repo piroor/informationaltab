@@ -1,6 +1,5 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
-
 .dummy-tab {
 	color: -moz-DialogText;
 	-moz-appearance: none;
@@ -13,7 +12,7 @@
 	-moz-box-align: start;
 }
 
-.dummy-tab > .tab-image-left {
+.dummy-tab .tab-image-left {
 	width: 8px;
 	height: 24px;
 	background: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/tab-left.png") no-repeat;
@@ -22,15 +21,15 @@
 	-moz-box-align: start;
 }
 
-.dummy-tab > .tab-image-middle,
-.dummy-tab > .tab-close-button {
+.dummy-tab .tab-image-middle,
+.dummy-tab .tab-close-button {
 	height: 24px;
 	background: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/tab-middle.png") repeat-x;
 	background-color: -moz-dialog;
 	-moz-box-align: start;
 }
 
-.dummy-tab > .tab-image-right {
+.dummy-tab .tab-image-right {
 	width: 8px;
 	height: 24px;
 	background: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/tab-right.png") no-repeat;
@@ -39,12 +38,12 @@
 	-moz-box-align: start;
 }
 
-.dummy-tab > .tab-image-middle > .tab-text {
+.dummy-tab .tab-image-middle .tab-text {
 	margin-top: 5px;
 	font-weight: bold;
 }
 
-.dummy-tab > .tab-image-middle > .tab-icon {
+.dummy-tab .tab-image-middle .tab-icon {
 	margin-top: 3px;
 	-moz-margin-end: 3px;
 	width: 16px;
@@ -54,10 +53,8 @@
 }
 
 .dummy-tab .toolbarbutton-icon {
-	background-image: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/tab-middle.png");
 	-moz-image-region: rect(0px, 16px, 16px, 0px);
 	width: 16px;
-	height: 19px;
 	padding: 0px;
 	-moz-margin-end: 0px !important;
 	margin: 0;
@@ -66,7 +63,7 @@
 }
 
 
-.dummy-tab radio {
+.dummy-tab radio[orient="vertical"] {
 	margin-top: 3px;
 	-moz-box-orient: vertical;
 	-moz-box-align: center;

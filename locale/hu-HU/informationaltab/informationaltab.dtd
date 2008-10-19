@@ -11,6 +11,9 @@
 <!ENTITY config.thumbnail.position.0   "↑">
 <!ENTITY config.thumbnail.position.1   "↑">
 <!ENTITY config.thumbnail.position.2   "↑">
+<!ENTITY config.thumbnail.position.3   "←">
+<!ENTITY config.thumbnail.position.4   "←">
+<!ENTITY config.thumbnail.position.5   "Behind title">
 
 <!ENTITY config.thumbnail.size_mode.caption  "A gyorsnézet mérete:">
 <!ENTITY config.thumbnail.size_mode.fixed    "Rögzített méret:">

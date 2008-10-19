@@ -1,4 +1,5 @@
 content	informationaltab	jar:chrome/informationaltab.jar!/content/informationaltab/
+content	informationaltab-fx3	jar:chrome/informationaltab.jar!/content/informationaltab-fx3/	appversion>=3.0
 
 overlay	chrome://browser/content/browser.xul	chrome://informationaltab/content/informationaltab.xul
 

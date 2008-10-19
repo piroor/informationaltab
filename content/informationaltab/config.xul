@@ -2,6 +2,7 @@
 
 <?xml-stylesheet href="chrome://global/skin/"?>
 <?xml-stylesheet href="config.css"?>
+<?xml-stylesheet href="chrome://informationaltab-fx3/content/config.css"?>
 
 <!DOCTYPE prefwindow [
 <!ENTITY % mainDTD SYSTEM "chrome://informationaltab/locale/informationaltab.dtd">
@@ -53,17 +54,68 @@
 			<hbox class="dummy-tab">
 				<hbox class="tab-image-left"/>
 				<hbox class="tab-image-middle">
-					<radio value="0"
-						 label="&config.thumbnail.position.0;"/>
-					<image class="tab-icon"/>
-					<radio value="1"
-						 label="&config.thumbnail.position.1;"/>
-					<label class="tab-text"
-						 value="&config.thumbnail.position.label;"/>
-					<radio value="2"
-						 label="&config.thumbnail.position.2;"/>
+					<grid>
+						<rows>
+							<row/>
+							<row align="start"/>
+						</rows>
+						<columns>
+							<column>
+								<spacer/>
+								<vbox>
+									<radio value="0"
+										 label="&config.thumbnail.position.0;"
+										 orient="vertical"/>
+									<spacer flex="1"/>
+								</vbox>
+							</column>
+							<column>
+								<spacer/>
+								<vbox>
+									<image class="tab-icon"/>
+									<spacer flex="1"/>
+								</vbox>
+							</column>
+							<column>
+								<spacer/>
+								<vbox>
+									<radio value="1"
+										 label="&config.thumbnail.position.1;"
+										 orient="vertical"/>
+									<spacer flex="1"/>
+								</vbox>
+							</column>
+							<column>
+								<radio value="3"
+									 label="&config.thumbnail.position.3;"/>
+								<vbox>
+									<label class="tab-text"
+										 value="&config.thumbnail.position.label;"/>
+									<radio value="4"
+										 label="&config.thumbnail.position.4;"/>
+									<radio value="5"
+										 label="&config.thumbnail.position.5;"/>
+								</vbox>
+							</column>
+							<column>
+								<spacer/>
+								<vbox>
+									<radio value="2"
+										 label="&config.thumbnail.position.2;"
+										 orient="vertical"/>
+									<spacer flex="1"/>
+								</vbox>
+							</column>
+							<column>
+								<spacer/>
+								<vbox>
+									<image class="toolbarbutton-icon"/>
+									<spacer flex="1"/>
+								</vbox>
+							</column>
+						</columns>
+					</grid>
 				</hbox>
-					<image class="toolbarbutton-icon"/>
 				<hbox class="tab-image-right"/>
 			</hbox>
 		</radiogroup>
