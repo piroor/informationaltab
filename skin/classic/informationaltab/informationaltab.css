@@ -55,7 +55,7 @@ label.tab-text > .tab-label-inner-box > stack > * > .tab-progress > .progress-re
 
 .label-top-box,
 .label-bottom-box,
-.tab-label-background-box {
+.label-behind-box {
 	-moz-box-pack: center;
 }
 
