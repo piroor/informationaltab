@@ -50,7 +50,7 @@
 		<caption label="&config.thumbnail.position.caption;"/>
 		<radiogroup id="extensions.informationaltab.thumbnail.position-radiogroup"
 			preference="extensions.informationaltab.thumbnail.position"
-			orient="horizontal">
+			orient="vertical">
 			<hbox class="dummy-tab">
 				<hbox class="tab-image-left"/>
 				<hbox class="tab-image-middle">
@@ -86,15 +86,29 @@
 								</vbox>
 							</column>
 							<column>
-								<radio value="3"
-									 label="&config.thumbnail.position.3;"/>
+								<hbox>
+									<radio value="301"
+										 label="&config.thumbnail.position.301;"/>
+									<spacer flex="1"/>
+									<radio value="302"
+										 label="&config.thumbnail.position.302;"/>
+									<spacer flex="1"/>
+									<radio value="303"
+										 label="&config.thumbnail.position.303;"/>
+								</hbox>
 								<vbox>
 									<label class="tab-text"
 										 value="&config.thumbnail.position.label;"/>
-									<radio value="4"
-										 label="&config.thumbnail.position.4;"/>
-									<radio value="5"
-										 label="&config.thumbnail.position.5;"/>
+									<hbox>
+										<radio value="401"
+											 label="&config.thumbnail.position.401;"/>
+										<spacer flex="1"/>
+										<radio value="402"
+											 label="&config.thumbnail.position.402;"/>
+										<spacer flex="1"/>
+										<radio value="403"
+											 label="&config.thumbnail.position.403;"/>
+									</hbox>
 								</vbox>
 							</column>
 							<column>
@@ -117,6 +131,15 @@
 					</grid>
 				</hbox>
 				<hbox class="tab-image-right"/>
+			</hbox>
+			<hbox align="center">
+				<label value="&config.thumbnail.position.5;"/>
+				<radio value="501"
+					 label="&config.thumbnail.position.501;"/>
+				<radio value="502"
+					 label="&config.thumbnail.position.502;"/>
+				<radio value="503"
+					 label="&config.thumbnail.position.503;"/>
 			</hbox>
 		</radiogroup>
 	</groupbox>

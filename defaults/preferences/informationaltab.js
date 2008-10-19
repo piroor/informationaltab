@@ -1,5 +1,5 @@
 pref("extensions.informationaltab.thumbnail.enabled", true);
-// [0][favicon][1][label][2][closebox], [3] is above, [4] is below
+// [0][favicon][1][label][2][closebox], 301-303 is above, 401-403 is below, 501-503 is behind
 pref("extensions.informationaltab.thumbnail.position", 1);
 // 0 = fixed size, 1 = flexible size
 pref("extensions.informationaltab.thumbnail.size_mode", 0);

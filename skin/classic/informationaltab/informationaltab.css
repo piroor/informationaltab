@@ -51,14 +51,6 @@ label.tab-text > .tab-label-inner-box > stack > * > .tab-progress > .progress-re
 	-moz-appearance: none;
 }
 
-/* thumbnail container */
-
-.label-top-box,
-.label-bottom-box,
-.label-behind-box {
-	-moz-box-pack: center;
-}
-
 /* unread state */
 
 :root[informationaltab-indicate-unread="true"] tab[informationaltab-unread="true"] .tab-text {

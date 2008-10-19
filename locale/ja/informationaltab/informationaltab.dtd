@@ -11,9 +11,16 @@
 <!ENTITY config.thumbnail.position.0   "↑">
 <!ENTITY config.thumbnail.position.1   "↑">
 <!ENTITY config.thumbnail.position.2   "↑">
-<!ENTITY config.thumbnail.position.3   "←">
-<!ENTITY config.thumbnail.position.4   "←">
-<!ENTITY config.thumbnail.position.5   "タイトルの後ろに重ねる">
+<!ENTITY config.thumbnail.position.301 "←">
+<!ENTITY config.thumbnail.position.302 "←">
+<!ENTITY config.thumbnail.position.303 "←">
+<!ENTITY config.thumbnail.position.401 "←">
+<!ENTITY config.thumbnail.position.402 "←">
+<!ENTITY config.thumbnail.position.403 "←">
+<!ENTITY config.thumbnail.position.5   "タイトルの後ろに重ねる：">
+<!ENTITY config.thumbnail.position.501 "左">
+<!ENTITY config.thumbnail.position.502 "中央">
+<!ENTITY config.thumbnail.position.503 "右">
 
 <!ENTITY config.thumbnail.size_mode.caption  "プレビューの大きさ">
 <!ENTITY config.thumbnail.size_mode.fixed    "大きさを固定する：">

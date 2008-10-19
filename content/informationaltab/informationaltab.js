@@ -9,9 +9,15 @@ var InformationalTabService = {
 	POSITION_BEFORE_FAVICON  : 0,
 	POSITION_BEFORE_LABEL    : 1,
 	POSITION_BEFORE_CLOSEBOX : 2,
-	POSITION_ABOVE_LABEL     : 3,
-	POSITION_BELOW_LABEL     : 4,
-	POSITION_BEHIND_LABEL    : 5,
+	POSITION_ABOVE_LEFT      : 301,
+	POSITION_ABOVE_CENTER    : 302,
+	POSITION_ABOVE_RIGHT     : 303,
+	POSITION_BELOW_LEFT      : 401,
+	POSITION_BELOW_CENTER    : 402,
+	POSITION_BELOW_RIGHT     : 403,
+	POSITION_BEHIND_LEFT     : 501,
+	POSITION_BEHIND_CENTER   : 502,
+	POSITION_BEHIND_RIGHT    : 503,
 
 	thumbnailSizeMode  : 0,
 	SIZE_MODE_FIXED    : 0,
@@ -279,22 +285,34 @@ var InformationalTabService = {
 					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container') || // Tab Mix Plus
 					label;
 
+		var pack = (aPosition > 100) ? (aPosition % 100) : 0 ;
+		pack = pack == 1 ? 'start' : pack == 3 ? 'end' : 'center' ;
+
 		switch (aPosition)
 		{
-			case this.POSITION_ABOVE_LABEL:
+			case this.POSITION_ABOVE_LEFT:
+			case this.POSITION_ABOVE_CENTER:
+			case this.POSITION_ABOVE_RIGHT:
 				if (label.labelTopBox) {
+					label.labelTopBox.setAttribute('pack', pack);
 					label.labelTopBox.appendChild(container);
 					break;
 				}
 
-			case this.POSITION_BELOW_LABEL:
+			case this.POSITION_BELOW_LEFT:
+			case this.POSITION_BELOW_CENTER:
+			case this.POSITION_BELOW_RIGHT:
 				if (label.labelBottomBox) {
+					label.labelBottomBox.setAttribute('pack', pack);
 					label.labelBottomBox.appendChild(container);
 					break;
 				}
 
-			case this.POSITION_BEHIND_LABEL:
+			case this.POSITION_BEHIND_LEFT:
+			case this.POSITION_BEHIND_CENTER:
+			case this.POSITION_BEHIND_RIGHT:
 				if (label.labelBehindBox) {
+					label.labelBehindBox.setAttribute('pack', pack);
 					label.labelBehindBox.appendChild(container);
 					break;
 				}
