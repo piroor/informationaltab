@@ -17,10 +17,10 @@
 <!ENTITY config.thumbnail.position.401 "←">
 <!ENTITY config.thumbnail.position.402 "←">
 <!ENTITY config.thumbnail.position.403 "←">
-<!ENTITY config.thumbnail.position.5   "Behind title:">
-<!ENTITY config.thumbnail.position.501 "Left">
-<!ENTITY config.thumbnail.position.502 "Center">
-<!ENTITY config.thumbnail.position.503 "Right">
+<!ENTITY config.thumbnail.position.5   "A lap címe mögött:">
+<!ENTITY config.thumbnail.position.501 "Balra">
+<!ENTITY config.thumbnail.position.502 "Középen">
+<!ENTITY config.thumbnail.position.503 "Jobbra">
 
 <!ENTITY config.thumbnail.size_mode.caption  "A gyorsnézet mérete:">
 <!ENTITY config.thumbnail.size_mode.fixed    "Rögzített méret:">
