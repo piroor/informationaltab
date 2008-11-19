@@ -163,8 +163,8 @@ var InformationalTabService = {
 				'{',
 				'{ InformationalTabService.destroyTab(aOurTab);'
 			).replace(
-				'if (tabCount == 1)',
-				'InformationalTabService.initTab(aOurTab); $&'
+				/(if \((?:tabCount == 1|aOurTab == this.selectedTab)\))/,
+				'InformationalTabService.initTab(aOurTab); $1'
 			));
 		}
 	},
