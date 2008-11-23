@@ -17,10 +17,10 @@
 <!ENTITY config.thumbnail.position.401 "←">
 <!ENTITY config.thumbnail.position.402 "←">
 <!ENTITY config.thumbnail.position.403 "←">
-<!ENTITY config.thumbnail.position.5   "Behind title:">
-<!ENTITY config.thumbnail.position.501 "Left">
-<!ENTITY config.thumbnail.position.502 "Center">
-<!ENTITY config.thumbnail.position.503 "Right">
+<!ENTITY config.thumbnail.position.5   "Come sfondo del titolo allineata:">
+<!ENTITY config.thumbnail.position.501 "a sinistra">
+<!ENTITY config.thumbnail.position.502 "al centro">
+<!ENTITY config.thumbnail.position.503 "a destra">
 
 <!ENTITY config.thumbnail.size_mode.caption  "Dimensione immagine d'anteprima">
 <!ENTITY config.thumbnail.size_mode.fixed    "Dimensione fissa:">
@@ -43,10 +43,9 @@
 
 <!ENTITY config.unread.enabled "Evidenzia schede non lette">
 
-<!ENTITY config.unread.readMethod.caption "Make tabs &quot;read&quot; when">
-<!ENTITY config.unread.readMethod.0       "Just the tab is selected">
-<!ENTITY config.unread.readMethod.1       "Tab contents are scrolled">
-
+<!ENTITY config.unread.readMethod.caption "Considera le schede come &quot;lette&quot; quando">
+<!ENTITY config.unread.readMethod.0       "vengono selezionate">
+<!ENTITY config.unread.readMethod.1       "se ne scorre il contenuto">
 
 <!ENTITY config.tabs.closebutton "Pulsante di chiusura">
 
@@ -58,8 +57,8 @@
 
 <!ENTITY config.closebutton.force_show "Mostra il pulsante di chiusura anche se le schede sono troppo piccole per visualizzarlo.">
 
-<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the last tab">
-<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the last tab can be closed">
-<!ENTITY config.close_buttons.force_show.last_tab.2       "Show always (Firefox 3.0 style)">
-<!ENTITY config.close_buttons.force_show.last_tab.1       "Hide always (Firefox 3.1 style)">
-<!ENTITY config.closeWindowWithLastTab "Allow to close the last tab">
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Pulsante di chiusura sull'ultima scheda">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Mostra solo quando è possibile chiudere l'ultima scheda">
+<!ENTITY config.close_buttons.force_show.last_tab.2       "Mostra sempre (stile Firefox 3.0)">
+<!ENTITY config.close_buttons.force_show.last_tab.1       "Nascondi sempre (stile Firefox 3.1)">
+<!ENTITY config.closeWindowWithLastTab "Permetti la chiusura dell'ultima scheda">
