@@ -17,6 +17,7 @@
     <em:translator>Neglacio (nl-NL locale)</em:translator>
     <em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
     <em:translator>tito (es-ES locale)</em:translator>
+    <em:translator>L'Autour (ru-RU locale)</em:translator>
 
 
     <em:updateURL>http://piro.sakura.ne.jp/xul/update.rdf</em:updateURL>
@@ -33,6 +34,7 @@
 		<em:translator>Neglacio (nl-NL locale)</em:translator>
 		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
 		<em:translator>tito (es-ES locale)</em:translator>
+		<em:translator>L'Autour (ru-RU locale)</em:translator>
       </RDF:Description>
     </em:localized>
     <em:localized>
@@ -45,6 +47,7 @@
 		<em:translator>Neglacio (nl-NL locale)</em:translator>
 		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
 		<em:translator>tito (es-ES locale)</em:translator>
+		<em:translator>L'Autour (ru-RU locale)</em:translator>
       </RDF:Description>
     </em:localized>
     <em:localized>
@@ -57,6 +60,7 @@
 		<em:translator>Neglacio (nl-NL locale)</em:translator>
 		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
 		<em:translator>tito (es-ES locale)</em:translator>
+		<em:translator>L'Autour (ru-RU locale)</em:translator>
       </RDF:Description>
     </em:localized>
     <em:localized>
@@ -69,6 +73,7 @@
 		<em:translator>Neglacio (nl-NL locale)</em:translator>
 		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
 		<em:translator>tito (es-ES locale)</em:translator>
+		<em:translator>L'Autour (ru-RU locale)</em:translator>
       </RDF:Description>
     </em:localized>
     <em:localized>
@@ -81,15 +86,30 @@
 		<em:translator>Neglacio (nl-NL locale)</em:translator>
 		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
 		<em:translator>tito (es-ES locale)</em:translator>
+		<em:translator>L'Autour (ru-RU locale)</em:translator>
       </RDF:Description>
     </em:localized>
+    <em:localized>
+      <RDF:Description em:locale="ru-RU"
+                       em:name="Informational Tab (Информативные вкладки)"
+                       em:description="Обеспечивают миниатюры, прогресс загрузки и прочее вкаждой вкладке"
+                       em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"
+                       em:creator="SHIMODA Hiroshi">
+		<em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
+		<em:translator>Neglacio (nl-NL locale)</em:translator>
+		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
+		<em:translator>tito (es-ES locale)</em:translator>
+		<em:translator>L'Autour (ru-RU locale)</em:translator>
+      </RDF:Description>
+    </em:localized>
+
 
 
     <em:targetApplication>
       <!-- Firefox -->
       <RDF:Description em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                        em:minVersion="2.0"
-                       em:maxVersion="3.1b2pre" />
+                       em:maxVersion="3.1b3pre" />
     </em:targetApplication>
   </RDF:Description>
 </RDF:RDF>

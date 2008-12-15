@@ -1,0 +1,65 @@
+<!ENTITY config.title        "Настройки информативных вкладок">
+
+
+<!ENTITY config.tabs.thumbnail "Миниатюры страниц">
+
+<!ENTITY config.thumbnail.enabled "Показывать минитюры страниц в каждой вкладке">
+<!ENTITY config.thumbnail.animation "Перерисовывать миниатюры в реальном времени для анимаций">
+
+<!ENTITY config.thumbnail.position.caption "Расположение миниатюры:">
+<!ENTITY config.thumbnail.position.label   "(заголовок вкладки)">
+<!ENTITY config.thumbnail.position.0   "↑">
+<!ENTITY config.thumbnail.position.1   "↑">
+<!ENTITY config.thumbnail.position.2   "↑">
+<!ENTITY config.thumbnail.position.301 "←">
+<!ENTITY config.thumbnail.position.302 "←">
+<!ENTITY config.thumbnail.position.303 "←">
+<!ENTITY config.thumbnail.position.401 "←">
+<!ENTITY config.thumbnail.position.402 "←">
+<!ENTITY config.thumbnail.position.403 "←">
+<!ENTITY config.thumbnail.position.5   "За заголовком:">
+<!ENTITY config.thumbnail.position.501 "Слева">
+<!ENTITY config.thumbnail.position.502 "В центре">
+<!ENTITY config.thumbnail.position.503 "Справа">
+
+<!ENTITY config.thumbnail.size_mode.caption  "Размер миниатюры">
+<!ENTITY config.thumbnail.size_mode.fixed    "Фиксированный размер:">
+<!ENTITY config.thumbnail.max.before         "">
+<!ENTITY config.thumbnail.max.after          "пикселов">
+<!ENTITY config.thumbnail.size_mode.flexible "Зависит от размера вкладок:">
+<!ENTITY config.thumbnail.pow.before         "">
+<!ENTITY config.thumbnail.pow.after          "&#37; от ширины вкладки">
+
+
+<!ENTITY config.tabs.progress "Прогресс загрузки">
+
+<!ENTITY config.progress.mode.caption   "Отображать шкалу прогресса загрузки в">
+<!ENTITY config.progress.mode.statusbar "Строке состояния">
+<!ENTITY config.progress.mode.tab       "Каждой вкладке">
+<!ENTITY config.progress.mode.both      "Строке состояния и каждой вкладке">
+
+
+<!ENTITY config.tabs.unread "Статус непрочитанности">
+
+<!ENTITY config.unread.enabled "Выделять непрочитанные вкладки">
+
+<!ENTITY config.unread.readMethod.caption "Определять вкладки &quot;прочитанными&quot; когда">
+<!ENTITY config.unread.readMethod.0       "Вкладка была выбрана">
+<!ENTITY config.unread.readMethod.1       "Содержимое вкладки было пролистано">
+
+
+<!ENTITY config.tabs.closebutton "Кнопка закрытия">
+
+<!ENTITY config.closebutton.mode.caption "Кнопки закрытия в вкладках">
+<!ENTITY config.closebutton.mode.0   "Показывать кнопку закрытия только в активной вкладке">
+<!ENTITY config.closebutton.mode.1   "Показывать кнопки закрытия во всех вкладках (по умолчанию)">
+<!ENTITY config.closebutton.mode.2   "Не показывать кнопки закрытия вкладок">
+<!ENTITY config.closebutton.mode.3   "Показывать одну кнопку закрытия в конце панели вкладок(в стиле Firefox 1.5)">
+
+<!ENTITY config.closebutton.force_show "Показывать кнопки закрытия, даже если вкладки слишком узкие для отображения кнопок.">
+
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Кнопка закрытия для единственной вкладки">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Показывать только если вкладка может быть закрыта">
+<!ENTITY config.close_buttons.force_show.last_tab.2       "Показывать всегда (в стиле Firefox 3.0)">
+<!ENTITY config.close_buttons.force_show.last_tab.1       "Скрывать всегда (в стиле Firefox 3.1)">
+<!ENTITY config.closeWindowWithLastTab "Разрешить закрытие единственной вкладки">
