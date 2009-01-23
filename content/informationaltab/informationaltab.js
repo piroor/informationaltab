@@ -67,6 +67,17 @@ var InformationalTabService = {
 				null
 			).singleNodeValue;
 	},
+ 
+	getTabs : function(aTabBrowser) 
+	{
+		return aTabBrowser.ownerDocument.evaluate(
+				'descendant::*[local-name()="tab"]',
+				aTabBrowser.mTabContainer,
+				null,
+				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+				null
+			);
+	},
   
 /* Initializing */ 
 	
@@ -139,10 +150,10 @@ var InformationalTabService = {
 	{
 		aTabBrowser.thumbnailUpdateCount = 0;
 
-		var tabs = aTabBrowser.mTabContainer.childNodes;
-		for (var i = 0, maxi = tabs.length; i < maxi; i++)
+		var tabs = this.getTabs(aTabBrowser);
+		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 		{
-			this.initTab(tabs[i], aTabBrowser);
+			this.initTab(tabs.snapshotItem(i), aTabBrowser);
 		}
 
 		var listener = new InformationalTabPrefListener(aTabBrowser);
@@ -215,10 +226,10 @@ var InformationalTabService = {
 		aTabBrowser.removeEventListener('TabClose', this, false);
 		aTabBrowser.removeEventListener('TabMove',  this, false);
 
-		var tabs = aTabBrowser.mTabContainer.childNodes;
-		for (var i = 0, maxi = tabs.length; i < maxi; i++)
+		var tabs = this.getTabs(aTabBrowser);
+		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 		{
-			this.destroyTab(tabs[i]);
+			this.destroyTab(tabs.snapshotItem(i));
 		}
 	},
  
@@ -509,11 +520,11 @@ var InformationalTabService = {
 	{
 		if (!aThis) aThis = this;
 
-		var tabs = aTabBrowser.mTabContainer.childNodes;
-		for (var i = 0, maxi = tabs.length; i < maxi; i++)
+		var tabs = this.getTabs(aTabBrowser);
+		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 		{
 			aTabBrowser.thumbnailUpdateCount++;
-			aThis.updateThumbnailNow(tabs[i], aTabBrowser, aReason);
+			aThis.updateThumbnailNow(tabs.snapshotItem(i), aTabBrowser, aReason);
 		}
 
 		window.setTimeout(function() {
@@ -529,17 +540,19 @@ var InformationalTabService = {
 	{
 		if (this.disabled) return;
 
-		var tabs = aTabBrowser.mTabContainer.childNodes;
+		var tabs = this.getTabs(aTabBrowser);
+		var tab;
 		var label;
 		var canvas;
 		var pos = this.getPref('extensions.informationaltab.thumbnail.position');
-		for (var i = 0, maxi = tabs.length; i < maxi; i++)
+		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 		{
-			canvas = tabs[i].__informationaltab__canvas;
+			tab = tabs.snapshotItem(i);
+			canvas = tab.__informationaltab__canvas;
 			canvas.parentNode.parentNode.removeChild(canvas.parentNode);
 			canvas.parentNode.removeChild(canvas);
-			this.insertThumbnailTo(canvas, tabs[i], aTabBrowser, pos);
-			this.updateThumbnail(tabs[i], aTabBrowser, this.UPDATE_INIT);
+			this.insertThumbnailTo(canvas, tab, aTabBrowser, pos);
+			this.updateThumbnail(tab, aTabBrowser, this.UPDATE_INIT);
 		}
 	},
  
