@@ -520,7 +520,7 @@ var InformationalTabService = {
 	{
 		if (!aThis) aThis = this;
 
-		var tabs = this.getTabs(aTabBrowser);
+		var tabs = aThis.getTabs(aTabBrowser);
 		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 		{
 			aTabBrowser.thumbnailUpdateCount++;
