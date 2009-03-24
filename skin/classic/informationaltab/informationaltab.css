@@ -51,6 +51,10 @@ label.tab-text > .tab-label-inner-box > stack > * > .tab-progress > .progress-re
 	-moz-appearance: none;
 }
 
+tabbrowser[treestyletab-style="metal"][treestyletab-mode="vertical"] .tab-progress .progress-bar {
+	background: Highlight;
+}
+
 .tabbrowser-tab[informationaltab-thumbnail-position^="5"] label {
 	text-shadow: 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog;
 }
