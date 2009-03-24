@@ -594,6 +594,12 @@ var InformationalTabService = {
 							'tabS = "'+this.thumbnailHTabS.replace(/%canvas_height%/g, canvasH)+'"');
 				}
 			}
+
+			var style = window.getComputedStyle(aTab.__informationaltab__canvas.parentNode, null);
+			var margin = parseInt(style.getPropertyValue('margin-top').replace('px', ''))+
+						parseInt(style.getPropertyValue('margin-bottom').replace('px', ''));
+			tabH -= margin;
+
 			for (var i = 0, maxi = nodes.length; i < maxi; i++)
 			{
 				nodes[i].setAttribute('style', nodes[i].getAttribute('style')+';height:'+tabCH+'px !important;');
@@ -1265,6 +1271,17 @@ InformationalTabPrefListener.prototype = {
 			case 'extensions.informationaltab.thumbnail.position':
 			case 'extensions.treestyletab.tabbar.position':
 				ITS.repositionThumbnail(this.mTabBrowser);
+				return;
+
+			case 'extensions.treestyletab.tabbar.style':
+				window.setTimeout(function(aTabBrowser) {
+					var tabs = ITS.getTabs(aTabBrowser);
+					for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
+					{
+						aTabBrowser.thumbnailUpdateCount++;
+						ITS.updateTabStyle(tabs.snapshotItem(i), aTabBrowser, ITS.UPDATE_REFLOW);
+					}
+				}, 0, this.mTabBrowser);
 				return;
 
 			case 'extensions.informationaltab.thumbnail.size_mode':
