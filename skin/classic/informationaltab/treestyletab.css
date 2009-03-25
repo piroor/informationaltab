@@ -1,38 +1,177 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
+/* Square */
+
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="square"][treestyletab-mode="vertical"]
+  .tabbrowser-tab label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="square"][treestyletab-mode="vertical"]
+  .tabbrowser-tab:not([selected="true"]) label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="square"][treestyletab-tabbar-position="bottom"]
+  .tabbrowser-tab label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="square"][treestyletab-tabbar-position="bottom"]
+  .tabbrowser-tab:not([selected="true"]) label {
+	text-shadow: 0 0 0.2em ThreeDFace,
+	             0 0 0.2em ThreeDFace,
+	             0 0 0.2em ThreeDFace,
+	             0 0 0.2em ThreeDFace,
+	             0 0 0.2em ThreeDFace,
+	             0 0 0.2em ThreeDFace,
+	             0 0 0.2em ThreeDFace,
+	             0 0 0.2em ThreeDFace,
+	             0 0 0.2em ThreeDFace,
+	             0 0 0.2em ThreeDFace;
+}
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="square"][treestyletab-mode="vertical"]
+  .tabbrowser-tab[selected="true"] label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="square"][treestyletab-tabbar-position="bottom"]
+  .tabbrowser-tab[selected="true"] label {
+	text-shadow: 0 0 0.2em ThreeDHighlight,
+	             0 0 0.2em ThreeDHighlight,
+	             0 0 0.2em ThreeDHighlight,
+	             0 0 0.2em ThreeDHighlight,
+	             0 0 0.2em ThreeDHighlight,
+	             0 0 0.2em ThreeDHighlight,
+	             0 0 0.2em ThreeDHighlight,
+	             0 0 0.2em ThreeDHighlight,
+	             0 0 0.2em ThreeDHighlight,
+	             0 0 0.2em ThreeDHighlight;
+}
+
+/* Vertigo, Mixed */
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="vertigo"][treestyletab-mode="vertical"]
+  .tabbrowser-tab:not([selected="true"]):hover label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="vertigo"][treestyletab-tabbar-position="bottom"]
+  .tabbrowser-tab:not([selected="true"]):hover label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="mixed"][treestyletab-mode="vertical"]
+  .tabbrowser-tab:not([selected="true"]):hover label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="mixed"][treestyletab-tabbar-position="bottom"]
+  .tabbrowser-tab:not([selected="true"]):hover label {
+	text-shadow: 0 0 0.2em #e0e8f6,
+	             0 0 0.2em #e0e8f6,
+	             0 0 0.2em #e0e8f6,
+	             0 0 0.2em #e0e8f6,
+	             0 0 0.2em #e0e8f6,
+	             0 0 0.2em #e0e8f6,
+	             0 0 0.2em #e0e8f6,
+	             0 0 0.2em #e0e8f6,
+	             0 0 0.2em #e0e8f6,
+	             0 0 0.2em #e0e8f6;
+}
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="vertigo"][treestyletab-mode="vertical"]
+  .tabbrowser-tab[selected="true"] label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="vertigo"][treestyletab-tabbar-position="bottom"]
+  .tabbrowser-tab[selected="true"] label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="mixed"][treestyletab-mode="vertical"]
+  .tabbrowser-tab[selected="true"] label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="mixed"][treestyletab-tabbar-position="bottom"]
+  .tabbrowser-tab[selected="true"] label {
+	text-shadow: 0 0 0.2em #c1d2ee,
+	             0 0 0.2em #c1d2ee,
+	             0 0 0.2em #c1d2ee,
+	             0 0 0.2em #c1d2ee,
+	             0 0 0.2em #c1d2ee,
+	             0 0 0.2em #c1d2ee,
+	             0 0 0.2em #c1d2ee,
+	             0 0 0.2em #c1d2ee,
+	             0 0 0.2em #c1d2ee,
+	             0 0 0.2em #c1d2ee;
+}
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="vertigo"][treestyletab-mode="vertical"]
+  .tabbrowser-tab[selected="true"]:hover label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="vertigo"][treestyletab-tabbar-position="bottom"]
+  .tabbrowser-tab[selected="true"]:hover label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="mixed"][treestyletab-mode="vertical"]
+  .tabbrowser-tab[selected="true"]:hover label,
+:root[informationaltab-thumbnail-position^="5"]
+  tabbrowser[treestyletab-style~="mixed"][treestyletab-tabbar-position="bottom"]
+  .tabbrowser-tab[selected="true"]:hover label {
+	text-shadow: 0 0 0.2em #d1e2fe,
+	             0 0 0.2em #d1e2fe,
+	             0 0 0.2em #d1e2fe,
+	             0 0 0.2em #d1e2fe,
+	             0 0 0.2em #d1e2fe,
+	             0 0 0.2em #d1e2fe,
+	             0 0 0.2em #d1e2fe,
+	             0 0 0.2em #d1e2fe,
+	             0 0 0.2em #d1e2fe,
+	             0 0 0.2em #d1e2fe;
+}
+
+
 
 /* Metal */
-:root[informationaltab-thumbnail-enabled="true"]
+:root[informationaltab-thumbnail-position^="5"]
   tabbrowser[treestyletab-style="metal"][treestyletab-mode="vertical"]
-  .tabbrowser-tab[informationaltab-thumbnail-position^="5"] label {
-	text-shadow: 0 0 0.2em #9a9a9a,
+  .tabbrowser-tab label {
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4),
+	             0 0 0.2em #9a9a9a,
+	             0 0 0.2em #9a9a9a,
+	             0 0 0.2em #9a9a9a,
+	             0 0 0.2em #9a9a9a,
+	             0 0 0.2em #9a9a9a,
+	             0 0 0.2em #9a9a9a,
 	             0 0 0.2em #9a9a9a,
 	             0 0 0.2em #9a9a9a,
 	             0 0 0.2em #9a9a9a,
 	             0 0 0.2em #9a9a9a;
 }
-:root[informationaltab-thumbnail-enabled="true"]
+:root[informationaltab-thumbnail-position^="5"]
   tabbrowser[treestyletab-style="metal"][treestyletab-mode="vertical"]
-  .tabbrowser-tab[selected="true"][informationaltab-thumbnail-position^="5"] label {
-	text-shadow: 0 0 0.2em #b3b2b3,
+  .tabbrowser-tab[selected="true"] label {
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4),
+	             0 0 0.2em #b3b2b3,
+	             0 0 0.2em #b3b2b3,
+	             0 0 0.2em #b3b2b3,
+	             0 0 0.2em #b3b2b3,
+	             0 0 0.2em #b3b2b3,
+	             0 0 0.2em #b3b2b3,
 	             0 0 0.2em #b3b2b3,
 	             0 0 0.2em #b3b2b3,
 	             0 0 0.2em #b3b2b3,
 	             0 0 0.2em #b3b2b3;
 }
-:root:not([active="true"])[informationaltab-thumbnail-enabled="true"]
+:root:not([active="true"])[informationaltab-thumbnail-position^="5"]
   tabbrowser[treestyletab-style="metal"][treestyletab-mode="vertical"]
-  .tabbrowser-tab[informationaltab-thumbnail-position^="5"] label {
-	text-shadow: 0 0 0.2em #cecece,
+  .tabbrowser-tab label {
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4),
+	             0 0 0.2em #cecece,
+	             0 0 0.2em #cecece,
+	             0 0 0.2em #cecece,
+	             0 0 0.2em #cecece,
+	             0 0 0.2em #cecece,
+	             0 0 0.2em #cecece,
 	             0 0 0.2em #cecece,
 	             0 0 0.2em #cecece,
 	             0 0 0.2em #cecece,
 	             0 0 0.2em #cecece;
 }
-:root:not([active="true"])[informationaltab-thumbnail-enabled="true"]
+:root:not([active="true"])[informationaltab-thumbnail-position^="5"]
   tabbrowser[treestyletab-style="metal"][treestyletab-mode="vertical"]
-  .tabbrowser-tab[selected="true"][informationaltab-thumbnail-position^="5"] label {
-	text-shadow: 0 0 0.2em #e4e4e4,
+  .tabbrowser-tab[selected="true"] label {
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4),
+	             0 0 0.2em #e4e4e4,
+	             0 0 0.2em #e4e4e4,
+	             0 0 0.2em #e4e4e4,
+	             0 0 0.2em #e4e4e4,
+	             0 0 0.2em #e4e4e4,
+	             0 0 0.2em #e4e4e4,
 	             0 0 0.2em #e4e4e4,
 	             0 0 0.2em #e4e4e4,
 	             0 0 0.2em #e4e4e4,

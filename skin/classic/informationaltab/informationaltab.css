@@ -57,8 +57,14 @@ label.tab-text > .tab-label-inner-box > stack > * > .tab-progress > .progress-re
 	background: Highlight;
 }
 
-:root[informationaltab-thumbnail-enabled="true"] .tabbrowser-tab[informationaltab-thumbnail-position^="5"] label {
+:root[informationaltab-thumbnail-position^="5"]
+  .tabbrowser-tab label {
 	text-shadow: 0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
 	             0 0 0.2em -moz-Dialog,
 	             0 0 0.2em -moz-Dialog,
 	             0 0 0.2em -moz-Dialog,

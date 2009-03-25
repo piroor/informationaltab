@@ -335,8 +335,6 @@ var InformationalTabService = {
 				break;
 		}
 
-		aTab.setAttribute('informationaltab-thumbnail-position', aPosition);
-
 		var isTreeAvailable = 'TreeStyleTabService' in window;
 		if (isTreeAvailable)
 			TreeStyleTabService.initTabContents(aTab, aTabBrowser);
@@ -773,6 +771,15 @@ var InformationalTabService = {
 				}
 				else {
 					document.documentElement.removeAttribute('informationaltab-thumbnail-enabled');
+				}
+			case 'extensions.informationaltab.thumbnail.position':
+				var attr = 'informationaltab-thumbnail-position';
+				if (this.thumbnailEnabled) {
+					document.documentElement.setAttribute(attr,
+						this.getPref('extensions.informationaltab.thumbnail.position'));
+				}
+				else {
+					document.documentElement.removeAttribute(attr);
 				}
 				break;
 
@@ -1278,7 +1285,6 @@ InformationalTabPrefListener.prototype = {
 					var tabs = ITS.getTabs(aTabBrowser);
 					for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 					{
-						aTabBrowser.thumbnailUpdateCount++;
 						ITS.updateTabStyle(tabs.snapshotItem(i), aTabBrowser, ITS.UPDATE_REFLOW);
 					}
 				}, 0, this.mTabBrowser);
