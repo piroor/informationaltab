@@ -1,0 +1,41 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+
+/* Metal */
+:root[informationaltab-thumbnail-enabled="true"]
+  tabbrowser[treestyletab-style="metal"][treestyletab-mode="vertical"]
+  .tabbrowser-tab[informationaltab-thumbnail-position^="5"] label {
+	text-shadow: 0 0 0.2em #9a9a9a,
+	             0 0 0.2em #9a9a9a,
+	             0 0 0.2em #9a9a9a,
+	             0 0 0.2em #9a9a9a,
+	             0 0 0.2em #9a9a9a;
+}
+:root[informationaltab-thumbnail-enabled="true"]
+  tabbrowser[treestyletab-style="metal"][treestyletab-mode="vertical"]
+  .tabbrowser-tab[selected="true"][informationaltab-thumbnail-position^="5"] label {
+	text-shadow: 0 0 0.2em #b3b2b3,
+	             0 0 0.2em #b3b2b3,
+	             0 0 0.2em #b3b2b3,
+	             0 0 0.2em #b3b2b3,
+	             0 0 0.2em #b3b2b3;
+}
+:root:not([active="true"])[informationaltab-thumbnail-enabled="true"]
+  tabbrowser[treestyletab-style="metal"][treestyletab-mode="vertical"]
+  .tabbrowser-tab[informationaltab-thumbnail-position^="5"] label {
+	text-shadow: 0 0 0.2em #cecece,
+	             0 0 0.2em #cecece,
+	             0 0 0.2em #cecece,
+	             0 0 0.2em #cecece,
+	             0 0 0.2em #cecece;
+}
+:root:not([active="true"])[informationaltab-thumbnail-enabled="true"]
+  tabbrowser[treestyletab-style="metal"][treestyletab-mode="vertical"]
+  .tabbrowser-tab[selected="true"][informationaltab-thumbnail-position^="5"] label {
+	text-shadow: 0 0 0.2em #e4e4e4,
+	             0 0 0.2em #e4e4e4,
+	             0 0 0.2em #e4e4e4,
+	             0 0 0.2em #e4e4e4,
+	             0 0 0.2em #e4e4e4;
+}
+

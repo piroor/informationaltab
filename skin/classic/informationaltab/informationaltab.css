@@ -1,3 +1,5 @@
+@import url("treestyletab.css");
+
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 @namespace xhtml url("http://www.w3.org/1999/xhtml");
 
@@ -55,8 +57,12 @@ label.tab-text > .tab-label-inner-box > stack > * > .tab-progress > .progress-re
 	background: Highlight;
 }
 
-.tabbrowser-tab[informationaltab-thumbnail-position^="5"] label {
-	text-shadow: 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog, 0 0 0.2em -moz-Dialog;
+:root[informationaltab-thumbnail-enabled="true"] .tabbrowser-tab[informationaltab-thumbnail-position^="5"] label {
+	text-shadow: 0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog,
+	             0 0 0.2em -moz-Dialog;
 }
 
 /* unread state */
