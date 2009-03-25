@@ -609,9 +609,9 @@ var InformationalTabService = {
 		else {
 			for (var i = 0, maxi = nodes.length; i < maxi; i++)
 			{
-				nodes[i].setAttribute('style', nodes[i].getAttribute('style').replace(/(^|;)height\s*:\s*[^;]*/, '$1'));
+				nodes[i].setAttribute('style', nodes[i].getAttribute('style').replace(/(^|;\s*)height\s*:\s*[^;]*/, '$1'));
 			}
-			aTab.setAttribute('style', aTab.getAttribute('style').replace(/(^|;)height\s*:\s*[^;]*/, '$1'));
+			aTab.setAttribute('style', aTab.getAttribute('style').replace(/(^|;\s*)height\s*:\s*[^;]*/, '$1'));
 		}
 	},
   
