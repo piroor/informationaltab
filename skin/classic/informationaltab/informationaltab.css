@@ -51,7 +51,7 @@ label.tab-text > .tab-label-inner-box > stack > * > .tab-progress > .progress-re
 	-moz-appearance: none;
 }
 
-tabbrowser[treestyletab-style="metal"][treestyletab-mode="vertical"] .tab-progress .progress-bar {
+.tabbrowser-tab .tab-progress .progress-bar {
 	background: Highlight;
 }
 
