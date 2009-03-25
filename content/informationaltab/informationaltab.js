@@ -164,6 +164,7 @@ var InformationalTabService = {
 		aTabBrowser.addEventListener('TabOpen',  this, false);
 		aTabBrowser.addEventListener('TabClose', this, false);
 		aTabBrowser.addEventListener('TabMove',  this, false);
+		aTabBrowser.addEventListener('TreeStyleTabCollapsedStateChange',  this, false);
 
 		delete i;
 		delete maxi;
@@ -225,6 +226,7 @@ var InformationalTabService = {
 		aTabBrowser.removeEventListener('TabOpen',  this, false);
 		aTabBrowser.removeEventListener('TabClose', this, false);
 		aTabBrowser.removeEventListener('TabMove',  this, false);
+		aTabBrowser.removeEventListener('TreeStyleTabCollapsedStateChange',  this, false);
 
 		var tabs = this.getTabs(aTabBrowser);
 		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
@@ -653,6 +655,12 @@ var InformationalTabService = {
 					b = b.parentNode;
 				this.destroyTab(aEvent.originalTarget);
 				this.initTab(aEvent.originalTarget, b);
+				break;
+
+			case 'TreeStyleTabCollapsedStateChange':
+				if (aEvent.collapsed) return;
+				var tab = aEvent.originalTarget;
+				this.updateTabStyle(tab, tab.getAttribute('selected') == 'true');
 				break;
 		}
 	},
@@ -1285,7 +1293,8 @@ InformationalTabPrefListener.prototype = {
 					var tabs = ITS.getTabs(aTabBrowser);
 					for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 					{
-						ITS.updateTabStyle(tabs.snapshotItem(i), aTabBrowser, ITS.UPDATE_REFLOW);
+						let tab = tabs.snapshotItem(i);
+						ITS.updateTabStyle(tab, tab.getAttribute('selected') == 'true');
 					}
 				}, 0, this.mTabBrowser);
 				return;
