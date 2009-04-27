@@ -389,7 +389,7 @@ var InformationalTabService = {
 			aSelf.updateThumbnailNow(aTab, aTabBrowser);
 		}, this.thumbnailUpdateDelay, this, aTab, aTabBrowser);
 	},
-	updateThumbnailNow : function(aTab, aTabBrowser, aReason, aImage)
+	updateThumbnailNow : function(aTab, aTabBrowser, aReason)
 	{
 		if (!aReason) {
 			aReason = aTab.__informationaltab__lastReason;
@@ -444,56 +444,35 @@ var InformationalTabService = {
 				try {
 					var ctx = canvas.getContext('2d');
 					ctx.clearRect(0, 0, canvasW, canvasH);
+					ctx.save();
 					if (!isImage) {
-						ctx.save();
 						if (h * canvasW/w < canvasH)
 							ctx.scale(canvasH/h, canvasH/h);
 						else
 							ctx.scale(canvasW/w, canvasW/w);
 						ctx.drawWindow(win, 0/*win.scrollX*/, win.scrollY, w, h, this.thumbnailBG);
-						ctx.restore();
 					}
 					else {
-						if (aImage && aImage instanceof Image) {
-							ctx.fillStyle = this.thumbnailBG;
-							ctx.fillRect(0, 0, canvasW, canvasH);
-							var iW = parseInt(aImage.width);
-							var iH = parseInt(aImage.height);
-							var x = 0;
-							var y = 0;
-							ctx.save();
-							if ((iW / iH) < 1) {
-								iW = iW * canvasH / iH;
-								x = Math.floor((canvasW - iW) / 2 );
-								iH = canvasH;
-							}
-							else {
-								iH = iH * canvasW / iW;
-								y = Math.floor((canvasH - iH) / 2 );
-								iW = canvasW;
-							}
-							ctx.drawImage(aImage, x, y, iW, iH);
-							ctx.restore();
+						var image = b.contentDocument.getElementsByTagName('img')[0];
+						ctx.fillStyle = this.thumbnailBG;
+						ctx.fillRect(0, 0, canvasW, canvasH);
+						var iW = parseInt(image.width);
+						var iH = parseInt(image.height);
+						var x = 0;
+						var y = 0;
+						if ((iW / iH) < 1) {
+							iW = iW * canvasH / iH;
+							x = Math.floor((canvasW - iW) / 2 );
+							iH = canvasH;
 						}
 						else {
-							var img = new Image();
-							img.src = b.currentURI.spec;
-							var func = arguments.callee;
-							var self = this;
-							img.addEventListener('load', function() {
-								img.removeEventListener('load', arguments.callee, false);
-								func.call(self, aTab, aTabBrowser, self.UPDATE_PAGELOAD, img);
-								delete self;
-								delete func;
-								delete img;
-								delete canvas;
-								delete ctx;
-								delete b;
-								delete win;
-							}, false);
-							return;
+							iH = iH * canvasW / iW;
+							y = Math.floor((canvasH - iH) / 2 );
+							iW = canvasW;
 						}
+						ctx.drawImage(image, x, y, iW, iH);
 					}
+					ctx.restore();
 				}
 				catch(e) {
 				}
