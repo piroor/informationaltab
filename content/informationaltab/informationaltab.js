@@ -345,12 +345,6 @@ var InformationalTabService = {
 		if (isTreeAvailable &&
 			TreeStyleTabService.getTreePref('tabbar.position') == 'right' &&
 			TreeStyleTabService.getTreePref('tabbar.invertUI')) {
-			if (!isTreeAvailable) {
-				for (var i = 0, maxi = nodes.length; i < maxi; i++)
-				{
-					nodes[i].setAttribute('ordinal', (nodes.length - i + 1) * 10);
-				}
-			}
 			container.setAttribute('ordinal',
 				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(icon.getAttribute('ordinal')) + 5 :
 				(aPosition == this.POSITION_BEFORE_LABEL) ? parseInt(labelBox.getAttribute('ordinal')) + 5 :
@@ -361,7 +355,7 @@ var InformationalTabService = {
 			if (!isTreeAvailable) {
 				for (i = 0, maxi = nodes.length; i < maxi; i++)
 				{
-					nodes[i].setAttribute('ordinal', (i + 1) * 10);
+					nodes[i].setAttribute('ordinal', (i + 1) * 100);
 				}
 			}
 			container.setAttribute('ordinal',
