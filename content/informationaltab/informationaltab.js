@@ -175,8 +175,8 @@ var InformationalTabService = {
 				'{',
 				'{ InformationalTabService.destroyTab(aOurTab);'
 			).replace(
-				/(if \((?:tabCount == 1|aOurTab == this.selectedTab)\))/,
-				'InformationalTabService.initTab(aOurTab); $1'
+				'if (aOurTab == this.selectedTab) {this.updateCurrentBrowser(',
+				'InformationalTabService.initTab(aOurTab); $&'
 			));
 		}
 	},
@@ -401,8 +401,8 @@ var InformationalTabService = {
 		if (this.thumbnailEnabled) {
 			var b   = aTab.linkedBrowser;
 			var win = b.contentWindow;
-			var w   = win.innerWidth;
-			var h   = win.innerHeight;
+			var w   = Math.max(win.innerWidth, 200);
+			var h   = Math.max(win.innerHeight, 150);
 			var aspectRatio = this.thumbnailFixAspectRatio ? this.thumbnailFixedAspectRatio : (w / h) ;
 
 			var size = this.thumbnailSizeMode == this.SIZE_MODE_FIXED ?
