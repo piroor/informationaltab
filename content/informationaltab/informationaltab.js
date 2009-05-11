@@ -344,7 +344,7 @@ var InformationalTabService = {
 		var nodes = labelBox.parentNode.childNodes;
 		if (isTreeAvailable &&
 			TreeStyleTabService.getTreePref('tabbar.position') == 'right' &&
-			TreeStyleTabService.getTreePref('tabbar.invertUI')) {
+			TreeStyleTabService.getTreePref('tabbar.invertTabContents')) {
 			container.setAttribute('ordinal',
 				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(icon.getAttribute('ordinal')) + 5 :
 				(aPosition == this.POSITION_BEFORE_LABEL) ? parseInt(labelBox.getAttribute('ordinal')) + 5 :
@@ -1253,9 +1253,7 @@ InformationalTabPrefListener.prototype = {
 					ITS.updateAllThumbnails(this.mTabBrowser, ITS.UPDATE_INIT);
 				break;
 
-			case 'extensions.treestyletab.tabbar.invertUI':
-				if (ITS.getPref('extensions.treestyletab.tabbar.position') != 'right')
-					return;
+			case 'extensions.treestyletab.tabbar.invertTabContents':
 			case 'extensions.informationaltab.thumbnail.position':
 			case 'extensions.treestyletab.tabbar.position':
 				ITS.repositionThumbnail(this.mTabBrowser);
