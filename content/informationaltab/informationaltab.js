@@ -46,7 +46,7 @@ var InformationalTabService = {
 	UPDATE_REPAINT  : 32,
 
 	readMethod : 0,
-	 
+	
 /* Utilities */ 
 	
 	get browser() 
@@ -150,25 +150,23 @@ var InformationalTabService = {
 	{
 		aTabBrowser.thumbnailUpdateCount = 0;
 
-		var tabs = this.getTabs(aTabBrowser);
-		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
-		{
-			this.initTab(tabs.snapshotItem(i), aTabBrowser);
+		let (tabs, i, maxi, listener) {
+			tabs = this.getTabs(aTabBrowser);
+			for (i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
+			{
+				this.initTab(tabs.snapshotItem(i), aTabBrowser);
+			}
+
+			listener = new InformationalTabPrefListener(aTabBrowser);
+			aTabBrowser.__informationaltab__prefListener = listener;
+
+			aTabBrowser.__informationaltab__eventListener = new InformationalTabBrowserEventListener(aTabBrowser);
+			aTabBrowser.addEventListener('TabSelect', this, false);
+			aTabBrowser.addEventListener('TabOpen',  this, false);
+			aTabBrowser.addEventListener('TabClose', this, false);
+			aTabBrowser.addEventListener('TabMove',  this, false);
+			aTabBrowser.addEventListener('TreeStyleTabCollapsedStateChange',  this, false);
 		}
-
-		var listener = new InformationalTabPrefListener(aTabBrowser);
-		aTabBrowser.__informationaltab__prefListener = listener;
-
-		aTabBrowser.__informationaltab__eventListener = new InformationalTabBrowserEventListener(aTabBrowser);
-		aTabBrowser.addEventListener('TabSelect', this, false);
-		aTabBrowser.addEventListener('TabOpen',  this, false);
-		aTabBrowser.addEventListener('TabClose', this, false);
-		aTabBrowser.addEventListener('TabMove',  this, false);
-		aTabBrowser.addEventListener('TreeStyleTabCollapsedStateChange',  this, false);
-
-		delete i;
-		delete maxi;
-		delete tabs;
 
 		if ('swapBrowsersAndCloseOther' in aTabBrowser) {
 			eval('aTabBrowser.swapBrowsersAndCloseOther = '+aTabBrowser.swapBrowsersAndCloseOther.toSource().replace(
@@ -675,7 +673,7 @@ var InformationalTabService = {
 		switch (aTopic)
 		{
 			case 'nsPref:changed':
-				this.onChangePref(aSubject, aTopic, aData);
+				this.onChangePref(aData);
 				break;
 
 			case 'em-action-requested':
@@ -738,10 +736,8 @@ var InformationalTabService = {
 		'browser.tabs'
 	],
  
-	onChangePref : function(aSubject, aTopic, aPrefName) 
+	onChangePref : function(aPrefName) 
 	{
-		if (aTopic != 'nsPref:changed') return;
-
 		var value = this.getPref(aPrefName);
 		switch (aPrefName)
 		{
