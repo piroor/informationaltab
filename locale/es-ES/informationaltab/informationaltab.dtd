@@ -4,7 +4,13 @@
 <!ENTITY config.tabs.thumbnail "Vista previa">
 
 <!ENTITY config.thumbnail.enabled "Mostrar miniaturas en cada pestaña">
+<!ENTITY config.thumbnail.full      "Show whole of the page">
 <!ENTITY config.thumbnail.animation "Repaint thumbnail in real time for animations">
+<!ENTITY config.thumbnail.partial   "Show partially">
+<!ENTITY config.thumbnail.partial.area.before  "from (">
+<!ENTITY config.thumbnail.partial.area.middle1 ", ">
+<!ENTITY config.thumbnail.partial.area.middle2 "), ">
+<!ENTITY config.thumbnail.partial.area.after   "pixels">
 
 <!ENTITY config.thumbnail.position.caption "Mostrar vista previa en">
 <!ENTITY config.thumbnail.position.label   "(Título de la pestaña)">

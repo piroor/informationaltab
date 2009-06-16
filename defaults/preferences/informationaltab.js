@@ -1,4 +1,8 @@
 pref("extensions.informationaltab.thumbnail.enabled", true);
+pref("extensions.informationaltab.thumbnail.partial", true);
+pref("extensions.informationaltab.thumbnail.partial.max", 300);
+pref("extensions.informationaltab.thumbnail.partial.startX", 0);
+pref("extensions.informationaltab.thumbnail.partial.startY", 0);
 // [0][favicon][1][label][2][closebox], 301-303 is above, 401-403 is below, 501-503 is behind
 pref("extensions.informationaltab.thumbnail.position", 1);
 // 0 = fixed size, 1 = flexible size

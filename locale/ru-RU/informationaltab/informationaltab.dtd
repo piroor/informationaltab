@@ -4,7 +4,13 @@
 <!ENTITY config.tabs.thumbnail "Миниатюры страниц">
 
 <!ENTITY config.thumbnail.enabled "Показывать минитюры страниц в каждой вкладке">
+<!ENTITY config.thumbnail.full      "Show whole of the page">
 <!ENTITY config.thumbnail.animation "Перерисовывать миниатюры в реальном времени для анимаций">
+<!ENTITY config.thumbnail.partial   "Show partially">
+<!ENTITY config.thumbnail.partial.area.before  "from (">
+<!ENTITY config.thumbnail.partial.area.middle1 ", ">
+<!ENTITY config.thumbnail.partial.area.middle2 "), ">
+<!ENTITY config.thumbnail.partial.area.after   "pixels">
 
 <!ENTITY config.thumbnail.position.caption "Расположение миниатюры:">
 <!ENTITY config.thumbnail.position.label   "(заголовок вкладки)">

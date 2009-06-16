@@ -14,11 +14,24 @@
 	title="&config.title;"
 	onload="init();">
 
-<prefpane id="prefpane-thumbnail" label="&config.tabs.thumbnail;">
+<prefpane id="prefpane-thumbnail" label="&config.tabs.thumbnail;"
+	onpaneload="initThumbnailMode();">
 	<preferences>
 		<preference id="extensions.informationaltab.thumbnail.enabled"
 			name="extensions.informationaltab.thumbnail.enabled"
 			type="bool"/>
+		<preference id="extensions.informationaltab.thumbnail.partial"
+			name="extensions.informationaltab.thumbnail.partial"
+			type="bool"/>
+		<preference id="extensions.informationaltab.thumbnail.partial.startX"
+			name="extensions.informationaltab.thumbnail.partial.startX"
+			type="int"/>
+		<preference id="extensions.informationaltab.thumbnail.partial.startY"
+			name="extensions.informationaltab.thumbnail.partial.startY"
+			type="int"/>
+		<preference id="extensions.informationaltab.thumbnail.partial.max"
+			name="extensions.informationaltab.thumbnail.partial.max"
+			type="int"/>
 		<preference id="extensions.informationaltab.thumbnail.position"
 			name="extensions.informationaltab.thumbnail.position"
 			type="int"/>
@@ -36,15 +49,59 @@
 			type="bool"/>
 	</preferences>
 
-	<checkbox id="extensions.informationaltab.thumbnail.enabled-check"
-		preference="extensions.informationaltab.thumbnail.enabled"
-		label="&config.thumbnail.enabled;"/>
-	<hbox align="center" id="animationCheck">
-		<spacer style="width: 1em;"/>
-		<checkbox id="extensions.informationaltab.thumbnail.animation-check"
-			preference="extensions.informationaltab.thumbnail.animation"
-			label="&config.thumbnail.animation;"/>
-	</hbox>
+	<groupbox>
+		<caption>
+			<checkbox id="config.thumbnail.enabled-check"
+				preference="extensions.informationaltab.thumbnail.enabled"
+				label="&config.thumbnail.enabled;"
+				oncommand="onThumbnailModeChange()"/>
+		</caption>
+	<radiogroup orient="vertical"
+		id="config.thumbnail.partial-radiogroup"
+		preference="extensions.informationaltab.thumbnail.partial">
+		<radio id="config.thumbnail.partial-full"
+			value="false"
+			label="&config.thumbnail.full;"
+			oncommand="onThumbnailModeChange()"/>
+		<hbox align="center" id="animationCheck">
+			<spacer style="width: 1em;"/>
+			<checkbox id="config.thumbnail.animation-check"
+				preference="extensions.informationaltab.thumbnail.animation"
+				label="&config.thumbnail.animation;"/>
+		</hbox>
+		<radio id="config.thumbnail.partial-partial"
+			value="true"
+			label="&config.thumbnail.partial;"
+			oncommand="onThumbnailModeChange()"/>
+		<hbox align="center">
+			<spacer style="width: 1em;"/>
+			<label id="config.thumbnail.partial.area.before"
+				value="&config.thumbnail.partial.area.before;"
+				control="config.thumbnail.partial.startX-textbox"/>
+			<textbox id="config.thumbnail.partial.startX-textbox"
+				preference="extensions.informationaltab.thumbnail.partial.startX"
+				type="number"
+				min="0" increment="1" style="width:4em;"/>
+			<label id="config.thumbnail.partial.area.middle1"
+				value="&config.thumbnail.partial.area.middle1;"
+				control="config.thumbnail.partial.startY-textbox"/>
+			<textbox id="config.thumbnail.partial.startY-textbox"
+				preference="extensions.informationaltab.thumbnail.partial.startY"
+				type="number"
+				min="0" increment="1" style="width:4em;"/>
+			<label id="config.thumbnail.partial.area.middle2"
+				value="&config.thumbnail.partial.area.middle2;"
+				control="config.thumbnail.partial.max-textbox"/>
+			<textbox id="config.thumbnail.partial.max-textbox"
+				preference="extensions.informationaltab.thumbnail.partial.max"
+				type="number"
+				min="0" increment="1" style="width:4em;"/>
+			<label id="config.thumbnail.partial.area.after"
+				value="&config.thumbnail.partial.area.after;"
+				control="config.thumbnail.partial.max-textbox"/>
+		</hbox>
+	</radiogroup>
+	</groupbox>
 
 	<groupbox>
 		<caption label="&config.thumbnail.position.caption;"/>

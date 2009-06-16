@@ -5,6 +5,10 @@ var InformationalTabService = {
 	disabled : false,
 
 	thumbnailEnabled : false,
+	thumbnailPartial : true,
+	thumbnailPartialMax   : 200,
+	thumbnailPartialBaseX : 0,
+	thumbnailPartialBaseY : 0,
 
 	POSITION_BEFORE_FAVICON  : 0,
 	POSITION_BEFORE_LABEL    : 1,
@@ -110,6 +114,10 @@ var InformationalTabService = {
 
 		this.addPrefListener(this);
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.enabled');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.max');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.startX');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.startY');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.size_mode');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.max');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.pow');
@@ -401,6 +409,10 @@ var InformationalTabService = {
 			var win = b.contentWindow;
 			var w   = Math.max(win.innerWidth, 200);
 			var h   = Math.max(win.innerHeight, 150);
+			if (this.thumbnailPartial) {
+				w = Math.min(w, this.thumbnailPartialMax);
+				h = Math.min(w, this.thumbnailPartialMax);
+			}
 			var aspectRatio = this.thumbnailFixAspectRatio ? this.thumbnailFixedAspectRatio : (w / h) ;
 
 			var size = this.thumbnailSizeMode == this.SIZE_MODE_FIXED ?
@@ -438,20 +450,31 @@ var InformationalTabService = {
 					ctx.clearRect(0, 0, canvasW, canvasH);
 					ctx.save();
 					if (!isImage) {
+						let x, y;
+						if (this.thumbnailPartial) {
+							x = this.thumbnailPartialBaseX;
+							if (x < 0) x += win.innerWidth;
+							y = this.thumbnailPartialBaseY;
+							if (y < 0) y += win.innerHeight;
+						}
+						else {
+							x = 0; // win.scrollX;
+							y = win.scrollY;
+						}
 						if (h * canvasW/w < canvasH)
 							ctx.scale(canvasH/h, canvasH/h);
 						else
 							ctx.scale(canvasW/w, canvasW/w);
-						ctx.drawWindow(win, 0/*win.scrollX*/, win.scrollY, w, h, this.thumbnailBG);
+						ctx.drawWindow(win, x, y, w, h, this.thumbnailBG);
 					}
 					else {
-						var image = b.contentDocument.getElementsByTagName('img')[0];
+						let image = b.contentDocument.getElementsByTagName('img')[0];
 						ctx.fillStyle = this.thumbnailBG;
 						ctx.fillRect(0, 0, canvasW, canvasH);
-						var iW = parseInt(image.width);
-						var iH = parseInt(image.height);
-						var x = 0;
-						var y = 0;
+						let iW = parseInt(image.width);
+						let iH = parseInt(image.height);
+						let x = 0;
+						let y = 0;
 						if ((iW / iH) < 1) {
 							iW = iW * canvasH / iH;
 							x = Math.floor((canvasW - iW) / 2 );
@@ -758,6 +781,19 @@ var InformationalTabService = {
 				else {
 					document.documentElement.removeAttribute(attr);
 				}
+				break;
+
+			case 'extensions.informationaltab.thumbnail.partial':
+				this.thumbnailPartial = value;
+				break;
+			case 'extensions.informationaltab.thumbnail.partial.max':
+				this.thumbnailPartialMax = value;
+				break;
+			case 'extensions.informationaltab.thumbnail.partial.startX':
+				this.thumbnailPartialBaseX = value;
+				break;
+			case 'extensions.informationaltab.thumbnail.partial.startY':
+				this.thumbnailPartialBaseY = value;
 				break;
 
 			case 'extensions.informationaltab.thumbnail.size_mode':
@@ -1108,19 +1144,17 @@ InformationalTabEventListener.prototype = {
 		this.mTab = aTab;
 		this.mTabBrowser = aTabBrowser;
 
-		this.mTab.linkedBrowser.addEventListener('scroll', this, false);
 		this.mTab.addEventListener('DOMAttrModified', this, false);
+		this.mTab.linkedBrowser.addEventListener('scroll', this, false);
 		InformationalTabService.addPrefListener(this);
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.animation');
 	},
 	destroy : function()
 	{
-		if (this.watchingRedrawEvent) {
+		if (this.watchingRedrawEvent)
 			this.mTab.linkedBrowser.removeEventListener('MozAfterPaint', this, false);
-		}
-		this.mTab.linkedBrowser.removeEventListener('scroll', this, false);
 		this.mTab.removeEventListener('DOMAttrModified', this, false);
-
+		this.mTab.linkedBrowser.removeEventListener('scroll', this, false);
 		InformationalTabService.removePrefListener(this);
 
 		delete this.mTab;
@@ -1156,6 +1190,7 @@ InformationalTabEventListener.prototype = {
 	},
 	watchingRedrawEvent : false,
 	domains : [
+		'extensions.informationaltab.thumbnail.partial',
 		'extensions.informationaltab.thumbnail.animation'
 	],
  	observe : function(aSubject, aTopic, aPrefName)
@@ -1166,16 +1201,17 @@ InformationalTabEventListener.prototype = {
 		var value = ITS.getPref(aPrefName);
 		switch (aPrefName)
 		{
+			case 'extensions.informationaltab.thumbnail.partial':
 			case 'extensions.informationaltab.thumbnail.animation':
-				if (this.watchingRedrawEvent != value) {
-					if (value) {
-						this.mTab.linkedBrowser.addEventListener('MozAfterPaint', this, false);
-					}
-					else {
-						this.mTab.linkedBrowser.removeEventListener('MozAfterPaint', this, false);
-					}
-				}
-				this.watchingRedrawEvent = value;
+				var shouldWatch = (
+						!ITS.getPref('extensions.informationaltab.thumbnail.partial') &&
+						ITS.getPref('extensions.informationaltab.thumbnail.animation')
+					);
+				if (shouldWatch && !this.watchingRedrawEvent)
+					this.mTab.linkedBrowser.addEventListener('MozAfterPaint', this, false);
+				else if (!shouldWatch && this.watchingRedrawEvent)
+					this.mTab.linkedBrowser.removeEventListener('MozAfterPaint', this, false);
+				this.watchingRedrawEvent = shouldWatch;
 				break;
 
 			default:
@@ -1245,6 +1281,10 @@ InformationalTabPrefListener.prototype = {
 		switch (aPrefName)
 		{
 			case 'extensions.informationaltab.thumbnail.enabled':
+			case 'extensions.informationaltab.thumbnail.partial':
+			case 'extensions.informationaltab.thumbnail.partial.max':
+			case 'extensions.informationaltab.thumbnail.partial.startX':
+			case 'extensions.informationaltab.thumbnail.partial.startY':
 				if (ITS.initialized)
 					ITS.updateAllThumbnails(this.mTabBrowser, ITS.UPDATE_INIT);
 				break;
