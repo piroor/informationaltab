@@ -463,7 +463,7 @@ var InformationalTabService = {
 							if (y < 0) y += win.innerHeight;
 						}
 						if (this.thumbnailScrolled) {
-//							x += win.scrollX;
+							if (this.thumbnailPartial) x += win.scrollX;
 							y += win.scrollY;
 						}
 						if (h * canvasW/w < canvasH)
