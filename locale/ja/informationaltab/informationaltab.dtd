@@ -4,8 +4,9 @@
 <!ENTITY config.tabs.thumbnail "プレビュー">
 
 <!ENTITY config.thumbnail.enabled   "タブのプレビューを縮小表示する">
-<!ENTITY config.thumbnail.full      "ページ全体を表示する">
 <!ENTITY config.thumbnail.animation "アニメーションに合わせてプレビューを更新する">
+<!ENTITY config.thumbnail.scrolled  "サムネイルをスクロールする">
+<!ENTITY config.thumbnail.full      "ページ全体を表示する">
 <!ENTITY config.thumbnail.partial   "ページの一部を表示する">
 <!ENTITY config.thumbnail.partial.area.before  "切り取る範囲：(">
 <!ENTITY config.thumbnail.partial.area.middle1 ", ">

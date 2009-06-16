@@ -47,6 +47,9 @@
 		<preference id="extensions.informationaltab.thumbnail.animation"
 			name="extensions.informationaltab.thumbnail.animation"
 			type="bool"/>
+		<preference id="extensions.informationaltab.thumbnail.scrolled"
+			name="extensions.informationaltab.thumbnail.scrolled"
+			type="bool"/>
 	</preferences>
 
 	<groupbox>
@@ -63,17 +66,11 @@
 			value="false"
 			label="&config.thumbnail.full;"
 			oncommand="onThumbnailModeChange()"/>
-		<hbox align="center" id="animationCheck">
-			<spacer style="width: 1em;"/>
-			<checkbox id="config.thumbnail.animation-check"
-				preference="extensions.informationaltab.thumbnail.animation"
-				label="&config.thumbnail.animation;"/>
-		</hbox>
 		<radio id="config.thumbnail.partial-partial"
 			value="true"
 			label="&config.thumbnail.partial;"
 			oncommand="onThumbnailModeChange()"/>
-		<hbox align="center">
+		<hbox align="center" collapsed="true">
 			<spacer style="width: 1em;"/>
 			<label id="config.thumbnail.partial.area.before"
 				value="&config.thumbnail.partial.area.before;"
@@ -100,6 +97,12 @@
 				value="&config.thumbnail.partial.area.after;"
 				control="config.thumbnail.partial.max-textbox"/>
 		</hbox>
+		<checkbox id="config.thumbnail.animation-check"
+			preference="extensions.informationaltab.thumbnail.animation"
+			label="&config.thumbnail.animation;"/>
+		<checkbox id="config.thumbnail.scrolled-check"
+			preference="extensions.informationaltab.thumbnail.scrolled"
+			label="&config.thumbnail.scrolled;"/>
 	</radiogroup>
 	</groupbox>
 

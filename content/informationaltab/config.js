@@ -1,6 +1,6 @@
 function init()
 {
-	var animation = document.getElementById('animationCheck');
+	var animation = document.getElementById('config.thumbnail.animation-check');
 	var group = document.getElementById('lastTabCloseBoxGroup');
 
 	const XULAppInfo = Components.classes['@mozilla.org/xre/app-info;1']
@@ -63,28 +63,28 @@ function onThumbnailModeChange()
 {
 	if (document.getElementById('config.thumbnail.enabled-check').checked) {
 		gThumbnailItems.forEach(function(aItem) {
-			aItem.removeAttribute('disabled');
+			if (aItem) aItem.removeAttribute('disabled');
 		});
 		if (document.getElementById('config.thumbnail.partial-radiogroup').value == 'true') {
 			gThumbnailFullItems.forEach(function(aItem) {
-				aItem.setAttribute('disabled', true);
+				if (aItem) aItem.setAttribute('disabled', true);
 			});
 			gThumbnailPartialItems.forEach(function(aItem) {
-				aItem.removeAttribute('disabled');
+				if (aItem) aItem.removeAttribute('disabled');
 			});
 		}
 		else {
 			gThumbnailFullItems.forEach(function(aItem) {
-				aItem.removeAttribute('disabled');
+				if (aItem) aItem.removeAttribute('disabled');
 			});
 			gThumbnailPartialItems.forEach(function(aItem) {
-				aItem.setAttribute('disabled', true);
+				if (aItem) aItem.setAttribute('disabled', true);
 			});
 		}
 	}
 	else {
 		gThumbnailItems.forEach(function(aItem) {
-			aItem.setAttribute('disabled', true);
+			if (aItem) aItem.setAttribute('disabled', true);
 		});
 	}
 }

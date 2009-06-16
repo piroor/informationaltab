@@ -13,6 +13,7 @@ pref("extensions.informationaltab.thumbnail.update_delay", 10);
 pref("extensions.informationaltab.thumbnail.fix_aspect_ratio", true);
 pref("extensions.informationaltab.thumbnail.fixed_aspect_ratio", "0.75");
 pref("extensions.informationaltab.thumbnail.animation", false);
+pref("extensions.informationaltab.thumbnail.scrolled", true);
 
 // 0 = only in status bar, 1 = only in each tab, 2 = both
 pref("extensions.informationaltab.progress.mode", 1);

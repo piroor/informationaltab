@@ -4,8 +4,9 @@
 <!ENTITY config.tabs.thumbnail "Gyorsnézet">
 
 <!ENTITY config.thumbnail.enabled "Gyorsnézet megjelenítése mindegyik fülön">
-<!ENTITY config.thumbnail.full      "Show whole of the page">
 <!ENTITY config.thumbnail.animation "Gyorsnézet valós idejű újratöltése az animációkhoz">
+<!ENTITY config.thumbnail.full      "Show whole of the page">
+<!ENTITY config.thumbnail.scrolled  "Scroll thumbnails too">
 <!ENTITY config.thumbnail.partial   "Show partially">
 <!ENTITY config.thumbnail.partial.area.before  "from (">
 <!ENTITY config.thumbnail.partial.area.middle1 ", ">

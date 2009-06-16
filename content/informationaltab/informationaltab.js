@@ -5,10 +5,13 @@ var InformationalTabService = {
 	disabled : false,
 
 	thumbnailEnabled : false,
-	thumbnailPartial : true,
+
+	thumbnailPartial      : true,
 	thumbnailPartialMax   : 200,
 	thumbnailPartialBaseX : 0,
 	thumbnailPartialBaseY : 0,
+
+	thumbnailScrolled : true,
 
 	POSITION_BEFORE_FAVICON  : 0,
 	POSITION_BEFORE_LABEL    : 1,
@@ -114,6 +117,7 @@ var InformationalTabService = {
 
 		this.addPrefListener(this);
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.enabled');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.scrolled');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.max');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.startX');
@@ -450,16 +454,17 @@ var InformationalTabService = {
 					ctx.clearRect(0, 0, canvasW, canvasH);
 					ctx.save();
 					if (!isImage) {
-						let x, y;
+						let x = 0,
+							y = 0;
 						if (this.thumbnailPartial) {
 							x = this.thumbnailPartialBaseX;
 							if (x < 0) x += win.innerWidth;
 							y = this.thumbnailPartialBaseY;
 							if (y < 0) y += win.innerHeight;
 						}
-						else {
-							x = 0; // win.scrollX;
-							y = win.scrollY;
+						if (this.thumbnailScrolled) {
+//							x += win.scrollX;
+							y += win.scrollY;
 						}
 						if (h * canvasW/w < canvasH)
 							ctx.scale(canvasH/h, canvasH/h);
@@ -783,6 +788,9 @@ var InformationalTabService = {
 				}
 				break;
 
+			case 'extensions.informationaltab.thumbnail.scrolled':
+				this.thumbnailScrolled = value;
+				break;
 			case 'extensions.informationaltab.thumbnail.partial':
 				this.thumbnailPartial = value;
 				break;
@@ -1170,7 +1178,8 @@ InformationalTabEventListener.prototype = {
 					!ITS.isTabRead(this.mTab, aEvent.type))
 					return;
 				this.mTab.removeAttribute('informationaltab-unread');
-				ITS.updateThumbnail(this.mTab, this.mTabBrowser, ITS.UPDATE_SCROLL);
+				if (ITS.thumbnailScrolled)
+					ITS.updateThumbnail(this.mTab, this.mTabBrowser, ITS.UPDATE_SCROLL);
 				break;
 
 			case 'DOMAttrModified':
@@ -1190,7 +1199,7 @@ InformationalTabEventListener.prototype = {
 	},
 	watchingRedrawEvent : false,
 	domains : [
-		'extensions.informationaltab.thumbnail.partial',
+//		'extensions.informationaltab.thumbnail.partial',
 		'extensions.informationaltab.thumbnail.animation'
 	],
  	observe : function(aSubject, aTopic, aPrefName)
@@ -1204,7 +1213,7 @@ InformationalTabEventListener.prototype = {
 			case 'extensions.informationaltab.thumbnail.partial':
 			case 'extensions.informationaltab.thumbnail.animation':
 				var shouldWatch = (
-						!ITS.getPref('extensions.informationaltab.thumbnail.partial') &&
+//						!ITS.getPref('extensions.informationaltab.thumbnail.partial') &&
 						ITS.getPref('extensions.informationaltab.thumbnail.animation')
 					);
 				if (shouldWatch && !this.watchingRedrawEvent)

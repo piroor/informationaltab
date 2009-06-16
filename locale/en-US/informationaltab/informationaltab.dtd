@@ -4,8 +4,9 @@
 <!ENTITY config.tabs.thumbnail "Preview">
 
 <!ENTITY config.thumbnail.enabled "Show thumbnail-style preview in each tab">
-<!ENTITY config.thumbnail.full      "Show whole of the page">
 <!ENTITY config.thumbnail.animation "Repaint thumbnail in real time for animations">
+<!ENTITY config.thumbnail.scrolled  "Scroll thumbnails too">
+<!ENTITY config.thumbnail.full      "Show whole of the page">
 <!ENTITY config.thumbnail.partial   "Show partially">
 <!ENTITY config.thumbnail.partial.area.before  "from (">
 <!ENTITY config.thumbnail.partial.area.middle1 ", ">

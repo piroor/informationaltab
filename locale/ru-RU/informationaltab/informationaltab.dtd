@@ -4,8 +4,9 @@
 <!ENTITY config.tabs.thumbnail "Миниатюры страниц">
 
 <!ENTITY config.thumbnail.enabled "Показывать минитюры страниц в каждой вкладке">
-<!ENTITY config.thumbnail.full      "Show whole of the page">
 <!ENTITY config.thumbnail.animation "Перерисовывать миниатюры в реальном времени для анимаций">
+<!ENTITY config.thumbnail.scrolled  "Scroll thumbnails too">
+<!ENTITY config.thumbnail.full      "Show whole of the page">
 <!ENTITY config.thumbnail.partial   "Show partially">
 <!ENTITY config.thumbnail.partial.area.before  "from (">
 <!ENTITY config.thumbnail.partial.area.middle1 ", ">
