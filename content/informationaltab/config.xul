@@ -70,7 +70,7 @@
 			value="true"
 			label="&config.thumbnail.partial;"
 			oncommand="onThumbnailModeChange()"/>
-		<hbox align="center" collapsed="true">
+		<hbox align="center">
 			<spacer style="width: 1em;"/>
 			<label id="config.thumbnail.partial.area.before"
 				value="&config.thumbnail.partial.area.before;"
