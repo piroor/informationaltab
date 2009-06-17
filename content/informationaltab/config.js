@@ -31,14 +31,10 @@ function init()
 }
 
 var gThumbnailItems;
-var gThumbnailFullItems;
 var gThumbnailPartialItems;
 
 function initThumbnailMode()
 {
-	gThumbnailFullItems = [
-			'config.thumbnail.animation-check'
-		].map(document.getElementById, document);
 	gThumbnailPartialItems = [
 			'config.thumbnail.partial.area.before',
 			'config.thumbnail.partial.startX-textbox',
@@ -49,11 +45,12 @@ function initThumbnailMode()
 			'config.thumbnail.partial.area.after'
 		].map(document.getElementById, document);
 
-	gThumbnailItems = gThumbnailFullItems
-		.concat(gThumbnailPartialItems)
+	gThumbnailItems = gThumbnailPartialItems
 		.concat([
 			'config.thumbnail.partial-full',
-			'config.thumbnail.partial-partial'
+			'config.thumbnail.partial-partial',
+			'config.thumbnail.animation-check',
+			'config.thumbnail.scrolled-check'
 		].map(document.getElementById, document));
 
 	onThumbnailModeChange();
@@ -66,17 +63,11 @@ function onThumbnailModeChange()
 			if (aItem) aItem.removeAttribute('disabled');
 		});
 		if (document.getElementById('config.thumbnail.partial-radiogroup').value == 'true') {
-			gThumbnailFullItems.forEach(function(aItem) {
-				if (aItem) aItem.setAttribute('disabled', true);
-			});
 			gThumbnailPartialItems.forEach(function(aItem) {
 				if (aItem) aItem.removeAttribute('disabled');
 			});
 		}
 		else {
-			gThumbnailFullItems.forEach(function(aItem) {
-				if (aItem) aItem.removeAttribute('disabled');
-			});
 			gThumbnailPartialItems.forEach(function(aItem) {
 				if (aItem) aItem.setAttribute('disabled', true);
 			});
