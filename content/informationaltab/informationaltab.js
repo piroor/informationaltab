@@ -7,7 +7,8 @@ var InformationalTabService = {
 	thumbnailEnabled : false,
 
 	thumbnailPartial      : true,
-	thumbnailPartialMax   : 200,
+	thumbnailPartialMaxPixels     : 200,
+	thumbnailPartialMaxPercentage : 0.5,
 	thumbnailPartialBaseX : 0,
 	thumbnailPartialBaseY : 0,
 
@@ -119,7 +120,8 @@ var InformationalTabService = {
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.enabled');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.scrolled');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.max');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.maxPixcels');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.maxPercentage');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.startX');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.startY');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.size_mode');
@@ -414,8 +416,8 @@ var InformationalTabService = {
 			var w   = Math.max(win.innerWidth, 200);
 			var h   = Math.max(win.innerHeight, 150);
 			if (this.thumbnailPartial) {
-				w = Math.min(w, this.thumbnailPartialMax);
-				h = Math.min(w, this.thumbnailPartialMax);
+				w = Math.min(w, Math.max(w * this.thumbnailPartialMaxPercentage, this.thumbnailPartialMaxPixels));
+				h = Math.min(h, Math.max(h * this.thumbnailPartialMaxPercentage, this.thumbnailPartialMaxPixels));
 			}
 			var aspectRatio = this.thumbnailFixAspectRatio ? this.thumbnailFixedAspectRatio : (w / h) ;
 
@@ -794,8 +796,11 @@ var InformationalTabService = {
 			case 'extensions.informationaltab.thumbnail.partial':
 				this.thumbnailPartial = value;
 				break;
-			case 'extensions.informationaltab.thumbnail.partial.max':
-				this.thumbnailPartialMax = value;
+			case 'extensions.informationaltab.thumbnail.partial.maxPixcels':
+				this.thumbnailPartialMaxPixels = value;
+				break;
+			case 'extensions.informationaltab.thumbnail.partial.maxPercentage':
+				this.thumbnailPartialMaxPercentage = Math.max(1, value) / 100;
 				break;
 			case 'extensions.informationaltab.thumbnail.partial.startX':
 				this.thumbnailPartialBaseX = value;
@@ -1291,7 +1296,8 @@ InformationalTabPrefListener.prototype = {
 		{
 			case 'extensions.informationaltab.thumbnail.enabled':
 			case 'extensions.informationaltab.thumbnail.partial':
-			case 'extensions.informationaltab.thumbnail.partial.max':
+			case 'extensions.informationaltab.thumbnail.partial.maxPixcels':
+			case 'extensions.informationaltab.thumbnail.partial.maxPercentage':
 			case 'extensions.informationaltab.thumbnail.partial.startX':
 			case 'extensions.informationaltab.thumbnail.partial.startY':
 				if (ITS.initialized)

@@ -8,10 +8,9 @@
 <!ENTITY config.thumbnail.scrolled  "サムネイルをスクロールする">
 <!ENTITY config.thumbnail.full      "ページ全体を表示する">
 <!ENTITY config.thumbnail.partial   "ページの一部を表示する">
-<!ENTITY config.thumbnail.partial.area.before  "切り取る範囲：(">
-<!ENTITY config.thumbnail.partial.area.middle1 ", ">
-<!ENTITY config.thumbnail.partial.area.middle2 ")から">
-<!ENTITY config.thumbnail.partial.area.after   "ピクセル">
+<!ENTITY config.thumbnail.partial.area.before  "ページの端から">
+<!ENTITY config.thumbnail.partial.area.middle  "ピクセルまたは">
+<!ENTITY config.thumbnail.partial.area.after   "&#37;の範囲">
 
 <!ENTITY config.thumbnail.position.caption "プレビューの表示位置">
 <!ENTITY config.thumbnail.position.label   "(タブのタイトル)">
@@ -35,7 +34,7 @@
 <!ENTITY config.thumbnail.max.after          "ピクセル">
 <!ENTITY config.thumbnail.size_mode.flexible "タブの幅に合わせて変える：">
 <!ENTITY config.thumbnail.pow.before         "">
-<!ENTITY config.thumbnail.pow.after          "パーセント">
+<!ENTITY config.thumbnail.pow.after          "&#37;">
 
 
 <!ENTITY config.tabs.progress "読み込み状況">

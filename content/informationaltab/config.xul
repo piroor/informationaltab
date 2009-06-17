@@ -23,14 +23,11 @@
 		<preference id="extensions.informationaltab.thumbnail.partial"
 			name="extensions.informationaltab.thumbnail.partial"
 			type="bool"/>
-		<preference id="extensions.informationaltab.thumbnail.partial.startX"
-			name="extensions.informationaltab.thumbnail.partial.startX"
+		<preference id="extensions.informationaltab.thumbnail.partial.maxPixcels"
+			name="extensions.informationaltab.thumbnail.partial.maxPixcels"
 			type="int"/>
-		<preference id="extensions.informationaltab.thumbnail.partial.startY"
-			name="extensions.informationaltab.thumbnail.partial.startY"
-			type="int"/>
-		<preference id="extensions.informationaltab.thumbnail.partial.max"
-			name="extensions.informationaltab.thumbnail.partial.max"
+		<preference id="extensions.informationaltab.thumbnail.partial.maxPercentage"
+			name="extensions.informationaltab.thumbnail.partial.maxPercentage"
 			type="int"/>
 		<preference id="extensions.informationaltab.thumbnail.position"
 			name="extensions.informationaltab.thumbnail.position"
@@ -74,28 +71,21 @@
 			<spacer style="width: 1em;"/>
 			<label id="config.thumbnail.partial.area.before"
 				value="&config.thumbnail.partial.area.before;"
-				control="config.thumbnail.partial.startX-textbox"/>
-			<textbox id="config.thumbnail.partial.startX-textbox"
-				preference="extensions.informationaltab.thumbnail.partial.startX"
+				control="config.thumbnail.partial.maxPixcels-textbox"/>
+			<textbox id="config.thumbnail.partial.maxPixcels-textbox"
+				preference="extensions.informationaltab.thumbnail.partial.maxPixcels"
 				type="number"
 				min="0" increment="1" style="width:4em;"/>
-			<label id="config.thumbnail.partial.area.middle1"
-				value="&config.thumbnail.partial.area.middle1;"
-				control="config.thumbnail.partial.startY-textbox"/>
-			<textbox id="config.thumbnail.partial.startY-textbox"
-				preference="extensions.informationaltab.thumbnail.partial.startY"
-				type="number"
-				min="0" increment="1" style="width:4em;"/>
-			<label id="config.thumbnail.partial.area.middle2"
-				value="&config.thumbnail.partial.area.middle2;"
-				control="config.thumbnail.partial.max-textbox"/>
-			<textbox id="config.thumbnail.partial.max-textbox"
-				preference="extensions.informationaltab.thumbnail.partial.max"
+			<label id="config.thumbnail.partial.area.middle"
+				value="&config.thumbnail.partial.area.middle;"
+				control="config.thumbnail.partial.maxPercentage-textbox"/>
+			<textbox id="config.thumbnail.partial.maxPercentage-textbox"
+				preference="extensions.informationaltab.thumbnail.partial.maxPercentage"
 				type="number"
 				min="0" increment="1" style="width:4em;"/>
 			<label id="config.thumbnail.partial.area.after"
 				value="&config.thumbnail.partial.area.after;"
-				control="config.thumbnail.partial.max-textbox"/>
+				control="config.thumbnail.partial.maxPercentage-textbox"/>
 		</hbox>
 		<checkbox id="config.thumbnail.animation-check"
 			preference="extensions.informationaltab.thumbnail.animation"

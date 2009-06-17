@@ -8,10 +8,9 @@
 <!ENTITY config.thumbnail.full      "Show whole of the page">
 <!ENTITY config.thumbnail.scrolled  "Scroll thumbnails too">
 <!ENTITY config.thumbnail.partial   "Show partially">
-<!ENTITY config.thumbnail.partial.area.before  "from (">
-<!ENTITY config.thumbnail.partial.area.middle1 ", ">
-<!ENTITY config.thumbnail.partial.area.middle2 "), ">
-<!ENTITY config.thumbnail.partial.area.after   "pixels">
+<!ENTITY config.thumbnail.partial.area.before  "">
+<!ENTITY config.thumbnail.partial.area.middle  "pixcels or">
+<!ENTITY config.thumbnail.partial.area.after   "&#37; from the edge">
 
 <!ENTITY config.thumbnail.position.caption "A gyorsnézet helyzete:">
 <!ENTITY config.thumbnail.position.label   "(A lap neve)">

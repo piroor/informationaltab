@@ -37,11 +37,9 @@ function initThumbnailMode()
 {
 	gThumbnailPartialItems = [
 			'config.thumbnail.partial.area.before',
-			'config.thumbnail.partial.startX-textbox',
-			'config.thumbnail.partial.area.middle1',
-			'config.thumbnail.partial.startY-textbox',
-			'config.thumbnail.partial.area.middle2',
-			'config.thumbnail.partial.max-textbox',
+			'config.thumbnail.partial.maxPixcels-textbox',
+			'config.thumbnail.partial.area.middle',
+			'config.thumbnail.partial.maxPercentage-textbox',
 			'config.thumbnail.partial.area.after'
 		].map(document.getElementById, document);
 
