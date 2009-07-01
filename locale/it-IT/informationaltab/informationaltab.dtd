@@ -9,7 +9,7 @@
 <!ENTITY config.thumbnail.full      "Show whole of the page">
 <!ENTITY config.thumbnail.partial   "Show partially">
 <!ENTITY config.thumbnail.partial.area.before  "">
-<!ENTITY config.thumbnail.partial.area.middle  "pixcels or">
+<!ENTITY config.thumbnail.partial.area.middle  "pixels or">
 <!ENTITY config.thumbnail.partial.area.after   "&#37; from the edge">
 
 <!ENTITY config.thumbnail.position.caption "Mostra anteprima alla sinistra del:">
