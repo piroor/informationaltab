@@ -5,12 +5,12 @@
 
 <!ENTITY config.thumbnail.enabled "Gyorsnézet megjelenítése mindegyik fülön">
 <!ENTITY config.thumbnail.animation "Gyorsnézet valós idejű újratöltése az animációkhoz">
-<!ENTITY config.thumbnail.full      "Show whole of the page">
-<!ENTITY config.thumbnail.scrolled  "Scroll thumbnails too">
-<!ENTITY config.thumbnail.partial   "Show partially">
+<!ENTITY config.thumbnail.full      "Teljes weboldal megjelenítése">
+<!ENTITY config.thumbnail.scrolled  "Gyorsnézet görgetése szintén">
+<!ENTITY config.thumbnail.partial   "Részleges megjelenítés">
 <!ENTITY config.thumbnail.partial.area.before  "">
-<!ENTITY config.thumbnail.partial.area.middle  "pixels or">
-<!ENTITY config.thumbnail.partial.area.after   "&#37; from the edge">
+<!ENTITY config.thumbnail.partial.area.middle  "képpont vagy">
+<!ENTITY config.thumbnail.partial.area.after   "&#37; a képernyőszéltől">
 
 <!ENTITY config.thumbnail.position.caption "A gyorsnézet helyzete:">
 <!ENTITY config.thumbnail.position.label   "(A lap neve)">
