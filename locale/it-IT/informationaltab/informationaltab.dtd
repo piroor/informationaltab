@@ -5,12 +5,12 @@
 
 <!ENTITY config.thumbnail.enabled "Mostra immagine d'anteprima su ogni scheda">
 <!ENTITY config.thumbnail.animation "Ridisegna le immagini d'anteprima in tempo reale per visualizzare le animazioni">
-<!ENTITY config.thumbnail.scrolled  "Scroll thumbnails too">
-<!ENTITY config.thumbnail.full      "Show whole of the page">
-<!ENTITY config.thumbnail.partial   "Show partially">
-<!ENTITY config.thumbnail.partial.area.before  "">
-<!ENTITY config.thumbnail.partial.area.middle  "pixels or">
-<!ENTITY config.thumbnail.partial.area.after   "&#37; from the edge">
+<!ENTITY config.thumbnail.scrolled  "Ridisegna le immagini d'anteprima durante lo scorrimento della pagina">
+<!ENTITY config.thumbnail.full      "Visualizza l'intera pagina">
+<!ENTITY config.thumbnail.partial   "Visualizza parzialmente la pagina">
+<!ENTITY config.thumbnail.partial.area.before  "Limita a">
+<!ENTITY config.thumbnail.partial.area.middle  "pixel o al">
+<!ENTITY config.thumbnail.partial.area.after   "&#37; della dimensioni a partire dall'angolo in alto a sinistra">
 
 <!ENTITY config.thumbnail.position.caption "Mostra anteprima alla sinistra del:">
 <!ENTITY config.thumbnail.position.label   "(Titolo della scheda)">
