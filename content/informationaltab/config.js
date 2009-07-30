@@ -37,7 +37,7 @@ function initThumbnailMode()
 {
 	gThumbnailPartialItems = [
 			'config.thumbnail.partial.area.before',
-			'config.thumbnail.partial.maxPixcels-textbox',
+			'config.thumbnail.partial.maxPixels-textbox',
 			'config.thumbnail.partial.area.middle',
 			'config.thumbnail.partial.maxPercentage-textbox',
 			'config.thumbnail.partial.area.after'

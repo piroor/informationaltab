@@ -120,7 +120,7 @@ var InformationalTabService = {
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.enabled');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.scrolled');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.maxPixcels');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.maxPixels');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.maxPercentage');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.startX');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.startY');
@@ -160,6 +160,24 @@ var InformationalTabService = {
 		this.initialized = true;
 	},
 	
+	kPREF_VERSION : 1,
+	migratePrefs : function() 
+	{
+		// migrate old prefs
+		switch (this.getPref('extensions.informationaltab.prefsVersion'))
+		{
+			case 0:
+				var value = this.getPref('extensions.informationaltab.thumbnail.partial.maxPixcels');
+				if (value !== null) {
+					this.setPref('extensions.informationaltab.thumbnail.partial.maxPixels', value);
+					this.clearPref('extensions.informationaltab.thumbnail.partial.maxPixcels');
+				}
+			default:
+				break;
+		}
+		this.setPref('extensions.informationaltab.prefsVersion', this.kPREF_VERSION);
+	},
+ 
 	initTabBrowser : function(aTabBrowser) 
 	{
 		aTabBrowser.thumbnailUpdateCount = 0;
@@ -796,7 +814,7 @@ var InformationalTabService = {
 			case 'extensions.informationaltab.thumbnail.partial':
 				this.thumbnailPartial = value;
 				break;
-			case 'extensions.informationaltab.thumbnail.partial.maxPixcels':
+			case 'extensions.informationaltab.thumbnail.partial.maxPixels':
 				this.thumbnailPartialMaxPixels = value;
 				break;
 			case 'extensions.informationaltab.thumbnail.partial.maxPercentage':
@@ -961,103 +979,11 @@ var InformationalTabService = {
 		this.setPref('browser.tabs.tabClipWidth', aWidth);
 	},
 	updatingTabCloseButtonPrefs : false,
-	updatingTabWidthPrefs : false,
-  
-/* Save/Load Prefs */ 
-	
-	get Prefs() 
-	{
-		if (!this._Prefs) {
-			this._Prefs = Components.classes['@mozilla.org/preferences;1'].getService(Components.interfaces.nsIPrefBranch);
-		}
-		return this._Prefs;
-	},
-	_Prefs : null,
- 
-	getPref : function(aPrefstring) 
-	{
-		try {
-			switch (this.Prefs.getPrefType(aPrefstring))
-			{
-				case this.Prefs.PREF_STRING:
-					return decodeURIComponent(escape(this.Prefs.getCharPref(aPrefstring)));
-					break;
-				case this.Prefs.PREF_INT:
-					return this.Prefs.getIntPref(aPrefstring);
-					break;
-				default:
-					return this.Prefs.getBoolPref(aPrefstring);
-					break;
-			}
-		}
-		catch(e) {
-		}
-
-		return null;
-	},
- 
-	setPref : function(aPrefstring, aNewValue) 
-	{
-		var pref = this.Prefs ;
-		var type;
-		try {
-			type = typeof aNewValue;
-		}
-		catch(e) {
-			type = null;
-		}
-
-		switch (type)
-		{
-			case 'string':
-				pref.setCharPref(aPrefstring, unescape(encodeURIComponent(aNewValue)));
-				break;
-			case 'number':
-				pref.setIntPref(aPrefstring, parseInt(aNewValue));
-				break;
-			default:
-				pref.setBoolPref(aPrefstring, aNewValue);
-				break;
-		}
-		return true;
-	},
- 
-	clearPref : function(aPrefstring) 
-	{
-		try {
-			this.Prefs.clearUserPref(aPrefstring);
-		}
-		catch(e) {
-		}
-
-		return;
-	},
- 
-	addPrefListener : function(aObserver) 
-	{
-		var domains = ('domains' in aObserver) ? aObserver.domains : [aObserver.domain] ;
-		try {
-			var pbi = this.Prefs.QueryInterface(Components.interfaces.nsIPrefBranchInternal);
-			for (var i = 0; i < domains.length; i++)
-				pbi.addObserver(domains[i], aObserver, false);
-		}
-		catch(e) {
-		}
-	},
- 
-	removePrefListener : function(aObserver) 
-	{
-		var domains = ('domains' in aObserver) ? aObserver.domains : [aObserver.domain] ;
-		try {
-			var pbi = this.Prefs.QueryInterface(Components.interfaces.nsIPrefBranchInternal);
-			for (var i = 0; i < domains.length; i++)
-				pbi.removeObserver(domains[i], aObserver, false);
-		}
-		catch(e) {
-		}
-	}
+	updatingTabWidthPrefs : false
    
 }; 
+
+InformationalTabService.__proto__ = window['piro.sakura.ne.jp'].prefs;
 
 window.addEventListener('load', InformationalTabService, false);
 window.addEventListener('unload', InformationalTabService, false);
@@ -1296,7 +1222,7 @@ InformationalTabPrefListener.prototype = {
 		{
 			case 'extensions.informationaltab.thumbnail.enabled':
 			case 'extensions.informationaltab.thumbnail.partial':
-			case 'extensions.informationaltab.thumbnail.partial.maxPixcels':
+			case 'extensions.informationaltab.thumbnail.partial.maxPixels':
 			case 'extensions.informationaltab.thumbnail.partial.maxPercentage':
 			case 'extensions.informationaltab.thumbnail.partial.startX':
 			case 'extensions.informationaltab.thumbnail.partial.startY':

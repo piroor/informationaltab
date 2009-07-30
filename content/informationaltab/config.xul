@@ -23,8 +23,8 @@
 		<preference id="extensions.informationaltab.thumbnail.partial"
 			name="extensions.informationaltab.thumbnail.partial"
 			type="bool"/>
-		<preference id="extensions.informationaltab.thumbnail.partial.maxPixcels"
-			name="extensions.informationaltab.thumbnail.partial.maxPixcels"
+		<preference id="extensions.informationaltab.thumbnail.partial.maxPixels"
+			name="extensions.informationaltab.thumbnail.partial.maxPixels"
 			type="int"/>
 		<preference id="extensions.informationaltab.thumbnail.partial.maxPercentage"
 			name="extensions.informationaltab.thumbnail.partial.maxPercentage"
@@ -71,9 +71,9 @@
 			<spacer style="width: 1em;"/>
 			<label id="config.thumbnail.partial.area.before"
 				value="&config.thumbnail.partial.area.before;"
-				control="config.thumbnail.partial.maxPixcels-textbox"/>
-			<textbox id="config.thumbnail.partial.maxPixcels-textbox"
-				preference="extensions.informationaltab.thumbnail.partial.maxPixcels"
+				control="config.thumbnail.partial.maxPixels-textbox"/>
+			<textbox id="config.thumbnail.partial.maxPixels-textbox"
+				preference="extensions.informationaltab.thumbnail.partial.maxPixels"
 				type="number"
 				min="0" increment="1" style="width:4em;"/>
 			<label id="config.thumbnail.partial.area.middle"

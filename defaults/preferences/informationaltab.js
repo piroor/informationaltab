@@ -1,6 +1,6 @@
 pref("extensions.informationaltab.thumbnail.enabled", true);
 pref("extensions.informationaltab.thumbnail.partial", true);
-pref("extensions.informationaltab.thumbnail.partial.maxPixcels", 300);
+pref("extensions.informationaltab.thumbnail.partial.maxPixels", 300);
 pref("extensions.informationaltab.thumbnail.partial.maxPercentage", 50);
 pref("extensions.informationaltab.thumbnail.partial.startX", 0);
 pref("extensions.informationaltab.thumbnail.partial.startY", 0);
@@ -32,6 +32,8 @@ pref("extensions.informationaltab.close_buttons.force_show.last_tab", 0);
 
 
 pref("extensions.informationaltab.restoring_backup_prefs", false);
+
+pref("extensions.informationaltab.prefsVersion", 0);
 
 
 pref("extensions.informationaltab@piro.sakura.ne.jp.name", "chrome://informationaltab/locale/informationaltab.properties");
