@@ -1,5 +1,4 @@
 content	informationaltab	jar:chrome/informationaltab.jar!/content/informationaltab/
-content	informationaltab-fx3	jar:chrome/informationaltab.jar!/content/informationaltab-fx3/	appversion>=3.0
 
 overlay	chrome://browser/content/browser.xul	chrome://informationaltab/content/informationaltab.xul
 
@@ -12,3 +11,6 @@ locale	informationaltab	es-ES	jar:chrome/informationaltab.jar!/locale/es-ES/info
 locale	informationaltab	ru-RU	jar:chrome/informationaltab.jar!/locale/ru-RU/informationaltab/
 
 skin	informationaltab	classic/1.0	jar:chrome/informationaltab.jar!/skin/classic/informationaltab/
+
+override chrome://treestyletab/content/config.css	chrome://treestyletab/content/config-fx3.0.css	appversion>=3.0
+override chrome://treestyletab/content/config.css	chrome://treestyletab/content/config-fx3.7.css	appversion>=3.7a1pre
