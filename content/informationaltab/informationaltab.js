@@ -307,13 +307,14 @@ var InformationalTabService = {
 	{
 		var canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
 		canvas.setAttribute('class', 'informationaltab-thumbnail');
-		canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
+		canvas.width = canvas.height = canvas.style.width = canvas.style.height = 1;
 		canvas.style.display = 'none';
 
 		this.insertThumbnailTo(canvas, aTab, aTabBrowser, this.getPref('extensions.informationaltab.thumbnail.position'));
 
 		aTab.__informationaltab__canvas = canvas;
-		this.updateThumbnail(aTab, aTabBrowser, this.UPDATE_INIT);
+		aTabBrowser.thumbnailUpdateCount++;
+		this.updateThumbnailNow(aTab, aTabBrowser, this.UPDATE_INIT);
 	},
  
 	insertThumbnailTo : function(aCanvas, aTab, aTabBrowser, aPosition) 
@@ -426,7 +427,10 @@ var InformationalTabService = {
 		}
 
 		var canvas = aTab.__informationaltab__canvas;
-		if (!canvas) return;
+		if (!canvas) {
+			aTabBrowser.thumbnailUpdateCount--;
+			return;
+		}
 
 		if (this.thumbnailEnabled) {
 			var b   = aTab.linkedBrowser;
