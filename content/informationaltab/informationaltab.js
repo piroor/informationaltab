@@ -313,8 +313,7 @@ var InformationalTabService = {
 		this.insertThumbnailTo(canvas, aTab, aTabBrowser, this.getPref('extensions.informationaltab.thumbnail.position'));
 
 		aTab.__informationaltab__canvas = canvas;
-		aTabBrowser.thumbnailUpdateCount++;
-		this.updateThumbnailNow(aTab, aTabBrowser, this.UPDATE_INIT);
+		this.updateThumbnail(aTab, aTabBrowser, this.UPDATE_INIT);
 	},
  
 	insertThumbnailTo : function(aCanvas, aTab, aTabBrowser, aPosition) 
