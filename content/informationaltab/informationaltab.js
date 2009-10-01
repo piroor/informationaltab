@@ -1085,8 +1085,9 @@ InformationalTabEventListener.prototype = {
 	{
 		this.mTab = aTab;
 		this.mTabBrowser = aTabBrowser;
+		this.lastSelected = this.mTabBrowser.selectedTab == this.mTab;;
 
-		this.mTab.addEventListener('DOMAttrModified', this, false);
+		this.mTabBrowser.mTabContainer.addEventListener('select', this, false);
 		this.mTab.linkedBrowser.addEventListener('scroll', this, false);
 		InformationalTabService.addPrefListener(this);
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.animation');
@@ -1095,7 +1096,7 @@ InformationalTabEventListener.prototype = {
 	{
 		if (this.watchingRedrawEvent)
 			this.mTab.linkedBrowser.removeEventListener('MozAfterPaint', this, false);
-		this.mTab.removeEventListener('DOMAttrModified', this, false);
+		this.mTabBrowser.mTabContainer.removeEventListener('select', this, false);
 		this.mTab.linkedBrowser.removeEventListener('scroll', this, false);
 		InformationalTabService.removePrefListener(this);
 
@@ -1112,18 +1113,29 @@ InformationalTabEventListener.prototype = {
 					!ITS.isTabRead(this.mTab, aEvent.type))
 					return;
 				this.mTab.removeAttribute('informationaltab-unread');
-				if (ITS.thumbnailScrolled)
-					ITS.updateThumbnail(this.mTab, this.mTabBrowser, ITS.UPDATE_SCROLL);
+				if (ITS.thumbnailScrolled) {
+					let node = aEvent.originalTarget;
+					let tabbarBox, nodeBox;
+					if (
+						!(node instanceof Components.interfaces.nsIDOMElement) ||
+						(
+							(tabbarBox = window['piro.sakura.ne.jp'].boxObject.getBoxObjectFor(this.mTab.linkedBrowser)) &&
+							(nodeBox = window['piro.sakura.ne.jp'].boxObject.getBoxObjectFor(node)) &&
+							tabbarBox.screenX <= nodeBox.screenX + nodeBox.width &&
+							tabbarBox.screenX + tabbarBox.width >= nodeBox.screenX &&
+							tabbarBox.screenY <= nodeBox.screenY + nodeBox.height &&
+							tabbarBox.screenY + tabbarBox.height >= nodeBox.screenY
+						)
+						)
+						ITS.updateThumbnail(this.mTab, this.mTabBrowser, ITS.UPDATE_SCROLL);
+				}
 				break;
 
-			case 'DOMAttrModified':
-				switch(aEvent.attrName)
-				{
-					case 'selected':
-						if (!ITS.thumbnailEnabled) return;
-						ITS.updateTabStyle(this.mTab, aEvent.newValue == 'true');
-						break;
-				}
+			case 'select':
+				var selected = this.mTabBrowser.selectedTab == this.mTab;
+				if (ITS.thumbnailEnabled && this.lastSelected != selected)
+					ITS.updateTabStyle(this.mTab, selected);
+				this.lastSelected = selected;
 				break;
 
 			case 'MozAfterPaint':
