@@ -1115,16 +1115,16 @@ InformationalTabEventListener.prototype = {
 				this.mTab.removeAttribute('informationaltab-unread');
 				if (ITS.thumbnailScrolled) {
 					let node = aEvent.originalTarget;
-					let tabbarBox, nodeBox;
+					let viewPortBox, nodeBox;
 					if (
 						!(node instanceof Components.interfaces.nsIDOMElement) ||
 						(
-							(tabbarBox = window['piro.sakura.ne.jp'].boxObject.getBoxObjectFor(this.mTab.linkedBrowser)) &&
+							(viewPortBox = window['piro.sakura.ne.jp'].boxObject.getBoxObjectFor(this.mTab.linkedBrowser)) &&
 							(nodeBox = window['piro.sakura.ne.jp'].boxObject.getBoxObjectFor(node)) &&
-							tabbarBox.screenX <= nodeBox.screenX + nodeBox.width &&
-							tabbarBox.screenX + tabbarBox.width >= nodeBox.screenX &&
-							tabbarBox.screenY <= nodeBox.screenY + nodeBox.height &&
-							tabbarBox.screenY + tabbarBox.height >= nodeBox.screenY
+							viewPortBox.screenX <= nodeBox.screenX + nodeBox.width &&
+							viewPortBox.screenX + viewPortBox.width >= nodeBox.screenX &&
+							viewPortBox.screenY <= nodeBox.screenY + nodeBox.height &&
+							viewPortBox.screenY + viewPortBox.height >= nodeBox.screenY
 						)
 						)
 						ITS.updateThumbnail(this.mTab, this.mTabBrowser, ITS.UPDATE_SCROLL);
