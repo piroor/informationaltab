@@ -16,11 +16,11 @@ xhtml|canvas.informationaltab-thumbnail {
 
 /* progressbar */
 
-label.tab-text:not([informationaltab-progress]) > .tab-label-inner-box > stack > * > .tab-progress {
+label.tab-text:not([informationaltab-progress]) .tab-progress {
 	visibility: collapse;
 }
 /* [tab-progress] is added by Tab Mix Plus */
-.tabbrowser-tab:not([tab-progress]) label.tab-text[informationaltab-progress] > stack > * > .tab-progress {
+.tabbrowser-tab:not([tab-progress]) label.tab-text[informationaltab-progress] .tab-progress {
 	visibility: visible;
 }
 
@@ -28,28 +28,43 @@ label.tab-text > .tab-label-inner-box,
 label.tab-text > .tab-label-inner-box > *,
 label.tab-text > .tab-label-inner-box > stack > *,
 label.tab-text > .tab-label-inner-box > stack > * > spacer,
-label.tab-text > .tab-label-inner-box > stack > * > .tab-progress,
-label.tab-text > .tab-label-inner-box > stack > * > .tab-real-text {
+.tab-progress,
+.tab-real-text {
 	margin: 0;
 	padding: 0;
 	text-indent: 0;
 }
 
-label.tab-text > .tab-label-inner-box > stack > * > .tab-progress {
-	height: 0.4em;
-	min-height: 0.4em;
-	max-height: 0.4em;
+.tab-progress-box {
+	-moz-box-pack: start;
+}
+
+.tab-progress {
+	height: 3px;
+	min-height: 3px;
+	max-height: 3px;
 	min-width: 0;
 	-moz-appearance: none;
 	border: none;
 	outline: none;
 
 	position: relative;
-	margin-top: 0.2em;
-	margin-bottom: -0.2em;
+	margin: -3px 0 0 -20px;
 }
-label.tab-text > .tab-label-inner-box > stack > * > .tab-progress > .progress-bar,
-label.tab-text > .tab-label-inner-box > stack > * > .tab-progress > .progress-remainder {
+
+:root[informationaltab-progressbar-style="old"] .tab-progress-box {
+	-moz-box-pack: end;
+}
+
+:root[informationaltab-progressbar-style="old"] .tab-progress {
+	height: 0.4em;
+	min-height: 0.4em;
+	max-height: 0.4em;
+	margin: 0.2em 0 -0.2em;
+}
+
+.tab-progress > .progress-bar,
+.tab-progress > .progress-remainder {
 	-moz-appearance: none;
 }
 

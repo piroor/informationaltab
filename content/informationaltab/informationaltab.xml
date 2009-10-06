@@ -11,9 +11,8 @@
 			<xul:stack xbl:inherits="flex" flex="1">
 				<xul:hbox class="label-behind-box"
 					flex="1"/>
-				<xul:vbox
+				<xul:vbox class="tab-progress-box"
 					flex="1">
-					<xul:spacer flex="1"/>
 					<xul:progressmeter
 						class="tab-progress"
 						mode="normal"
