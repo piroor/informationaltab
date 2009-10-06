@@ -52,11 +52,11 @@ label.tab-text > .tab-label-inner-box > stack > * > spacer,
 	margin: -3px 0 0 -20px;
 }
 
-:root[informationaltab-progressbar-style="old"] .tab-progress-box {
+:root[informationaltab-progressbar-style="classic"] .tab-progress-box {
 	-moz-box-pack: end;
 }
 
-:root[informationaltab-progressbar-style="old"] .tab-progress {
+:root[informationaltab-progressbar-style="classic"] .tab-progress {
 	height: 0.4em;
 	min-height: 0.4em;
 	max-height: 0.4em;

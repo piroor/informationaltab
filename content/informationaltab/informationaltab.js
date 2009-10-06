@@ -45,6 +45,7 @@ var InformationalTabService = {
 	PROGRESS_STATUSBAR : 0,
 	PROGRESS_TAB       : 1,
 	PROGRESS_BOTH      : 2,
+	progressStyle : 'modern',
 
 	UPDATE_INIT     : 1,
 	UPDATE_PAGELOAD : 2,
@@ -117,24 +118,25 @@ var InformationalTabService = {
 
 
 		this.addPrefListener(this);
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.enabled');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.scrolled');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.maxPixels');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.maxPercentage');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.startX');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.partial.startY');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.size_mode');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.max');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.pow');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.fix_aspect_ratio');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.fixed_aspect_ratio');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.update_delay');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.mode');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.unread.enabled');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.unread.readMethod');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.close_buttons.force_show.last_tab');
-		this.observe(null, 'nsPref:changed', 'browser.tabs.tabClipWidth');
+		this.onChangePref('extensions.informationaltab.thumbnail.enabled');
+		this.onChangePref('extensions.informationaltab.thumbnail.scrolled');
+		this.onChangePref('extensions.informationaltab.thumbnail.partial');
+		this.onChangePref('extensions.informationaltab.thumbnail.partial.maxPixels');
+		this.onChangePref('extensions.informationaltab.thumbnail.partial.maxPercentage');
+		this.onChangePref('extensions.informationaltab.thumbnail.partial.startX');
+		this.onChangePref('extensions.informationaltab.thumbnail.partial.startY');
+		this.onChangePref('extensions.informationaltab.thumbnail.size_mode');
+		this.onChangePref('extensions.informationaltab.thumbnail.max');
+		this.onChangePref('extensions.informationaltab.thumbnail.pow');
+		this.onChangePref('extensions.informationaltab.thumbnail.fix_aspect_ratio');
+		this.onChangePref('extensions.informationaltab.thumbnail.fixed_aspect_ratio');
+		this.onChangePref('extensions.informationaltab.thumbnail.update_delay');
+		this.onChangePref('extensions.informationaltab.progress.mode');
+		this.onChangePref('extensions.informationaltab.progress.style');
+		this.onChangePref('extensions.informationaltab.unread.enabled');
+		this.onChangePref('extensions.informationaltab.unread.readMethod');
+		this.onChangePref('extensions.informationaltab.close_buttons.force_show.last_tab');
+		this.onChangePref('browser.tabs.tabClipWidth');
 
 		this.ObserverService.addObserver(this, 'em-action-requested', false);
 		this.ObserverService.addObserver(this, 'quit-application', false);
@@ -564,7 +566,6 @@ var InformationalTabService = {
 
 		var tabs = this.getTabs(aTabBrowser);
 		var tab;
-		var label;
 		var canvas;
 		var pos = this.getPref('extensions.informationaltab.thumbnail.position');
 		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
@@ -634,6 +635,22 @@ var InformationalTabService = {
 				nodes[i].setAttribute('style', nodes[i].getAttribute('style').replace(/(^|;\s*)height\s*:\s*[^;]*/, '$1'));
 			}
 			aTab.setAttribute('style', aTab.getAttribute('style').replace(/(^|;\s*)height\s*:\s*[^;]*/, '$1'));
+		}
+
+		var progress = document.getAnonymousElementByAttribute(label, 'class', 'tab-progress');
+		var icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image') ||
+					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
+		switch (this.getPref('extensions.informationaltab.progress.style'))
+		{
+			default:
+			case 'modern':
+				progress.style.marginLeft = '-'+(label.boxObject.screenX - icon.boxObject.screenX)+'px';
+				progress.style.marginTop = '-'+(label.boxObject.screenY - aTab.boxObject.screenY + 1)+'px';
+				break;
+
+			case 'classic':
+				progress.style.margin = '';
+				break;
 		}
 	},
   
@@ -863,6 +880,15 @@ var InformationalTabService = {
 				else
 					panel.setAttribute('informationaltab-hidden', true);
 				break;
+			case 'extensions.informationaltab.progress.style':
+				this.progressStyle = value;
+				if (value) {
+					document.documentElement.setAttribute('informationaltab-progressbar-style', value);
+				}
+				else {
+					document.documentElement.removeAttribute('informationaltab-progressbar-style');
+				}
+				break;
 
 			case 'extensions.informationaltab.unread.enabled':
 				if (value)
@@ -1085,12 +1111,13 @@ InformationalTabEventListener.prototype = {
 	{
 		this.mTab = aTab;
 		this.mTabBrowser = aTabBrowser;
-		this.lastSelected = this.mTabBrowser.selectedTab == this.mTab;;
+		this.lastSelected = this.mTabBrowser.selectedTab == this.mTab;
 
 		this.mTabBrowser.mTabContainer.addEventListener('select', this, false);
 		this.mTab.linkedBrowser.addEventListener('scroll', this, false);
 		InformationalTabService.addPrefListener(this);
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.animation');
+		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.style');
 	},
 	destroy : function()
 	{
@@ -1248,6 +1275,7 @@ InformationalTabPrefListener.prototype = {
 			case 'extensions.treestyletab.tabbar.invertTabContents':
 			case 'extensions.informationaltab.thumbnail.position':
 			case 'extensions.treestyletab.tabbar.position':
+			case 'extensions.informationaltab.progress.style':
 				ITS.repositionThumbnail(this.mTabBrowser);
 				return;
 
