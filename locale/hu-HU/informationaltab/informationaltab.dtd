@@ -44,6 +44,10 @@
 <!ENTITY config.progress.mode.tab       "Mindegyik fülön">
 <!ENTITY config.progress.mode.both      "Mindkettőn (állapotsor és fül)">
 
+<!ENTITY config.progress.style.caption  "Position of progress meter in tab">
+<!ENTITY config.progress.style.modern   "Top (Firefox 3.7 mockup style)">
+<!ENTITY config.progress.style.classic  "Below label">
+
 
 <!ENTITY config.tabs.unread "Olvasatlan lapok">
 

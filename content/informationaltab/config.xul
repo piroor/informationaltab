@@ -234,6 +234,9 @@
 		<preference id="extensions.informationaltab.progress.mode"
 			name="extensions.informationaltab.progress.mode"
 			type="int"/>
+		<preference id="extensions.informationaltab.progress.style"
+			name="extensions.informationaltab.progress.style"
+			type="string"/>
 	</preferences>
 	<groupbox>
 		<caption label="&config.progress.mode.caption;"/>
@@ -244,6 +247,17 @@
 				<radio value="0" label="&config.progress.mode.statusbar;"/>
 				<radio value="1" label="&config.progress.mode.tab;"/>
 				<radio value="2" label="&config.progress.mode.both;"/>
+			</radiogroup>
+		</vbox>
+	</groupbox>
+	<groupbox>
+		<caption label="&config.progress.style.caption;"/>
+		<vbox>
+			<radiogroup id="extensions.informationaltab.progress.style-radiogroup"
+				preference="extensions.informationaltab.progress.style"
+				orient="vertical">
+				<radio value="modern" label="&config.progress.style.modern;"/>
+				<radio value="classic" label="&config.progress.style.classic;"/>
 			</radiogroup>
 		</vbox>
 	</groupbox>
