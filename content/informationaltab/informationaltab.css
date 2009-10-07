@@ -13,3 +13,11 @@ tabs.tabbrowser-tabs label.tab-text {
 :root[informationaltab-show-last-tab-close-button="true"] .tabbrowser-tabs[closebuttons="alltabs"] > .tabbrowser-tab:only-child > .tab-close-button {
 	display: -moz-box;
 }
+
+
+/* CookiePie
+   http://www.nektra.com/products/cookiepie-tab-firefox-extension */
+:root[informationaltab-installed-compatible-addons~="cookiepie"]
+  tabs.tabbrowser-tabs label.tab-text label.tab-real-text {
+	-moz-binding: url("chrome://cookiepie/content/cookiepie.xml#tablabel") !important;
+}

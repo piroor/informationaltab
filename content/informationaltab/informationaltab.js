@@ -39,7 +39,18 @@ var InformationalTabService = {
 	thumbnailUpdateDelay : 0,
 	thumbnailBG          : 'rgba(0,0,0,0.5)',
 
+	kTHUMBNAIL : 'informationaltab-thumbnail',
 	kCONTAINER : 'informationaltab-thumbnail-container',
+
+	kUNREAD : 'informationaltab-unread',
+	kHIDDEN : 'informationaltab-hidden',
+	kPROGRESS : 'informationaltab-progress',
+	kTHUMBNAIL_ENABLED : 'informationaltab-thumbnail-enabled',
+	kTHUMBNAIL_POSITION : 'informationaltab-thumbnail-position',
+	kCOMPATIBLE_ADDONS : 'informationaltab-installed-compatible-addons',
+	kPROGRESS_STYLE : 'informationaltab-progressbar-style',
+	kINDICATE_UNREAD : 'informationaltab-indicate-unread',
+	kSHOW_LAST_CLOSE_BUTTON : 'informationaltab-show-last-tab-close-button',
 
 	progressMode  : 1,
 	PROGRESS_STATUSBAR : 0,
@@ -156,6 +167,12 @@ var InformationalTabService = {
 				)
 			);
 		}
+
+		var addons = [];
+		// CookiePie
+		// http://www.nektra.com/products/cookiepie-tab-firefox-extension
+		if ('CookiePieStartup' in window) addons.push('cookiepie');
+		document.documentElement.setAttribute(this.kCOMPATIBLE_ADDONS, addons.join(' '));
 
 		this.initTabBrowser(gBrowser);
 
@@ -308,7 +325,7 @@ var InformationalTabService = {
 	initThumbnail : function(aTab, aTabBrowser) 
 	{
 		var canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
-		canvas.setAttribute('class', 'informationaltab-thumbnail');
+		canvas.setAttribute('class', this.kTHUMBNAIL);
 		canvas.width = canvas.height = canvas.style.width = canvas.style.height = 1;
 		canvas.style.display = 'none';
 
@@ -673,7 +690,7 @@ var InformationalTabService = {
 				if (this.disabled) return;
 				var tab = aEvent.originalTarget;
 				if (this.isTabRead(tab, aEvent.type))
-					tab.removeAttribute('informationaltab-unread');
+					tab.removeAttribute(this.kUNREAD);
 				break;
 
 			case 'TabOpen':
@@ -813,19 +830,18 @@ var InformationalTabService = {
 			case 'extensions.informationaltab.thumbnail.enabled':
 				this.thumbnailEnabled = value;
 				if (value) {
-					document.documentElement.setAttribute('informationaltab-thumbnail-enabled', true);
+					document.documentElement.setAttribute(this.kTHUMBNAIL_ENABLED, true);
 				}
 				else {
-					document.documentElement.removeAttribute('informationaltab-thumbnail-enabled');
+					document.documentElement.removeAttribute(this.kTHUMBNAIL_ENABLED);
 				}
 			case 'extensions.informationaltab.thumbnail.position':
-				var attr = 'informationaltab-thumbnail-position';
 				if (this.thumbnailEnabled) {
-					document.documentElement.setAttribute(attr,
+					document.documentElement.setAttribute(this.kTHUMBNAIL_POSITION,
 						this.getPref('extensions.informationaltab.thumbnail.position'));
 				}
 				else {
-					document.documentElement.removeAttribute(attr);
+					document.documentElement.removeAttribute(this.kTHUMBNAIL_POSITION);
 				}
 				break;
 
@@ -877,25 +893,25 @@ var InformationalTabService = {
 				var panel = document.getElementById('statusbar-progresspanel');
 				if (value == this.PROGRESS_STATUSBAR ||
 					value == this.PROGRESS_BOTH)
-					panel.removeAttribute('informationaltab-hidden');
+					panel.removeAttribute(this.kHIDDEN);
 				else
-					panel.setAttribute('informationaltab-hidden', true);
+					panel.setAttribute(this.kHIDDEN, true);
 				break;
 			case 'extensions.informationaltab.progress.style':
 				this.progressStyle = value;
 				if (value) {
-					document.documentElement.setAttribute('informationaltab-progressbar-style', value);
+					document.documentElement.setAttribute(this.kPROGRESS_STYLE, value);
 				}
 				else {
-					document.documentElement.removeAttribute('informationaltab-progressbar-style');
+					document.documentElement.removeAttribute(this.kPROGRESS_STYLE);
 				}
 				break;
 
 			case 'extensions.informationaltab.unread.enabled':
 				if (value)
-					document.documentElement.setAttribute('informationaltab-indicate-unread', true);
+					document.documentElement.setAttribute(this.kINDICATE_UNREAD, true);
 				else
-					document.documentElement.removeAttribute('informationaltab-indicate-unread');
+					document.documentElement.removeAttribute(this.kINDICATE_UNREAD);
 				break;
 
 			case 'extensions.informationaltab.unread.readMethod':
@@ -941,9 +957,9 @@ var InformationalTabService = {
 				var mode = this.getPref('extensions.informationaltab.close_buttons.force_show.last_tab');
 				var closable = !this.getPref('browser.tabs.closeWindowWithLastTab');
 				if (mode == 2 || (mode == 0 && closable))
-					document.documentElement.setAttribute('informationaltab-show-last-tab-close-button', true);
+					document.documentElement.setAttribute(this.kSHOW_LAST_CLOSE_BUTTON, true);
 				else
-					document.documentElement.removeAttribute('informationaltab-show-last-tab-close-button');
+					document.documentElement.removeAttribute(this.kSHOW_LAST_CLOSE_BUTTON);
 				break;
 
 			case 'browser.tabs.tabClipWidth':
@@ -1049,10 +1065,10 @@ InformationalTabProgressListener.prototype = {
 			this.updateProgress(this.mProgress, 'value', percentage);
 		}
 		else if (InformationalTabService.progressMode == InformationalTabService.PROGRESS_STATUSBAR) {
-			this.mLabel.removeAttribute('informationaltab-progress');
+			this.mLabel.removeAttribute(InformatonalTabService.kPROGRESS);
 		}
 		else {
-			this.updateProgress(this.mLabel, 'informationaltab-progress', percentage);
+			this.updateProgress(this.mLabel, InformatonalTabService.kPROGRESS, percentage);
 		}
 	},
 	updateProgress : function(aTarget, aAttr, aPercentage)
@@ -1072,18 +1088,18 @@ InformationalTabProgressListener.prototype = {
 			aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
 			) {
 			InformationalTabService.updateThumbnail(this.mTab, this.mTabBrowser, InformationalTabService.UPDATE_PAGELOAD);
-			this.mLabel.removeAttribute('informationaltab-progress');
+			this.mLabel.removeAttribute(InformationalTabService.kPROGRESS);
 			if (
 				!this.mTab.linkedBrowser.currentURI ||
 				this.mTab.linkedBrowser.currentURI.spec == 'about:config' ||
 				InformationalTabService.isTabRead(this.mTab, 'load')
 				)
-				this.mTab.removeAttribute('informationaltab-unread');
+				this.mTab.removeAttribute(InformationalTabService.kUNREAD);
 		}
 	},
 	onLocationChange : function(aWebProgress, aRequest, aLocation)
 	{
-		this.mTab.setAttribute('informationaltab-unread', true);
+		this.mTab.setAttribute(InformationalTabService.kUNREAD, true);
 	},
 	onStatusChange : function(aWebProgress, aRequest, aStatus, aMessage)
 	{
@@ -1140,7 +1156,7 @@ InformationalTabEventListener.prototype = {
 				if (aEvent.originalTarget.toString().indexOf('Document') < 0 ||
 					!ITS.isTabRead(this.mTab, aEvent.type))
 					return;
-				this.mTab.removeAttribute('informationaltab-unread');
+				this.mTab.removeAttribute(ITS.kUNREAD);
 				if (ITS.thumbnailScrolled) {
 					let node = aEvent.originalTarget;
 					let viewPortBox, nodeBox;
