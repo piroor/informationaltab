@@ -112,20 +112,29 @@ var InformationalTabService = {
 
 		eval('this.thumbnailMinSize = '+this.styleStringBundle.getString('thumbnail_min_size'));
 
-		this.thumbnailHTabH   = this.styleStringBundle.getString('thumbnail_htab_height');
-		this.thumbnailHTabCH  = this.styleStringBundle.getString('thumbnail_htab_contents_height');
-		this.thumbnailHTabS   = this.styleStringBundle.getString('thumbnail_htab_style');
-		this.thumbnailHTabHS  = this.styleStringBundle.getString('thumbnail_htab_height_selected');
-		this.thumbnailHTabCHS = this.styleStringBundle.getString('thumbnail_htab_contents_height_selected');
-		this.thumbnailHTabSS  = this.styleStringBundle.getString('thumbnail_htab_style_selected');
-		this.thumbnailVTabH   = this.styleStringBundle.getString('thumbnail_vtab_height');
-		this.thumbnailVTabCH  = this.styleStringBundle.getString('thumbnail_vtab_contents_height');
-		this.thumbnailVTabS   = this.styleStringBundle.getString('thumbnail_vtab_style');
-		this.thumbnailVTabHS  = this.styleStringBundle.getString('thumbnail_vtab_height_selected');
-		this.thumbnailVTabCHS = this.styleStringBundle.getString('thumbnail_vtab_contents_height_selected');
-		this.thumbnailVTabSS  = this.styleStringBundle.getString('thumbnail_vtab_style_selected');
-
-		eval('this.thumbnailBG = "'+this.styleStringBundle.getString('thumbnail_background')+'"');
+		this.thumbnailStyle = {
+			vertical : {
+				foreground : {
+					tab : this.styleStringBundle.getString('thumbnail_vtab_height_selected'),
+					contents : this.styleStringBundle.getString('thumbnail_vtab_contents_height_selected')
+				},
+				background : {
+					tab : this.styleStringBundle.getString('thumbnail_vtab_height'),
+					contents : this.styleStringBundle.getString('thumbnail_vtab_contents_height')
+				}
+			},
+			horizontal : {
+				foreground : {
+					tab : this.styleStringBundle.getString('thumbnail_htab_height_selected'),
+					contents : this.styleStringBundle.getString('thumbnail_htab_contents_height_selected')
+				},
+				background : {
+					tab : this.styleStringBundle.getString('thumbnail_htab_height'),
+					contents : this.styleStringBundle.getString('thumbnail_htab_contents_height')
+				}
+			}
+		};
+		eval('this.thumbnailStyle.background = "'+this.styleStringBundle.getString('thumbnail_background')+'"');
 
 
 		this.addPrefListener(this);
@@ -512,11 +521,11 @@ var InformationalTabService = {
 							ctx.scale(canvasH/h, canvasH/h);
 						else
 							ctx.scale(canvasW/w, canvasW/w);
-						ctx.drawWindow(win, x, y, w, h, this.thumbnailBG);
+						ctx.drawWindow(win, x, y, w, h, this.thumbnailStyle.background);
 					}
 					else {
 						let image = b.contentDocument.getElementsByTagName('img')[0];
-						ctx.fillStyle = this.thumbnailBG;
+						ctx.fillStyle = this.thumbnailStyle.background;
 						ctx.fillRect(0, 0, canvasW, canvasH);
 						let iW = parseInt(image.width);
 						let iH = parseInt(image.height);
@@ -600,65 +609,50 @@ var InformationalTabService = {
 	{
 		if (this.disabled) return;
 
-		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
-		var canvasH = Math.max(parseInt(aTab.__informationaltab__canvas.height), label.boxObject.height);
-
-		var nodes = document.getAnonymousNodes(aTab);
+		this.updateTabBoxStyle(aTab, aSelected);
+		this.updateProgressStyle(aTab);
+	},
+ 
+	updateTabBoxStyle : function(aTab, aSelected) 
+	{
+		var nodes = Array.slice(document.getAnonymousNodes(aTab));
 
 		if (this.thumbnailEnabled) {
+			var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
+			var canvasH = Math.max(parseInt(aTab.__informationaltab__canvas.height), label.boxObject.height);
+
 			var b = aTab.__informationaltab__parentTabBrowser;
 			var box = b.mTabContainer.mTabstrip || b.mTabContainer ;
-			var isVertical = ((box.getAttribute('orient') || window.getComputedStyle(box, '').getPropertyValue('-moz-box-orient')) == 'vertical');
+			var orient = box.getAttribute('orient') || window.getComputedStyle(box, '').getPropertyValue('-moz-box-orient');
+			var selected = aSelected ? 'foreground' : 'background' ;
 
-			if (aSelected) {
-				if (isVertical) {
-					eval('var tabH = '+this.thumbnailVTabHS.replace(/%canvas_height%/g, canvasH)+','+
-							'tabCH = '+this.thumbnailVTabCHS.replace(/%canvas_height%/g, canvasH)+','+
-							'tabS = "'+this.thumbnailVTabSS.replace(/%canvas_height%/g, canvasH)+'"');
-				}
-				else {
-					eval('var tabH = '+this.thumbnailHTabHS.replace(/%canvas_height%/g, canvasH)+','+
-							'tabCH = '+this.thumbnailHTabCHS.replace(/%canvas_height%/g, canvasH)+','+
-							'tabS = "'+this.thumbnailHTabSS.replace(/%canvas_height%/g, canvasH)+'"');
-				}
-			}
-			else {
-				if (isVertical) {
-					eval('var tabH = '+this.thumbnailVTabHS.replace(/%canvas_height%/g, canvasH)+','+
-							'tabCH = '+this.thumbnailVTabCHS.replace(/%canvas_height%/g, canvasH)+','+
-							'tabS = "'+this.thumbnailVTabSS.replace(/%canvas_height%/g, canvasH)+'"');
-				}
-				else {
-					eval('var tabH = '+this.thumbnailHTabH.replace(/%canvas_height%/g, canvasH)+','+
-							'tabCH = '+this.thumbnailHTabCH.replace(/%canvas_height%/g, canvasH)+','+
-							'tabS = "'+this.thumbnailHTabS.replace(/%canvas_height%/g, canvasH)+'"');
-				}
-			}
+			var tabHeight = this.thumbnailStyle[orient][selected].tab,
+				contentsHeight = this.thumbnailStyle[orient][selected].contents;
 
 			var style = window.getComputedStyle(aTab.__informationaltab__canvas.parentNode, null);
 			var margin = parseInt(style.getPropertyValue('margin-top').replace('px', ''))+
 						parseInt(style.getPropertyValue('margin-bottom').replace('px', ''));
-			tabH -= margin;
+			tabHeight -= margin;
 
-			for (var i = 0, maxi = nodes.length; i < maxi; i++)
-			{
-				nodes[i].setAttribute('style', nodes[i].getAttribute('style')+';height:'+tabCH+'px !important;');
-			}
-			aTab.setAttribute('style', aTab.getAttribute('style')+';'+tabS+';height:'+tabH+'px !important;');
+			nodes.forEach(function(aNode) {
+				aNode.style.height = contentsHeight+'px !important;';
+			});
+			aTab.style.height = tabHeight+'px !important;';
 		}
 		else {
-			for (var i = 0, maxi = nodes.length; i < maxi; i++)
-			{
-				nodes[i].setAttribute('style', nodes[i].getAttribute('style').replace(/(^|;\s*)height\s*:\s*[^;]*/, '$1'));
-			}
-			aTab.setAttribute('style', aTab.getAttribute('style').replace(/(^|;\s*)height\s*:\s*[^;]*/, '$1'));
+			nodes.push(aTab);
+			nodes.forEach(function(aNode) {
+				aNode.style.height = '';
+			});
 		}
-
-		this.updateProgressStyle(aTab);
 	},
  
 	updateProgressStyle : function(aTab) 
 	{
+		var info = aTab.boxObject.height+':'+this.progressStyle;
+		if (info == aTab.__informationaltab__lastProgressStyleInfo) return;
+		aTab.__informationaltab__lastProgressStyleInfo = info;
+
 		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 		var progress = document.getAnonymousElementByAttribute(label, 'class', 'tab-progress');
 		switch (this.progressStyle)
