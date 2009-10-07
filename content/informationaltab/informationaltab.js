@@ -498,7 +498,7 @@ var InformationalTabService = {
 				canvas.style.width  = canvasW+'px';
 				canvas.style.height = canvasH+'px';
 				canvas.style.display = 'block';
-				this.updateTabStyle(aTab, aTab.getAttribute('selected') == 'true');
+				this.updateTabStyle(aTab);
 
 				try {
 					var ctx = canvas.getContext('2d');
@@ -552,7 +552,7 @@ var InformationalTabService = {
 		else {
 			canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
 			canvas.style.display = 'none';
-			this.updateTabStyle(aTab, aTab.getAttribute('selected') == 'true');
+			this.updateTabStyle(aTab);
 		}
 
 		aTabBrowser.thumbnailUpdateCount--;
@@ -605,30 +605,30 @@ var InformationalTabService = {
 		}
 	},
  
-	updateTabStyle : function(aTab, aSelected) 
+	updateTabStyle : function(aTab) 
 	{
 		if (this.disabled) return;
 
-		this.updateTabBoxStyle(aTab, aSelected);
+		this.updateTabBoxStyle(aTab);
 		this.updateProgressStyle(aTab);
 	},
  
-	updateTabBoxStyle : function(aTab, aSelected) 
+	updateTabBoxStyle : function(aTab) 
 	{
 		var nodes = Array.slice(document.getAnonymousNodes(aTab));
 
 		if (this.thumbnailEnabled) {
-			var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
-			var canvasHeight = Math.max(parseInt(aTab.__informationaltab__canvas.height), label.boxObject.height);
+			let label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
+			let canvasHeight = Math.max(parseInt(aTab.__informationaltab__canvas.height), label.boxObject.height);
 
-			let info = canvasHeight;
+			let b = aTab.__informationaltab__parentTabBrowser;
+			let box = b.mTabContainer.mTabstrip || b.mTabContainer ;
+			let orient = box.getAttribute('orient') || window.getComputedStyle(box, '').getPropertyValue('-moz-box-orient');
+			let selected = aTab.getAttribute('selected') == 'true' ? 'foreground' : 'background' ;
+
+			let info = canvasHeight+':'+orient+':'+selected;
 			if (info == aTab.__informationaltab__lastTabBoxStyleInfo) return;
 			aTab.__informationaltab__lastTabBoxStyleInfo = info;
-
-			var b = aTab.__informationaltab__parentTabBrowser;
-			var box = b.mTabContainer.mTabstrip || b.mTabContainer ;
-			var orient = box.getAttribute('orient') || window.getComputedStyle(box, '').getPropertyValue('-moz-box-orient');
-			var selected = aSelected ? 'foreground' : 'background' ;
 
 			var tabHeight = this.thumbnailStyle[orient][selected].tab,
 				contentsHeight = this.thumbnailStyle[orient][selected].contents;
@@ -636,8 +636,8 @@ var InformationalTabService = {
 			eval(('tabHeight = '+tabHeight+'; contentsHeight = '+contentsHeight)
 					.replace(/%canvas_height%/g, canvasHeight));
 
-			var style = window.getComputedStyle(aTab.__informationaltab__canvas.parentNode, null);
-			var margin = parseInt(style.getPropertyValue('margin-top').replace('px', ''))+
+			let style = window.getComputedStyle(aTab.__informationaltab__canvas.parentNode, null);
+			let margin = parseInt(style.getPropertyValue('margin-top').replace('px', ''))+
 						parseInt(style.getPropertyValue('margin-bottom').replace('px', ''));
 			tabHeight -= margin;
 
@@ -730,7 +730,7 @@ var InformationalTabService = {
 			case 'TreeStyleTabCollapsedStateChange':
 				if (aEvent.collapsed) return;
 				var tab = aEvent.originalTarget;
-				this.updateTabStyle(tab, tab.getAttribute('selected') == 'true');
+				this.updateTabStyle(tab);
 				break;
 		}
 	},
@@ -1191,7 +1191,7 @@ InformationalTabEventListener.prototype = {
 			case 'select':
 				var selected = this.mTabBrowser.selectedTab == this.mTab;
 				if (ITS.thumbnailEnabled && this.lastSelected != selected)
-					ITS.updateTabStyle(this.mTab, selected);
+					ITS.updateTabStyle(this.mTab);
 				this.lastSelected = selected;
 				break;
 
@@ -1314,8 +1314,7 @@ InformationalTabPrefListener.prototype = {
 					var tabs = ITS.getTabs(aTabBrowser);
 					for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 					{
-						let tab = tabs.snapshotItem(i);
-						ITS.updateTabStyle(tab, tab.getAttribute('selected') == 'true');
+						ITS.updateTabStyle(tabs.snapshotItem(i));
 					}
 				}, 0, this.mTabBrowser);
 				return;
