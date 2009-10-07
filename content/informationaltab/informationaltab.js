@@ -654,10 +654,16 @@ var InformationalTabService = {
 			aTab.setAttribute('style', aTab.getAttribute('style').replace(/(^|;\s*)height\s*:\s*[^;]*/, '$1'));
 		}
 
+		this.updateProgressStyle(aTab);
+	},
+ 
+	updateProgressStyle : function(aTab) 
+	{
+		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 		var progress = document.getAnonymousElementByAttribute(label, 'class', 'tab-progress');
 		var icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image') ||
 					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
-		switch (this.getPref('extensions.informationaltab.progress.style'))
+		switch (this.progressStyle)
 		{
 			default:
 			case 'modern':
