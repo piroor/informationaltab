@@ -1065,10 +1065,10 @@ InformationalTabProgressListener.prototype = {
 			this.updateProgress(this.mProgress, 'value', percentage);
 		}
 		else if (InformationalTabService.progressMode == InformationalTabService.PROGRESS_STATUSBAR) {
-			this.mLabel.removeAttribute(InformatonalTabService.kPROGRESS);
+			this.mLabel.removeAttribute(InformationalTabService.kPROGRESS);
 		}
 		else {
-			this.updateProgress(this.mLabel, InformatonalTabService.kPROGRESS, percentage);
+			this.updateProgress(this.mLabel, InformationalTabService.kPROGRESS, percentage);
 		}
 	},
 	updateProgress : function(aTarget, aAttr, aPercentage)
