@@ -667,9 +667,12 @@ var InformationalTabService = {
 			case 'modern':
 				let icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image') ||
 							document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
+				// let close = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button always-right') || // Tab Mix Plus
+				// 			document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button');
 				let progressBox = progress.parentNode.boxObject;
 				progress.style.marginLeft = '-'+(progressBox.screenX - icon.boxObject.screenX)+'px';
 				progress.style.marginTop = '-'+(progressBox.screenY - aTab.boxObject.screenY)+'px';
+				// progress.style.marginRight = '-'+(close.boxObject.screenX - progressBox.screenX + progressBox.width)+'px';
 				break;
 
 			case 'classic':
