@@ -619,7 +619,11 @@ var InformationalTabService = {
 
 		if (this.thumbnailEnabled) {
 			var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
-			var canvasH = Math.max(parseInt(aTab.__informationaltab__canvas.height), label.boxObject.height);
+			var canvasHeight = Math.max(parseInt(aTab.__informationaltab__canvas.height), label.boxObject.height);
+
+			let info = canvasHeight;
+			if (info == aTab.__informationaltab__lastTabBoxStyleInfo) return;
+			aTab.__informationaltab__lastTabBoxStyleInfo = info;
 
 			var b = aTab.__informationaltab__parentTabBrowser;
 			var box = b.mTabContainer.mTabstrip || b.mTabContainer ;
@@ -629,17 +633,23 @@ var InformationalTabService = {
 			var tabHeight = this.thumbnailStyle[orient][selected].tab,
 				contentsHeight = this.thumbnailStyle[orient][selected].contents;
 
+			eval(('tabHeight = '+tabHeight+'; contentsHeight = '+contentsHeight)
+					.replace(/%canvas_height%/g, canvasHeight));
+
 			var style = window.getComputedStyle(aTab.__informationaltab__canvas.parentNode, null);
 			var margin = parseInt(style.getPropertyValue('margin-top').replace('px', ''))+
 						parseInt(style.getPropertyValue('margin-bottom').replace('px', ''));
 			tabHeight -= margin;
 
 			nodes.forEach(function(aNode) {
-				aNode.style.height = contentsHeight+'px !important;';
+				aNode.style.setProperty('height', contentsHeight+'px', 'important');
 			});
-			aTab.style.height = tabHeight+'px !important;';
+			aTab.style.setProperty('height', tabHeight+'px', 'important');
 		}
 		else {
+			let info = '';
+			if (info == aTab.__informationaltab__lastTabBoxStyleInfo) return;
+			aTab.__informationaltab__lastTabBoxStyleInfo = info;
 			nodes.push(aTab);
 			nodes.forEach(function(aNode) {
 				aNode.style.height = '';
