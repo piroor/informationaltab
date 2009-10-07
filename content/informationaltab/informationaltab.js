@@ -1170,7 +1170,7 @@ InformationalTabEventListener.prototype = {
 					let node = aEvent.originalTarget;
 					let viewPortBox, nodeBox;
 					if (
-						!(node instanceof Components.interfaces.nsIDOMElement) ||
+						!(node instanceof Components.interfaces.nsIDOMElement) /* ||
 						(
 							(viewPortBox = window['piro.sakura.ne.jp'].boxObject.getBoxObjectFor(this.mTab.linkedBrowser)) &&
 							(nodeBox = window['piro.sakura.ne.jp'].boxObject.getBoxObjectFor(node)) &&
@@ -1178,7 +1178,7 @@ InformationalTabEventListener.prototype = {
 							viewPortBox.screenX + viewPortBox.width >= nodeBox.screenX &&
 							viewPortBox.screenY <= nodeBox.screenY + nodeBox.height &&
 							viewPortBox.screenY + viewPortBox.height >= nodeBox.screenY
-						)
+						) */
 						)
 						ITS.updateThumbnail(this.mTab, this.mTabBrowser, ITS.UPDATE_SCROLL);
 				}
