@@ -644,8 +644,9 @@ var InformationalTabService = {
 		{
 			default:
 			case 'modern':
-				progress.style.marginLeft = '-'+(label.boxObject.screenX - icon.boxObject.screenX)+'px';
-				progress.style.marginTop = '-'+(label.boxObject.screenY - aTab.boxObject.screenY + 1)+'px';
+				let progressBox = progress.parentNode.boxObject;
+				progress.style.marginLeft = '-'+(progressBox.screenX - icon.boxObject.screenX)+'px';
+				progress.style.marginTop = '-'+(progressBox.screenY - aTab.boxObject.screenY)+'px';
 				break;
 
 			case 'classic':
