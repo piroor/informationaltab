@@ -44,7 +44,7 @@
 <!ENTITY config.progress.mode.tab       "それぞれのタブに表示する">
 <!ENTITY config.progress.mode.both      "タブとステータスバーの両方に表示する">
 
-<!ENTITY config.progress.style.caption  "タブ内のプログレスメーターの表示位置">
+<!ENTITY config.progress.style.caption  "タブ内のプログレスバーの表示位置">
 <!ENTITY config.progress.style.modern   "タブの上端（Firefox 3.7モックアップ風）">
 <!ENTITY config.progress.style.classic  "ラベルの下">
 
