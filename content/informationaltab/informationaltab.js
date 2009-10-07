@@ -661,12 +661,12 @@ var InformationalTabService = {
 	{
 		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 		var progress = document.getAnonymousElementByAttribute(label, 'class', 'tab-progress');
-		var icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image') ||
-					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
 		switch (this.progressStyle)
 		{
 			default:
 			case 'modern':
+				let icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image') ||
+							document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
 				let progressBox = progress.parentNode.boxObject;
 				progress.style.marginLeft = '-'+(progressBox.screenX - icon.boxObject.screenX)+'px';
 				progress.style.marginTop = '-'+(progressBox.screenY - aTab.boxObject.screenY)+'px';
