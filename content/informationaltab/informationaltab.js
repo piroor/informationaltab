@@ -99,6 +99,25 @@ var InformationalTabService = {
 				null
 			);
 	},
+ 
+	get XULAppInfo() {
+		if (!this._XULAppInfo) {
+			this._XULAppInfo = Components
+					.classes['@mozilla.org/xre/app-info;1']
+					.getService(Components.interfaces.nsIXULAppInfo);
+		}
+		return this._XULAppInfo;
+	},
+	_XULAppInfo : null,
+	get Comparator() {
+		if (!this._Comparator) {
+			this._Comparator = Components
+					.classes['@mozilla.org/xpcom/version-comparator;1']
+					.getService(Components.interfaces.nsIVersionComparator);
+		}
+		return this._Comparator;
+	},
+	_Comparator : null,
   
 /* Initializing */ 
 	
@@ -672,6 +691,7 @@ var InformationalTabService = {
 		{
 			default:
 			case 'modern':
+			case 'lighting-modern':
 				progress.style.marginTop = '-'+(progressBox.screenY - aTab.boxObject.screenY)+'px';
 
 				let canvas = aTab.__informationaltab__canvas;
@@ -918,6 +938,9 @@ var InformationalTabService = {
 					panel.setAttribute(this.kHIDDEN, true);
 				break;
 			case 'extensions.informationaltab.progress.style':
+				if (value == 'lighting-modern' &&
+					this.Comparator.compare(this.XULAppInfo.version, '3.5') < 0)
+					value = 'modern';
 				this.progressStyle = value;
 				if (value) {
 					document.documentElement.setAttribute(this.kPROGRESS_STYLE, value);

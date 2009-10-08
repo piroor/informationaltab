@@ -52,6 +52,27 @@ label.tab-text > .tab-label-inner-box > stack > * > spacer,
 	margin: -3px 0 0;
 }
 
+.tab-progress > .progress-bar,
+.tab-progress > .progress-remainder {
+	-moz-appearance: none;
+}
+
+.tab-progress > .progress-bar {
+	background: Highlight;
+}
+
+
+:root[informationaltab-progressbar-style="lighting-modern"] .tab-progress > .progress-bar {
+	background: #4fca32 url("lighting-progressbar.png") no-repeat right;
+	border-right-color: white;
+	-moz-box-shadow: 0 0 2px #7ffa52;
+}
+
+:root[informationaltab-progressbar-style="lighting-modern"] .tab-progress > .progress-remainder {
+	background-color: #5d9856 /* ThreeDDarkShadow */;
+}
+
+
 :root[informationaltab-progressbar-style="classic"] .tab-progress-box {
 	-moz-box-pack: end;
 }
@@ -63,14 +84,6 @@ label.tab-text > .tab-label-inner-box > stack > * > spacer,
 	margin: 0.2em 0 -0.2em;
 }
 
-.tab-progress > .progress-bar,
-.tab-progress > .progress-remainder {
-	-moz-appearance: none;
-}
-
-.tab-progress > .progress-bar {
-	background: Highlight;
-}
 
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tab label {
