@@ -662,8 +662,9 @@ var InformationalTabService = {
 	{
 		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 		var progress = document.getAnonymousElementByAttribute(label, 'class', 'tab-progress');
+		var progressBox = progress.parentNode.boxObject;
 
-		var key = aTab.boxObject.height+':'+this.progressStyle;
+		var key = aTab.boxObject.height+':'+(progressBox.screenX - aTab.boxObject.screenX)+':'+this.progressStyle;
 		if (key == progress.getAttribute(this.kLAST_STYLE_KEY)) return;
 		progress.setAttribute(this.kLAST_STYLE_KEY, key);
 
@@ -671,13 +672,20 @@ var InformationalTabService = {
 		{
 			default:
 			case 'modern':
-				let icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image') ||
-							document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
+				progress.style.marginTop = '-'+(progressBox.screenY - aTab.boxObject.screenY)+'px';
+
+				let canvas = aTab.__informationaltab__canvas;
+				if (canvas && canvas.parentNode && canvas.parentNode.boxObject.width) {
+					progress.style.marginLeft = '-'+(progressBox.screenX - canvas.parentNode.boxObject.screenX)+'px';
+				}
+				else {
+					let icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image') ||
+								document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
+					progress.style.marginLeft = '-'+(progressBox.screenX - icon.boxObject.screenX - icon.boxObject.width)+'px';
+				}
+
 				// let close = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button always-right') || // Tab Mix Plus
 				// 			document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button');
-				let progressBox = progress.parentNode.boxObject;
-				progress.style.marginLeft = '-'+(progressBox.screenX - icon.boxObject.screenX)+'px';
-				progress.style.marginTop = '-'+(progressBox.screenY - aTab.boxObject.screenY)+'px';
 				// progress.style.marginRight = '-'+(close.boxObject.screenX - progressBox.screenX + progressBox.width)+'px';
 				break;
 
