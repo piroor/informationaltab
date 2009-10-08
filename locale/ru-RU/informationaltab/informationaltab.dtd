@@ -44,9 +44,14 @@
 <!ENTITY config.progress.mode.tab       "Каждой вкладке">
 <!ENTITY config.progress.mode.both      "Строке состояния и каждой вкладке">
 
-<!ENTITY config.progress.style.caption  "Position of progress meter in tab">
-<!ENTITY config.progress.style.modern   "Top (Firefox 3.7 mockup style)">
-<!ENTITY config.progress.style.classic  "Below label">
+<!ENTITY config.progress.position.caption "Position of progress bar in tab">
+<!ENTITY config.progress.position.top     "Top (Firefox 3.7 mockup style)">
+<!ENTITY config.progress.position.bottom  "Below label">
+
+<!ENTITY config.progress.style.caption        "Style of progress bar in tab">
+<!ENTITY config.progress.style.default        "Default">
+<!ENTITY config.progress.style.lighting-blue  "Blue">
+<!ENTITY config.progress.style.lighting-green "Green">
 
 
 <!ENTITY config.tabs.unread "Статус непрочитанности">

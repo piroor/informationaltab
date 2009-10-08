@@ -687,10 +687,7 @@ var InformationalTabService = {
 		if (key == progress.getAttribute(this.kLAST_STYLE_KEY)) return;
 		progress.setAttribute(this.kLAST_STYLE_KEY, key);
 
-		if (this.progressStyle.indexOf('classic') > -1) {
-			progress.style.margin = '';
-		}
-		else {
+		if (this.progressStyle.indexOf('top') > -1) {
 			progress.style.marginTop = '-'+(progressBox.screenY - aTab.boxObject.screenY)+'px';
 
 			let canvas = aTab.__informationaltab__canvas;
@@ -704,6 +701,9 @@ var InformationalTabService = {
 			progress.style.marginLeft = '-'+Math.max(marginForCanvas, marginForIcon, marginForClose, 0)+'px';
 
 			// progress.style.marginRight = '-'+(close.boxObject.screenX - progressBox.screenX + progressBox.width)+'px';
+		}
+		else {
+			progress.style.margin = '';
 		}
 	},
   
@@ -932,13 +932,11 @@ var InformationalTabService = {
 				else
 					panel.setAttribute(this.kHIDDEN, true);
 				break;
+			case 'extensions.informationaltab.progress.position':
 			case 'extensions.informationaltab.progress.style':
-				if (value == 'lighting-modern' &&
-					this.Comparator.compare(this.XULAppInfo.version, '3.5') < 0)
-					value = 'modern';
-				this.progressStyle = value;
-				if (value) {
-					document.documentElement.setAttribute(this.kPROGRESS_STYLE, value);
+				this.progressStyle = this.getPref('extensions.informationaltab.progress.position')+' '+this.getPref('extensions.informationaltab.progress.style');
+				if (this.progressStyle) {
+					document.documentElement.setAttribute(this.kPROGRESS_STYLE, this.progressStyle);
 				}
 				else {
 					document.documentElement.removeAttribute(this.kPROGRESS_STYLE);

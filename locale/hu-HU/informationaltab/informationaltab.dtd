@@ -44,9 +44,14 @@
 <!ENTITY config.progress.mode.tab       "Mindegyik fülön">
 <!ENTITY config.progress.mode.both      "Mindkettőn (állapotsor és fül)">
 
-<!ENTITY config.progress.style.caption  "A betöltés-állapotjelző pozíciója a fülön">
-<!ENTITY config.progress.style.modern   "Felül (Firefox 3.7 stílus)">
-<!ENTITY config.progress.style.classic  "Címke alatt">
+<!ENTITY config.progress.position.caption "A betöltés-állapotjelző pozíciója a fülön">
+<!ENTITY config.progress.position.top     "Felül (Firefox 3.7 stílus)">
+<!ENTITY config.progress.position.bottom  "Címke alatt">
+
+<!ENTITY config.progress.style.caption        "Style of progress bar in tab">
+<!ENTITY config.progress.style.default        "Default">
+<!ENTITY config.progress.style.lighting-blue  "Blue">
+<!ENTITY config.progress.style.lighting-green "Green">
 
 
 <!ENTITY config.tabs.unread "Olvasatlan lapok">

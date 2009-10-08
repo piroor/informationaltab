@@ -62,38 +62,35 @@ label.tab-text > .tab-label-inner-box > stack > * > spacer,
 }
 
 
-:root[informationaltab-progressbar-style~="classic"] .tab-progress-box {
+:root[informationaltab-progressbar-style~="bottom"] .tab-progress-box {
 	-moz-box-pack: end;
 }
 
-:root[informationaltab-progressbar-style~="classic"] .tab-progress {
-	height: 0.4em;
-	min-height: 0.4em;
-	max-height: 0.4em;
-	margin: 0.2em 0 -0.2em;
+:root[informationaltab-progressbar-style~="bottom"] .tab-progress {
+	margin: 0 0 -4px;
 }
 
 
-:root[informationaltab-progressbar-style~="lighting"][informationaltab-progressbar-style~="blue"]
+:root[informationaltab-progressbar-style~="lighting-blue"]
   .tab-progress > .progress-bar {
 	background: #3283ca url("lighting-progressbar-blue.png") no-repeat right;
 	-moz-box-shadow: 0 0 2px #6bd1ff;
 }
 
-:root[informationaltab-progressbar-style~="lighting"][informationaltab-progressbar-style~="blue"]
+:root[informationaltab-progressbar-style~="lighting-blue"]
   .tab-progress > .progress-remainder {
-	background-color: #47637b /* ThreeDDarkShadow */;
+	background-color: #47637b;
 }
 
-:root[informationaltab-progressbar-style~="lighting"][informationaltab-progressbar-style~="green"]
+:root[informationaltab-progressbar-style~="lighting-green"]
   .tab-progress > .progress-bar {
 	background: #4fca32 url("lighting-progressbar-green.png") no-repeat right;
 	-moz-box-shadow: 0 0 2px #7ffa52;
 }
 
-:root[informationaltab-progressbar-style~="lighting"][informationaltab-progressbar-style~="green"]
+:root[informationaltab-progressbar-style~="lighting-green"]
   .tab-progress > .progress-remainder {
-	background-color: #5d9856 /* ThreeDDarkShadow */;
+	background-color: #5d9856;
 }
 
 

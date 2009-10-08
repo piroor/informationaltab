@@ -234,32 +234,41 @@
 		<preference id="extensions.informationaltab.progress.mode"
 			name="extensions.informationaltab.progress.mode"
 			type="int"/>
+		<preference id="extensions.informationaltab.progress.position"
+			name="extensions.informationaltab.progress.position"
+			type="string"/>
 		<preference id="extensions.informationaltab.progress.style"
 			name="extensions.informationaltab.progress.style"
 			type="string"/>
 	</preferences>
 	<groupbox>
 		<caption label="&config.progress.mode.caption;"/>
-		<vbox>
-			<radiogroup id="extensions.informationaltab.progress.mode-radiogroup"
-				preference="extensions.informationaltab.progress.mode"
-				orient="vertical">
-				<radio value="0" label="&config.progress.mode.statusbar;"/>
-				<radio value="1" label="&config.progress.mode.tab;"/>
-				<radio value="2" label="&config.progress.mode.both;"/>
-			</radiogroup>
-		</vbox>
+		<radiogroup id="extensions.informationaltab.progress.mode-radiogroup"
+			preference="extensions.informationaltab.progress.mode"
+			orient="vertical">
+			<radio value="0" label="&config.progress.mode.statusbar;"/>
+			<radio value="1" label="&config.progress.mode.tab;"/>
+			<radio value="2" label="&config.progress.mode.both;"/>
+		</radiogroup>
+	</groupbox>
+	<groupbox>
+		<caption label="&config.progress.position.caption;"/>
+		<radiogroup id="extensions.informationaltab.progress.position-radiogroup"
+			preference="extensions.informationaltab.progress.position"
+			orient="vertical">
+			<radio value="top" label="&config.progress.position.top;"/>
+			<radio value="bottom" label="&config.progress.position.bottom;"/>
+		</radiogroup>
 	</groupbox>
 	<groupbox>
 		<caption label="&config.progress.style.caption;"/>
-		<vbox>
-			<radiogroup id="extensions.informationaltab.progress.style-radiogroup"
-				preference="extensions.informationaltab.progress.style"
-				orient="vertical">
-				<radio value="modern" label="&config.progress.style.modern;"/>
-				<radio value="classic" label="&config.progress.style.classic;"/>
-			</radiogroup>
-		</vbox>
+		<radiogroup id="extensions.informationaltab.progress.style-radiogroup"
+			preference="extensions.informationaltab.progress.style"
+			orient="vertical">
+			<radio value="default" label="&config.progress.style.default;"/>
+			<radio value="lighting-blue" label="&config.progress.style.lighting-blue;"/>
+			<radio value="lighting-green" label="&config.progress.style.lighting-green;"/>
+		</radiogroup>
 	</groupbox>
 </prefpane>
 
