@@ -256,7 +256,7 @@
 			<radiogroup id="extensions.informationaltab.progress.style-radiogroup"
 				preference="extensions.informationaltab.progress.style"
 				orient="vertical">
-				<radio value="lighting-modern" label="&config.progress.style.modern;"/>
+				<radio value="modern" label="&config.progress.style.modern;"/>
 				<radio value="classic" label="&config.progress.style.classic;"/>
 			</radiogroup>
 		</vbox>
