@@ -698,11 +698,12 @@ var InformationalTabService = {
 				let marginForCanvas = progressBox.screenX - canvas.parentNode.boxObject.screenX;
 				let icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image') ||
 							document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
-				let marginForIcon = progressBox.screenX - icon.boxObject.screenX - icon.boxObject.width;
-				progress.style.marginLeft = '-'+Math.max(0, Math.min(marginForCanvas, marginForIcon))+'px';
+				let marginForIcon = progressBox.screenX - icon.boxObject.screenX;
+				let close = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button always-right') || // Tab Mix Plus
+							document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button');
+				let marginForClose = progressBox.screenX - close.boxObject.screenX;
+				progress.style.marginLeft = '-'+Math.max(marginForCanvas, marginForIcon, marginForClose, 0)+'px';
 
-				// let close = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button always-right') || // Tab Mix Plus
-				// 			document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button');
 				// progress.style.marginRight = '-'+(close.boxObject.screenX - progressBox.screenX + progressBox.width)+'px';
 				break;
 
