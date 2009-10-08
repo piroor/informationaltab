@@ -208,17 +208,29 @@ var InformationalTabService = {
 		this.initialized = true;
 	},
 	
-	kPREF_VERSION : 1,
+	kPREF_VERSION : 2,
 	migratePrefs : function() 
 	{
 		// migrate old prefs
 		switch (this.getPref('extensions.informationaltab.prefsVersion'))
 		{
 			case 0:
-				var value = this.getPref('extensions.informationaltab.thumbnail.partial.maxPixcels');
-				if (value !== null) {
-					this.setPref('extensions.informationaltab.thumbnail.partial.maxPixels', value);
+				var maxPixels = this.getPref('extensions.informationaltab.thumbnail.partial.maxPixcels');
+				if (maxPixels !== null) {
+					this.setPref('extensions.informationaltab.thumbnail.partial.maxPixels', maxPixels);
 					this.clearPref('extensions.informationaltab.thumbnail.partial.maxPixcels');
+				}
+			case 1:
+				switch (this.getPref('extensions.informationaltab.progress.style'))
+				{
+					case 'modern':
+						this.setPref('extensions.informationaltab.progress.position', 'top');
+						this.setPref('extensions.informationaltab.progress.style', 'default');
+						break;
+					case 'classic':
+						this.setPref('extensions.informationaltab.progress.position', 'bottom');
+						this.setPref('extensions.informationaltab.progress.style', 'default');
+						break;
 				}
 			default:
 				break;
