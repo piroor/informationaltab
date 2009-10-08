@@ -51,6 +51,7 @@ var InformationalTabService = {
 	kPROGRESS_STYLE : 'informationaltab-progressbar-style',
 	kINDICATE_UNREAD : 'informationaltab-indicate-unread',
 	kSHOW_LAST_CLOSE_BUTTON : 'informationaltab-show-last-tab-close-button',
+	kLAST_STYLE_KEY : 'informationaltab-last-style-key',
 
 	progressMode  : 1,
 	PROGRESS_STATUSBAR : 0,
@@ -138,6 +139,10 @@ var InformationalTabService = {
 
 
 		this.addPrefListener(this);
+		this.onChangePref('extensions.informationaltab.progress.mode');
+		this.onChangePref('extensions.informationaltab.progress.style');
+		this.onChangePref('extensions.informationaltab.unread.enabled');
+		this.onChangePref('extensions.informationaltab.unread.readMethod');
 		this.onChangePref('extensions.informationaltab.thumbnail.enabled');
 		this.onChangePref('extensions.informationaltab.thumbnail.scrolled');
 		this.onChangePref('extensions.informationaltab.thumbnail.partial');
@@ -151,10 +156,6 @@ var InformationalTabService = {
 		this.onChangePref('extensions.informationaltab.thumbnail.fix_aspect_ratio');
 		this.onChangePref('extensions.informationaltab.thumbnail.fixed_aspect_ratio');
 		this.onChangePref('extensions.informationaltab.thumbnail.update_delay');
-		this.onChangePref('extensions.informationaltab.progress.mode');
-		this.onChangePref('extensions.informationaltab.progress.style');
-		this.onChangePref('extensions.informationaltab.unread.enabled');
-		this.onChangePref('extensions.informationaltab.unread.readMethod');
 		this.onChangePref('extensions.informationaltab.close_buttons.force_show.last_tab');
 		this.onChangePref('browser.tabs.tabClipWidth');
 
@@ -626,9 +627,9 @@ var InformationalTabService = {
 			let orient = box.getAttribute('orient') || window.getComputedStyle(box, '').getPropertyValue('-moz-box-orient');
 			let selected = aTab.getAttribute('selected') == 'true' ? 'foreground' : 'background' ;
 
-			let info = canvasHeight+':'+orient+':'+selected;
-			if (info == aTab.__informationaltab__lastTabBoxStyleInfo) return;
-			aTab.__informationaltab__lastTabBoxStyleInfo = info;
+			let key = canvasHeight+':'+orient+':'+selected;
+			if (key == nodes[0].getAttribute(this.kLAST_STYLE_KEY)) return;
+			nodes[0].setAttribute(this.kLAST_STYLE_KEY, key);
 
 			var tabHeight = this.thumbnailStyle[orient][selected].tab,
 				contentsHeight = this.thumbnailStyle[orient][selected].contents;
@@ -647,9 +648,9 @@ var InformationalTabService = {
 			aTab.style.setProperty('height', tabHeight+'px', 'important');
 		}
 		else {
-			let info = '';
-			if (info == aTab.__informationaltab__lastTabBoxStyleInfo) return;
-			aTab.__informationaltab__lastTabBoxStyleInfo = info;
+			let key = '';
+			if (key == nodes[0].getAttribute(this.kLAST_STYLE_KEY)) return;
+			nodes[0].setAttribute(this.kLAST_STYLE_KEY, key);
 			nodes.push(aTab);
 			nodes.forEach(function(aNode) {
 				aNode.style.height = '';
@@ -659,12 +660,13 @@ var InformationalTabService = {
  
 	updateProgressStyle : function(aTab) 
 	{
-		var info = aTab.boxObject.height+':'+this.progressStyle;
-		if (info == aTab.__informationaltab__lastProgressStyleInfo) return;
-		aTab.__informationaltab__lastProgressStyleInfo = info;
-
 		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 		var progress = document.getAnonymousElementByAttribute(label, 'class', 'tab-progress');
+
+		var key = aTab.boxObject.height+':'+this.progressStyle;
+		if (key == progress.getAttribute(this.kLAST_STYLE_KEY)) return;
+		progress.setAttribute(this.kLAST_STYLE_KEY, key);
+
 		switch (this.progressStyle)
 		{
 			default:
@@ -1147,7 +1149,6 @@ InformationalTabEventListener.prototype = {
 		this.mTab.linkedBrowser.addEventListener('scroll', this, false);
 		InformationalTabService.addPrefListener(this);
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.animation');
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.progress.style');
 	},
 	destroy : function()
 	{
