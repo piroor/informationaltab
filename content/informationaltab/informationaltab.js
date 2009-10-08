@@ -675,14 +675,11 @@ var InformationalTabService = {
 				progress.style.marginTop = '-'+(progressBox.screenY - aTab.boxObject.screenY)+'px';
 
 				let canvas = aTab.__informationaltab__canvas;
-				if (canvas && canvas.parentNode && canvas.parentNode.boxObject.width) {
-					progress.style.marginLeft = '-'+(progressBox.screenX - canvas.parentNode.boxObject.screenX)+'px';
-				}
-				else {
-					let icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image') ||
-								document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
-					progress.style.marginLeft = '-'+(progressBox.screenX - icon.boxObject.screenX - icon.boxObject.width)+'px';
-				}
+				let marginForCanvas = progressBox.screenX - canvas.parentNode.boxObject.screenX;
+				let icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image') ||
+							document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
+				let marginForIcon = progressBox.screenX - icon.boxObject.screenX - icon.boxObject.width;
+				progress.style.marginLeft = '-'+Math.max(0, Math.min(marginForCanvas, marginForIcon))+'px';
 
 				// let close = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button always-right') || // Tab Mix Plus
 				// 			document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button');
