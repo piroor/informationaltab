@@ -118,6 +118,17 @@ var InformationalTabService = {
 		return this._Comparator;
 	},
 	_Comparator : null,
+ 
+	evalInSandbox : function(aCode, aOwner) 
+	{
+		try {
+			var sandbox = new Components.utils.Sandbox(aOwner || 'about:blank');
+			return Components.utils.evalInSandbox(aCode, sandbox);
+		}
+		catch(e) {
+		}
+		return void(0);
+	},
   
 /* Initializing */ 
 	
@@ -130,7 +141,7 @@ var InformationalTabService = {
 
 		this.styleStringBundle = document.getElementById('informationaltab-tab-style-bundle');
 
-		eval('this.thumbnailMinSize = '+this.styleStringBundle.getString('thumbnail_min_size'));
+		this.thumbnailMinSize = this.evalInSandbox(this.styleStringBundle.getString('thumbnail_min_size'));
 
 		this.thumbnailStyle = {
 			vertical : {
@@ -154,7 +165,7 @@ var InformationalTabService = {
 				}
 			}
 		};
-		eval('this.thumbnailStyle.background = "'+this.styleStringBundle.getString('thumbnail_background')+'"');
+		this.thumbnailStyle.background = this.evalInSandbox(String(this.styleStringBundle.getString('thumbnail_background') || '').quote());
 
 
 		this.addPrefListener(this);
@@ -183,18 +194,14 @@ var InformationalTabService = {
 
 
 		if ('PrintUtils' in window) {
-			eval('PrintUtils.printPreview = '+
-				PrintUtils.printPreview.toSource().replace(
-					'{',
-					'{ InformationalTabService.disableAllFeatures();'
-				)
-			);
-			eval('PrintUtils.exitPrintPreview = '+
-				PrintUtils.exitPrintPreview.toSource().replace(
-					'_content.focus();',
-					'_content.focus(); InformationalTabService.enableAllFeatures();'
-				)
-			);
+			eval('PrintUtils.printPreview = '+PrintUtils.printPreview.toSource().replace(
+				'{',
+				'{ InformationalTabService.disableAllFeatures();'
+			));
+			eval('PrintUtils.exitPrintPreview = '+PrintUtils.exitPrintPreview.toSource().replace(
+				'_content.focus();',
+				'_content.focus(); InformationalTabService.enableAllFeatures();'
+			));
 		}
 
 		var addons = [];
@@ -662,11 +669,12 @@ var InformationalTabService = {
 			if (key == nodes[0].getAttribute(this.kLAST_STYLE_KEY)) return;
 			nodes[0].setAttribute(this.kLAST_STYLE_KEY, key);
 
-			var tabHeight = this.thumbnailStyle[orient][selected].tab,
-				contentsHeight = this.thumbnailStyle[orient][selected].contents;
-
-			eval(('tabHeight = '+tabHeight+'; contentsHeight = '+contentsHeight)
-					.replace(/%canvas_height%/g, canvasHeight));
+			var tabHeight = this.evalInSandbox(this.thumbnailStyle[orient][selected].tab);
+			var contentsHeight = this.evalInSandbox(
+					this.thumbnailStyle[orient][selected]
+						.contents
+						.replace(/%canvas_height%/g, canvasHeight)
+				);
 
 			let style = window.getComputedStyle(aTab.__informationaltab__canvas.parentNode, null);
 			let margin = parseInt(style.getPropertyValue('margin-top').replace('px', ''))+
