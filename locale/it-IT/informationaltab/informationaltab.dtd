@@ -39,19 +39,19 @@
 
 <!ENTITY config.tabs.progress "Stato del caricamento">
 
-<!ENTITY config.progress.mode.caption   "Indica lo stato del caricamento attraverso una barra di progressione">
+<!ENTITY config.progress.mode.caption   "Indica lo stato del caricamento attraverso una barra di avanzamento">
 <!ENTITY config.progress.mode.statusbar "nella barra di stato">
 <!ENTITY config.progress.mode.tab       "in ogni scheda">
 <!ENTITY config.progress.mode.both      "sia nella barra di stato che in ogni scheda">
 
-<!ENTITY config.progress.position.caption "Position of progress bar in tab">
-<!ENTITY config.progress.position.top     "Top (Firefox 3.7 mockup style)">
-<!ENTITY config.progress.position.bottom  "Below label">
+<!ENTITY config.progress.position.caption "Posizione della barra di avanzamento della scheda">
+<!ENTITY config.progress.position.top     "in alto (stile Firefox 3.7 Mockup)">
+<!ENTITY config.progress.position.bottom  "sotto l&apos;etichetta">
 
-<!ENTITY config.progress.style.caption        "Style of progress bar in tab">
-<!ENTITY config.progress.style.default        "Default">
-<!ENTITY config.progress.style.lighting-blue  "Blue">
-<!ENTITY config.progress.style.lighting-green "Green">
+<!ENTITY config.progress.style.caption        "Stile della barra di avanzamento della scheda">
+<!ENTITY config.progress.style.default        "predefinito">
+<!ENTITY config.progress.style.lighting-blue  "blu">
+<!ENTITY config.progress.style.lighting-green "verde">
 
 
 <!ENTITY config.tabs.unread "Stato non letto">
