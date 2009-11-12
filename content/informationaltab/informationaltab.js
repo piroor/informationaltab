@@ -570,7 +570,7 @@ var InformationalTabService = {
 						let iH = parseInt(image.height);
 						let x = 0;
 						let y = 0;
-						if ((iW / iH) < 1) {
+						if ((iW / iH) <= 1) {
 							iW = iW * canvasH / iH;
 							x = Math.floor((canvasW - iW) / 2 );
 							iH = canvasH;
