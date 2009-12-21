@@ -13,6 +13,7 @@
 
 <script src="prefs.js" type="application/x-javascript;version=1.7"/>
 <!--script src="boxObject.js" type="application/x-javascript;version=1.7"/-->
+<script src="stopRendering.js" type="application/x-javascript;version=1.7"/>
 <script src="informationaltab.js" type="application/x-javascript;version=1.7"/>
 
 <stringbundleset id="stringbundleset">

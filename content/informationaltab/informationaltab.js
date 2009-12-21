@@ -499,6 +499,7 @@ var InformationalTabService = {
 		}
 
 		if (this.thumbnailEnabled) {
+			window['piro.sakura.ne.jp'].stopRendering.stop();
 			var b   = aTab.linkedBrowser;
 			var win = b.contentWindow;
 			var w   = Math.max(win.innerWidth, 200);
@@ -587,6 +588,7 @@ var InformationalTabService = {
 				catch(e) {
 				}
 			}
+			window['piro.sakura.ne.jp'].stopRendering.start();
 		}
 		else {
 			canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
