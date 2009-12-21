@@ -900,7 +900,6 @@ var InformationalTabService = {
 				else {
 					document.documentElement.removeAttribute(this.kTHUMBNAIL_POSITION);
 				}
-				this.updateAllThumbnails();
 				break;
 
 			case 'extensions.informationaltab.thumbnail.scrolled':
