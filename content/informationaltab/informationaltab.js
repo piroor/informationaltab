@@ -380,7 +380,7 @@ var InformationalTabService = {
 		this.insertThumbnailTo(canvas, aTab, aTabBrowser, this.getPref('extensions.informationaltab.thumbnail.position'));
 
 		aTab.__informationaltab__canvas = canvas;
-		this.updateThumbnail(aTab, aTabBrowser, this.UPDATE_INIT);
+		this.updateThumbnailNow(aTab, aTabBrowser, this.UPDATE_INIT);
 	},
  
 	insertThumbnailTo : function(aCanvas, aTab, aTabBrowser, aPosition) 
@@ -499,7 +499,6 @@ var InformationalTabService = {
 		}
 
 		if (this.thumbnailEnabled) {
-			window['piro.sakura.ne.jp'].stopRendering.stop();
 			var b   = aTab.linkedBrowser;
 			var win = b.contentWindow;
 			var w   = Math.max(win.innerWidth, 200);
@@ -588,7 +587,6 @@ var InformationalTabService = {
 				catch(e) {
 				}
 			}
-			window['piro.sakura.ne.jp'].stopRendering.start();
 		}
 		else {
 			canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
