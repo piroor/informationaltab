@@ -352,6 +352,6 @@
 	</groupbox>
 </prefpane>
 
-<script type="application/x-javascript" src="chrome://informationaltab/content/config.js"/>
+<script type="application/javascript" src="chrome://informationaltab/content/config.js"/>
 
 </prefwindow>
