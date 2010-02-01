@@ -59,12 +59,13 @@ var InformationalTabService = {
 	PROGRESS_BOTH      : 2,
 	progressStyle : 'modern',
 
-	UPDATE_INIT     : 1,
-	UPDATE_PAGELOAD : 2,
-	UPDATE_RESIZE   : 4,
-	UPDATE_SCROLL   : 8,
-	UPDATE_REFLOW   : 16,
-	UPDATE_REPAINT  : 32,
+	UPDATE_INIT      : 1,
+	UPDATE_PAGELOAD  : 2,
+	UPDATE_RESIZE    : 4,
+	UPDATE_SCROLL    : 8,
+	UPDATE_REFLOW    : 16,
+	UPDATE_REPAINT   : 32,
+	UPDATE_RESTORING : 64,
 
 	readMethod : 0,
 	
@@ -75,7 +76,9 @@ var InformationalTabService = {
 		return gBrowser;
 	},
  
-	ObserverService : Components.classes['@mozilla.org/observer-service;1'].getService(Components.interfaces.nsIObserverService), 
+	ObserverService : Components
+		.classes['@mozilla.org/observer-service;1']
+		.getService(Components.interfaces.nsIObserverService), 
  
 	getTabBrowserFromChild : function(aNode) 
 	{
@@ -100,25 +103,62 @@ var InformationalTabService = {
 			);
 	},
  
-	get XULAppInfo() {
-		if (!this._XULAppInfo) {
-			this._XULAppInfo = Components
-					.classes['@mozilla.org/xre/app-info;1']
-					.getService(Components.interfaces.nsIXULAppInfo);
-		}
-		return this._XULAppInfo;
+	get SessionStore() 
+	{
+		delete this.SessionStore;
+		return this.SessionStore = Components
+					.classes['@mozilla.org/browser/sessionstore;1']
+					.getService(Components.interfaces.nsISessionStore);
 	},
-	_XULAppInfo : null,
-	get Comparator() {
-		if (!this._Comparator) {
-			this._Comparator = Components
-					.classes['@mozilla.org/xpcom/version-comparator;1']
-					.getService(Components.interfaces.nsIVersionComparator);
+	
+	getTabValue : function(aTab, aKey) 
+	{
+		var value = '';
+		try {
+			value = this.SessionStore.getTabValue(aTab, aKey);
 		}
-		return this._Comparator;
+		catch(e) {
+		}
+		return value;
 	},
-	_Comparator : null,
  
+	setTabValue : function(aTab, aKey, aValue) 
+	{
+		if (!aValue) return this.deleteTabValue(aTab, aKey);
+
+		aTab.setAttribute(aKey, aValue);
+		try {
+			this.checkCachedSessionDataExpiration(aTab);
+			this.SessionStore.setTabValue(aTab, aKey, aValue);
+		}
+		catch(e) {
+		}
+		return aValue;
+	},
+ 
+	deleteTabValue : function(aTab, aKey) 
+	{
+		aTab.removeAttribute(aKey);
+		try {
+			this.checkCachedSessionDataExpiration(aTab);
+			this.SessionStore.setTabValue(aTab, aKey, '');
+			this.SessionStore.deleteTabValue(aTab, aKey);
+		}
+		catch(e) {
+		}
+	},
+ 
+	// workaround for http://piro.sakura.ne.jp/latest/blosxom/mozilla/extension/treestyletab/2009-09-29_debug.htm 
+	checkCachedSessionDataExpiration : function(aTab)
+	{
+		var data = aTab.linkedBrowser.__SS_data || // Firefox 3.6-
+					aTab.linkedBrowser.parentNode.__SS_data; // -Frefox 3.5
+		if (data &&
+			data._tabStillLoading &&
+			aTab.getAttribute('busy') != 'true')
+			data._tabStillLoading = false;
+	},
+  
 	evalInSandbox : function(aCode, aOwner) 
 	{
 		try {
@@ -264,6 +304,7 @@ var InformationalTabService = {
 			aTabBrowser.addEventListener('TabOpen',  this, false);
 			aTabBrowser.addEventListener('TabClose', this, false);
 			aTabBrowser.addEventListener('TabMove',  this, false);
+			aTabBrowser.addEventListener('SSTabRestoring', this, false);
 			aTabBrowser.addEventListener('TreeStyleTabCollapsedStateChange',  this, false);
 		}
 
@@ -323,6 +364,7 @@ var InformationalTabService = {
 		aTabBrowser.removeEventListener('TabOpen',  this, false);
 		aTabBrowser.removeEventListener('TabClose', this, false);
 		aTabBrowser.removeEventListener('TabMove',  this, false);
+		aTabBrowser.removeEventListener('SSTabRestoring', this, false);
 		aTabBrowser.removeEventListener('TreeStyleTabCollapsedStateChange',  this, false);
 
 		var tabs = this.getTabs(aTabBrowser);
@@ -480,7 +522,7 @@ var InformationalTabService = {
 			aSelf.updateThumbnailNow(aTab, aTabBrowser);
 		}, this.thumbnailUpdateDelay, this, aTab, aTabBrowser);
 	},
-	updateThumbnailNow : function(aTab, aTabBrowser, aReason)
+	updateThumbnailNow : function(aTab, aTabBrowser, aReason, aImage)
 	{
 		if (!aReason) {
 			aReason = aTab.__informationaltab__lastReason;
@@ -516,7 +558,22 @@ var InformationalTabService = {
 			var canvasW = Math.floor((aspectRatio < 1) ? (size * aspectRatio) : size );
 			var canvasH = Math.floor((aspectRatio > 1) ? (size / aspectRatio) : size );
 
+			var isBlank = aTab.linkedBrowser.currentURI.spec == 'about:blank';
+
+			var imageURL = aImage ? aImage.src : this.getTabValue(aTab, this.kTHUMBNAIL) ;
+			if (imageURL && isBlank)
+				aReason |= this.UPDATE_RESTORING;
+
 			var isImage = b.contentDocument.contentType.indexOf('image') == 0;
+			if ((aReason & this.UPDATE_RESTORING) && imageURL && !aImage) {
+				let image = new Image();
+				let self = this;
+				image.onload = function() {
+					self.updateThumbnailNow(aTab, aTabBrowser, aReason, image);
+				};
+				image.src = imageURL;
+				return;
+			}
 
 			if (
 				(
@@ -543,7 +600,7 @@ var InformationalTabService = {
 					var ctx = canvas.getContext('2d');
 					ctx.clearRect(0, 0, canvasW, canvasH);
 					ctx.save();
-					if (!isImage) {
+					if (!isImage && !aImage) {
 						let x = 0,
 							y = 0;
 						if (this.thumbnailPartial) {
@@ -563,7 +620,7 @@ var InformationalTabService = {
 						ctx.drawWindow(win, x, y, w, h, this.thumbnailStyle.background);
 					}
 					else {
-						let image = b.contentDocument.getElementsByTagName('img')[0];
+						let image = aImage || b.contentDocument.getElementsByTagName('img')[0];
 						ctx.fillStyle = this.thumbnailStyle.background;
 						ctx.fillRect(0, 0, canvasW, canvasH);
 						let iW = parseInt(image.width);
@@ -582,6 +639,12 @@ var InformationalTabService = {
 						}
 						ctx.drawImage(image, x, y, iW, iH);
 					}
+
+					if (!(aReason & this.UPDATE_RESTORING) &&
+						!isBlank &&
+						'toDataURL' in canvas)
+						this.setTabValue(aTab, this.kTHUMBNAIL, canvas.toDataURL());
+
 					ctx.restore();
 				}
 				catch(e) {
@@ -735,30 +798,30 @@ var InformationalTabService = {
 		{
 			case 'load':
 				this.init();
-				break;
+				return;
 
 			case 'unload':
 				this.destroy();
-				break;
+				return;
 
 			case 'TabSelect':
 				if (this.disabled) return;
 				var tab = aEvent.originalTarget;
 				if (this.isTabRead(tab, aEvent.type))
 					tab.removeAttribute(this.kUNREAD);
-				break;
+				return;
 
 			case 'TabOpen':
 				this.initTab(aEvent.originalTarget, aEvent.currentTarget);
 				this.updateAllThumbnails(aEvent.currentTarget, this.UPDATE_REFLOW);
-				break;
+				return;
 
 			case 'TabClose':
 				this.destroyTab(aEvent.originalTarget, aEvent.currentTarget);
 				window.setTimeout(function(aSelf, aBrowser) {
 					aSelf.updateAllThumbnails(aBrowser, aSelf.UPDATE_REFLOW);
 				}, 0, this, aEvent.currentTarget);
-				break;
+				return;
 
 			case 'TabMove':
 				if (this.disabled) return;
@@ -767,13 +830,17 @@ var InformationalTabService = {
 					b = b.parentNode;
 				this.destroyTab(aEvent.originalTarget);
 				this.initTab(aEvent.originalTarget, b);
-				break;
+				return;
+
+			case 'SSTabRestoring':
+				this.updateThumbnailNow(aEvent.originalTarget, aEvent.currentTarget, this.UPDATE_RESTORING);
+				return;
 
 			case 'TreeStyleTabCollapsedStateChange':
 				if (aEvent.collapsed) return;
 				var tab = aEvent.originalTarget;
 				this.updateTabStyle(tab);
-				break;
+				return;
 		}
 	},
 	
