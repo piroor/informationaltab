@@ -6,7 +6,7 @@
 <!ENTITY config.thumbnail.enabled "Gyorsnézet megjelenítése mindegyik fülön">
 <!ENTITY config.thumbnail.animation "Gyorsnézet valós idejű újratöltése az animációkhoz">
 <!ENTITY config.thumbnail.full      "Teljes weboldal megjelenítése">
-<!ENTITY config.thumbnail.scrolled  "Gyorsnézet görgetése szintén">
+<!ENTITY config.thumbnail.scrolled  "Gyorsnézet szinkronizációja a lap látható részével">
 <!ENTITY config.thumbnail.partial   "Részleges megjelenítés">
 <!ENTITY config.thumbnail.partial.area.before  "">
 <!ENTITY config.thumbnail.partial.area.middle  "képpont vagy">
@@ -48,10 +48,10 @@
 <!ENTITY config.progress.position.top     "Felül (Firefox 3.7 stílus)">
 <!ENTITY config.progress.position.bottom  "Címke alatt">
 
-<!ENTITY config.progress.style.caption        "Style of progress bar in tab">
-<!ENTITY config.progress.style.default        "Default">
-<!ENTITY config.progress.style.lighting-blue  "Blue">
-<!ENTITY config.progress.style.lighting-green "Green">
+<!ENTITY config.progress.style.caption        "A betöltés-állapotjelző stílusa a fülön">
+<!ENTITY config.progress.style.default        "Alapértelmezett">
+<!ENTITY config.progress.style.lighting-blue  "Kék">
+<!ENTITY config.progress.style.lighting-green "Zöld">
 
 
 <!ENTITY config.tabs.unread "Olvasatlan lapok">
