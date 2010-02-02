@@ -773,16 +773,23 @@ var InformationalTabService = {
 		if (this.progressStyle.indexOf('top') > -1) {
 			progress.style.marginTop = '-'+(progressBox.screenY - aTab.boxObject.screenY)+'px';
 
+			let tabX = aTab.boxObject.screenX;
+
 			let canvas = aTab.__informationaltab__canvas;
-			let marginForCanvas = progressBox.screenX - canvas.parentNode.boxObject.screenX;
+			let canvasBox = canvas.parentNode.boxObject;
+			let marginForCanvas = canvasBox.width ? progressBox.screenX - Math.max(canvasBox.screenX, tabX) : 0 ;
+
 			let icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image') ||
 						document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
-			let marginForIcon = progressBox.screenX - icon.boxObject.screenX;
+			let iconBox = icon.boxObject;
+			let marginForIcon = iconBox.width ? progressBox.screenX - Math.max(iconBox.screenX, tabX) : 0 ;
+
 			let close = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button always-right') || // Tab Mix Plus
 						document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button');
-			let marginForClose = progressBox.screenX - close.boxObject.screenX;
-			progress.style.marginLeft = '-'+Math.max(marginForCanvas, marginForIcon, marginForClose, 0)+'px';
+			let closeBox = close.boxObject;
+			let marginForClose = closeBox.width ? progressBox.screenX - Math.max(closeBox.screenX, tabX) : 0 ;
 
+			progress.style.marginLeft = '-'+Math.max(marginForCanvas, marginForIcon, marginForClose, 0)+'px';
 			// progress.style.marginRight = '-'+(close.boxObject.screenX - progressBox.screenX + progressBox.width)+'px';
 		}
 		else {
