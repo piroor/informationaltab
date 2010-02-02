@@ -47,6 +47,7 @@ var InformationalTabService = {
 	kPROGRESS : 'informationaltab-progress',
 	kTHUMBNAIL_ENABLED : 'informationaltab-thumbnail-enabled',
 	kTHUMBNAIL_POSITION : 'informationaltab-thumbnail-position',
+	kTHUMBNAIL_UPDATING : 'informationaltab-thumbnail-updating',
 	kCOMPATIBLE_ADDONS : 'informationaltab-installed-compatible-addons',
 	kPROGRESS_STYLE : 'informationaltab-progressbar-style',
 	kINDICATE_UNREAD : 'informationaltab-indicate-unread',
@@ -287,8 +288,6 @@ var InformationalTabService = {
  
 	initTabBrowser : function(aTabBrowser) 
 	{
-		aTabBrowser.thumbnailUpdateCount = 0;
-
 		let (tabs, i, maxi, listener) {
 			tabs = this.getTabs(aTabBrowser);
 			for (i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
@@ -323,7 +322,7 @@ var InformationalTabService = {
 	{
 		if (aTab.__informationaltab__progressListener) return;
 
-		if (!aTabBrowser) aTabBrowser = this.getTabBrowserFromChild(aTab);
+		aTabBrowser = aTabBrowser || this.getTabBrowserFromChild(aTab);
 		aTab.__informationaltab__parentTabBrowser = aTabBrowser;
 
 		var filter = Components
@@ -516,7 +515,7 @@ var InformationalTabService = {
 
 		if (this.disabled || aTab.updateThumbnailTimer) return;
 
-		aTabBrowser.thumbnailUpdateCount++;
+		aTab.setAttribute(this.kTHUMBNAIL_UPDATING, true);
 
 		aTab.updateThumbnailTimer = window.setTimeout(function(aSelf, aTab, aTabBrowser) {
 			aSelf.updateThumbnailNow(aTab, aTabBrowser);
@@ -536,7 +535,7 @@ var InformationalTabService = {
 
 		var canvas = aTab.__informationaltab__canvas;
 		if (!canvas) {
-			aTabBrowser.thumbnailUpdateCount--;
+			aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
 			return;
 		}
 
@@ -657,30 +656,31 @@ var InformationalTabService = {
 			this.updateTabStyle(aTab);
 		}
 
-		aTabBrowser.thumbnailUpdateCount--;
+		aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
 	},
  
 	updateAllThumbnails : function(aTabBrowser, aReason) 
 	{
 		if (this.disabled ||
 			aTabBrowser.updateAllThumbnailsTimer ||
-			aTabBrowser.thumbnailUpdateCount) return;
+			this.hasUpdatingThumbnail(aTabBrowser))
+			return;
 
 		aTabBrowser.updateAllThumbnailsTimer = window.setTimeout(this.updateAllThumbnailsNow, this.thumbnailUpdateDelay, aTabBrowser, aReason, this);
 	},
 	updateAllThumbnailsNow : function(aTabBrowser, aReason, aThis)
 	{
-		if (!aThis) aThis = this;
+		aThis = aThis || this;
 
 		var tabs = aThis.getTabs(aTabBrowser);
 		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 		{
-			aTabBrowser.thumbnailUpdateCount++;
+			tabs.snapshotItem(i).setAttribute(aThis.kTHUMBNAIL_UPDATING, true);
 			aThis.updateThumbnailNow(tabs.snapshotItem(i), aTabBrowser, aReason);
 		}
 
 		window.setTimeout(function() {
-			if (aTabBrowser.thumbnailUpdateCount) {
+			if (aThis.hasUpdatingThumbnail(aTabBrowser)) {
 				window.setTimeout(arguments.callee, aThis.thumbnailUpdateDelay);
 				return;
 			}
@@ -705,6 +705,17 @@ var InformationalTabService = {
 			this.insertThumbnailTo(canvas, tab, aTabBrowser, pos);
 			this.updateThumbnail(tab, aTabBrowser, this.UPDATE_INIT);
 		}
+	},
+ 
+	hasUpdatingThumbnail : function(aTabBrowser) 
+	{
+		return aTabBrowser.ownerDocument.evaluate(
+					'descendant::*[@'+this.kTHUMBNAIL_UPDATING+'="true"]',
+					aTabBrowser.mTabContainer,
+					null,
+					XPathResult.BOOLEAN_TYPE,
+					null
+				).booleanValue;
 	},
  
 	updateTabStyle : function(aTab) 
