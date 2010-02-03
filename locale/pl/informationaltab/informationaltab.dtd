@@ -1,0 +1,79 @@
+<!ENTITY config.title        "Informational Tab – ustawienia">
+
+<!ENTITY config.tabs.thumbnail "Miniatury">
+
+<!ENTITY config.thumbnail.enabled "Wyświetlaj miniatury podglądu na etykietach kart">
+<!ENTITY config.thumbnail.animation "Wyświetlaj miniaturę w czasie rzeczywistym (animacja)">
+<!ENTITY config.thumbnail.scrolled  "Przewijaj zawartość miniatur">
+<!ENTITY config.thumbnail.full      "Wyświetlaj całą stronę">
+<!ENTITY config.thumbnail.partial   "Wyświetlaj fragment">
+<!ENTITY config.thumbnail.partial.area.before  "">
+<!ENTITY config.thumbnail.partial.area.middle  "px lub">
+<!ENTITY config.thumbnail.partial.area.after   "&#37; od krawędzi">
+
+<!ENTITY config.thumbnail.position.caption "Miejsce  wyświetlania miniatury">
+<!ENTITY config.thumbnail.position.label   "(Tytuł karty)">
+<!ENTITY config.thumbnail.position.0   "↑">
+<!ENTITY config.thumbnail.position.1   "↑">
+<!ENTITY config.thumbnail.position.2   "↑">
+<!ENTITY config.thumbnail.position.301 "←">
+<!ENTITY config.thumbnail.position.302 "←">
+<!ENTITY config.thumbnail.position.303 "←">
+<!ENTITY config.thumbnail.position.401 "←">
+<!ENTITY config.thumbnail.position.402 "←">
+<!ENTITY config.thumbnail.position.403 "←">
+<!ENTITY config.thumbnail.position.5   "Za tytułem:">
+<!ENTITY config.thumbnail.position.501 "po lewej stronie">
+<!ENTITY config.thumbnail.position.502 "na środku">
+<!ENTITY config.thumbnail.position.503 "po prawej stronie">
+
+<!ENTITY config.thumbnail.size_mode.caption  "Wielkość miniatury">
+<!ENTITY config.thumbnail.size_mode.fixed    "Stała wielkość:">
+<!ENTITY config.thumbnail.max.before         "">
+<!ENTITY config.thumbnail.max.after          "px">
+<!ENTITY config.thumbnail.size_mode.flexible "Zmienna wielkość:">
+<!ENTITY config.thumbnail.pow.before         "">
+<!ENTITY config.thumbnail.pow.after          "&#37; szerokości etykiety">
+
+
+<!ENTITY config.tabs.progress "Pasek postępu">
+
+<!ENTITY config.progress.mode.caption   "Miejsce wyświetlania paska postępu">
+<!ENTITY config.progress.mode.statusbar "Na pasku stanu">
+<!ENTITY config.progress.mode.tab       "Na każdej etykiecie karty">
+<!ENTITY config.progress.mode.both      "Na pasku stanu i na etykiecie">
+
+<!ENTITY config.progress.position.caption "Położenie paska postępu na etykiecie">
+<!ENTITY config.progress.position.top     "Na górze (styl Firefoksa 3.7)">
+<!ENTITY config.progress.position.bottom  "Poniżej tytułu">
+
+<!ENTITY config.progress.style.caption        "Kolor paska postępu na etykiecie">
+<!ENTITY config.progress.style.default        "Domyślny">
+<!ENTITY config.progress.style.lighting-blue  "Niebieski">
+<!ENTITY config.progress.style.lighting-green "Zielony">
+
+
+<!ENTITY config.tabs.unread "Nieprzeczytane karty">
+
+<!ENTITY config.unread.enabled "Wyróżniaj nieprzeczytane karty">
+
+<!ENTITY config.unread.readMethod.caption "Oznaczaj karty jako przeczytane">
+<!ENTITY config.unread.readMethod.0       "Po wybraniu karty">
+<!ENTITY config.unread.readMethod.1       "Gdy zawartość karty jest przewijana">
+
+
+<!ENTITY config.tabs.closebutton "Przycisk zamykania">
+
+<!ENTITY config.closebutton.mode.caption "Przycisk zamykania na etykietach kart">
+<!ENTITY config.closebutton.mode.0   "Wyświetlaj przycisk tylko na etykiecie aktywnej karty">
+<!ENTITY config.closebutton.mode.1   "Wyświetlaj przycisk na wszystkich etykietach kart (domyślnie)">
+<!ENTITY config.closebutton.mode.2   "Nie wyświetlaj przycisku">
+<!ENTITY config.closebutton.mode.3   "Wyświetlaj przycisk na końcu paska kart (styl Firefoksa 1.5)">
+
+<!ENTITY config.closebutton.force_show "Wyświetlaj przycisk zamykania zawsze">
+
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Przycisk zamykania na etykiecie ostatniej karty">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Wyświetlaj tylko jeśli ostatnia karta może być zamykana">
+<!ENTITY config.close_buttons.force_show.last_tab.2       "Wyświetlaj zawsze (styl Firefoksa 3.0)">
+<!ENTITY config.close_buttons.force_show.last_tab.1       "Nie wyświetlaj nigdy (styl Firefoksa 3.5)">
+<!ENTITY config.closeWindowWithLastTab "Zezwalaj na zamykanie ostatniej karty">
