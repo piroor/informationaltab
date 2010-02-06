@@ -1,0 +1,80 @@
+<!ENTITY config.title        "Informational Tab 设置">
+
+
+<!ENTITY config.tabs.thumbnail "预览">
+
+<!ENTITY config.thumbnail.enabled "在每一个标签上显示缩略图预览">
+<!ENTITY config.thumbnail.animation "实时重绘缩略图（用于预览动画）">
+<!ENTITY config.thumbnail.scrolled  "同步滚动缩略图">
+<!ENTITY config.thumbnail.full      "全幅面缩略图">
+<!ENTITY config.thumbnail.partial   "截取部分缩略图">
+<!ENTITY config.thumbnail.partial.area.before  "长宽：">
+<!ENTITY config.thumbnail.partial.area.middle  "像素；或者幅面长宽的">
+<!ENTITY config.thumbnail.partial.area.after   "&#37;。">
+
+<!ENTITY config.thumbnail.position.caption "显示预览的位置：">
+<!ENTITY config.thumbnail.position.label   "（标签标题位置）">
+<!ENTITY config.thumbnail.position.0   "↑">
+<!ENTITY config.thumbnail.position.1   "↑">
+<!ENTITY config.thumbnail.position.2   "↑">
+<!ENTITY config.thumbnail.position.301 "←">
+<!ENTITY config.thumbnail.position.302 "←">
+<!ENTITY config.thumbnail.position.303 "←">
+<!ENTITY config.thumbnail.position.401 "←">
+<!ENTITY config.thumbnail.position.402 "←">
+<!ENTITY config.thumbnail.position.403 "←">
+<!ENTITY config.thumbnail.position.5   "标题底下：">
+<!ENTITY config.thumbnail.position.501 "靠左">
+<!ENTITY config.thumbnail.position.502 "置中">
+<!ENTITY config.thumbnail.position.503 "靠右">
+
+<!ENTITY config.thumbnail.size_mode.caption  "预览大小">
+<!ENTITY config.thumbnail.size_mode.fixed    "固定：">
+<!ENTITY config.thumbnail.max.before         "">
+<!ENTITY config.thumbnail.max.after          "像素">
+<!ENTITY config.thumbnail.size_mode.flexible "弹性：">
+<!ENTITY config.thumbnail.pow.before         "">
+<!ENTITY config.thumbnail.pow.after          "&#37; 标签宽度">
+
+
+<!ENTITY config.tabs.progress "载入状态">
+
+<!ENTITY config.progress.mode.caption   "显示进度条表示载入状态">
+<!ENTITY config.progress.mode.statusbar "在状态栏显示">
+<!ENTITY config.progress.mode.tab       "在每一个标签显示">
+<!ENTITY config.progress.mode.both      "状态栏和每个标签都显示">
+
+<!ENTITY config.progress.position.caption "标签上的进度条位置">
+<!ENTITY config.progress.position.top     "顶部（模拟 Firefox 4 概念样式）">
+<!ENTITY config.progress.position.bottom  "底部（标签标题下）">
+
+<!ENTITY config.progress.style.caption        "标签上的进度条样式">
+<!ENTITY config.progress.style.default        "默认">
+<!ENTITY config.progress.style.lighting-blue  "蓝色">
+<!ENTITY config.progress.style.lighting-green "绿色">
+
+
+<!ENTITY config.tabs.unread "未读状态">
+
+<!ENTITY config.unread.enabled "突出显示未读标签（斜体显示标题）">
+
+<!ENTITY config.unread.readMethod.caption "什么情况下视标签为“已读”？">
+<!ENTITY config.unread.readMethod.0       "选中标签">
+<!ENTITY config.unread.readMethod.1       "该标签的页面被滚动">
+
+
+<!ENTITY config.tabs.closebutton "关闭按钮">
+
+<!ENTITY config.closebutton.mode.caption "在标签上显示关闭按钮">
+<!ENTITY config.closebutton.mode.0   "仅在当前标签上显示">
+<!ENTITY config.closebutton.mode.1   "在所有标签上显示（默认）">
+<!ENTITY config.closebutton.mode.2   "都不显示">
+<!ENTITY config.closebutton.mode.3   "在标签栏最后显示一个关闭按钮（Firefox 1.5 的样式）">
+
+<!ENTITY config.closebutton.force_show "在标签宽度太少时仍然显示关闭按钮。">
+
+<!ENTITY config.close_buttons.force_show.last_tab.caption "最后一个标签的关闭按钮">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "仅在最后一个标签可以关闭时显示">
+<!ENTITY config.close_buttons.force_show.last_tab.2       "一直显示（Firefox 3.0 的样式）">
+<!ENTITY config.close_buttons.force_show.last_tab.1       "一直隐藏（Firefox 3.5 的样式）">
+<!ENTITY config.closeWindowWithLastTab "允许关闭最后一个标签">
