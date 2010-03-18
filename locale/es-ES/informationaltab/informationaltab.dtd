@@ -4,13 +4,13 @@
 <!ENTITY config.tabs.thumbnail "Vista previa">
 
 <!ENTITY config.thumbnail.enabled "Mostrar miniaturas en cada pestaña">
-<!ENTITY config.thumbnail.animation "Repaint thumbnail in real time for animations">
-<!ENTITY config.thumbnail.full      "Show whole of the page">
-<!ENTITY config.thumbnail.scrolled  "Scroll thumbnails too">
-<!ENTITY config.thumbnail.partial   "Show partially">
+<!ENTITY config.thumbnail.animation "Redibujar miniatura en tiempo real para animaciones">
+<!ENTITY config.thumbnail.full      "Mostrar toda la página">
+<!ENTITY config.thumbnail.scrolled  "Desplazar miniaturas también">
+<!ENTITY config.thumbnail.partial   "Mostrar parcialmente">
 <!ENTITY config.thumbnail.partial.area.before  "">
-<!ENTITY config.thumbnail.partial.area.middle  "pixels or">
-<!ENTITY config.thumbnail.partial.area.after   "&#37; from the edge">
+<!ENTITY config.thumbnail.partial.area.middle  "pixeles o">
+<!ENTITY config.thumbnail.partial.area.after   "&#37; desde el borde">
 
 <!ENTITY config.thumbnail.position.caption "Mostrar vista previa en">
 <!ENTITY config.thumbnail.position.label   "(Título de la pestaña)">
@@ -23,10 +23,10 @@
 <!ENTITY config.thumbnail.position.401 "←">
 <!ENTITY config.thumbnail.position.402 "←">
 <!ENTITY config.thumbnail.position.403 "←">
-<!ENTITY config.thumbnail.position.5   "Behind title:">
-<!ENTITY config.thumbnail.position.501 "Left">
-<!ENTITY config.thumbnail.position.502 "Center">
-<!ENTITY config.thumbnail.position.503 "Right">
+<!ENTITY config.thumbnail.position.5   "Debajo del título:">
+<!ENTITY config.thumbnail.position.501 "Izquierda">
+<!ENTITY config.thumbnail.position.502 "Centro">
+<!ENTITY config.thumbnail.position.503 "Derecha">
 
 <!ENTITY config.thumbnail.size_mode.caption  "Tamaño de vista previa">
 <!ENTITY config.thumbnail.size_mode.fixed    "Tamaño fijo:">
@@ -37,30 +37,30 @@
 <!ENTITY config.thumbnail.pow.after          "&#37; del ancho de la pestaña">
 
 
-<!ENTITY config.tabs.progress "Estado de cargar">
+<!ENTITY config.tabs.progress "Estado de carga">
 
 <!ENTITY config.progress.mode.caption   "Indicar estado de progreso de carga en">
 <!ENTITY config.progress.mode.statusbar "la Barra de estado">
 <!ENTITY config.progress.mode.tab       "Cada pestaña">
 <!ENTITY config.progress.mode.both      "ambos Barra de estado y Cada pestaña">
 
-<!ENTITY config.progress.position.caption "Position of progress bar in tab">
-<!ENTITY config.progress.position.top     "Top (Firefox 3.7 mockup style)">
-<!ENTITY config.progress.position.bottom  "Below label">
+<!ENTITY config.progress.position.caption "Posición de la barra de progreso en la pestaña">
+<!ENTITY config.progress.position.top     "Arriba (estilo prototipos de Firefox 3.7)">
+<!ENTITY config.progress.position.bottom  "Debajo de la etiqueta">
 
-<!ENTITY config.progress.style.caption        "Style of progress bar in tab">
-<!ENTITY config.progress.style.default        "Default">
-<!ENTITY config.progress.style.lighting-blue  "Blue">
-<!ENTITY config.progress.style.lighting-green "Green">
+<!ENTITY config.progress.style.caption        "Estilo de la barra de progreso en la pestaña">
+<!ENTITY config.progress.style.default        "Predeterminado">
+<!ENTITY config.progress.style.lighting-blue  "Azul">
+<!ENTITY config.progress.style.lighting-green "Verde">
 
 
-<!ENTITY config.tabs.unread "Pestañas no leidas">
+<!ENTITY config.tabs.unread "Pestañas no leídas">
 
-<!ENTITY config.unread.enabled "Resaltar pestañas no leidas">
+<!ENTITY config.unread.enabled "Resaltar pestañas no leídas">
 
-<!ENTITY config.unread.readMethod.caption "Make tabs &quot;read&quot; when">
-<!ENTITY config.unread.readMethod.0       "Just the tab is selected">
-<!ENTITY config.unread.readMethod.1       "Tab contents are scrolled">
+<!ENTITY config.unread.readMethod.caption "Marcar pestañas como &quot;leídas&quot; cuando">
+<!ENTITY config.unread.readMethod.0       "la pestaña es seleccionada">
+<!ENTITY config.unread.readMethod.1       "al desplazarse sobre el contenido">
 
 
 <!ENTITY config.tabs.closebutton "Botón de cerrar">
@@ -73,8 +73,8 @@
 
 <!ENTITY config.closebutton.force_show "Mostrar los botones de cerrado incluso sí hay muchas pestañas como para mostrar los botones.">
 
-<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the last tab">
-<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the last tab can be closed">
-<!ENTITY config.close_buttons.force_show.last_tab.2       "Show always (Firefox 3.0 style)">
-<!ENTITY config.close_buttons.force_show.last_tab.1       "Hide always (Firefox 3.5 style)">
-<!ENTITY config.closeWindowWithLastTab "Allow to close the last tab">
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Botón de cerrar en la última pestaña">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Mostrar sólo cuando la pestaña se puede cerrar">
+<!ENTITY config.close_buttons.force_show.last_tab.2       "Mostrar siempre (Estilo Firefox 3.0)">
+<!ENTITY config.close_buttons.force_show.last_tab.1       "Ocultar siempre (Estilo Firefox 3.5)">
+<!ENTITY config.closeWindowWithLastTab "Permitir el cerrado de la última pestaña">
