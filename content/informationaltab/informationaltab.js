@@ -814,6 +814,7 @@ var InformationalTabService = {
 	
 	handleEvent : function(aEvent) 
 	{
+		var b;
 		switch (aEvent.type)
 		{
 			case 'load':
@@ -832,22 +833,22 @@ var InformationalTabService = {
 				return;
 
 			case 'TabOpen':
-				this.initTab(aEvent.originalTarget, aEvent.currentTarget);
-				this.updateAllThumbnails(aEvent.currentTarget, this.UPDATE_REFLOW);
+				b = this.getTabBrowserFromChild(aEvent.currentTarget);
+				this.initTab(aEvent.originalTarget, b);
+				this.updateAllThumbnails(b, this.UPDATE_REFLOW);
 				return;
 
 			case 'TabClose':
-				this.destroyTab(aEvent.originalTarget, aEvent.currentTarget);
+				b = this.getTabBrowserFromChild(aEvent.currentTarget);
+				this.destroyTab(aEvent.originalTarget, b);
 				window.setTimeout(function(aSelf, aBrowser) {
 					aSelf.updateAllThumbnails(aBrowser, aSelf.UPDATE_REFLOW);
-				}, 0, this, aEvent.currentTarget);
+				}, 0, this, b);
 				return;
 
 			case 'TabMove':
 				if (this.disabled) return;
-				var b = aEvent.originalTarget;
-				while (b.localName != 'tabbrowser')
-					b = b.parentNode;
+				b = this.getTabBrowserFromChild(aEvent.currentTarget);
 				this.destroyTab(aEvent.originalTarget);
 				this.initTab(aEvent.originalTarget, b);
 				return;
