@@ -84,13 +84,15 @@ var InformationalTabService = {
 	getTabBrowserFromChild : function(aNode) 
 	{
 		if (!aNode) return null;
-		return aNode.ownerDocument.evaluate(
-				'ancestor-or-self::*[local-name()="tabbrowser"]',
+		var b = aNode.ownerDocument.evaluate(
+				'ancestor-or-self::*[local-name()="tabbrowser"] | '+
+				'ancestor-or-self::*[local-name()="tabs"][@tabbrowser]',
 				aNode,
 				null,
 				XPathResult.FIRST_ORDERED_NODE_TYPE,
 				null
 			).singleNodeValue;
+		return (b && b.tabbrowser) || b;
 	},
  
 	getTabs : function(aTabBrowser) 
