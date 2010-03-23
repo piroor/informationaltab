@@ -299,12 +299,12 @@ var InformationalTabService = {
 			aTabBrowser.__informationaltab__prefListener = listener;
 
 			aTabBrowser.__informationaltab__eventListener = new InformationalTabBrowserEventListener(aTabBrowser);
-			aTabBrowser.addEventListener('TabSelect', this, false);
-			aTabBrowser.addEventListener('TabOpen',  this, false);
-			aTabBrowser.addEventListener('TabClose', this, false);
-			aTabBrowser.addEventListener('TabMove',  this, false);
-			aTabBrowser.addEventListener('SSTabRestoring', this, false);
-			aTabBrowser.addEventListener('TreeStyleTabCollapsedStateChange',  this, false);
+			aTabBrowser.mTabContainer.addEventListener('TabSelect', this, false);
+			aTabBrowser.mTabContainer.addEventListener('TabOpen',  this, false);
+			aTabBrowser.mTabContainer.addEventListener('TabClose', this, false);
+			aTabBrowser.mTabContainer.addEventListener('TabMove',  this, false);
+			aTabBrowser.mTabContainer.addEventListener('SSTabRestoring', this, false);
+			aTabBrowser.mTabContainer.addEventListener('TreeStyleTabCollapsedStateChange',  this, false);
 		}
 
 		if ('swapBrowsersAndCloseOther' in aTabBrowser) {
@@ -359,12 +359,12 @@ var InformationalTabService = {
 		aTabBrowser.__informationaltab__eventListener.destroy();
 		delete aTabBrowser.__informationaltab__eventListener;
 
-		aTabBrowser.removeEventListener('TabSelect', this, false);
-		aTabBrowser.removeEventListener('TabOpen',  this, false);
-		aTabBrowser.removeEventListener('TabClose', this, false);
-		aTabBrowser.removeEventListener('TabMove',  this, false);
-		aTabBrowser.removeEventListener('SSTabRestoring', this, false);
-		aTabBrowser.removeEventListener('TreeStyleTabCollapsedStateChange',  this, false);
+		aTabBrowser.mTabContainer.removeEventListener('TabSelect', this, false);
+		aTabBrowser.mTabContainer.removeEventListener('TabOpen',  this, false);
+		aTabBrowser.mTabContainer.removeEventListener('TabClose', this, false);
+		aTabBrowser.mTabContainer.removeEventListener('TabMove',  this, false);
+		aTabBrowser.mTabContainer.removeEventListener('SSTabRestoring', this, false);
+		aTabBrowser.mTabContainer.removeEventListener('TreeStyleTabCollapsedStateChange',  this, false);
 
 		var tabs = this.getTabs(aTabBrowser);
 		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
