@@ -854,7 +854,8 @@ var InformationalTabService = {
 				return;
 
 			case 'SSTabRestoring':
-				this.updateThumbnailNow(aEvent.originalTarget, aEvent.currentTarget, this.UPDATE_RESTORING);
+				b = this.getTabBrowserFromChild(aEvent.currentTarget);
+				this.updateThumbnailNow(aEvent.originalTarget, b, this.UPDATE_RESTORING);
 				return;
 
 			case 'TreeStyleTabCollapsedStateChange':
