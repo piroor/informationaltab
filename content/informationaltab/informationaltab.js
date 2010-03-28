@@ -242,8 +242,8 @@ var InformationalTabService = {
 				'{ InformationalTabService.disableAllFeatures();'
 			));
 			eval('PrintUtils.exitPrintPreview = '+PrintUtils.exitPrintPreview.toSource().replace(
-				'_content.focus();',
-				'_content.focus(); InformationalTabService.enableAllFeatures();'
+				/(\}\)?)$/,
+				'InformationalTabService.enableAllFeatures(); $1'
 			));
 		}
 
