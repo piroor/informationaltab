@@ -149,6 +149,9 @@
 }
 :root:not([active="true"])[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style="metal"][treestyletab-mode="vertical"]
+  .tabbrowser-tab label,
+:root:-moz-window-inactive[informationaltab-thumbnail-position^="5"]
+  .tabbrowser-tabs[treestyletab-style="metal"][treestyletab-mode="vertical"]
   .tabbrowser-tab label {
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4),
 	             0 0 0.2em #cecece,
@@ -163,6 +166,9 @@
 	             0 0 0.2em #cecece;
 }
 :root:not([active="true"])[informationaltab-thumbnail-position^="5"]
+  .tabbrowser-tabs[treestyletab-style="metal"][treestyletab-mode="vertical"]
+  .tabbrowser-tab[selected="true"] label,
+:root:-moz-window-inactive[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style="metal"][treestyletab-mode="vertical"]
   .tabbrowser-tab[selected="true"] label {
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4),
