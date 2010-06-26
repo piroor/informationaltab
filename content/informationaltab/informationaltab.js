@@ -732,7 +732,7 @@ var InformationalTabService = {
 	{
 		var nodes = Array.slice(document.getAnonymousNodes(aTab));
 
-		if (this.thumbnailEnabled) {
+		if (this.thumbnailEnabled && !aTab.pinned) {
 			let label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 			let canvasHeight = Math.max(parseInt(aTab.__informationaltab__canvas.height), label.boxObject.height);
 
