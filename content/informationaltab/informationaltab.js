@@ -318,6 +318,24 @@ var InformationalTabService = {
 				'InformationalTabService.initTab(aOurTab); $&'
 			));
 		}
+
+		if (aTabBrowser.pinTab) {
+			eval('aTabBrowser.pinTab = '+
+				aTabBrowser.pinTab.toSource().replace(
+					/(\}\)?)$/,
+					'InformationalTabService.onPinTab(aTab); $1'
+				)
+			);
+		}
+
+		if (aTabBrowser.unpinTab) {
+			eval('aTabBrowser.unpinTab = '+
+				aTabBrowser.unpinTab.toSource().replace(
+					/(\}\)?)$/,
+					'InformationalTabService.onUnpinTab(aTab); $1'
+				)
+			);
+		}
 	},
  
 	initTab : function(aTab, aTabBrowser) 
@@ -898,6 +916,16 @@ var InformationalTabService = {
 		return false;
 	},
   
+	onPinTab : function(aTab) 
+	{
+		this.updateTabStyle(aTab);
+	},
+ 
+	onUnpinTab : function(aTab) 
+	{
+		this.updateTabStyle(aTab);
+	},
+ 
 	observe : function(aSubject, aTopic, aData) 
 	{
 		switch (aTopic)
