@@ -5,12 +5,12 @@
 
 <!ENTITY config.thumbnail.enabled "Показывать минитюры страниц в каждой вкладке">
 <!ENTITY config.thumbnail.animation "Перерисовывать миниатюры в реальном времени для анимаций">
-<!ENTITY config.thumbnail.scrolled  "Scroll thumbnails too">
-<!ENTITY config.thumbnail.full      "Show whole of the page">
-<!ENTITY config.thumbnail.partial   "Show partially">
+<!ENTITY config.thumbnail.scrolled  "Отображать в миниатюрах прокрутку страниц">
+<!ENTITY config.thumbnail.full      "Показывать полную страницу">
+<!ENTITY config.thumbnail.partial   "Показывать частично">
 <!ENTITY config.thumbnail.partial.area.before  "">
-<!ENTITY config.thumbnail.partial.area.middle  "pixels or">
-<!ENTITY config.thumbnail.partial.area.after   "&#37; from the edge">
+<!ENTITY config.thumbnail.partial.area.middle  "пикселов или">
+<!ENTITY config.thumbnail.partial.area.after   "&#37; от угла">
 
 <!ENTITY config.thumbnail.position.caption "Расположение миниатюры:">
 <!ENTITY config.thumbnail.position.label   "(заголовок вкладки)">
@@ -37,21 +37,21 @@
 <!ENTITY config.thumbnail.pow.after          "&#37; от ширины вкладки">
 
 
-<!ENTITY config.tabs.progress "Прогресс загрузки">
+<!ENTITY config.tabs.progress "Индикация загрузки">
 
-<!ENTITY config.progress.mode.caption   "Отображать шкалу прогресса загрузки в">
+<!ENTITY config.progress.mode.caption   "Отображать шкалу индикации загрузки в">
 <!ENTITY config.progress.mode.statusbar "Строке состояния">
 <!ENTITY config.progress.mode.tab       "Каждой вкладке">
 <!ENTITY config.progress.mode.both      "Строке состояния и каждой вкладке">
 
-<!ENTITY config.progress.position.caption "Position of progress bar in tab">
-<!ENTITY config.progress.position.top     "Top (Firefox 3.7 mockup style)">
-<!ENTITY config.progress.position.bottom  "Below label">
+<!ENTITY config.progress.position.caption "Позиция индикации загрузки в вкладке">
+<!ENTITY config.progress.position.top     "Сверху (имитация стиля Firefox 3.7)">
+<!ENTITY config.progress.position.bottom  "Перед меткой">
 
-<!ENTITY config.progress.style.caption        "Style of progress bar in tab">
-<!ENTITY config.progress.style.default        "Default">
-<!ENTITY config.progress.style.lighting-blue  "Blue">
-<!ENTITY config.progress.style.lighting-green "Green">
+<!ENTITY config.progress.style.caption        "Стиль индикации загрузки в вкладке">
+<!ENTITY config.progress.style.default        "По умолчанию">
+<!ENTITY config.progress.style.lighting-blue  "Синий">
+<!ENTITY config.progress.style.lighting-green "Зеленый">
 
 
 <!ENTITY config.tabs.unread "Статус непрочитанности">
