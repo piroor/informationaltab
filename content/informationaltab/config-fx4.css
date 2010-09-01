@@ -2,15 +2,16 @@
 
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
-
+/*
 .dummy-tab {
 	background: -moz-dialog url("jar:resource:///chrome/browser.jar!/skin/classic/browser/tabbrowser/tab-active-bkgnd.png") repeat-x;
 }
+*/
 
 .dummy-tab .tab-image-middle .tab-icon {
-	list-style-image: url("jar:resource:///chrome/toolkit.jar!/skin/classic/global/icons/folder-item.png");
+	list-style-image: url("resource:///chrome/toolkit/skin/classic/global/icons/folder-item.png");
 }
 
 .dummy-tab .toolbarbutton-icon {
-	list-style-image: url("jar:resource:///chrome/toolkit.jar!/skin/classic/global/icons/close.png");
+	list-style-image: url("resource:///chrome/toolkit/skin/classic/global/icons/close.png");
 }
