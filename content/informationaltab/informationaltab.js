@@ -451,7 +451,8 @@ var InformationalTabService = {
 		container.appendChild(aCanvas);
 
 		var icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
-		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
+		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label') ||
+					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 		var labelBox = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-stack') || // Mac OS X
 					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container') || // Tab Mix Plus
 					label;
