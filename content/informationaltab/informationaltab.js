@@ -162,6 +162,12 @@
 			aTab.linkedBrowser.__SS_restoreState != 1)
 			data._tabStillLoading = false;
 	},
+ 
+	getLabel : function(aTab) 
+	{
+		return document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label') || // Firefox 4.0-
+				document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text'); // -Firefox 3.6
+	},
   
 	evalInSandbox : function(aCode, aOwner) 
 	{
@@ -438,8 +444,7 @@
 		container.appendChild(aCanvas);
 
 		var icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
-		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label') || // Firefox 4.0-
-					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text'); // -Firefox 3.6
+		var label = this.getLabel(aTab);
 		var labelBox = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-stack') || // Mac OS X
 					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container') || // Tab Mix Plus
 					label;
@@ -736,11 +741,11 @@
  
 	updateTabBoxStyle : function(aTab) 
 	{
-		var nodes = Array.slice(document.getAnonymousNodes(aTab));
+		var tabContent = document.getAnonymousElementByAttribute('class', 'tab-content');
+		var nodes = Array.slice(tabContent ? tabContent.childNodes : document.getAnonymousNodes(aTab) );
 
 		if (this.thumbnailEnabled && !aTab.pinned) {
-			let label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label') || // Firefox 4.0-
-						document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text'); // -Firefox 3.6
+			let label =this.getLabel(aTab);
 			let canvasHeight = Math.max(parseInt(aTab.__informationaltab__canvas.height), label.boxObject.height);
 
 			let b = aTab.__informationaltab__parentTabBrowser;
@@ -782,8 +787,7 @@
  
 	updateProgressStyle : function(aTab) 
 	{
-		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label') || // Firefox 4.0-
-					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text'); // -Firefox 3.6
+		var label =this.getLabel(aTab);
 		var progress = document.getAnonymousElementByAttribute(label, 'class', 'tab-progress');
 		var progressBox = progress.parentNode.boxObject;
 
@@ -1203,8 +1207,7 @@ window.addEventListener('unload', InformationalTabService, false);
 function InformationalTabProgressListener(aTab, aTabBrowser) 
 {
 	this.mTab = aTab;
-	this.mLabel = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label') || // Firefox 4.0-
-					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text'); // -Firefox 3.6
+	this.mLabel = InformationalTabService.getLabel(aTab);
 	this.mTabBrowser = aTabBrowser;
 
 	// Tab Mix Plus
