@@ -302,12 +302,14 @@
 			aTabBrowser.__informationaltab__prefListener = listener;
 
 			aTabBrowser.__informationaltab__eventListener = new InformationalTabBrowserEventListener(aTabBrowser);
-			aTabBrowser.mTabContainer.addEventListener('TabSelect', this, false);
-			aTabBrowser.mTabContainer.addEventListener('TabOpen',  this, false);
-			aTabBrowser.mTabContainer.addEventListener('TabClose', this, false);
-			aTabBrowser.mTabContainer.addEventListener('TabMove',  this, false);
+			aTabBrowser.mTabContainer.addEventListener('TabSelect',      this, false);
+			aTabBrowser.mTabContainer.addEventListener('TabOpen',        this, false);
+			aTabBrowser.mTabContainer.addEventListener('TabClose',       this, false);
+			aTabBrowser.mTabContainer.addEventListener('TabMove',        this, false);
+			aTabBrowser.mTabContainer.addEventListener('TabPinned',      this, false);
+			aTabBrowser.mTabContainer.addEventListener('TabUnpinned',    this, false);
 			aTabBrowser.mTabContainer.addEventListener('SSTabRestoring', this, false);
-			aTabBrowser.mTabContainer.addEventListener('TreeStyleTabCollapsedStateChange',  this, false);
+			aTabBrowser.mTabContainer.addEventListener('TreeStyleTabCollapsedStateChange', this, false);
 		}
 
 		if ('swapBrowsersAndCloseOther' in aTabBrowser) {
@@ -318,24 +320,6 @@
 				'if (aOurTab == this.selectedTab) {this.updateCurrentBrowser(',
 				'InformationalTabService.initTab(aOurTab); $&'
 			));
-		}
-
-		if (aTabBrowser.pinTab) {
-			eval('aTabBrowser.pinTab = '+
-				aTabBrowser.pinTab.toSource().replace(
-					/(\}\)?)$/,
-					'InformationalTabService.onPinTab(aTab); $1'
-				)
-			);
-		}
-
-		if (aTabBrowser.unpinTab) {
-			eval('aTabBrowser.unpinTab = '+
-				aTabBrowser.unpinTab.toSource().replace(
-					/(\}\)?)$/,
-					'InformationalTabService.onUnpinTab(aTab); $1'
-				)
-			);
 		}
 	},
  
@@ -380,12 +364,14 @@
 		aTabBrowser.__informationaltab__eventListener.destroy();
 		delete aTabBrowser.__informationaltab__eventListener;
 
-		aTabBrowser.mTabContainer.removeEventListener('TabSelect', this, false);
-		aTabBrowser.mTabContainer.removeEventListener('TabOpen',  this, false);
-		aTabBrowser.mTabContainer.removeEventListener('TabClose', this, false);
-		aTabBrowser.mTabContainer.removeEventListener('TabMove',  this, false);
+		aTabBrowser.mTabContainer.removeEventListener('TabSelect',      this, false);
+		aTabBrowser.mTabContainer.removeEventListener('TabOpen',        this, false);
+		aTabBrowser.mTabContainer.removeEventListener('TabClose',       this, false);
+		aTabBrowser.mTabContainer.removeEventListener('TabMove',        this, false);
+		aTabBrowser.mTabContainer.removeEventListener('TabPinned',      this, false);
+		aTabBrowser.mTabContainer.removeEventListener('TabUnpinned',    this, false);
 		aTabBrowser.mTabContainer.removeEventListener('SSTabRestoring', this, false);
-		aTabBrowser.mTabContainer.removeEventListener('TreeStyleTabCollapsedStateChange',  this, false);
+		aTabBrowser.mTabContainer.removeEventListener('TreeStyleTabCollapsedStateChange', this, false);
 
 		var tabs = this.getTabs(aTabBrowser);
 		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
@@ -873,7 +859,10 @@
 				b = this.getTabBrowserFromChild(aEvent.currentTarget);
 				this.destroyTab(aEvent.originalTarget);
 				this.initTab(aEvent.originalTarget, b);
-				return;
+
+			case 'TabPinned':
+			case 'TabUnpinned':
+				return this.updateTabStyle(aEvent.originalTarget);
 
 			case 'SSTabRestoring':
 				b = this.getTabBrowserFromChild(aEvent.currentTarget);
@@ -920,16 +909,6 @@
 		return false;
 	},
   
-	onPinTab : function(aTab) 
-	{
-		this.updateTabStyle(aTab);
-	},
- 
-	onUnpinTab : function(aTab) 
-	{
-		this.updateTabStyle(aTab);
-	},
- 
 	observe : function(aSubject, aTopic, aData) 
 	{
 		switch (aTopic)

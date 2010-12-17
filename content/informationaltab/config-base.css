@@ -12,32 +12,6 @@
 	-moz-box-align: start;
 }
 
-.dummy-tab .tab-image-left {
-	width: 8px;
-	height: 24px;
-	background: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/tab-left.png") no-repeat;
-	background-color: -moz-dialog;
-	-moz-border-radius-topleft: 3px;
-	-moz-box-align: start;
-}
-
-.dummy-tab .tab-image-middle,
-.dummy-tab .tab-close-button {
-	height: 24px;
-	background: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/tab-middle.png") repeat-x;
-	background-color: -moz-dialog;
-	-moz-box-align: start;
-}
-
-.dummy-tab .tab-image-right {
-	width: 8px;
-	height: 24px;
-	background: url("jar:resource:///chrome/classic.jar!/skin/classic/global/icons/tab-right.png") no-repeat;
-	background-color: -moz-dialog;
-	-moz-border-radius-topright: 3px;
-	-moz-box-align: start;
-}
-
 .dummy-tab .tab-image-middle .tab-text {
 	margin-top: 5px;
 	font-weight: bold;
