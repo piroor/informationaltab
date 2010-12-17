@@ -741,7 +741,7 @@
  
 	updateTabBoxStyle : function(aTab) 
 	{
-		var tabContent = document.getAnonymousElementByAttribute('class', 'tab-content');
+		var tabContent = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-content');
 		var nodes = Array.slice(tabContent ? tabContent.childNodes : document.getAnonymousNodes(aTab) );
 
 		if (this.thumbnailEnabled && !aTab.pinned) {
