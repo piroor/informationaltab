@@ -20,10 +20,10 @@
    window['piro.sakura.ne.jp'].prefs.removePrefListener(listener);
 
  license: The MIT License, Copyright (c) 2009-2010 SHIMODA "Piro" Hiroshi
-   http://www.cozmixng.org/repos/piro/fx3-compatibility-lib/trunk/license.txt
+   http://github.com/piroor/fxaddonlibs/blob/master/license.txt
  original:
-   http://www.cozmixng.org/repos/piro/fx3-compatibility-lib/trunk/prefs.js
-   http://www.cozmixng.org/repos/piro/fx3-compatibility-lib/trunk/prefs.test.js
+   http://github.com/piroor/fxaddonlibs/blob/master/prefs.js
+   http://github.com/piroor/fxaddonlibs/blob/master/prefs.test.js
 */
 
 /* To work as a JS Code Module  */
@@ -32,7 +32,7 @@ if (typeof window == 'undefined' ||
 	this.EXPORTED_SYMBOLS = ['prefs'];
 
 	// If namespace.jsm is available, export symbols to the shared namespace.
-	// See: http://www.cozmixng.org/repos/piro/fx3-compatibility-lib/trunk/namespace.jsm
+	// See: http://github.com/piroor/fxaddonlibs/blob/master/namespace.jsm
 	try {
 		let ns = {};
 		Components.utils.import('resource://my-modules/namespace.jsm', ns);
@@ -105,7 +105,6 @@ if (typeof window == 'undefined' ||
 	 
 		setPref : function(aPrefstring, aNewValue, aBranch) 
 		{
-try{
 			aBranch = aBranch || this.Prefs;
 			switch (typeof aNewValue)
 			{
@@ -116,16 +115,8 @@ try{
 					return aBranch.setIntPref(aPrefstring, parseInt(aNewValue));
 
 				default:
-dump('SET '+aPrefstring+' TO '+(!!aNewValue)+'\n');
-					var val = aBranch.setBoolPref(aPrefstring, !!aNewValue);
-dump(' => OK\n');
-					return val;
+					return aBranch.setBoolPref(aPrefstring, !!aNewValue);
 			}
-}
-catch(e){
-	dump(aPrefstring+' = '+aNewValue+'\n'+e+'\n');
-	throw e;
-}
 		},
 
 		setDefaultPref : function(aPrefstring, aNewValue)
