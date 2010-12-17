@@ -985,9 +985,11 @@
 	
 	adjustTabstrip : function(aTabBrowser) 
 	{
-		aTabBrowser.mTabContainer.mTabClipWidth = this.getPref('browser.tabs.tabClipWidth');
-		aTabBrowser.mTabContainer.mTabMinWidth  = this.tabMinWidth;
-		aTabBrowser.mTabContainer.adjustTabstrip();
+		var container = aTabBrowser.mTabContainer;
+		container.mTabClipWidth = this.getPref('browser.tabs.tabClipWidth');
+		if ('mTabMinWidth' in container) // -Firefox 3.6
+			container.mTabMinWidth  = this.tabMinWidth;
+		container.adjustTabstrip();
 	},
  
 	get tabMinWidth()
