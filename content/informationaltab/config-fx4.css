@@ -10,8 +10,10 @@
 
 .dummy-tab .tab-image-middle .tab-icon {
 	list-style-image: url("resource:///chrome/toolkit/skin/classic/global/icons/folder-item.png");
+	-moz-image-region: rect(0, 16px, 16px, 0);
 }
 
 .dummy-tab .toolbarbutton-icon {
 	list-style-image: url("resource:///chrome/toolkit/skin/classic/global/icons/close.png");
+	-moz-image-region: rect(0, 16px, 16px, 0);
 }
