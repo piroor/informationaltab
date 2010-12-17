@@ -36,7 +36,3 @@ pref("extensions.informationaltab.close_buttons.force_show.last_tab", 0);
 pref("extensions.informationaltab.restoring_backup_prefs", false);
 
 pref("extensions.informationaltab.prefsVersion", 0);
-
-
-pref("extensions.informationaltab@piro.sakura.ne.jp.name", "chrome://informationaltab/locale/informationaltab.properties");
-pref("extensions.informationaltab@piro.sakura.ne.jp.description", "chrome://informationaltab/locale/informationaltab.properties");

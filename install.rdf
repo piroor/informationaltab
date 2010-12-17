@@ -160,8 +160,8 @@
     <em:targetApplication>
       <!-- Firefox -->
       <RDF:Description em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                       em:minVersion="2.0"
-                       em:maxVersion="4.0b2pre" />
+                       em:minVersion="3.5"
+                       em:maxVersion="4.0b9pre" />
     </em:targetApplication>
   </RDF:Description>
 </RDF:RDF>

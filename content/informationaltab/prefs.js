@@ -105,6 +105,7 @@ if (typeof window == 'undefined' ||
 	 
 		setPref : function(aPrefstring, aNewValue, aBranch) 
 		{
+try{
 			aBranch = aBranch || this.Prefs;
 			switch (typeof aNewValue)
 			{
@@ -115,8 +116,16 @@ if (typeof window == 'undefined' ||
 					return aBranch.setIntPref(aPrefstring, parseInt(aNewValue));
 
 				default:
-					return aBranch.setBoolPref(aPrefstring, !!aNewValue);
+dump('SET '+aPrefstring+' TO '+(!!aNewValue)+'\n');
+					var val = aBranch.setBoolPref(aPrefstring, !!aNewValue);
+dump(' => OK\n');
+					return val;
 			}
+}
+catch(e){
+	dump(aPrefstring+' = '+aNewValue+'\n'+e+'\n');
+	throw e;
+}
 		},
 
 		setDefaultPref : function(aPrefstring, aNewValue)

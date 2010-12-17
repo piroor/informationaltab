@@ -33,15 +33,17 @@
 	<implementation>
 		<constructor><![CDATA[
 			var node = this.parentNode;
-			while (node.localName != 'tab')
+			while (node && node.localName != 'tab')
 				node = node.parentNode;
-			node.addEventListener('DOMAttrModified', this.eventHandler, false);
+			if (node && node.localName == 'tab')
+				node.addEventListener('DOMAttrModified', this.eventHandler, false);
 		]]></constructor>
 		<destructor><![CDATA[
 			var node = this.parentNode;
-			while (node.localName != 'tab')
+			while (node && node.localName != 'tab')
 				node = node.parentNode;
-			node.removeEventListener('DOMAttrModified', this.eventHandler, false);
+			if (node && node.localName == 'tab')
+				node.removeEventListener('DOMAttrModified', this.eventHandler, false);
 		]]></destructor>
 		<field name="eventHandler"><![CDATA[
 			({

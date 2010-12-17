@@ -1,4 +1,4 @@
-var InformationalTabService = { 
+	var InformationalTabService = { 
 	ID       : 'informationaltab@piro.sakura.ne.jp',
 	PREFROOT : 'extensions.informationaltab@piro.sakura.ne.jp',
 
@@ -753,7 +753,8 @@ var InformationalTabService = {
 		var nodes = Array.slice(document.getAnonymousNodes(aTab));
 
 		if (this.thumbnailEnabled && !aTab.pinned) {
-			let label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
+			let label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label') ||
+						document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 			let canvasHeight = Math.max(parseInt(aTab.__informationaltab__canvas.height), label.boxObject.height);
 
 			let b = aTab.__informationaltab__parentTabBrowser;
@@ -795,7 +796,8 @@ var InformationalTabService = {
  
 	updateProgressStyle : function(aTab) 
 	{
-		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
+		var label = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label') ||
+					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 		var progress = document.getAnonymousElementByAttribute(label, 'class', 'tab-progress');
 		var progressBox = progress.parentNode.boxObject;
 
@@ -984,8 +986,14 @@ var InformationalTabService = {
 	adjustTabstrip : function(aTabBrowser) 
 	{
 		aTabBrowser.mTabContainer.mTabClipWidth = this.getPref('browser.tabs.tabClipWidth');
-		aTabBrowser.mTabContainer.mTabMinWidth  = this.getPref('browser.tabs.tabMinWidth');
+		aTabBrowser.mTabContainer.mTabMinWidth  = this.tabMinWidth;
 		aTabBrowser.mTabContainer.adjustTabstrip();
+	},
+ 
+	get tabMinWidth()
+	{
+		var width = this.getPref('browser.tabs.tabMinWidth');
+		return width === null ? 100 : width ;
 	},
    
 /* Pref Listener */ 
@@ -1065,11 +1073,13 @@ var InformationalTabService = {
 			case 'extensions.informationaltab.progress.mode':
 				this.progressMode = value;
 				var panel = document.getElementById('statusbar-progresspanel');
-				if (value == this.PROGRESS_STATUSBAR ||
-					value == this.PROGRESS_BOTH)
-					panel.removeAttribute(this.kHIDDEN);
-				else
-					panel.setAttribute(this.kHIDDEN, true);
+				if (panel) {
+					if (value == this.PROGRESS_STATUSBAR ||
+						value == this.PROGRESS_BOTH)
+						panel.removeAttribute(this.kHIDDEN);
+					else
+						panel.setAttribute(this.kHIDDEN, true);
+				}
 				break;
 			case 'extensions.informationaltab.progress.position':
 			case 'extensions.informationaltab.progress.style':
@@ -1121,7 +1131,7 @@ var InformationalTabService = {
 				}
 				else {
 					this.updatingTabWidthPrefs = true;
-					this.overrideTabClipWidth(this.getPref('browser.tabs.tabMinWidth'));
+					this.overrideTabClipWidth(this.tabMinWidth);
 					this.updatingTabWidthPrefs = false;
 				}
 				this.adjustTabstrip(gBrowser);
@@ -1143,7 +1153,7 @@ var InformationalTabService = {
 					this.getPref('extensions.informationaltab.restoring_backup_prefs'))
 					return;
 				this.updatingTabWidthPrefs = true;
-				this.overrideTabClipWidth(this.getPref('browser.tabs.tabMinWidth'));
+				this.overrideTabClipWidth(this.tabMinWidth);
 				this.updatingTabWidthPrefs = false;
 				this.adjustTabstrip(gBrowser);
 				break;
@@ -1154,7 +1164,7 @@ var InformationalTabService = {
 					this.getPref('extensions.informationaltab.restoring_backup_prefs'))
 					return;
 				this.updatingTabWidthPrefs = true;
-				this.overrideTabClipWidth(this.getPref('browser.tabs.tabMinWidth'));
+				this.overrideTabClipWidth(this.tabMinWidth);
 				this.updatingTabWidthPrefs = false;
 				this.adjustTabstrip(gBrowser);
 				break;
@@ -1185,7 +1195,7 @@ var InformationalTabService = {
 					this.overrideTabClipWidth(width);
 				}
 				else {
-					this.overrideTabClipWidth(this.getPref('browser.tabs.tabMinWidth'));
+					this.overrideTabClipWidth(this.tabMinWidth);
 				}
 				break;
 
@@ -1197,7 +1207,7 @@ var InformationalTabService = {
 	{
 		if (!this.getPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth'))
 			this.setPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabClipWidth'));
-		this.setPref('browser.tabs.tabClipWidth', aWidth);
+		this.setPref('browser.tabs.tabClipWidth', aWidth || 0);
 	},
 	updatingTabCloseButtonPrefs : false,
 	updatingTabWidthPrefs : false
@@ -1212,7 +1222,8 @@ window.addEventListener('unload', InformationalTabService, false);
 function InformationalTabProgressListener(aTab, aTabBrowser) 
 {
 	this.mTab = aTab;
-	this.mLabel = document.getAnonymousElementByAttribute(this.mTab, 'class', 'tab-text');
+	this.mLabel = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label') ||
+					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text');
 	this.mTabBrowser = aTabBrowser;
 
 	// Tab Mix Plus
