@@ -43,6 +43,7 @@
 <!ENTITY config.progress.mode.statusbar "nella barra di stato">
 <!ENTITY config.progress.mode.tab       "in ogni scheda">
 <!ENTITY config.progress.mode.both      "sia nella barra di stato che in ogni scheda">
+<!ENTITY config.progress.mode.check     "Indicate loading statys by progress meter in each tab">
 
 <!ENTITY config.progress.position.caption "Posizione della barra di avanzamento della scheda">
 <!ENTITY config.progress.position.top     "in alto (stile Firefox 3.7 Mockup)">

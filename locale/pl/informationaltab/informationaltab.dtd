@@ -42,6 +42,7 @@
 <!ENTITY config.progress.mode.statusbar "Na pasku stanu">
 <!ENTITY config.progress.mode.tab       "Na każdej etykiecie karty">
 <!ENTITY config.progress.mode.both      "Na pasku stanu i na etykiecie">
+<!ENTITY config.progress.mode.check     "Indicate loading statys by progress meter in each tab">
 
 <!ENTITY config.progress.position.caption "Położenie paska postępu na etykiecie">
 <!ENTITY config.progress.position.top     "Na górze (styl Firefoksa 3.7)">

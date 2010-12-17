@@ -43,6 +43,7 @@
 <!ENTITY config.progress.mode.statusbar "Az állapotsoron">
 <!ENTITY config.progress.mode.tab       "Mindegyik fülön">
 <!ENTITY config.progress.mode.both      "Mindkettőn (állapotsor és fül)">
+<!ENTITY config.progress.mode.check     "Indicate loading statys by progress meter in each tab">
 
 <!ENTITY config.progress.position.caption "A betöltés-állapotjelző pozíciója a fülön">
 <!ENTITY config.progress.position.top     "Felül (Firefox 3.7 stílus)">

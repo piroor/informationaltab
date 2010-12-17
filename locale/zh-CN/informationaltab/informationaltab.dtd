@@ -43,6 +43,7 @@
 <!ENTITY config.progress.mode.statusbar "在状态栏显示">
 <!ENTITY config.progress.mode.tab       "在每一个标签显示">
 <!ENTITY config.progress.mode.both      "状态栏和每个标签都显示">
+<!ENTITY config.progress.mode.check     "Indicate loading statys by progress meter in each tab">
 
 <!ENTITY config.progress.position.caption "标签上的进度条位置">
 <!ENTITY config.progress.position.top     "顶部（模拟 Firefox 4 概念样式）">

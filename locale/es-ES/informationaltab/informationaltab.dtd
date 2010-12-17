@@ -43,6 +43,7 @@
 <!ENTITY config.progress.mode.statusbar "la Barra de estado">
 <!ENTITY config.progress.mode.tab       "Cada pestaña">
 <!ENTITY config.progress.mode.both      "ambos Barra de estado y Cada pestaña">
+<!ENTITY config.progress.mode.check     "Indicate loading statys by progress meter in each tab">
 
 <!ENTITY config.progress.position.caption "Posición de la barra de progreso en la pestaña">
 <!ENTITY config.progress.position.top     "Arriba (estilo prototipos de Firefox 3.7)">

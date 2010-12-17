@@ -241,7 +241,7 @@
 			name="extensions.informationaltab.progress.style"
 			type="string"/>
 	</preferences>
-	<groupbox>
+	<groupbox id="progress-radiogroup">
 		<caption label="&config.progress.mode.caption;"/>
 		<radiogroup id="extensions.informationaltab.progress.mode-radiogroup"
 			preference="extensions.informationaltab.progress.mode"
@@ -251,6 +251,11 @@
 			<radio value="2" label="&config.progress.mode.both;"/>
 		</radiogroup>
 	</groupbox>
+	<checkbox id="progress-check"
+		preference="extensions.informationaltab.progress.mode"
+		label="&config.progress.mode.check;"
+		onsynctopreference="return document.getElementById('progress-check').checked ? 1 : 0 ;"
+		onsyncfrompreference="return document.getElementById('extensions.informationaltab.progress.mode').value != 0;"/>
 	<groupbox>
 		<caption label="&config.progress.position.caption;"/>
 		<radiogroup id="extensions.informationaltab.progress.position-radiogroup"

@@ -1,33 +1,20 @@
 function init()
 {
-	var animation = document.getElementById('config.thumbnail.animation-check');
-	var group = document.getElementById('lastTabCloseBoxGroup');
-
 	const XULAppInfo = Components.classes['@mozilla.org/xre/app-info;1']
 			.getService(Components.interfaces.nsIXULAppInfo);
-	var version = XULAppInfo.platformVersion
-			.split('.')
-			.map(function(aNum) {
-				return parseInt(aNum);
-			});
-	if (
-		version[0] >= 2 ||
-		(
-			version.length >= 3 &&
-			version[0] >= 1 &&
-			version[1] >= 9 &&
-			version[2] >= 1
-		)
-		) {
-		animation.removeAttribute('hidden');
-		group.removeAttribute('hidden');
+	const comparator = Components.classes['@mozilla.org/xpcom/version-comparator;1']
+			.getService(Components.interfaces.nsIVersionComparator);
+
+	var progressRadiogroup = document.getElementById('progress-radiogroup');
+	var progressCheck = document.getElementById('progress-check');
+	if (comparator.compare(XULAppInfo.version, '4.0b1pre') >= 0) {
+		progressRadiogroup.setAttribute('hidden', true);
+		progressCheck.removeAttribute('hidden');
 	}
 	else {
-		animation.setAttribute('hidden', true);
-		group.setAttribute('hidden', true);
+		progressRadiogroup.removeAttribute('hidden');
+		progressCheck.setAttribute('hidden', true);
 	}
-
-	window.sizeToContent();
 }
 
 var gThumbnailItems;
@@ -56,6 +43,9 @@ function initThumbnailMode()
 
 function onThumbnailModeChange()
 {
+	if (!gThumbnailPartialItems)
+		return;
+
 	if (document.getElementById('config.thumbnail.enabled-check').checked) {
 		gThumbnailItems.forEach(function(aItem) {
 			if (aItem) aItem.removeAttribute('disabled');

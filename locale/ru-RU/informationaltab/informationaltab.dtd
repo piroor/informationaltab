@@ -43,6 +43,7 @@
 <!ENTITY config.progress.mode.statusbar "Строке состояния">
 <!ENTITY config.progress.mode.tab       "Каждой вкладке">
 <!ENTITY config.progress.mode.both      "Строке состояния и каждой вкладке">
+<!ENTITY config.progress.mode.check     "Indicate loading statys by progress meter in each tab">
 
 <!ENTITY config.progress.position.caption "Позиция индикации загрузки в вкладке">
 <!ENTITY config.progress.position.top     "Сверху (имитация стиля Firefox 3.7)">

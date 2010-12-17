@@ -43,6 +43,7 @@
 <!ENTITY config.progress.mode.statusbar "ステータスバーにのみ表示する">
 <!ENTITY config.progress.mode.tab       "それぞれのタブに表示する">
 <!ENTITY config.progress.mode.both      "タブとステータスバーの両方に表示する">
+<!ENTITY config.progress.mode.check     "読み込み状況をタブ内でプログレスバーとして表示する">
 
 <!ENTITY config.progress.position.caption "タブ内のプログレスバーの表示位置">
 <!ENTITY config.progress.position.top     "タブの上端（Firefox 3.7モックアップ風）">

@@ -43,6 +43,7 @@
 <!ENTITY config.progress.mode.statusbar "de Statusbalk">
 <!ENTITY config.progress.mode.tab       "elke tab">
 <!ENTITY config.progress.mode.both      "bij de Statusbalk en elke tab">
+<!ENTITY config.progress.mode.check     "Indicate loading statys by progress meter in each tab">
 
 <!ENTITY config.progress.position.caption "Position of progress bar in tab">
 <!ENTITY config.progress.position.top     "Top (Firefox 3.7 mockup style)">
