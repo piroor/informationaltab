@@ -297,6 +297,8 @@
  
 	initTabBrowser : function(aTabBrowser) 
 	{
+		aTabBrowser.addTabsProgressListener(this, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
+
 		let (tabs, i, maxi, listener) {
 			tabs = this.getTabs(aTabBrowser);
 			for (i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
@@ -317,33 +319,25 @@
 			aTabBrowser.mTabContainer.addEventListener('SSTabRestoring', this, false);
 			aTabBrowser.mTabContainer.addEventListener('TreeStyleTabCollapsedStateChange', this, false);
 		}
-
-		if ('swapBrowsersAndCloseOther' in aTabBrowser) {
-			eval('aTabBrowser.swapBrowsersAndCloseOther = '+aTabBrowser.swapBrowsersAndCloseOther.toSource().replace(
-				'{',
-				'{ InformationalTabService.destroyTab(aOurTab);'
-			).replace(
-				'if (aOurTab == this.selectedTab) {this.updateCurrentBrowser(',
-				'InformationalTabService.initTab(aOurTab); $&'
-			));
-		}
 	},
  
 	initTab : function(aTab, aTabBrowser) 
 	{
-		if (aTab.__informationaltab__progressListener) return;
+		if (aTab.__informationaltab__eventListener) return;
 
 		aTabBrowser = aTabBrowser || this.getTabBrowserFromChild(aTab);
 		aTab.__informationaltab__parentTabBrowser = aTabBrowser;
 
-		var filter = Components
-				.classes['@mozilla.org/appshell/component/browser-status-filter;1']
-				.createInstance(Components.interfaces.nsIWebProgress);
-		var listener = new InformationalTabProgressListener(aTab, aTabBrowser);
-		filter.addProgressListener(listener, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
-		aTab.linkedBrowser.webProgress.addProgressListener(filter, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
-		aTab.__informationaltab__progressListener = listener;
-		aTab.__informationaltab__progressFilter   = filter;
+		aTab.__informationaltab__label = this.getLabel(aTab);
+
+		// Tab Mix Plus
+		aTab.__informationaltab__progress = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container');
+		if (aTab.__informationaltab__progress)
+			aTab.__informationaltab__progress = aTab.__informationaltab__progress.getElementsByAttribute('class', 'tab-progress')[0];
+		else
+			aTab.__informationaltab__progress = null;
+
+		aTab.linkedBrowser.__informationaltab__tab = aTab;
 
 		this.initThumbnail(aTab, aTabBrowser);
 
@@ -364,6 +358,8 @@
 	
 	destroyTabBrowser : function(aTabBrowser) 
 	{
+		aTabBrowser.removeTabsProgressListener(this);
+
 		aTabBrowser.__informationaltab__prefListener.destroy();
 		delete aTabBrowser.__informationaltab__prefListener;
 
@@ -394,16 +390,9 @@
 			delete aTab.__informationaltab__canvas;
 
 			delete aTab.__informationaltab__parentTabBrowser;
-
-			aTab.linkedBrowser.webProgress.removeProgressListener(aTab.__informationaltab__progressFilter);
-			aTab.__informationaltab__progressFilter.removeProgressListener(aTab.__informationaltab__progressListener);
-
-			delete aTab.__informationaltab__progressListener.mLabel;
-			delete aTab.__informationaltab__progressListener.mTab;
-			delete aTab.__informationaltab__progressListener.mTabBrowser;
-
-			delete aTab.__informationaltab__progressFilter;
-			delete aTab.__informationaltab__progressListener;
+			delete aTab.__informationaltab__label;
+			delete aTab.__informationaltab__progress;
+			delete aTab.linkedBrowser.__informationaltab__tab;
 
 			aTab.__informationaltab__eventListener.destroy();
 			delete aTab.__informationaltab__eventListener;
@@ -975,7 +964,7 @@
 		container.adjustTabstrip();
 	},
  
-	get tabMinWidth()
+	get tabMinWidth() 
 	{
 		var width = this.getPref('browser.tabs.tabMinWidth');
 		return width === null ? 100 : width ;
@@ -1195,50 +1184,34 @@
 		this.setPref('browser.tabs.tabClipWidth', aWidth || 0);
 	},
 	updatingTabCloseButtonPrefs : false,
-	updatingTabWidthPrefs : false
-   
-}; 
-
-InformationalTabService.__proto__ = window['piro.sakura.ne.jp'].prefs;
-
-window.addEventListener('load', InformationalTabService, false);
-window.addEventListener('unload', InformationalTabService, false);
- 
-function InformationalTabProgressListener(aTab, aTabBrowser) 
-{
-	this.mTab = aTab;
-	this.mLabel = InformationalTabService.getLabel(aTab);
-	this.mTabBrowser = aTabBrowser;
-
-	// Tab Mix Plus
-	this.mProgress = document.getAnonymousElementByAttribute(this.mTab, 'class', 'tab-text-container');
-	if (this.mProgress)
-		this.mProgress = this.mProgress.getElementsByAttribute('class', 'tab-progress')[0];
-	else
-		this.mProgress = null;
-
-}
-InformationalTabProgressListener.prototype = {
-	mTab        : null,
-	mLabel      : null,
-	mTabBrowser : null,
-	mProgress   : null,
-	onProgressChange: function(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress)
+	updatingTabWidthPrefs : false,
+  
+/* nsIWebProgressListener */ 
+	onProgressChange : function(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress)
 	{
+		// ignore not for tab
+		if (!(aWebProgress instanceof Components.interfaces.nsIDOMElement))
+			return;
+
+		var browser = arguments[0];
+		var tab = browser.__informationaltab__tab;
+		aCurTotalProgress = arguments[5];
+		aMaxTotalProgress = arguments[6];
+
 		if (aMaxTotalProgress < 1)
 			return;
 
 		var percentage = parseInt((aCurTotalProgress * 100) / aMaxTotalProgress);
 
-		if (this.mProgress) { // Tab Mix Plus
-			this.updateProgress(this.mTab, 'tab-progress', percentage);
-			this.updateProgress(this.mProgress, 'value', percentage);
+		if (tab.__informationaltab__progress) { // Tab Mix Plus
+			this.updateProgress(tab, 'tab-progress', percentage);
+			this.updateProgress(tab.__informationaltab__progress, 'value', percentage);
 		}
-		else if (InformationalTabService.progressMode == InformationalTabService.PROGRESS_STATUSBAR) {
-			this.mLabel.removeAttribute(InformationalTabService.kPROGRESS);
+		else if (this.progressMode == this.PROGRESS_STATUSBAR) {
+			tab.__informationaltab__label.removeAttribute(this.kPROGRESS);
 		}
 		else {
-			this.updateProgress(this.mLabel, InformationalTabService.kPROGRESS, percentage);
+			this.updateProgress(tab.__informationaltab__label, this.kPROGRESS, percentage);
 		}
 	},
 	updateProgress : function(aTarget, aAttr, aPercentage)
@@ -1250,42 +1223,64 @@ InformationalTabProgressListener.prototype = {
 			aTarget.removeAttribute(aAttr);
 		}
 	},
+	onStatusChange : function() {},
+	onSecurityChange : function() {},
 	onStateChange : function(aWebProgress, aRequest, aStateFlags, aStatus)
 	{
+		// ignore not for tab
+		if (!(aWebProgress instanceof Components.interfaces.nsIDOMElement))
+			return;
+
+		var browser = arguments[0];
+		var tab = browser.__informationaltab__tab;
+		aStateFlags = arguments[3];
+
 		const nsIWebProgressListener = Components.interfaces.nsIWebProgressListener;
 		if (
 			aStateFlags & nsIWebProgressListener.STATE_STOP &&
 			aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
 			) {
-			InformationalTabService.updateThumbnail(this.mTab, this.mTabBrowser, InformationalTabService.UPDATE_PAGELOAD);
-			this.mLabel.removeAttribute(InformationalTabService.kPROGRESS);
+			this.updateThumbnail(tab, tab.__informationaltab__parentTabBrowser, this.UPDATE_PAGELOAD);
+			tab.__informationaltab__label.removeAttribute(this.kPROGRESS);
 			if (
-				!this.mTab.linkedBrowser.currentURI ||
-				this.mTab.linkedBrowser.currentURI.spec == 'about:config' ||
-				InformationalTabService.isTabRead(this.mTab, 'load')
+				!tab.linkedBrowser.currentURI ||
+				tab.linkedBrowser.currentURI.spec == 'about:config' ||
+				this.isTabRead(tab, 'load')
 				)
-				this.mTab.removeAttribute(InformationalTabService.kUNREAD);
+				tab.removeAttribute(this.kUNREAD);
 		}
 	},
 	onLocationChange : function(aWebProgress, aRequest, aLocation)
 	{
-		this.mTab.setAttribute(InformationalTabService.kUNREAD, true);
+		// ignore not for tab
+		if (!(aWebProgress instanceof Components.interfaces.nsIDOMElement))
+			return;
+
+		var browser = arguments[0];
+		var tab = browser.__informationaltab__tab;
+		tab.setAttribute(this.kUNREAD, true);
 	},
-	onStatusChange : function(aWebProgress, aRequest, aStatus, aMessage)
+
+/* nsIWebProgressListener2 */
+	onProgressChange64 : function() {},
+	onRefreshAttempted : function() { return true; },
+
+/* nsISupports */
+	QueryInterface : function (aIID)
 	{
-	},
-	onSecurityChange : function(aWebProgress, aRequest, aState)
-	{
-	},
-	QueryInterface : function(aIID)
-	{
-		if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
-			aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-			aIID.equals(Components.interfaces.nsISupports))
+		if (aIID.equals(Ci.nsIWebProgressListener) ||
+			aIID.equals(Ci.nsIWebProgressListener2) ||
+			aIID.equals(Ci.nsISupports))
 			return this;
 		throw Components.results.NS_NOINTERFACE;
 	}
-};
+  
+}; 
+
+InformationalTabService.__proto__ = window['piro.sakura.ne.jp'].prefs;
+
+window.addEventListener('load', InformationalTabService, false);
+window.addEventListener('unload', InformationalTabService, false);
  
 function InformationalTabEventListener(aTab, aTabBrowser) 
 {
