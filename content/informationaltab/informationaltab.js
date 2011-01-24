@@ -1,4 +1,4 @@
-	var InformationalTabService = { 
+var InformationalTabService = { 
 	ID       : 'informationaltab@piro.sakura.ne.jp',
 	PREFROOT : 'extensions.informationaltab@piro.sakura.ne.jp',
 
@@ -182,9 +182,23 @@
   
 /* Initializing */ 
 	
+	preInit : function() 
+	{
+		if (this.preInitialized) return;
+		this.preInitialized = true;
+
+		window.removeEventListener('DOMContentLoaded', this, true);
+
+		this.overrideExtensionsPreInit();
+	},
+	preInitialized : false,
+ 
 	init : function() 
 	{
 		if (!('gBrowser' in window)) return;
+
+		if (!this.preInitialized)
+			this.preInit();
 
 		window.removeEventListener('load', this, false);
 
@@ -256,11 +270,7 @@
 			));
 		}
 
-		var addons = [];
-		// CookiePie
-		// http://www.nektra.com/products/cookiepie-tab-firefox-extension
-		if ('CookiePieStartup' in window) addons.push('cookiepie');
-		document.documentElement.setAttribute(this.kCOMPATIBLE_ADDONS, addons.join(' '));
+		this.overrideExtensionsOnInitAfter();
 
 		this.initTabBrowser(gBrowser);
 
@@ -344,6 +354,44 @@
 		this.initThumbnail(aTab, aTabBrowser);
 
 		aTab.__informationaltab__eventListener = new InformationalTabEventListener(aTab, aTabBrowser);
+	},
+ 
+	overrideExtensionsPreInit : function() 
+	{
+		// DragNDrop Toolbars
+		// https://addons.mozilla.org/firefox/addon/dragndrop-toolbars/
+		if ('globDndtb' in window && globDndtb.setTheStuff && this.isGecko2) {
+			let self = this;
+			globDndtb.__informationaltab__setTheStuff = globDndtb.setTheStuff;
+			globDndtb.setTheStuff = function() {
+				var result = this.__informationaltab__setTheStuff.apply(this, arguments);
+				if (this.dndObserver &&
+					this.dndObserver.onDrop &&
+					!this.dndObserver.__informationaltab__onDrop) {
+					this.dndObserver.__informationaltab__onDrop = this.dndObserver.onDrop;
+					this.dndObserver.onDrop = function(aEvent, aDropData, aSession) {
+						var toolbar = document.getElementById(aDropData.data);
+						if (bar.getElementsByAttribute('id', 'tabbrowser-tabs').length) {
+							self.destroyTabbrowser(gBrowser);
+							window.setTimeout(function() {
+								self.initTabbrowser(gBrowser);
+							}, 100);
+						}
+						return this.__informationaltab__onDrop.apply(this, arguments);
+					};
+				}
+				return result;
+			};
+		}
+	},
+ 
+	overrideExtensionsOnInitAfter : function() 
+	{
+		var addons = [];
+		// CookiePie
+		// http://www.nektra.com/products/cookiepie-tab-firefox-extension
+		if ('CookiePieStartup' in window) addons.push('cookiepie');
+		document.documentElement.setAttribute(this.kCOMPATIBLE_ADDONS, addons.join(' '));
 	},
   
 	destroy : function() 
@@ -823,6 +871,10 @@
 		var b;
 		switch (aEvent.type)
 		{
+			case 'DOMContentLoaded':
+				this.preInit();
+				return;
+
 			case 'load':
 				this.init();
 				return;
@@ -1290,6 +1342,7 @@
 
 InformationalTabService.__proto__ = window['piro.sakura.ne.jp'].prefs;
 
+window.addEventListener('DOMContentLoaded', InformationalTabService, true);
 window.addEventListener('load', InformationalTabService, false);
 window.addEventListener('unload', InformationalTabService, false);
  
