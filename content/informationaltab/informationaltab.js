@@ -188,6 +188,8 @@
 
 		window.removeEventListener('load', this, false);
 
+		window.addEventListener('beforecustomization', this, true);
+		window.addEventListener('aftercustomization', this, false);
 
 		this.styleStringBundle = document.getElementById('informationaltab-tab-style-bundle');
 
@@ -349,6 +351,9 @@
 		this.destroyTabBrowser(gBrowser);
 
 		window.removeEventListener('unload', this, false);
+
+		window.removeEventListener('beforecustomization', this, true);
+		window.removeEventListener('aftercustomization', this, false);
 
 		this.ObserverService.removeObserver(this, 'em-action-requested');
 		this.ObserverService.removeObserver(this, 'quit-application');
@@ -861,6 +866,12 @@
 				b = this.getTabBrowserFromChild(aEvent.currentTarget);
 				this.updateThumbnailNow(aEvent.originalTarget, b, this.UPDATE_RESTORING);
 				return;
+
+			// toolbar customizing on Firefox 4 or later
+			case 'beforecustomization':
+				return this.destroyTabBrowser(gBrowser);
+			case 'aftercustomization':
+				return this.initTabBrowser(gBrowser);
 
 			case 'TreeStyleTabCollapsedStateChange':
 				if (aEvent.collapsed) return;
