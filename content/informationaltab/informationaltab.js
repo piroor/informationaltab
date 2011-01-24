@@ -195,7 +195,7 @@ var InformationalTabService = {
  
 	init : function() 
 	{
-		if (!('gBrowser' in window)) return;
+		if (!('gBrowser' in window) || this.initialized) return;
 
 		if (!this.preInitialized)
 			this.preInit();
@@ -361,13 +361,15 @@ var InformationalTabService = {
 		// DragNDrop Toolbars
 		// https://addons.mozilla.org/firefox/addon/dragndrop-toolbars/
 		if ('globDndtb' in window && globDndtb.setTheStuff && this.isGecko2) {
-		let self = this;
-		let reinitTabbar = function() {
-				self.destroyTabbrowser(gBrowser);
-				window.setTimeout(function() {
-					self.initTabbrowser(gBrowser);
-				}, 100);
-			};
+			let self = this;
+			let reinitTabbar = function() {
+					if (!self.initialized)
+						return;
+					self.destroyTabbrowser(gBrowser);
+					window.setTimeout(function() {
+						self.initTabbrowser(gBrowser);
+					}, 100);
+				};
 			globDndtb.__informationaltab__setOrder = globDndtb.setOrder;
 			globDndtb.setOrder = function() {
 				reinitTabbar();
