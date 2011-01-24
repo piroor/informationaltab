@@ -25,13 +25,6 @@
                        em:description="Provides thumbnail, progress meter, or others to each tab."
                        em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"
                        em:creator="SHIMODA Hiroshi">
-		<em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
-		<em:translator>Neglacio (nl-NL locale)</em:translator>
-		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
-		<em:translator>tito (es-ES locale)</em:translator>
-		<em:translator>L'Autour (ru-RU locale)</em:translator>
-		<em:translator>Leszek(teo)Życzkowski (pl locale)</em:translator>
-		<em:translator>hzhbest (zh-CN locale)</em:translator>
       </RDF:Description>
     </em:localized>
     <em:localized>
@@ -40,13 +33,6 @@
                        em:description="タブの中にサムネイルや読み込み状況などを表示できるようにします"
                        em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html"
                        em:creator="SHIMODA Hiroshi">
-		<em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
-		<em:translator>Neglacio (nl-NL locale)</em:translator>
-		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
-		<em:translator>tito (es-ES locale)</em:translator>
-		<em:translator>L'Autour (ru-RU locale)</em:translator>
-		<em:translator>Leszek(teo)Życzkowski (pl locale)</em:translator>
-		<em:translator>hzhbest (zh-CN locale)</em:translator>
       </RDF:Description>
     </em:localized>
     <em:localized>
@@ -56,12 +42,6 @@
                        em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"
                        em:creator="SHIMODA Hiroshi">
 		<em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
-		<em:translator>Neglacio (nl-NL locale)</em:translator>
-		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
-		<em:translator>tito (es-ES locale)</em:translator>
-		<em:translator>L'Autour (ru-RU locale)</em:translator>
-		<em:translator>Leszek(teo)Życzkowski (pl locale)</em:translator>
-		<em:translator>hzhbest (zh-CN locale)</em:translator>
       </RDF:Description>
     </em:localized>
     <em:localized>
@@ -70,13 +50,7 @@
                        em:description="Toont je een voorvertoning, een voortgangsmeter en vele anderen!"
                        em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"
                        em:creator="SHIMODA Hiroshi">
-		<em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
 		<em:translator>Neglacio (nl-NL locale)</em:translator>
-		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
-		<em:translator>tito (es-ES locale)</em:translator>
-		<em:translator>L'Autour (ru-RU locale)</em:translator>
-		<em:translator>Leszek(teo)Życzkowski (pl locale)</em:translator>
-		<em:translator>hzhbest (zh-CN locale)</em:translator>
       </RDF:Description>
     </em:localized>
     <em:localized>
@@ -85,13 +59,7 @@
                        em:description="Permette di aggiungere immagini d'anteprima, indicatore di avanzamento e altro su tutte le schede."
                        em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"
                        em:creator="SHIMODA Hiroshi">
-		<em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
-		<em:translator>Neglacio (nl-NL locale)</em:translator>
 		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
-		<em:translator>tito (es-ES locale)</em:translator>
-		<em:translator>L'Autour (ru-RU locale)</em:translator>
-		<em:translator>Leszek(teo)Życzkowski (pl locale)</em:translator>
-		<em:translator>hzhbest (zh-CN locale)</em:translator>
       </RDF:Description>
     </em:localized>
     <em:localized>
@@ -100,13 +68,7 @@
                        em:description="Provee miniaturas, marcadores de progreso y más configuración para cada pestaña."
                        em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"
                        em:creator="SHIMODA Hiroshi">
-		<em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
-		<em:translator>Neglacio (nl-NL locale)</em:translator>
-		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
 		<em:translator>tito (es-ES locale)</em:translator>
-		<em:translator>L'Autour (ru-RU locale)</em:translator>
-		<em:translator>Leszek(teo)Życzkowski (pl locale)</em:translator>
-		<em:translator>hzhbest (zh-CN locale)</em:translator>
       </RDF:Description>
     </em:localized>
     <em:localized>
@@ -115,13 +77,7 @@
                        em:description="Обеспечивают миниатюры, прогресс загрузки и прочее вкаждой вкладке"
                        em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"
                        em:creator="SHIMODA Hiroshi">
-		<em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
-		<em:translator>Neglacio (nl-NL locale)</em:translator>
-		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
-		<em:translator>tito (es-ES locale)</em:translator>
 		<em:translator>L'Autour (ru-RU locale)</em:translator>
-		<em:translator>Leszek(teo)Życzkowski (pl locale)</em:translator>
-		<em:translator>hzhbest (zh-CN locale)</em:translator>
       </RDF:Description>
     </em:localized>
     <em:localized>
@@ -130,13 +86,7 @@
                        em:description="Dodaje miniatury podglądu, pasek postępu i inne elementy do etykiet kart."
                        em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"
                        em:creator="SHIMODA Hiroshi">
-		<em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
-		<em:translator>Neglacio (nl-NL locale)</em:translator>
-		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
-		<em:translator>tito (es-ES locale)</em:translator>
-		<em:translator>L'Autour (ru-RU locale)</em:translator>
 		<em:translator>Leszek(teo)Życzkowski (pl locale)</em:translator>
-		<em:translator>hzhbest (zh-CN locale)</em:translator>
       </RDF:Description>
     </em:localized>
     <em:localized>
@@ -145,12 +95,6 @@
                        em:description="在每一个标签上显示缩略图、进度条以及其他。"
                        em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"
                        em:creator="SHIMODA Hiroshi">
-		<em:translator>Mikes Kaszmán István (hu-HU locale)</em:translator>
-		<em:translator>Neglacio (nl-NL locale)</em:translator>
-		<em:translator>Godai71.Extenzilla (it-IT locale)</em:translator>
-		<em:translator>tito (es-ES locale)</em:translator>
-		<em:translator>L'Autour (ru-RU locale)</em:translator>
-		<em:translator>Leszek(teo)Życzkowski (pl locale)</em:translator>
 		<em:translator>hzhbest (zh-CN locale)</em:translator>
       </RDF:Description>
     </em:localized>
