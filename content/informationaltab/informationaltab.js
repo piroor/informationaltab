@@ -361,7 +361,18 @@ var InformationalTabService = {
 		// DragNDrop Toolbars
 		// https://addons.mozilla.org/firefox/addon/dragndrop-toolbars/
 		if ('globDndtb' in window && globDndtb.setTheStuff && this.isGecko2) {
-			let self = this;
+		let self = this;
+		let reinitTabbar = function() {
+				self.destroyTabbrowser(gBrowser);
+				window.setTimeout(function() {
+					self.initTabbrowser(gBrowser);
+				}, 100);
+			};
+			globDndtb.__informationaltab__setOrder = globDndtb.setOrder;
+			globDndtb.setOrder = function() {
+				reinitTabbar();
+				return this.__informationaltab__setOrder.apply(this, arguments);
+			};
 			globDndtb.__informationaltab__setTheStuff = globDndtb.setTheStuff;
 			globDndtb.setTheStuff = function() {
 				var result = this.__informationaltab__setTheStuff.apply(this, arguments);
@@ -371,12 +382,8 @@ var InformationalTabService = {
 					this.dndObserver.__informationaltab__onDrop = this.dndObserver.onDrop;
 					this.dndObserver.onDrop = function(aEvent, aDropData, aSession) {
 						var toolbar = document.getElementById(aDropData.data);
-						if (bar.getElementsByAttribute('id', 'tabbrowser-tabs').length) {
-							self.destroyTabbrowser(gBrowser);
-							window.setTimeout(function() {
-								self.initTabbrowser(gBrowser);
-							}, 100);
-						}
+						if (toolbar.getElementsByAttribute('id', 'tabbrowser-tabs').length)
+							reinitTabbar();
 						return this.__informationaltab__onDrop.apply(this, arguments);
 					};
 				}
