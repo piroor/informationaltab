@@ -402,6 +402,33 @@ var InformationalTabService = {
 		if ('CookiePieStartup' in window) addons.push('cookiepie');
 		document.documentElement.setAttribute(this.kCOMPATIBLE_ADDONS, addons.join(' '));
 	},
+ 
+	overrideSessionRestore : function(aWindow)
+	{
+		aWindow = aWindow.wrappedJSObject || aWindow;
+		var doc = aWindow.document;
+		var style = doc.createElementNS('http://www.w3.org/1999/xhtml', 'style');
+		style.setAttribute('type', 'text/css');
+		style.appendChild(doc.createTextNode(<![CDATA[
+			treechildren::-moz-tree-image(icon):not(::-moz-tree-image(container)) {
+				width: 45px;
+				height: 35px;
+			}
+		]]>.toString()));
+		doc.getElementsByTagName('head')[0].appendChild(style);
+		var sessionData = aWindow.gStateObject;
+		var index = 0;
+		sessionData.windows.forEach(function(aWindowState) {
+			index++;
+			aWindowState.tabs.forEach(function(aTabState) {
+				if ('extData' in aTabState && this.kTHUMBNAIL in aTabState.extData)
+					aWindow.gTreeData[index].src = aTabState.extData[this.kTHUMBNAIL];
+				index++;
+			}, this);
+		}, this);
+		var tree = doc.getElementById('tabList');
+		tree.treeBoxObject.invalidate();
+	},
   
 	destroy : function() 
 	{
@@ -1314,12 +1341,11 @@ var InformationalTabService = {
 			) {
 			this.updateThumbnail(tab, tab.__informationaltab__parentTabBrowser, this.UPDATE_PAGELOAD);
 			tab.__informationaltab__label.removeAttribute(this.kPROGRESS);
-			if (
-				!tab.linkedBrowser.currentURI ||
-				tab.linkedBrowser.currentURI.spec == 'about:config' ||
-				this.isTabRead(tab, 'load')
-				)
+			let uri = tab.linkedBrowser.currentURI;
+			if (!uri || uri.spec == 'about:config' || this.isTabRead(tab, 'load'))
 				tab.removeAttribute(this.kUNREAD);
+//			if (uri && uri.spec == 'about:sessionrestore')
+//				this.overrideSessionRestore(tab.linkedBrowser.contentWindow);
 		}
 	},
 	onLocationChange : function(aWebProgress, aRequest, aLocation)
