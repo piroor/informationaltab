@@ -21,4 +21,10 @@
 		src="chrome://informationaltab/skin/tabstyle.properties"/>
 </stringbundleset>
 
+<popupset id="mainPopupSet">
+	<panel id="informationaltab-tab-thumbnail-panel">
+		<image/>
+	</panel>
+</popupset>
+
 </overlay>

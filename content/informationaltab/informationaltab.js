@@ -405,8 +405,6 @@ var InformationalTabService = {
  
 	overrideSessionRestore : function(aWindow)
 	{
-		return;
-
 		aWindow = aWindow.wrappedJSObject || aWindow;
 		var doc = aWindow.document;
 		const XULNS = 'http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul';
@@ -414,7 +412,6 @@ var InformationalTabService = {
 
 		var tree = doc.getElementById('tabList');
 
-/*
 		var width = 45;
 		var height = 35;
 
@@ -478,7 +475,6 @@ var InformationalTabService = {
 			.replace(/%HEIGHT%/g, height)
 		));
 		doc.getElementsByTagName('head')[0].appendChild(style);
-*/
 
 		var sessionData = aWindow.gStateObject;
 		var index = 0;
@@ -491,14 +487,36 @@ var InformationalTabService = {
 			}, this);
 		}, this);
 
-//		tree.treeBoxObject.invalidate();
+		tree.treeBoxObject.invalidate();
 
-		var panel = doc.createElementNS(XULNS, 'panel');
-		panel.appendChild(doc.createElementNS(XULNS, 'image'));
-		tree.parentNode.appendChild(panel);
-		tree.addEventListener('mousemove', function(aEvent) {
-			panel.openPopupAtScreen(aEvent.screenX, aEvent.screenY, false, aEvent);
-		}, false);
+		var panel = document.getElementById('informationaltab-tab-thumbnail-panel');
+		var offset = 16;
+		var listener = function(aEvent) {
+				switch (aEvent.type)
+				{
+					case 'mousemove':
+						var row = {}, col = {};
+						tree.treeBoxObject.getCellAt(aEvent.clientX, aEvent.clientY, row, col, {});
+						if (row.value > -1 && aWindow.gTreeData[row.value][kTHUMBNAIL]) {
+							panel.firstChild.setAttribute('src', aWindow.gTreeData[row.value][kTHUMBNAIL]);
+							if (panel.state == 'open')
+								panel.moveTo(aEvent.screenX + offset, aEvent.screenY + offset);
+							else
+								panel.openPopupAtScreen(aEvent.screenX + offset, aEvent.screenY + offset, false, aEvent);
+						}
+						else {
+							panel.hidePopup();
+						}
+						break;
+
+					case 'unload':
+						tree.removeEventListener('mousemove', listener, false);
+						aWindow.removeEventListener('unload', listener, false);
+						break;
+				}
+			};
+		tree.addEventListener('mousemove', listener, false);
+		aWindow.addEventListener('unload', listener, false);
 	},
   
 	destroy : function() 
