@@ -509,13 +509,19 @@ var InformationalTabService = {
 						}
 						break;
 
+					case 'mouseout':
+						panel.hidePopup();
+						break;
+
 					case 'unload':
 						tree.removeEventListener('mousemove', listener, false);
+						tree.removeEventListener('mouseout', listener, false);
 						aWindow.removeEventListener('unload', listener, false);
 						break;
 				}
 			};
 		tree.addEventListener('mousemove', listener, false);
+		tree.addEventListener('mouseout', listener, false);
 		aWindow.addEventListener('unload', listener, false);
 	},
   
