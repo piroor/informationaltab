@@ -405,29 +405,100 @@ var InformationalTabService = {
  
 	overrideSessionRestore : function(aWindow)
 	{
+		return;
+
 		aWindow = aWindow.wrappedJSObject || aWindow;
 		var doc = aWindow.document;
+		const XULNS = 'http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul';
+		const kTHUMBNAIL = this.kTHUMBNAIL;
+
+		var tree = doc.getElementById('tabList');
+
+/*
+		var width = 45;
+		var height = 35;
+
+		var fragment = doc.createDocumentFragment();
+		var splitter = doc.createElementNS(XULNS, 'splitter');
+		splitter.setAttribute('class', 'tree-splitter');
+		fragment.appendChild(splitter);
+		var treecol = doc.createElementNS(XULNS, 'treecol');
+		treecol.setAttribute('id', kTHUMBNAIL);
+		treecol.setAttribute('width', width + 32);
+		fragment.appendChild(treecol);
+		tree.getElementsByTagName('treecols')[0].appendChild(fragment);
+
+		var view = aWindow.treeView;
+
+		view.__informationaltab__getCellText = view.getCellText;
+		view.getCellText = function(aIndex, aColumn) {
+			if (aColumn.id == kTHUMBNAIL)
+				return null;
+			return this.__informationaltab__getCellText(aIndex, aColumn);
+		};
+
+		view.__informationaltab__getCellProperties = view.getCellProperties;
+		view.getCellProperties = function(aIndex, aColumn, aProperties) {
+			if (aColumn.id == kTHUMBNAIL) {
+				aProperties.AppendElement(this._getAtom(kTHUMBNAIL));
+				return;
+			}
+			this.__informationaltab__getCellProperties(aIndex, aColumn, aProperties);
+		};
+
+		view.__informationaltab__getRowProperties = view.getRowProperties;
+		view.getRowProperties = function(aIndex, aProperties) {
+			if (aWindow.gTreeData && aWindow.gTreeData[aIndex].parent)
+				aProperties.AppendElement(this._getAtom(kTHUMBNAIL));
+			this.__informationaltab__getRowProperties(aIndex, aProperties);
+		};
+
+		view.__informationaltab__getImageSrc = view.getImageSrc;
+		view.getImageSrc = function(aIndex, aColumn) {
+			if (aColumn.id == kTHUMBNAIL && aWindow.gTreeData)
+				return aWindow.gTreeData[aIndex][kTHUMBNAIL] || null;
+			return this.__informationaltab__getImageSrc(aIndex, aColumn);
+		};
+
 		var style = doc.createElementNS('http://www.w3.org/1999/xhtml', 'style');
 		style.setAttribute('type', 'text/css');
 		style.appendChild(doc.createTextNode(<![CDATA[
-			treechildren::-moz-tree-image(icon):not(::-moz-tree-image(container)) {
-				width: 45px;
-				height: 35px;
+			@namespace url("%XULNS%");
+			treechildren::-moz-tree-image(%THUMBNAIL%):not(::-moz-tree-image(container)) {
+				width: %WIDTH%px;
+				height: %HEIGHT%px;
 			}
-		]]>.toString()));
+			treechildren::-moz-tree-row(%THUMBNAIL%) {
+				height: %HEIGHT%px;
+			}
+		]]>.toString()
+			.replace(/%XULNS%/g, XULNS)
+			.replace(/%THUMBNAIL%/g, kTHUMBNAIL)
+			.replace(/%WIDTH%/g, width)
+			.replace(/%HEIGHT%/g, height)
+		));
 		doc.getElementsByTagName('head')[0].appendChild(style);
+*/
+
 		var sessionData = aWindow.gStateObject;
 		var index = 0;
 		sessionData.windows.forEach(function(aWindowState) {
 			index++;
 			aWindowState.tabs.forEach(function(aTabState) {
 				if ('extData' in aTabState && this.kTHUMBNAIL in aTabState.extData)
-					aWindow.gTreeData[index].src = aTabState.extData[this.kTHUMBNAIL];
+					aWindow.gTreeData[index][this.kTHUMBNAIL] = aTabState.extData[this.kTHUMBNAIL];
 				index++;
 			}, this);
 		}, this);
-		var tree = doc.getElementById('tabList');
-		tree.treeBoxObject.invalidate();
+
+//		tree.treeBoxObject.invalidate();
+
+		var panel = doc.createElementNS(XULNS, 'panel');
+		panel.appendChild(doc.createElementNS(XULNS, 'image'));
+		tree.parentNode.appendChild(panel);
+		tree.addEventListener('mousemove', function(aEvent) {
+			panel.openPopupAtScreen(aEvent.screenX, aEvent.screenY, false, aEvent);
+		}, false);
 	},
   
 	destroy : function() 
@@ -1344,8 +1415,8 @@ var InformationalTabService = {
 			let uri = tab.linkedBrowser.currentURI;
 			if (!uri || uri.spec == 'about:config' || this.isTabRead(tab, 'load'))
 				tab.removeAttribute(this.kUNREAD);
-//			if (uri && uri.spec == 'about:sessionrestore')
-//				this.overrideSessionRestore(tab.linkedBrowser.contentWindow);
+			if (uri && uri.spec == 'about:sessionrestore')
+				this.overrideSessionRestore(tab.linkedBrowser.contentWindow);
 		}
 	},
 	onLocationChange : function(aWebProgress, aRequest, aLocation)
