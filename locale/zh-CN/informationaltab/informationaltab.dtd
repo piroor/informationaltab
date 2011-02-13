@@ -8,9 +8,9 @@
 <!ENTITY config.thumbnail.scrolled  "同步滚动缩略图">
 <!ENTITY config.thumbnail.full      "全幅面缩略图">
 <!ENTITY config.thumbnail.partial   "截取部分缩略图">
-<!ENTITY config.thumbnail.partial.area.before  "长宽：">
-<!ENTITY config.thumbnail.partial.area.middle  "像素；或者幅面长宽的">
-<!ENTITY config.thumbnail.partial.area.after   "&#37;。">
+<!ENTITY config.thumbnail.partial.area.before  "宽度：">
+<!ENTITY config.thumbnail.partial.area.middle  "像素、或者幅面宽度的">
+<!ENTITY config.thumbnail.partial.area.after   "&#37;（较大的一个）。">
 
 <!ENTITY config.thumbnail.position.caption "显示预览的位置：">
 <!ENTITY config.thumbnail.position.label   "（标签标题位置）">
@@ -32,18 +32,18 @@
 <!ENTITY config.thumbnail.size_mode.fixed    "固定：">
 <!ENTITY config.thumbnail.max.before         "">
 <!ENTITY config.thumbnail.max.after          "像素">
-<!ENTITY config.thumbnail.size_mode.flexible "弹性：">
+<!ENTITY config.thumbnail.size_mode.flexible "可变：">
 <!ENTITY config.thumbnail.pow.before         "">
 <!ENTITY config.thumbnail.pow.after          "&#37; 标签宽度">
 
 
 <!ENTITY config.tabs.progress "载入状态">
 
-<!ENTITY config.progress.mode.caption   "显示进度条表示载入状态">
+<!ENTITY config.progress.mode.caption   "显示进度条以示载入状态">
 <!ENTITY config.progress.mode.statusbar "在状态栏显示">
-<!ENTITY config.progress.mode.tab       "在每一个标签显示">
+<!ENTITY config.progress.mode.tab       "在每个标签显示">
 <!ENTITY config.progress.mode.both      "状态栏和每个标签都显示">
-<!ENTITY config.progress.mode.check     "Indicate loading statys by progress meter in each tab">
+<!ENTITY config.progress.mode.check     "在每个标签显示进度条">
 
 <!ENTITY config.progress.position.caption "标签上的进度条位置">
 <!ENTITY config.progress.position.top     "顶部（模拟 Firefox 4 概念样式）">
@@ -57,10 +57,10 @@
 
 <!ENTITY config.tabs.unread "未读状态">
 
-<!ENTITY config.unread.enabled "突出显示未读标签（斜体显示标题）">
+<!ENTITY config.unread.enabled "突出显示未读标签（标题用斜体显示）">
 
-<!ENTITY config.unread.readMethod.caption "什么情况下视标签为“已读”？">
-<!ENTITY config.unread.readMethod.0       "选中标签">
+<!ENTITY config.unread.readMethod.caption "什么情况下视该标签为“已读”？">
+<!ENTITY config.unread.readMethod.0       "选中该标签">
 <!ENTITY config.unread.readMethod.1       "该标签的页面被滚动">
 
 
