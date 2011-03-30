@@ -1,0 +1,81 @@
+﻿<!ENTITY config.title        "Indstil Informational Tab">
+
+
+<!ENTITY config.tabs.thumbnail "Visning">
+
+<!ENTITY config.thumbnail.enabled "Vis miniaturer i faner">
+<!ENTITY config.thumbnail.animation "Opdater løbende miniaturer for animationer">
+<!ENTITY config.thumbnail.scrolled  "Scroll miniaturer">
+<!ENTITY config.thumbnail.full      "Vis hele siden">
+<!ENTITY config.thumbnail.partial   "Vis delvist">
+<!ENTITY config.thumbnail.partial.area.before  "">
+<!ENTITY config.thumbnail.partial.area.middle  "pixel eller">
+<!ENTITY config.thumbnail.partial.area.after   "&#37; fra kanten">
+
+<!ENTITY config.thumbnail.position.caption "Vis miniaturen ved:">
+<!ENTITY config.thumbnail.position.label   "(Fanens titel)">
+<!ENTITY config.thumbnail.position.0   "↑">
+<!ENTITY config.thumbnail.position.1   "↑">
+<!ENTITY config.thumbnail.position.2   "↑">
+<!ENTITY config.thumbnail.position.301 "←">
+<!ENTITY config.thumbnail.position.302 "←">
+<!ENTITY config.thumbnail.position.303 "←">
+<!ENTITY config.thumbnail.position.401 "←">
+<!ENTITY config.thumbnail.position.402 "←">
+<!ENTITY config.thumbnail.position.403 "←">
+<!ENTITY config.thumbnail.position.5   "Baggrundstitel:">
+<!ENTITY config.thumbnail.position.501 "Venstre">
+<!ENTITY config.thumbnail.position.502 "Midt">
+<!ENTITY config.thumbnail.position.503 "Højre">
+
+<!ENTITY config.thumbnail.size_mode.caption  "Miniaturestørrelse">
+<!ENTITY config.thumbnail.size_mode.fixed    "Fast str.:">
+<!ENTITY config.thumbnail.max.before         "">
+<!ENTITY config.thumbnail.max.after          "pixel">
+<!ENTITY config.thumbnail.size_mode.flexible "Variabel:">
+<!ENTITY config.thumbnail.pow.before         "">
+<!ENTITY config.thumbnail.pow.after          "&#37; af fanebredde">
+
+
+<!ENTITY config.tabs.progress "Faneåbning">
+
+<!ENTITY config.progress.mode.caption   "Vis åbningsfremskridt som bjælke i">
+<!ENTITY config.progress.mode.statusbar "Statuslinien">
+<!ENTITY config.progress.mode.tab       "Hver  fane">
+<!ENTITY config.progress.mode.both      "Både fane og statuslinie">
+<!ENTITY config.progress.mode.check     "Vis fremskridtsbjælke i faner">
+
+<!ENTITY config.progress.position.caption "Fremskridtsbjælkens placering i fanen">
+<!ENTITY config.progress.position.top     "Øverst (Firefox 3.7 mockup stil)">
+<!ENTITY config.progress.position.bottom  "Under titlen">
+
+<!ENTITY config.progress.style.caption        "Fremskridtsbjælkens type">
+<!ENTITY config.progress.style.default        "Standard">
+<!ENTITY config.progress.style.lighting-blue  "Blå">
+<!ENTITY config.progress.style.lighting-green "Grøn">
+
+
+<!ENTITY config.tabs.unread "Ulæste faner">
+
+<!ENTITY config.unread.enabled "Fremhæv ulæste faner">
+
+<!ENTITY config.unread.readMethod.caption "Vis som &quot;læst&quot; når">
+<!ENTITY config.unread.readMethod.0       "fanen vælges">
+<!ENTITY config.unread.readMethod.1       "der scrolles">
+
+
+<!ENTITY config.tabs.closebutton "Luk knappen">
+
+<!ENTITY config.closebutton.mode.caption "Luk knapper på faner">
+<!ENTITY config.closebutton.mode.0   "Vis kun en Luk knap på den aktive fane">
+<!ENTITY config.closebutton.mode.1   "Vis Luk knapper på alle faner (standard)">
+<!ENTITY config.closebutton.mode.2   "Vis ingen Luk knapper">
+<!ENTITY config.closebutton.mode.3   "Vis en enkelt Luk knap after sidste fane (Firefox 1.5 stil)">
+
+<!ENTITY config.closebutton.force_show "Vis Luk knapper selv om fanerne er for små til at vise knapper.">
+
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Luk knap efter sidste fane">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Vis kun når sidste fane kan lukkes">
+<!ENTITY config.close_buttons.force_show.last_tab.2       "Vis altid (Firefox 3.0 stil)">
+<!ENTITY config.close_buttons.force_show.last_tab.1       "Vis aldrig (Firefox 3.5 stil)">
+<!ENTITY config.closeWindowWithLastTab "Tillad lukning af sidste fane">

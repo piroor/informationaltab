@@ -98,6 +98,15 @@
 		<em:translator>hzhbest (zh-CN locale)</em:translator>
       </RDF:Description>
     </em:localized>
+    <em:localized>
+      <RDF:Description em:locale="da-DK"
+                       em:name="Informational Tab"
+                       em:description="Viser miniaturer og andre oplysninger i de enkelte faner!"
+                       em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"
+                       em:creator="SHIMODA Hiroshi">
+		<em:translator>Regmos (da-DK locale)</em:translator>
+      </RDF:Description>
+    </em:localized>
 
 
 
@@ -105,7 +114,7 @@
       <!-- Firefox -->
       <RDF:Description em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                        em:minVersion="3.5"
-                       em:maxVersion="4.0b11pre" />
+                       em:maxVersion="4.0.*" />
     </em:targetApplication>
   </RDF:Description>
 </RDF:RDF>
