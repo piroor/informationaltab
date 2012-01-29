@@ -569,9 +569,10 @@ var InformationalTabService = {
 	destroyTab : function(aTab) 
 	{
 		try {
-			if (aTab.__informationaltab__canvas)
+			if (aTab.__informationaltab__canvas) {
 				aTab.__informationaltab__canvas.parentNode.removeChild(aTab.__informationaltab__canvas);
-			delete aTab.__informationaltab__canvas;
+				delete aTab.__informationaltab__canvas;
+			}
 
 			delete aTab.__informationaltab__parentTabBrowser;
 			delete aTab.__informationaltab__label;
