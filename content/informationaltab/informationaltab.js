@@ -1360,14 +1360,14 @@ var InformationalTabService = {
 					var width = this.getPref('extensions.treestyletab.tabbar.width');
 					switch (this.getPref('extensions.treestyletab.tabbar.autoHide.mode'))
 					{
-						case TreeStyleTabBrowserAutoHide.prototype.kMODE_DISABLED:
+						case gBrowser.treeStyleTab.autoHide.kMODE_DISABLED:
 							break;
 
-						case TreeStyleTabBrowserAutoHide.prototype.kMODE_HIDE:
+						case gBrowser.treeStyleTab.autoHide.kMODE_HIDE:
 							break;
 
 						default:
-						case TreeStyleTabBrowserAutoHide.prototype.kMODE_SHRINK:
+						case gBrowser.treeStyleTab.autoHide.kMODE_SHRINK:
 							width = this.getPref('extensions.treestyletab.tabbar.shrunkenWidth');
 							break;
 					}
