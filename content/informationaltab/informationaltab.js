@@ -578,11 +578,13 @@ var InformationalTabService = {
 			delete aTab.__informationaltab__progress;
 			delete aTab.linkedBrowser.__informationaltab__tab;
 
-			aTab.__informationaltab__eventListener.destroy();
-			delete aTab.__informationaltab__eventListener;
+			if (aTab.__informationaltab__eventListener) {
+				aTab.__informationaltab__eventListener.destroy();
+				delete aTab.__informationaltab__eventListener;
+			}
 		}
 		catch(e) {
-			dump(e+'\n');
+			dump(e+'\n'+e.stack+'\n');
 		}
 	},
   
