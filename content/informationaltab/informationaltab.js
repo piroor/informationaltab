@@ -746,7 +746,7 @@ var InformationalTabService = {
 			var canvasW = Math.floor((aspectRatio < 1) ? (size * aspectRatio) : size );
 			var canvasH = Math.floor((aspectRatio > 1) ? (size / aspectRatio) : size );
 
-			var isBlank = (aTab.linkedBrowser.currentURI.spec == 'about:blank') || // BarTab
+			var isBlank = (window.isBlankPageURL ? isBlankPageURL(aTab.linkedBrowser.currentURI.spec) : (aTab.linkedBrowser.currentURI.spec == 'about:blank')) || // BarTab
 						(aTab.linkedBrowser.__SS_restoreState == 1); // Firefox 4
 
 			var imageURL = aImage ? aImage.src : this.getTabValue(aTab, this.kTHUMBNAIL) ;
