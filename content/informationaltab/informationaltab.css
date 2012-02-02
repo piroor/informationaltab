@@ -4,6 +4,15 @@ tabs.tabbrowser-tabs label.tab-text {
 	-moz-binding: url("informationaltab.xml#tab-label") !important;
 }
 
+.tab-icon-image,
+.tab-throbber {
+	/**
+	 * They can be xpanded by thumbnail in tabs unexpectedly,
+	 * so we have to define their height.
+	 */
+	max-height: 16px;
+}
+
 #statusbar-progresspanel[informationaltab-hidden="true"],
 .tabbrowser-tab[pinned="true"] .informationaltab-thumbnail-container,
 .tabbrowser-tab[pinned="true"] .tab-progress-box {

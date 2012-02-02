@@ -168,6 +168,12 @@ var InformationalTabService = {
 		return document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label') || // Firefox 4.0-
 				document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text'); // -Firefox 3.6
 	},
+	getLabelBox : function(aTab) 
+	{
+		return document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-stack') || // Mac OS X
+				document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container') || // Tab Mix Plus
+				this.getLabel(aTab);
+	},
   
 	evalInSandbox : function(aCode, aOwner) 
 	{
@@ -577,6 +583,7 @@ var InformationalTabService = {
 			delete aTab.__informationaltab__parentTabBrowser;
 			delete aTab.__informationaltab__label;
 			delete aTab.__informationaltab__progress;
+			delete aTab.__informationaltab__thumbnailContainer;
 			delete aTab.linkedBrowser.__informationaltab__tab;
 
 			if (aTab.__informationaltab__eventListener) {
@@ -619,11 +626,8 @@ var InformationalTabService = {
 		container.setAttribute('class', this.kCONTAINER);
 		container.appendChild(aCanvas);
 
-		var icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
 		var label = this.getLabel(aTab);
-		var labelBox = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-stack') || // Mac OS X
-					document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container') || // Tab Mix Plus
-					label;
+		var labelBox = this.getLabelBox(aTab);
 
 		var pack = (aPosition > 100) ? (aPosition % 100) : 0 ;
 		pack = pack == 1 ? 'start' : pack == 3 ? 'end' : 'center' ;
@@ -664,29 +668,49 @@ var InformationalTabService = {
 				break;
 		}
 
-		var isTreeAvailable = 'TreeStyleTabService' in window;
+		aTab.__informationaltab__thumbnailContainer = container;
+
+		this.initTabContentsOrder(aTab, aTabBrowser, aPosition);
+	},
+	initTabContentsOrder : function(aTab, aTabBrowser, aPosition) 
+	{
+		var icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image');
+		var labelBox = this.getLabelBox(aTab);
+
+		var container = aTab.__informationaltab__thumbnailContainer;
+		if (!container)
+			return;
+
+		var isTreeAvailable = 'TreeStyleTabService' in window && TreeStyleTabService.initTabContents;
 		if (isTreeAvailable)
 			TreeStyleTabService.initTabContents(aTab, aTabBrowser);
 
 		var nodes = labelBox.parentNode.childNodes;
+		if (!isTreeAvailable) {
+			for (let i = 0, maxi = nodes.length; i < maxi; i++)
+			{
+				nodes[i].setAttribute('ordinal', (i + 1) * 100);
+			}
+		}
+
+		var orderedNodes = Array.slice(nodes).sort(function(aA, aB) {
+				return parseInt(aA.getAttribute('ordinal') || 0) - parseInt(aB.getAttribute('ordinal') || 0);
+			});
+		var faviconPosition = orderedNodes.indexOf(icon);
 		if (isTreeAvailable &&
 			TreeStyleTabService.getTreePref('tabbar.position') == 'right' &&
 			TreeStyleTabService.getTreePref('tabbar.invertTabContents')) {
+			let rightMost = faviconPosition < nodes.length-1 ? nodes[faviconPosition+1] : icon ;
 			container.setAttribute('ordinal',
-				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(icon.getAttribute('ordinal')) + 5 :
+				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(rightMost.getAttribute('ordinal')) + 5 :
 				(aPosition == this.POSITION_BEFORE_LABEL) ? parseInt(labelBox.getAttribute('ordinal')) + 5 :
 				1
 			);
 		}
 		else {
-			if (!isTreeAvailable) {
-				for (i = 0, maxi = nodes.length; i < maxi; i++)
-				{
-					nodes[i].setAttribute('ordinal', (i + 1) * 100);
-				}
-			}
+			let leftMost = faviconPosition > 0 ? nodes[faviconPosition-1] : icon ;
 			container.setAttribute('ordinal',
-				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(icon.getAttribute('ordinal')) - 5 :
+				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(leftMost.getAttribute('ordinal')) - 5 :
 				(aPosition == this.POSITION_BEFORE_LABEL) ? parseInt(labelBox.getAttribute('ordinal')) - 5 :
 				parseInt(labelBox.getAttribute('ordinal')) + 5
 			);

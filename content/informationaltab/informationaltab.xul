@@ -3,8 +3,6 @@
 <?xml-stylesheet href="informationaltab.css" type="text/css"?>
 <?xml-stylesheet href="chrome://informationaltab/skin/informationaltab.css" type="text/css"?>
 
-<?xul-overlay href="tabFx2Compatible.xul"?>
-
 <!DOCTYPE overlay SYSTEM "chrome://informationaltab/locale/informationaltab.dtd">
 
 <overlay id="informationaltab-overlay"
