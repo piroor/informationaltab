@@ -154,8 +154,7 @@ var InformationalTabService = {
 	// workaround for http://piro.sakura.ne.jp/latest/blosxom/mozilla/extension/treestyletab/2009-09-29_debug.htm 
 	checkCachedSessionDataExpiration : function(aTab)
 	{
-		var data = aTab.linkedBrowser.__SS_data || // Firefox 3.6-
-					aTab.linkedBrowser.parentNode.__SS_data; // -Frefox 3.5
+		var data = aTab.linkedBrowser.__SS_data;
 		if (data &&
 			data._tabStillLoading &&
 			aTab.getAttribute('busy') != 'true' &&
@@ -165,8 +164,7 @@ var InformationalTabService = {
  
 	getLabel : function(aTab) 
 	{
-		return document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label') || // Firefox 4.0-
-				document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text'); // -Firefox 3.6
+		return document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label');
 	},
 	getLabelBox : function(aTab) 
 	{
@@ -1188,8 +1186,6 @@ var InformationalTabService = {
 	{
 		var container = aTabBrowser.mTabContainer;
 		container.mTabClipWidth = this.getPref('browser.tabs.tabClipWidth');
-		if ('mTabMinWidth' in container) // -Firefox 3.6
-			container.mTabMinWidth  = this.tabMinWidth;
 		container.adjustTabstrip();
 	},
  
