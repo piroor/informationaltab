@@ -14,6 +14,3 @@ locale	informationaltab	zh-CN	jar:chrome/informationaltab.jar!/locale/zh-CN/info
 locale	informationaltab	da-DK	jar:chrome/informationaltab.jar!/locale/da-DK/informationaltab/
 
 skin	informationaltab	classic/1.0	jar:chrome/informationaltab.jar!/skin/classic/informationaltab/
-
-override chrome://informationaltab/content/config.css	chrome://informationaltab/content/config-fx3.css	appversion>=3.5
-override chrome://informationaltab/content/config.css	chrome://informationaltab/content/config-fx4.css	appversion>=4.0b5pre

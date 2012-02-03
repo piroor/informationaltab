@@ -1,1 +1,58 @@
-@import url("chrome://informationaltab/content/config-base.css");
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+.dummy-tab {
+	color: -moz-DialogText;
+	-moz-appearance: none;
+	background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.8) 1px,
+	                                       rgba(255, 255, 255, 0.5) 3px,
+	                                       rgba(255, 255, 255, 0.3) 32%),
+	                                       -moz-linear-gradient(-moz-dialog, -moz-dialog);
+	background-origin: border-box;
+	background-position: 1px 2px;
+	background-repeat: no-repeat;
+	background-size: 100% -moz-calc(100% - 2px);
+	-moz-border-image: url("chrome://browser/skin/tabbrowser/tab.png") 4 5 3 6 fill repeat stretch;
+	border-image: url("chrome://browser/skin/tabbrowser/tab.png") 4 5 3 6 fill repeat stretch;
+	-moz-border-radius: 10px 8px 0 0;
+	border-radius: 10px 8px 0 0;
+	border-style: solid;
+	border-width: 4px 5px 3px 6px;
+	margin: 0px;
+	padding: 0px;
+	border: none;
+	height: 22px;
+	margin-bottom: 1px;
+	-moz-box-align: start;
+}
+
+.dummy-tab .tab-text {
+	margin-top: 5px;
+	font-weight: bold;
+}
+
+.dummy-tab .tab-icon-image {
+	margin-top: 3px;
+	-moz-margin-end: 3px;
+	width: 16px;
+	height: 16px;
+	list-style-image: url("resource:///chrome/toolkit/skin/classic/global/icons/folder-item.png");
+	-moz-image-region: rect(0, 16px, 16px, 0);
+}
+
+.dummy-tab .toolbarbutton-icon {
+	-moz-image-region: rect(0px, 16px, 16px, 0px);
+	width: 16px;
+	padding: 0px;
+	-moz-margin-end: 0px !important;
+	margin: 0;
+	padding-top: 3px;
+	list-style-image: url("resource:///chrome/toolkit/skin/classic/global/icons/close.png");
+	-moz-image-region: rect(0, 16px, 16px, 0);
+}
+
+
+.dummy-tab radio[orient="vertical"] {
+	margin-top: 3px;
+	-moz-box-orient: vertical;
+	-moz-box-align: center;
+}

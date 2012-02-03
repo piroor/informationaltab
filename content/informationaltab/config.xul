@@ -102,85 +102,81 @@
 			orient="vertical">
 			<hbox>
 			<hbox class="dummy-tab">
-				<hbox class="tab-image-left"/>
-				<hbox class="tab-image-middle">
-					<grid>
-						<rows>
-							<row/>
-							<row align="start"/>
-						</rows>
-						<columns>
-							<column>
-								<spacer/>
-								<vbox>
-									<radio value="0"
-										 label="&config.thumbnail.position.0;"
-										 orient="vertical"/>
-									<spacer flex="1"/>
-								</vbox>
-							</column>
-							<column>
-								<spacer/>
-								<vbox>
-									<image class="tab-icon"/>
-									<spacer flex="1"/>
-								</vbox>
-							</column>
-							<column>
-								<spacer/>
-								<vbox>
-									<radio value="1"
-										 label="&config.thumbnail.position.1;"
-										 orient="vertical"/>
-									<spacer flex="1"/>
-								</vbox>
-							</column>
-							<column>
+				<grid>
+					<rows>
+						<row/>
+						<row align="start"/>
+					</rows>
+					<columns>
+						<column>
+							<spacer/>
+							<vbox>
+								<radio value="0"
+									 label="&config.thumbnail.position.0;"
+									 orient="vertical"/>
+								<spacer flex="1"/>
+							</vbox>
+						</column>
+						<column>
+							<spacer/>
+							<vbox>
+								<image class="tab-icon-image"/>
+								<spacer flex="1"/>
+							</vbox>
+						</column>
+						<column>
+							<spacer/>
+							<vbox>
+								<radio value="1"
+									 label="&config.thumbnail.position.1;"
+									 orient="vertical"/>
+								<spacer flex="1"/>
+							</vbox>
+						</column>
+						<column>
+							<hbox>
+								<radio value="301"
+									 label="&config.thumbnail.position.301;"/>
+								<spacer flex="1"/>
+								<radio value="302"
+									 label="&config.thumbnail.position.302;"/>
+								<spacer flex="1"/>
+								<radio value="303"
+									 label="&config.thumbnail.position.303;"/>
+							</hbox>
+							<vbox>
+								<label class="tab-text"
+									 value="&config.thumbnail.position.label;"/>
 								<hbox>
-									<radio value="301"
-										 label="&config.thumbnail.position.301;"/>
+									<radio value="401"
+										 label="&config.thumbnail.position.401;"/>
 									<spacer flex="1"/>
-									<radio value="302"
-										 label="&config.thumbnail.position.302;"/>
+									<radio value="402"
+										 label="&config.thumbnail.position.402;"/>
 									<spacer flex="1"/>
-									<radio value="303"
-										 label="&config.thumbnail.position.303;"/>
+									<radio value="403"
+										 label="&config.thumbnail.position.403;"/>
 								</hbox>
-								<vbox>
-									<label class="tab-text"
-										 value="&config.thumbnail.position.label;"/>
-									<hbox>
-										<radio value="401"
-											 label="&config.thumbnail.position.401;"/>
-										<spacer flex="1"/>
-										<radio value="402"
-											 label="&config.thumbnail.position.402;"/>
-										<spacer flex="1"/>
-										<radio value="403"
-											 label="&config.thumbnail.position.403;"/>
-									</hbox>
-								</vbox>
-							</column>
-							<column>
-								<spacer/>
-								<vbox>
-									<radio value="2"
-										 label="&config.thumbnail.position.2;"
-										 orient="vertical"/>
-									<spacer flex="1"/>
-								</vbox>
-							</column>
-							<column>
-								<spacer/>
-								<vbox>
-									<image class="toolbarbutton-icon"/>
-									<spacer flex="1"/>
-								</vbox>
-							</column>
-						</columns>
-					</grid>
-				</hbox>
-				<hbox class="tab-image-right"/>
+							</vbox>
+						</column>
+						<column>
+							<spacer/>
+							<vbox>
+								<radio value="2"
+									 label="&config.thumbnail.position.2;"
+									 orient="vertical"/>
+								<spacer flex="1"/>
+							</vbox>
+						</column>
+						<column>
+							<spacer/>
+							<vbox>
+								<image class="toolbarbutton-icon"/>
+								<spacer flex="1"/>
+							</vbox>
+						</column>
+					</columns>
+				</grid>
 			</hbox>
 			<spacer flex="1"/>
 			</hbox>
