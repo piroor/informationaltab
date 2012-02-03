@@ -1343,7 +1343,7 @@ var InformationalTabService = {
 				if (mode == 2 || (mode == 0 && closable))
 					document.documentElement.setAttribute(this.kSHOW_LAST_CLOSE_BUTTON, true);
 				else
-					document.documentElement.removeAttribute(this.kSHOW_LAST_CLOSE_BUTTON);
+					document.documentElement.setAttribute(this.kSHOW_LAST_CLOSE_BUTTON, false);
 				break;
 
 			case 'browser.tabs.tabClipWidth':

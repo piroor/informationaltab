@@ -7,7 +7,7 @@ tabs.tabbrowser-tabs label.tab-text {
 .tab-icon-image,
 .tab-throbber {
 	/**
-	 * They can be xpanded by thumbnail in tabs unexpectedly,
+	 * They can be expanded by thumbnail in tabs unexpectedly,
 	 * so we have to define their height.
 	 */
 	max-height: 16px;
@@ -19,9 +19,30 @@ tabs.tabbrowser-tabs label.tab-text {
 	visibility: collapse !important;
 }
 
-:root[informationaltab-show-last-tab-close-button="true"] .tabbrowser-tabs:not([closebuttons="noclose"]):not([closebuttons="closeatend"]) > .tabbrowser-tab[selected="true"]:only-child > .tab-close-button,
-:root[informationaltab-show-last-tab-close-button="true"] .tabbrowser-tabs[closebuttons="alltabs"] > .tabbrowser-tab:only-child > .tab-close-button {
+:root[informationaltab-show-last-tab-close-button="true"]
+  .tabbrowser-tabs:not([closebuttons="noclose"]):not([closebuttons="closeatend"])
+  > .tabbrowser-tab[selected="true"]:only-child
+  .tab-close-button,
+:root[informationaltab-show-last-tab-close-button="true"]
+  .tabbrowser-tabs[closebuttons="alltabs"]
+  > .tabbrowser-tab:only-child
+  .tab-close-button {
 	display: -moz-box;
+}
+
+:root[informationaltab-show-last-tab-close-button="false"]
+  .tabbrowser-tabs:not([closebuttons="noclose"]):not([closebuttons="closeatend"])
+  > .tabbrowser-tab[selected="true"]:only-child
+  .tab-close-button,
+:root[informationaltab-show-last-tab-close-button="false"]
+  .tabbrowser-tabs[closebuttons="activetab"]
+  > .tabbrowser-tab:only-child
+  .tab-close-button,
+:root[informationaltab-show-last-tab-close-button="false"]
+  .tabbrowser-tabs[closebuttons="alltabs"]
+  > .tabbrowser-tab:only-child
+  .tab-close-button {
+	display: none;
 }
 
 
