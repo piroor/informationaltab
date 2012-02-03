@@ -19,7 +19,7 @@ pref("extensions.informationaltab.thumbnail.scrolled", true);
 // 0 = only in status bar, 1 = only in each tab, 2 = both
 pref("extensions.informationaltab.progress.mode", 1);
 pref("extensions.informationaltab.progress.position", "top");
-pref("extensions.informationaltab.progress.style", "default");
+pref("extensions.informationaltab.progress.style", "lighting-blue");
 
 pref("extensions.informationaltab.unread.enabled", true);
 // 0 = just selected, 1 = scrolled
