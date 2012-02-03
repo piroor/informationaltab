@@ -122,26 +122,53 @@
 								<row>
 									<spacer/>
 									<hbox align="center">
-										<radio value="301"/>
+										<stack align="center">
+											<spacer id="thumbnail-position-indicator-301" />
+											<radio value="301"/>
+										</stack>
 										<spacer flex="1"/>
-										<radio value="302"/>
+										<stack align="center">
+											<spacer id="thumbnail-position-indicator-302" />
+											<radio value="302"/>
+										</stack>
 										<spacer flex="1"/>
-										<radio value="303"/>
+										<stack align="center">
+											<spacer id="thumbnail-position-indicator-303" />
+											<radio value="303"/>
+										</stack>
 									</hbox>
 									<spacer/>
 								</row>
 								<row align="center">
 									<hbox align="center">
-										<radio value="0"/>
+										<stack align="center">
+											<spacer id="thumbnail-position-indicator-0" />
+											<radio value="0"/>
+										</stack>
 										<image class="tab-icon-image"/>
-										<radio value="1"/>
+										<stack align="center">
+											<spacer id="thumbnail-position-indicator-1" />
+											<radio value="1"/>
+										</stack>
 									</hbox>
+									<stack align="center">
+										<hbox align="center">
+											<spacer id="thumbnail-position-indicator-501" />
+											<spacer flex="1"/>
+											<spacer id="thumbnail-position-indicator-502" />
+											<spacer flex="1"/>
+											<spacer id="thumbnail-position-indicator-503" />
+										</hbox>
+										<hbox align="center">
+											<label class="tab-text tab-label" flex="1"
+													value="&config.thumbnail.position.label;"/>
+										</hbox>
+									</stack>
 									<hbox align="center">
-										<label class="tab-text tab-label" flex="1"
-												value="&config.thumbnail.position.label;"/>
-									</hbox>
-									<hbox align="center">
-										<radio value="2"/>
+										<stack align="center">
+											<spacer id="thumbnail-position-indicator-2" />
+											<radio value="2"/>
+										</stack>
 										<toolbarbutton anonid="close-button"
 											class="tab-close-button"/>
 									</hbox>
@@ -149,11 +176,20 @@
 								<row>
 									<spacer/>
 									<hbox align="center">
-										<radio value="401"/>
+										<stack align="center">
+											<spacer id="thumbnail-position-indicator-401" />
+											<radio value="401"/>
+										</stack>
 										<spacer flex="1"/>
-										<radio value="402"/>
+										<stack align="center">
+											<spacer id="thumbnail-position-indicator-402" />
+											<radio value="402"/>
+										</stack>
 										<spacer flex="1"/>
-										<radio value="403"/>
+										<stack align="center">
+											<spacer id="thumbnail-position-indicator-403" />
+											<radio value="403"/>
+										</stack>
 									</hbox>
 									<spacer/>
 								</row>
