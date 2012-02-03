@@ -2,6 +2,7 @@
 
 <?xml-stylesheet href="chrome://global/skin/"?>
 <?xml-stylesheet href="config.css"?>
+<?xml-stylesheet href="chrome://browser/skin/browser.css"?>
 
 <!DOCTYPE prefwindow [
 <!ENTITY % mainDTD SYSTEM "chrome://informationaltab/locale/informationaltab.dtd">
@@ -101,82 +102,65 @@
 			preference="extensions.informationaltab.thumbnail.position"
 			orient="vertical">
 			<hbox>
-			<hbox class="dummy-tab">
-				<grid>
-					<rows>
-						<row/>
-						<row align="start"/>
-					</rows>
-					<columns>
-						<column>
-							<spacer/>
-							<vbox>
-								<radio value="0"
-									 label="&config.thumbnail.position.0;"
-									 orient="vertical"/>
-								<spacer flex="1"/>
-							</vbox>
-						</column>
-						<column>
-							<spacer/>
-							<vbox>
-								<image class="tab-icon-image"/>
-								<spacer flex="1"/>
-							</vbox>
-						</column>
-						<column>
-							<spacer/>
-							<vbox>
-								<radio value="1"
-									 label="&config.thumbnail.position.1;"
-									 orient="vertical"/>
-								<spacer flex="1"/>
-							</vbox>
-						</column>
-						<column>
-							<hbox>
-								<radio value="301"
-									 label="&config.thumbnail.position.301;"/>
-								<spacer flex="1"/>
-								<radio value="302"
-									 label="&config.thumbnail.position.302;"/>
-								<spacer flex="1"/>
-								<radio value="303"
-									 label="&config.thumbnail.position.303;"/>
-							</hbox>
-							<vbox>
-								<label class="tab-text"
-									 value="&config.thumbnail.position.label;"/>
-								<hbox>
-									<radio value="401"
-										 label="&config.thumbnail.position.401;"/>
-									<spacer flex="1"/>
-									<radio value="402"
-										 label="&config.thumbnail.position.402;"/>
-									<spacer flex="1"/>
-									<radio value="403"
-										 label="&config.thumbnail.position.403;"/>
-								</hbox>
-							</vbox>
-						</column>
-						<column>
-							<spacer/>
-							<vbox>
-								<radio value="2"
-									 label="&config.thumbnail.position.2;"
-									 orient="vertical"/>
-								<spacer flex="1"/>
-							</vbox>
-						</column>
-						<column>
-							<spacer/>
-							<vbox>
-								<image class="toolbarbutton-icon"/>
-								<spacer flex="1"/>
-							</vbox>
-						</column>
-					</columns>
-				</grid>
+			<hbox class="tabbrowser-tab"
+				orient="horizontal"
+				align="stretch">
+				<stack class="tab-stack" flex="1">
+					<hbox class="tab-background">
+						<hbox class="tab-background-start"/>
+						<hbox class="tab-background-middle"/>
+						<hbox class="tab-background-end"/>
+					</hbox>
+					<hbox class="tab-content" align="center">
+						<grid>
+							<columns>
+								<column/>
+								<column/>
+								<column/>
+							</columns>
+							<rows>
+								<row>
+									<spacer/>
+									<hbox align="center">
+										<radio value="301"/>
+										<spacer flex="1"/>
+										<radio value="302"/>
+										<spacer flex="1"/>
+										<radio value="303"/>
+									</hbox>
+									<spacer/>
+								</row>
+								<row align="center">
+									<hbox align="center">
+										<radio value="0"/>
+										<image class="tab-icon-image"/>
+										<radio value="1"/>
+									</hbox>
+									<hbox align="center">
+										<label class="tab-text tab-label" flex="1"
+												value="&config.thumbnail.position.label;"/>
+									</hbox>
+									<hbox align="center">
+										<radio value="2"/>
+										<toolbarbutton anonid="close-button"
+											class="tab-close-button"/>
+									</hbox>
+								</row>
+								<row>
+									<spacer/>
+									<hbox align="center">
+										<radio value="401"/>
+										<spacer flex="1"/>
+										<radio value="402"/>
+										<spacer flex="1"/>
+										<radio value="403"/>
+									</hbox>
+									<spacer/>
+								</row>
+							</rows>
+						</grid>
+					</hbox>
+				</stack>
 			</hbox>
 			<spacer flex="1"/>
 			</hbox>
