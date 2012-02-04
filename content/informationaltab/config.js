@@ -47,26 +47,30 @@ function onThumbnailModeChange()
 		return;
 
 	if (document.getElementById('config.thumbnail.enabled-check').checked) {
-		for (let [, item] in Iterator(gThumbnailItems))
+		for (let i = 0, maxi = gThumbnailItems.length; i < maxi; i++)
 		{
+			let item = gThumbnailItems[i];
 			if (item) item.removeAttribute('disabled');
 		}
 		if (document.getElementById('config.thumbnail.partial-radiogroup').value == 'true') {
-			for (let [, item] in Iterator(gThumbnailPartialItems))
+			for (let i = 0, maxi = gThumbnailPartialItems.length; i < maxi; i++)
 			{
+				let item = gThumbnailPartialItems[i];
 				if (item) item.removeAttribute('disabled');
 			}
 		}
 		else {
-			for (let [, item] in Iterator(gThumbnailPartialItems))
+			for (let i = 0, maxi = gThumbnailPartialItems.length; i < maxi; i++)
 			{
+				let item = gThumbnailPartialItems[i];
 				if (item) item.setAttribute('disabled', true);
 			}
 		}
 	}
 	else {
-		for (let [, item] in Iterator(gThumbnailItems))
+		for (let i = 0, maxi = gThumbnailItems.length; i < maxi; i++)
 		{
+			let item = gThumbnailItems[i];
 			if (item) item.setAttribute('disabled', true);
 		}
 	}
