@@ -482,14 +482,16 @@ var InformationalTabService = {
 
 		var sessionData = aWindow.gStateObject;
 		var index = 0;
-		sessionData.windows.forEach(function(aWindowState) {
+		for (let [, windowState] in Iterator(sessionData.windows))
+		{
 			index++;
-			aWindowState.tabs.forEach(function(aTabState) {
-				if ('extData' in aTabState && this.kTHUMBNAIL in aTabState.extData)
-					aWindow.gTreeData[index][this.kTHUMBNAIL] = aTabState.extData[this.kTHUMBNAIL];
+			for (let [, tabState] in Iterator(windowState.tabs))
+			{
+				if ('extData' in tabState && this.kTHUMBNAIL in tabState.extData)
+					aWindow.gTreeData[index][this.kTHUMBNAIL] = tabState.extData[this.kTHUMBNAIL];
 				index++;
-			}, this);
-		}, this);
+			}
+		}
 
 		tree.treeBoxObject.invalidate();
 
@@ -968,9 +970,10 @@ var InformationalTabService = {
 						parseInt(style.getPropertyValue('margin-bottom').replace('px', ''));
 			tabHeight -= margin;
 
-			nodes.forEach(function(aNode) {
-				aNode.style.setProperty('height', contentsHeight+'px', 'important');
-			});
+			for (let [, node] in Iterator(nodes))
+			{
+				node.style.setProperty('height', contentsHeight+'px', 'important');
+			}
 			aTab.style.setProperty('height', tabHeight+'px', 'important');
 		}
 		else {
@@ -978,9 +981,10 @@ var InformationalTabService = {
 			if (key == nodes[0].getAttribute(this.kLAST_STYLE_KEY)) return;
 			nodes[0].setAttribute(this.kLAST_STYLE_KEY, key);
 			nodes.push(aTab);
-			nodes.forEach(function(aNode) {
-				aNode.style.height = '';
-			});
+			for (let [, node] in Iterator(nodes))
+			{
+				node.style.height = '';
+			}
 		}
 	},
  

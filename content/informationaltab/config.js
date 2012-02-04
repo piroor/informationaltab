@@ -47,23 +47,27 @@ function onThumbnailModeChange()
 		return;
 
 	if (document.getElementById('config.thumbnail.enabled-check').checked) {
-		gThumbnailItems.forEach(function(aItem) {
-			if (aItem) aItem.removeAttribute('disabled');
-		});
+		for (let [, item] in Iterator(gThumbnailItems))
+		{
+			if (item) item.removeAttribute('disabled');
+		}
 		if (document.getElementById('config.thumbnail.partial-radiogroup').value == 'true') {
-			gThumbnailPartialItems.forEach(function(aItem) {
-				if (aItem) aItem.removeAttribute('disabled');
-			});
+			for (let [, item] in Iterator(gThumbnailPartialItems))
+			{
+				if (item) item.removeAttribute('disabled');
+			}
 		}
 		else {
-			gThumbnailPartialItems.forEach(function(aItem) {
-				if (aItem) aItem.setAttribute('disabled', true);
-			});
+			for (let [, item] in Iterator(gThumbnailPartialItems))
+			{
+				if (item) item.setAttribute('disabled', true);
+			}
 		}
 	}
 	else {
-		gThumbnailItems.forEach(function(aItem) {
-			if (aItem) aItem.setAttribute('disabled', true);
-		});
+		for (let [, item] in Iterator(gThumbnailItems))
+		{
+			if (item) item.setAttribute('disabled', true);
+		}
 	}
 }
