@@ -998,7 +998,17 @@ var InformationalTabService = {
 		var progress = document.getAnonymousElementByAttribute(label, 'class', 'tab-progress');
 		var progressBox = progress.parentNode.boxObject;
 
-		var key = aTab.boxObject.height+':'+(progressBox.screenX - aTab.boxObject.screenX)+':'+this.progressStyle;
+		if (!progressBox.width && !progressBox.height) {
+			window.setTimeout(function(aSelf) {
+				aSelf.updateProgressStyle(aTab);
+			}, 0, this);
+			return;
+		}
+
+		var key = aTab.boxObject.height+':'+
+					(progressBox.screenX - aTab.boxObject.screenX)+':'+
+					(progressBox.screenY - aTab.boxObject.screenY)+':'+
+					this.progressStyle;
 		if (key == progress.getAttribute(this.kLAST_STYLE_KEY)) return;
 		progress.setAttribute(this.kLAST_STYLE_KEY, key);
 
@@ -1436,16 +1446,23 @@ var InformationalTabService = {
 
 		var percentage = parseInt((aCurTotalProgress * 100) / aMaxTotalProgress);
 
+		var shouldUpdateStyle = false;
 		if (tab.__informationaltab__progress) { // Tab Mix Plus
+			shouldUpdateStyle = !tab.__informationaltab__progress.hasAttribute('value');
 			this.updateProgress(tab, 'tab-progress', percentage);
 			this.updateProgress(tab.__informationaltab__progress, 'value', percentage);
 		}
-		else if (this.progressMode == this.PROGRESS_STATUSBAR) {
-			tab.__informationaltab__label.removeAttribute(this.kPROGRESS);
-		}
 		else {
-			this.updateProgress(tab.__informationaltab__label, this.kPROGRESS, percentage);
+			if (this.progressMode == this.PROGRESS_STATUSBAR) {
+				tab.__informationaltab__label.removeAttribute(this.kPROGRESS);
+			}
+			else {
+				shouldUpdateStyle = !tab.__informationaltab__label.hasAttribute(this.kPROGRESS);
+				this.updateProgress(tab.__informationaltab__label, this.kPROGRESS, percentage);
+			}
 		}
+		if (percentage && shouldUpdateStyle)
+			this.updateProgressStyle(tab);
 	},
 	updateProgress : function(aTarget, aAttr, aPercentage)
 	{
