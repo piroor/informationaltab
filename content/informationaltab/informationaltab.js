@@ -1021,9 +1021,12 @@ var InformationalTabService = {
 			let canvasBox = canvas.parentNode.boxObject;
 			let marginForCanvas = canvasBox.width ? progressBox.screenX - Math.max(canvasBox.screenX, tabX) : 0 ;
 
-			let icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image') ||
-						document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon');
-			let iconBox = icon.boxObject;
+			let favicon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon') || // Tab Mix Plus
+						document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image');
+			let faviconBox = favicon.boxObject;
+			let throbber = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-throbber');
+			let throbberBox = throbber.boxObject;
+			let iconBox = throbberBox.width && throbberBox.height ? throbberBox : faviconBox ;
 			let marginForIcon = iconBox.width ? progressBox.screenX - Math.max(iconBox.screenX, tabX) : 0 ;
 
 			let close = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button always-right') || // Tab Mix Plus
