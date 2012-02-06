@@ -1012,6 +1012,7 @@ var InformationalTabService = {
 		progress.setAttribute(this.kLAST_STYLE_KEY, key);
 
 		if (this.progressStyle.indexOf('top') > -1) {
+			progress.style.marginBottom = '';
 			progress.style.marginTop = '-'+(progressBox.screenY - aTab.boxObject.screenY)+'px';
 
 			let tabX = aTab.boxObject.screenX;
@@ -1033,12 +1034,12 @@ var InformationalTabService = {
 			let closeBox = close.boxObject;
 			let marginForClose = closeBox.width ? progressBox.screenX - Math.max(closeBox.screenX, tabX) : 0 ;
 
-dump('margin: '+[marginForCanvas, marginForIcon, marginForClose]+'\n');
 			progress.style.marginLeft = '-'+Math.max(marginForCanvas, marginForIcon, marginForClose, 0)+'px';
 			// progress.style.marginRight = '-'+(close.boxObject.screenX - progressBox.screenX + progressBox.width)+'px';
 		}
 		else {
-			progress.style.margin = '';
+			progress.style.margin = progress.style.marginTop = progress.style.marginLeft = '';
+			progress.style.marginBottom = '0';
 		}
 	},
   
