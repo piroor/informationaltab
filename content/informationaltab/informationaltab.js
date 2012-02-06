@@ -990,11 +990,11 @@ var InformationalTabService = {
  
 	updateProgressStyle : function(aTab) 
 	{
+		var label = this.getLabel(aTab);
 		var progress = document.getAnonymousElementByAttribute(label, 'class', 'tab-progress');
 		if (!progress)
 			return;
 
-		var label =this.getLabel(aTab);
 		var progressBox = progress.parentNode.boxObject;
 
 		if (!progressBox.width && !progressBox.height) {
@@ -1033,6 +1033,7 @@ var InformationalTabService = {
 			let closeBox = close.boxObject;
 			let marginForClose = closeBox.width ? progressBox.screenX - Math.max(closeBox.screenX, tabX) : 0 ;
 
+dump('margin: '+[marginForCanvas, marginForIcon, marginForClose]+'\n');
 			progress.style.marginLeft = '-'+Math.max(marginForCanvas, marginForIcon, marginForClose, 0)+'px';
 			// progress.style.marginRight = '-'+(close.boxObject.screenX - progressBox.screenX + progressBox.width)+'px';
 		}
