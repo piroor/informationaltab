@@ -990,8 +990,11 @@ var InformationalTabService = {
  
 	updateProgressStyle : function(aTab) 
 	{
-		var label =this.getLabel(aTab);
 		var progress = document.getAnonymousElementByAttribute(label, 'class', 'tab-progress');
+		if (!progress)
+			return;
+
+		var label =this.getLabel(aTab);
 		var progressBox = progress.parentNode.boxObject;
 
 		if (!progressBox.width && !progressBox.height) {
