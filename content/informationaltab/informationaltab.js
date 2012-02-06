@@ -676,7 +676,6 @@ var InformationalTabService = {
 	},
 	initTabContentsOrder : function(aTab, aTabBrowser, aPosition) 
 	{
-		var icon = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-icon-image');
 		var labelBox = this.getLabelBox(aTab);
 
 		var container = aTab.__informationaltab__thumbnailContainer;
@@ -698,21 +697,18 @@ var InformationalTabService = {
 		var orderedNodes = Array.slice(nodes).sort(function(aA, aB) {
 				return parseInt(aA.getAttribute('ordinal') || 0) - parseInt(aB.getAttribute('ordinal') || 0);
 			});
-		var faviconPosition = orderedNodes.indexOf(icon);
 		if (isTreeAvailable &&
 			TreeStyleTabService.getTreePref('tabbar.position') == 'right' &&
 			TreeStyleTabService.getTreePref('tabbar.invertTabContents')) {
-			let rightMost = faviconPosition < nodes.length-1 ? nodes[faviconPosition+1] : icon ;
 			container.setAttribute('ordinal',
-				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(rightMost.getAttribute('ordinal')) + 5 :
+				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(orderedNodes[orderedNodes.length-1].getAttribute('ordinal')) + 5 :
 				(aPosition == this.POSITION_BEFORE_LABEL) ? parseInt(labelBox.getAttribute('ordinal')) + 5 :
 				1
 			);
 		}
 		else {
-			let leftMost = faviconPosition > 0 ? nodes[faviconPosition-1] : icon ;
 			container.setAttribute('ordinal',
-				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(leftMost.getAttribute('ordinal')) - 5 :
+				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(orderedNodes[0].getAttribute('ordinal')) - 5 :
 				(aPosition == this.POSITION_BEFORE_LABEL) ? parseInt(labelBox.getAttribute('ordinal')) - 5 :
 				parseInt(labelBox.getAttribute('ordinal')) + 5
 			);
@@ -1457,6 +1453,7 @@ var InformationalTabService = {
 		}
 		else {
 			if (this.progressMode == this.PROGRESS_STATUSBAR) {
+
 				tab.__informationaltab__label.removeAttribute(this.kPROGRESS);
 			}
 			else {
