@@ -113,6 +113,14 @@ var InformationalTabService = {
 					.classes['@mozilla.org/browser/sessionstore;1']
 					.getService(Components.interfaces.nsISessionStore);
 	},
+ 
+	get XULAppInfo() 
+	{
+		delete this.XULAppInfo;
+		return this.XULAppInfo = Components.classes['@mozilla.org/xre/app-info;1']
+								.getService(Components.interfaces.nsIXULAppInfo)
+								.QueryInterface(Components.interfaces.nsIXULRuntime);
+	},
 	
 	getTabValue : function(aTab, aKey) 
 	{
@@ -193,6 +201,7 @@ var InformationalTabService = {
 
 		window.removeEventListener('DOMContentLoaded', this, true);
 
+		this.applyPlatformDefaultPrefs();
 		this.overrideExtensionsPreInit();
 	},
 	preInitialized : false,
@@ -309,6 +318,28 @@ var InformationalTabService = {
 				break;
 		}
 		this.setPref('extensions.informationaltab.prefsVersion', this.kPREF_VERSION);
+	},
+ 
+	applyPlatformDefaultPrefs : function ITS_applyPlatformDefaultPrefs() 
+	{
+		var OS = this.XULAppInfo.OS;
+		var processed = {};
+		var originalKeys = this.getDescendant('extensions.informationaltab.platform.'+OS);
+		for (let i = 0, maxi = originalKeys.length; i < maxi; i++)
+		{
+			let originalKey = originalKeys[i];
+			let key = originalKey.replace('platform.'+OS+'.', '');
+			this.setDefaultPref(key, this.getPref(originalKey));
+			processed[key] = true;
+		}
+		originalKeys = this.getDescendant('extensions.informationaltab.platform.default');
+		for (let i = 0, maxi = originalKeys.length; i < maxi; i++)
+		{
+			let originalKey = originalKeys[i];
+			let key = originalKey.replace('platform.default.', '');
+			if (!(key in processed))
+				this.setDefaultPref(key, this.getPref(originalKey));
+		}
 	},
  
 	initTabBrowser : function(aTabBrowser) 

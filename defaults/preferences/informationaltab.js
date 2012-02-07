@@ -19,7 +19,12 @@ pref("extensions.informationaltab.thumbnail.scrolled", true);
 // 0 = only in status bar, 1 = only in each tab, 2 = both
 pref("extensions.informationaltab.progress.mode", 1);
 pref("extensions.informationaltab.progress.position", "top");
-pref("extensions.informationaltab.progress.style", "lighting-green");
+// default, lighting-green, lighting-blue
+// pref("extensions.informationaltab.progress.style", "lighting-green");
+pref("extensions.informationaltab.platform.default.progress.style", "default");
+pref("extensions.informationaltab.platform.WINNT.progress.style", "lighting-green");
+pref("extensions.informationaltab.platform.Darwin.progress.style", "lighting-green");
+pref("extensions.informationaltab.platform.Linux.progress.style", "default");
 
 pref("extensions.informationaltab.unread.enabled", true);
 // 0 = just selected, 1 = scrolled
