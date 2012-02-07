@@ -397,27 +397,27 @@ var InformationalTabService = {
 		// https://addons.mozilla.org/firefox/addon/dragndrop-toolbars/
 		if ('globDndtb' in window && globDndtb.setTheStuff && this.isGecko2) {
 			let self = this;
-			let reinitTabbar = function() {
+			let reinitTabbar = function ITS_callback_reinitTabbar() {
 					if (!self.initialized)
 						return;
 					self.destroyTabbrowser(gBrowser);
-					window.setTimeout(function() {
+					window.setTimeout(function ITS_callback_reinitTabbarWithDelay() {
 						self.initTabbrowser(gBrowser);
 					}, 100);
 				};
 			globDndtb.__informationaltab__setOrder = globDndtb.setOrder;
-			globDndtb.setOrder = function() {
+			globDndtb.setOrder = function ITS_globDndtb_setOrder() {
 				reinitTabbar();
 				return this.__informationaltab__setOrder.apply(this, arguments);
 			};
 			globDndtb.__informationaltab__setTheStuff = globDndtb.setTheStuff;
-			globDndtb.setTheStuff = function() {
+			globDndtb.setTheStuff = function ITS_globDndtb_setTheStuff() {
 				var result = this.__informationaltab__setTheStuff.apply(this, arguments);
 				if (this.dndObserver &&
 					this.dndObserver.onDrop &&
 					!this.dndObserver.__informationaltab__onDrop) {
 					this.dndObserver.__informationaltab__onDrop = this.dndObserver.onDrop;
-					this.dndObserver.onDrop = function(aEvent, aDropData, aSession) {
+					this.dndObserver.onDrop = function ITS_globDndtb_onDrop(aEvent, aDropData, aSession) {
 						var toolbar = document.getElementById(aDropData.data);
 						if (toolbar.getElementsByAttribute('id', 'tabbrowser-tabs').length)
 							reinitTabbar();
@@ -463,14 +463,14 @@ var InformationalTabService = {
 		var view = aWindow.treeView;
 
 		view.__informationaltab__getCellText = view.getCellText;
-		view.getCellText = function(aIndex, aColumn) {
+		view.getCellText = function ITS_treeview_getCellText(aIndex, aColumn) {
 			if (aColumn.id == kTHUMBNAIL)
 				return null;
 			return this.__informationaltab__getCellText(aIndex, aColumn);
 		};
 
 		view.__informationaltab__getCellProperties = view.getCellProperties;
-		view.getCellProperties = function(aIndex, aColumn, aProperties) {
+		view.getCellProperties = function ITS_treeview_getCellProperties(aIndex, aColumn, aProperties) {
 			if (aColumn.id == kTHUMBNAIL) {
 				aProperties.AppendElement(this._getAtom(kTHUMBNAIL));
 				return;
@@ -479,14 +479,14 @@ var InformationalTabService = {
 		};
 
 		view.__informationaltab__getRowProperties = view.getRowProperties;
-		view.getRowProperties = function(aIndex, aProperties) {
+		view.getRowProperties = function ITS_treeview_getRowProperties(aIndex, aProperties) {
 			if (aWindow.gTreeData && aWindow.gTreeData[aIndex].parent)
 				aProperties.AppendElement(this._getAtom(kTHUMBNAIL));
 			this.__informationaltab__getRowProperties(aIndex, aProperties);
 		};
 
 		view.__informationaltab__getImageSrc = view.getImageSrc;
-		view.getImageSrc = function(aIndex, aColumn) {
+		view.getImageSrc = function ITS_treeview_getImageSrc(aIndex, aColumn) {
 			if (aColumn.id == kTHUMBNAIL && aWindow.gTreeData)
 				return aWindow.gTreeData[aIndex][kTHUMBNAIL] || null;
 			return this.__informationaltab__getImageSrc(aIndex, aColumn);
@@ -530,7 +530,7 @@ var InformationalTabService = {
 
 		var panel = document.getElementById('informationaltab-tab-thumbnail-panel');
 		var offset = 16;
-		var listener = function(aEvent) {
+		var listener = function ITS_treeview_listener(aEvent) {
 				switch (aEvent.type)
 				{
 					case 'mousemove':
@@ -759,7 +759,7 @@ var InformationalTabService = {
 
 		aTab.setAttribute(this.kTHUMBNAIL_UPDATING, true);
 
-		aTab.updateThumbnailTimer = window.setTimeout(function(aSelf, aTab, aTabBrowser) {
+		aTab.updateThumbnailTimer = window.setTimeout(function ITS_updateThumbnailWithDelay(aSelf, aTab, aTabBrowser) {
 			aSelf.updateThumbnailNow(aTab, aTabBrowser);
 		}, this.thumbnailUpdateDelay, this, aTab, aTabBrowser);
 	},
@@ -922,7 +922,7 @@ var InformationalTabService = {
 			aThis.updateThumbnailNow(tabs.snapshotItem(i), aTabBrowser, aReason);
 		}
 
-		window.setTimeout(function() {
+		window.setTimeout(function ITS_updateAllThumbnailsNowFinishProcess() {
 			if (aThis.hasUpdatingThumbnail(aTabBrowser)) {
 				window.setTimeout(arguments.callee, aThis.thumbnailUpdateDelay);
 				return;
@@ -1027,18 +1027,15 @@ var InformationalTabService = {
 			return;
 
 		var progressBox = progress.parentNode.boxObject;
+		if (!progressBox.width || !progressBox.height)
+			progressBox = label.boxObject;
 
-		if (!progressBox.width && !progressBox.height) {
-			window.setTimeout(function(aSelf) {
-				aSelf.updateProgressStyle(aTab);
-			}, 0, this);
-			return;
-		}
-
-		var key = aTab.boxObject.height+':'+
+		var key = progressBox.width && progressBox.height ?
+				aTab.boxObject.height+':'+
 					(progressBox.screenX - aTab.boxObject.screenX)+':'+
 					(progressBox.screenY - aTab.boxObject.screenY)+':'+
-					this.progressStyle;
+					this.progressStyle :
+				'hidden' ;
 		if (key == progress.getAttribute(this.kLAST_STYLE_KEY)) return;
 		progress.setAttribute(this.kLAST_STYLE_KEY, key);
 
@@ -1109,7 +1106,7 @@ var InformationalTabService = {
 			case 'TabClose':
 				b = this.getTabBrowserFromChild(aEvent.currentTarget);
 				this.destroyTab(aEvent.originalTarget, b);
-				window.setTimeout(function(aSelf, aBrowser) {
+				window.setTimeout(function ITS_onTabCloseWithDelay(aSelf, aBrowser) {
 					aSelf.updateAllThumbnails(aBrowser, aSelf.UPDATE_REFLOW);
 				}, 0, this, b);
 				return;
@@ -1747,7 +1744,7 @@ InformationalTabPrefListener.prototype = {
 				return;
 
 			case 'extensions.treestyletab.tabbar.style':
-				window.setTimeout(function(aTabBrowser) {
+				window.setTimeout(function ITS_onChangeTabbarStyleWithDelay(aTabBrowser) {
 					var tabs = ITS.getTabs(aTabBrowser);
 					for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 					{
