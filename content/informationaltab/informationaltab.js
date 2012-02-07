@@ -81,7 +81,7 @@ var InformationalTabService = {
 		.classes['@mozilla.org/observer-service;1']
 		.getService(Components.interfaces.nsIObserverService), 
  
-	getTabBrowserFromChild : function(aNode) 
+	getTabBrowserFromChild : function ITS_getTabBrowserFromChild(aNode) 
 	{
 		if (!aNode) return null;
 		var b = aNode.ownerDocument.evaluate(
@@ -95,7 +95,7 @@ var InformationalTabService = {
 		return (b && b.tabbrowser) || b;
 	},
  
-	getTabs : function(aTabBrowser) 
+	getTabs : function ITS_getTabs(aTabBrowser) 
 	{
 		return aTabBrowser.ownerDocument.evaluate(
 				'descendant::*[local-name()="tab"]',
@@ -122,7 +122,7 @@ var InformationalTabService = {
 								.QueryInterface(Components.interfaces.nsIXULRuntime);
 	},
 	
-	getTabValue : function(aTab, aKey) 
+	getTabValue : function ITS_getTabValue(aTab, aKey) 
 	{
 		var value = '';
 		try {
@@ -133,7 +133,7 @@ var InformationalTabService = {
 		return value;
 	},
  
-	setTabValue : function(aTab, aKey, aValue) 
+	setTabValue : function ITS_setTabValue(aTab, aKey, aValue) 
 	{
 		if (!aValue) return this.deleteTabValue(aTab, aKey);
 
@@ -147,7 +147,7 @@ var InformationalTabService = {
 		return aValue;
 	},
  
-	deleteTabValue : function(aTab, aKey) 
+	deleteTabValue : function ITS_deleteTabValue(aTab, aKey) 
 	{
 		aTab.removeAttribute(aKey);
 		try {
@@ -160,7 +160,7 @@ var InformationalTabService = {
 	},
  
 	// workaround for http://piro.sakura.ne.jp/latest/blosxom/mozilla/extension/treestyletab/2009-09-29_debug.htm 
-	checkCachedSessionDataExpiration : function(aTab)
+	checkCachedSessionDataExpiration : function ITS_checkCachedSessionDataExpiration(aTab)
 	{
 		var data = aTab.linkedBrowser.__SS_data;
 		if (data &&
@@ -170,18 +170,18 @@ var InformationalTabService = {
 			data._tabStillLoading = false;
 	},
  
-	getLabel : function(aTab) 
+	getLabel : function ITS_getLabel(aTab) 
 	{
 		return document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label');
 	},
-	getLabelBox : function(aTab) 
+	getLabelBox : function ITS_getLabelBox(aTab) 
 	{
 		return document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-stack') || // Mac OS X
 				document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container') || // Tab Mix Plus
 				this.getLabel(aTab);
 	},
   
-	evalInSandbox : function(aCode, aOwner) 
+	evalInSandbox : function ITS_evalInSandbox(aCode, aOwner) 
 	{
 		try {
 			var sandbox = new Components.utils.Sandbox(aOwner || 'about:blank');
@@ -194,7 +194,7 @@ var InformationalTabService = {
   
 /* Initializing */ 
 	
-	preInit : function() 
+	preInit : function ITS_preInit() 
 	{
 		if (this.preInitialized) return;
 		this.preInitialized = true;
@@ -206,7 +206,7 @@ var InformationalTabService = {
 	},
 	preInitialized : false,
  
-	init : function() 
+	init : function ITS_init() 
 	{
 		if (!('gBrowser' in window) || this.initialized) return;
 
@@ -291,7 +291,7 @@ var InformationalTabService = {
 	},
 	
 	kPREF_VERSION : 2,
-	migratePrefs : function() 
+	migratePrefs : function ITS_migratePrefs() 
 	{
 		// migrate old prefs
 		switch (this.getPref('extensions.informationaltab.prefsVersion'))
@@ -342,7 +342,7 @@ var InformationalTabService = {
 		}
 	},
  
-	initTabBrowser : function(aTabBrowser) 
+	initTabBrowser : function ITS_initTabBrowser(aTabBrowser) 
 	{
 		aTabBrowser.addTabsProgressListener(this, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
 
@@ -368,7 +368,7 @@ var InformationalTabService = {
 		}
 	},
  
-	initTab : function(aTab, aTabBrowser) 
+	initTab : function ITS_initTab(aTab, aTabBrowser) 
 	{
 		if (aTab.__informationaltab__eventListener) return;
 
@@ -391,7 +391,7 @@ var InformationalTabService = {
 		aTab.__informationaltab__eventListener = new InformationalTabEventListener(aTab, aTabBrowser);
 	},
  
-	overrideExtensionsPreInit : function() 
+	overrideExtensionsPreInit : function ITS_overrideExtensionsPreInit() 
 	{
 		// DragNDrop Toolbars
 		// https://addons.mozilla.org/firefox/addon/dragndrop-toolbars/
@@ -429,7 +429,7 @@ var InformationalTabService = {
 		}
 	},
  
-	overrideExtensionsOnInitAfter : function() 
+	overrideExtensionsOnInitAfter : function ITS_overrideExtensionsOnInitAfter() 
 	{
 		var addons = [];
 		// CookiePie
@@ -438,7 +438,7 @@ var InformationalTabService = {
 		document.documentElement.setAttribute(this.kCOMPATIBLE_ADDONS, addons.join(' '));
 	},
  
-	overrideSessionRestore : function(aWindow)
+	overrideSessionRestore : function ITS_overrideSessionRestore(aWindow)
 	{
 		aWindow = aWindow.wrappedJSObject || aWindow;
 		var doc = aWindow.document;
@@ -564,7 +564,7 @@ var InformationalTabService = {
 		aWindow.addEventListener('unload', listener, false);
 	},
   
-	destroy : function() 
+	destroy : function ITS_destroy() 
 	{
 		this.destroyTabBrowser(gBrowser);
 
@@ -579,7 +579,7 @@ var InformationalTabService = {
 		this.removePrefListener(this);
 	},
 	
-	destroyTabBrowser : function(aTabBrowser) 
+	destroyTabBrowser : function ITS_destroyTabBrowser(aTabBrowser) 
 	{
 		aTabBrowser.removeTabsProgressListener(this);
 
@@ -605,7 +605,7 @@ var InformationalTabService = {
 		}
 	},
  
-	destroyTab : function(aTab) 
+	destroyTab : function ITS_destroyTab(aTab) 
 	{
 		try {
 			if (aTab.__informationaltab__canvas) {
@@ -629,18 +629,18 @@ var InformationalTabService = {
 		}
 	},
   
-	disableAllFeatures : function() 
+	disableAllFeatures : function ITS_disableAllFeatures() 
 	{
 		this.disabled = true;
 	},
-	enableAllFeatures : function()
+	enableAllFeatures : function ITS_enableAllFeatures()
 	{
 		this.disabled = false;
 	},
   
 /* thumbnail */ 
 	
-	initThumbnail : function(aTab, aTabBrowser) 
+	initThumbnail : function ITS_initThumbnail(aTab, aTabBrowser) 
 	{
 		var canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
 		canvas.setAttribute('class', this.kTHUMBNAIL);
@@ -653,7 +653,7 @@ var InformationalTabService = {
 		this.updateThumbnailNow(aTab, aTabBrowser, this.UPDATE_INIT);
 	},
  
-	insertThumbnailTo : function(aCanvas, aTab, aTabBrowser, aPosition) 
+	insertThumbnailTo : function ITS_insertThumbnailTo(aCanvas, aTab, aTabBrowser, aPosition) 
 	{
 		var container = document.createElement('hbox');
 		container.setAttribute('class', this.kCONTAINER);
@@ -705,7 +705,7 @@ var InformationalTabService = {
 
 		this.initTabContentsOrder(aTab, aTabBrowser, aPosition);
 	},
-	initTabContentsOrder : function(aTab, aTabBrowser, aPosition) 
+	initTabContentsOrder : function ITS_initTabContentsOrder(aTab, aTabBrowser, aPosition) 
 	{
 		var labelBox = this.getLabelBox(aTab);
 
@@ -746,7 +746,7 @@ var InformationalTabService = {
 		}
 	},
  
-	updateThumbnail : function(aTab, aTabBrowser, aReason) 
+	updateThumbnail : function ITS_updateThumbnail(aTab, aTabBrowser, aReason) 
 	{
 		if (!('__informationaltab__lastReason' in aTab)) {
 			aTab,__informationaltab__lastReason = 0;
@@ -763,7 +763,7 @@ var InformationalTabService = {
 			aSelf.updateThumbnailNow(aTab, aTabBrowser);
 		}, this.thumbnailUpdateDelay, this, aTab, aTabBrowser);
 	},
-	updateThumbnailNow : function(aTab, aTabBrowser, aReason, aImage)
+	updateThumbnailNow : function ITS_updateThumbnailNow(aTab, aTabBrowser, aReason, aImage)
 	{
 		if (!aReason) {
 			aReason = aTab.__informationaltab__lastReason;
@@ -902,7 +902,7 @@ var InformationalTabService = {
 		aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
 	},
  
-	updateAllThumbnails : function(aTabBrowser, aReason) 
+	updateAllThumbnails : function ITS_updateAllThumbnails(aTabBrowser, aReason) 
 	{
 		if (this.disabled ||
 			aTabBrowser.updateAllThumbnailsTimer ||
@@ -911,7 +911,7 @@ var InformationalTabService = {
 
 		aTabBrowser.updateAllThumbnailsTimer = window.setTimeout(this.updateAllThumbnailsNow, this.thumbnailUpdateDelay, aTabBrowser, aReason, this);
 	},
-	updateAllThumbnailsNow : function(aTabBrowser, aReason, aThis)
+	updateAllThumbnailsNow : function ITS_updateAllThumbnailsNow(aTabBrowser, aReason, aThis)
 	{
 		aThis = aThis || this;
 
@@ -931,7 +931,7 @@ var InformationalTabService = {
 		}, aThis.thumbnailUpdateDelay);
 	},
  
-	repositionThumbnail : function(aTabBrowser) 
+	repositionThumbnail : function ITS_repositionThumbnail(aTabBrowser) 
 	{
 		if (this.disabled) return;
 
@@ -950,7 +950,7 @@ var InformationalTabService = {
 		}
 	},
  
-	hasUpdatingThumbnail : function(aTabBrowser) 
+	hasUpdatingThumbnail : function ITS_hasUpdatingThumbnail(aTabBrowser) 
 	{
 		return aTabBrowser.ownerDocument.evaluate(
 					'descendant::*[@'+this.kTHUMBNAIL_UPDATING+'="true"]',
@@ -961,7 +961,7 @@ var InformationalTabService = {
 				).booleanValue;
 	},
  
-	updateTabStyle : function(aTab) 
+	updateTabStyle : function ITS_updateTabStyle(aTab) 
 	{
 		if (this.disabled) return;
 
@@ -969,7 +969,7 @@ var InformationalTabService = {
 		this.updateProgressStyle(aTab);
 	},
  
-	updateTabBoxStyle : function(aTab) 
+	updateTabBoxStyle : function ITS_updateTabBoxStyle(aTab) 
 	{
 		var tabContent = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-content');
 		var nodes = Array.slice(tabContent ? tabContent.childNodes : document.getAnonymousNodes(aTab) );
@@ -1019,7 +1019,7 @@ var InformationalTabService = {
 		}
 	},
  
-	updateProgressStyle : function(aTab) 
+	updateProgressStyle : function ITS_updateProgressStyle(aTab) 
 	{
 		var label = this.getLabel(aTab);
 		var progress = document.getAnonymousElementByAttribute(label, 'class', 'tab-progress');
@@ -1076,7 +1076,7 @@ var InformationalTabService = {
   
 /* Event Handling */ 
 	
-	handleEvent : function(aEvent) 
+	handleEvent : function ITS_handleEvent(aEvent) 
 	{
 		var b;
 		switch (aEvent.type)
@@ -1150,7 +1150,7 @@ var InformationalTabService = {
 		}
 	},
 	
-	isTabRead : function(aTab, aEventType) 
+	isTabRead : function ITS_isTabRead(aTab, aEventType) 
 	{
 		if (!aTab.selected) return false;
 		if (aTab.linkedBrowser.contentDocument.contentType.toLowerCase().indexOf('image/') == 0) return true;
@@ -1166,7 +1166,7 @@ var InformationalTabService = {
 		}
 	},
  
-	isFrameScrollable : function(aFrame) 
+	isFrameScrollable : function ITS_isFrameScrollable(aFrame) 
 	{
 		if (!aFrame) return false;
 
@@ -1182,7 +1182,7 @@ var InformationalTabService = {
 		return false;
 	},
   
-	observe : function(aSubject, aTopic, aData) 
+	observe : function ITS_observe(aSubject, aTopic, aData) 
 	{
 		switch (aTopic)
 		{
@@ -1235,7 +1235,7 @@ var InformationalTabService = {
 		}
 	},
 	
-	adjustTabstrip : function(aTabBrowser) 
+	adjustTabstrip : function ITS_adjustTabstrip(aTabBrowser) 
 	{
 		var container = aTabBrowser.mTabContainer;
 		container.mTabClipWidth = this.getPref('browser.tabs.tabClipWidth');
@@ -1256,7 +1256,7 @@ var InformationalTabService = {
 		'browser.tabs'
 	],
  
-	onChangePref : function(aPrefName) 
+	onChangePref : function ITS_onChangePref(aPrefName) 
 	{
 		var value = this.getPref(aPrefName);
 		switch (aPrefName)
@@ -1455,7 +1455,7 @@ var InformationalTabService = {
 				break;
 		}
 	},
-	overrideTabClipWidth : function(aWidth)
+	overrideTabClipWidth : function ITS_overrideTabClipWidth(aWidth)
 	{
 		if (!this.getPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth'))
 			this.setPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabClipWidth'));
@@ -1465,7 +1465,7 @@ var InformationalTabService = {
 	updatingTabWidthPrefs : false,
   
 /* nsIWebProgressListener */ 
-	onProgressChange : function(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress)
+	onProgressChange : function ITS_onProgressChange(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress)
 	{
 		// ignore not for tab
 		if (!(aWebProgress instanceof Components.interfaces.nsIDOMElement))
@@ -1500,7 +1500,7 @@ var InformationalTabService = {
 		if (percentage && shouldUpdateStyle)
 			this.updateProgressStyle(tab);
 	},
-	updateProgress : function(aTarget, aAttr, aPercentage)
+	updateProgress : function ITS_updateProgress(aTarget, aAttr, aPercentage)
 	{
 		if (aPercentage > 0 && aPercentage < 100) {
 			aTarget.setAttribute(aAttr, aPercentage);
@@ -1509,9 +1509,9 @@ var InformationalTabService = {
 			aTarget.removeAttribute(aAttr);
 		}
 	},
-	onStatusChange : function() {},
-	onSecurityChange : function() {},
-	onStateChange : function(aWebProgress, aRequest, aStateFlags, aStatus)
+	onStatusChange : function ITS_onStatusChange() {},
+	onSecurityChange : function ITS_onSecurityChange() {},
+	onStateChange : function ITS_onStateChange(aWebProgress, aRequest, aStateFlags, aStatus)
 	{
 		// ignore not for tab
 		if (!(aWebProgress instanceof Components.interfaces.nsIDOMElement))
@@ -1535,7 +1535,7 @@ var InformationalTabService = {
 				this.overrideSessionRestore(tab.linkedBrowser.contentWindow);
 		}
 	},
-	onLocationChange : function(aWebProgress, aRequest, aLocation)
+	onLocationChange : function ITS_onLocationChange(aWebProgress, aRequest, aLocation)
 	{
 		// ignore not for tab
 		if (!(aWebProgress instanceof Components.interfaces.nsIDOMElement))
@@ -1547,8 +1547,8 @@ var InformationalTabService = {
 	},
 
 /* nsIWebProgressListener2 */
-	onProgressChange64 : function() {},
-	onRefreshAttempted : function() { return true; },
+	onProgressChange64 : function ITS_onProgressChange64() {},
+	onRefreshAttempted : function ITS_onRefreshAttempted() { return true; },
 
 /* nsISupports */
 	QueryInterface : function (aIID)
@@ -1575,7 +1575,7 @@ function InformationalTabEventListener(aTab, aTabBrowser)
 InformationalTabEventListener.prototype = {
 	mTab : null,
 	mTabBrowser : null,
-	init : function(aTab, aTabBrowser)
+	init : function ITEL_init(aTab, aTabBrowser)
 	{
 		this.mTab = aTab;
 		this.mTabBrowser = aTabBrowser;
@@ -1586,7 +1586,7 @@ InformationalTabEventListener.prototype = {
 		InformationalTabService.addPrefListener(this);
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.animation');
 	},
-	destroy : function()
+	destroy : function ITEL_destroy()
 	{
 		if (this.watchingRedrawEvent)
 			this.mTab.linkedBrowser.removeEventListener('MozAfterPaint', this, false);
@@ -1597,7 +1597,7 @@ InformationalTabEventListener.prototype = {
 		delete this.mTab;
 		delete this.mTabBrowser;
 	},
-	handleEvent: function(aEvent)
+	handleEvent: function ITEL_handleEvent(aEvent)
 	{
 		const ITS = InformationalTabService;
 		switch (aEvent.type)
@@ -1642,7 +1642,7 @@ InformationalTabEventListener.prototype = {
 //		'extensions.informationaltab.thumbnail.partial',
 		'extensions.informationaltab.thumbnail.animation'
 	],
- 	observe : function(aSubject, aTopic, aPrefName)
+ 	observe : function ITEL_observe(aSubject, aTopic, aPrefName)
 	{
 		if (aTopic != 'nsPref:changed') return;
 		const ITS = InformationalTabService;
@@ -1675,17 +1675,17 @@ function InformationalTabBrowserEventListener(aTabBrowser)
 }
 InformationalTabBrowserEventListener.prototype = {
 	mTabBrowser : null,
-	init : function(aTabBrowser)
+	init : function ITS_init(aTabBrowser)
 	{
 		this.mTabBrowser = aTabBrowser;
 		window.addEventListener('resize', this, false);
 	},
-	destroy : function()
+	destroy : function ITS_destroy()
 	{
 		window.removeEventListener('resize', this, false);
 		delete this.mTabBrowser;
 	},
-	handleEvent: function(aEvent)
+	handleEvent: function ITS_handleEvent(aEvent)
 	{
 		const ITS = InformationalTabService;
 		switch (aEvent.type)
@@ -1703,7 +1703,7 @@ function InformationalTabPrefListener(aTabBrowser)
 }
 InformationalTabPrefListener.prototype = {
 	mTabBrowser : null,
-	init : function(aTabBrowser)
+	init : function ITPL_init(aTabBrowser)
 	{
 		this.mTabBrowser = aTabBrowser;
 		InformationalTabService.addPrefListener(this);
@@ -1712,7 +1712,7 @@ InformationalTabPrefListener.prototype = {
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.max');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.pow');
 	},
-	destroy : function()
+	destroy : function ITPL_destroy()
 	{
 		InformationalTabService.removePrefListener(this);
 		delete this.mTabBrowser;
@@ -1721,7 +1721,7 @@ InformationalTabPrefListener.prototype = {
 		'extensions.informationaltab',
 		'extensions.treestyletab'
 	],
- 	observe : function(aSubject, aTopic, aPrefName)
+ 	observe : function ITPL_observe(aSubject, aTopic, aPrefName)
 	{
 		if (aTopic != 'nsPref:changed') return;
 		const ITS = InformationalTabService;
