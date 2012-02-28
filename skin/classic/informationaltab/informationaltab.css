@@ -36,24 +36,27 @@ label.tab-text > .tab-label-inner-box > stack > * > spacer,
 }
 
 .tab-progress-box {
+	box-pack: start;
 	-moz-box-pack: start;
 }
 
 .tab-progress {
-	height: 3px;
-	min-height: 3px;
-	max-height: 3px;
-	min-width: 0;
+	appearance: none;
 	-moz-appearance: none;
 	border: none;
+	height: 3px;
+	margin: -3px 0 0;
+	max-height: 3px;
+	min-height: 3px;
+	min-width: 0;
 	outline: none;
 
 	position: relative;
-	margin: -3px 0 0;
 }
 
 .tab-progress > .progress-bar,
 .tab-progress > .progress-remainder {
+	appearance: none;
 	-moz-appearance: none;
 }
 
@@ -63,6 +66,7 @@ label.tab-text > .tab-label-inner-box > stack > * > spacer,
 
 
 :root[informationaltab-progressbar-style~="bottom"] .tab-progress-box {
+	box-pack: end;
 	-moz-box-pack: end;
 }
 
@@ -74,6 +78,7 @@ label.tab-text > .tab-label-inner-box > stack > * > spacer,
 :root[informationaltab-progressbar-style~="lighting-blue"]
   .tab-progress > .progress-bar {
 	background: #3283ca url("lighting-progressbar-blue.png") no-repeat right;
+	box-shadow: 0 0 2px #6bd1ff;
 	-moz-box-shadow: 0 0 2px #6bd1ff;
 }
 
@@ -85,6 +90,7 @@ label.tab-text > .tab-label-inner-box > stack > * > spacer,
 :root[informationaltab-progressbar-style~="lighting-green"]
   .tab-progress > .progress-bar {
 	background: #4fca32 url("lighting-progressbar-green.png") no-repeat right;
+	box-shadow: 0 0 2px #7ffa52;
 	-moz-box-shadow: 0 0 2px #7ffa52;
 }
 
