@@ -748,6 +748,14 @@ var InformationalTabService = {
  
 	updateThumbnail : function ITS_updateThumbnail(aTab, aTabBrowser, aReason) 
 	{
+		// compatibility for Suspend Tab (https://github.com/piroor/suspendtab)
+		if (
+			'SuspendTab' in window &&
+			SuspendTab.isSuspended(aTab) &&
+			!(aReason & this.UPDATE_RESTORING)
+			)
+			return;
+
 		if (!('__informationaltab__lastReason' in aTab)) {
 			aTab,__informationaltab__lastReason = 0;
 		}
