@@ -10,7 +10,7 @@ pref("extensions.informationaltab.thumbnail.position", 1);
 pref("extensions.informationaltab.thumbnail.size_mode", 0);
 pref("extensions.informationaltab.thumbnail.max",       45);
 pref("extensions.informationaltab.thumbnail.pow",       20);
-pref("extensions.informationaltab.thumbnail.update_delay", 10);
+pref("extensions.informationaltab.thumbnail.update_delay", 50);
 pref("extensions.informationaltab.thumbnail.fix_aspect_ratio", true);
 pref("extensions.informationaltab.thumbnail.fixed_aspect_ratio", "0.75");
 pref("extensions.informationaltab.thumbnail.animation", false);

@@ -1608,25 +1608,18 @@ InformationalTabEventListener.prototype = {
 		switch (aEvent.type)
 		{
 			case 'scroll':
-				if (aEvent.originalTarget.toString().indexOf('Document') < 0 ||
+				let node = aEvent.originalTarget;
+				if (node instanceof Components.interfaces.nsIDOMElement ||
 					!ITS.isTabRead(this.mTab, aEvent.type))
 					return;
 				this.mTab.removeAttribute(ITS.kUNREAD);
 				if (ITS.thumbnailScrolled) {
-					let node = aEvent.originalTarget;
-					let viewPortBox, nodeBox;
-					if (
-						!(node instanceof Components.interfaces.nsIDOMElement) /* ||
-						(
-							(viewPortBox = window['piro.sakura.ne.jp'].boxObject.getBoxObjectFor(this.mTab.linkedBrowser)) &&
-							(nodeBox = window['piro.sakura.ne.jp'].boxObject.getBoxObjectFor(node)) &&
-							viewPortBox.screenX <= nodeBox.screenX + nodeBox.width &&
-							viewPortBox.screenX + viewPortBox.width >= nodeBox.screenX &&
-							viewPortBox.screenY <= nodeBox.screenY + nodeBox.height &&
-							viewPortBox.screenY + viewPortBox.height >= nodeBox.screenY
-						) */
-						)
-						ITS.updateThumbnail(this.mTab, this.mTabBrowser, ITS.UPDATE_SCROLL);
+					if (this.mUpdateThumbnailTimer)
+						window.clearTimeout(this.mUpdateThumbnailTimer);
+					this.mUpdateThumbnailTimer = window.setTimeout(function(aSelf) {
+						ITS.updateThumbnail(aSelf.mTab, aSelf.mTabBrowser, ITS.UPDATE_SCROLL);
+						aSelf.mUpdateThumbnailTimer = null;
+					}, ITS.thumbnailUpdateDelay, this);
 				}
 				break;
 
@@ -1638,7 +1631,12 @@ InformationalTabEventListener.prototype = {
 				break;
 
 			case 'MozAfterPaint':
-				ITS.updateThumbnail(this.mTab, this.mTabBrowser, ITS.UPDATE_REPAINT);
+				if (this.mUpdateThumbnailTimer)
+					window.clearTimeout(this.mUpdateThumbnailTimer);
+				this.mUpdateThumbnailTimer = window.setTimeout(function(aSelf) {
+					ITS.updateThumbnail(aSelf.mTab, aSelf.mTabBrowser, ITS.UPDATE_REPAINT);
+					aSelf.mUpdateThumbnailTimer = null;
+				}, ITS.thumbnailUpdateDelay, this);
 				break;
 		}
 	},
