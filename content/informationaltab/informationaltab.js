@@ -729,8 +729,8 @@ var InformationalTabService = {
 				return parseInt(aA.getAttribute('ordinal') || 0) - parseInt(aB.getAttribute('ordinal') || 0);
 			});
 		if (isTreeAvailable &&
-			TreeStyleTabService.getTreePref('tabbar.position') == 'right' &&
-			TreeStyleTabService.getTreePref('tabbar.invertTabContents')) {
+			this.getPref('extensions.treestyletab.tabbar.position') == 'right' &&
+			this.getPref('extensions.treestyletab.tabbar.invertTabContents')) {
 			container.setAttribute('ordinal',
 				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(orderedNodes[orderedNodes.length-1].getAttribute('ordinal')) + 5 :
 				(aPosition == this.POSITION_BEFORE_LABEL) ? parseInt(labelBox.getAttribute('ordinal')) + 5 :
