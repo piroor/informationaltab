@@ -494,20 +494,15 @@ var InformationalTabService = {
 
 		var style = doc.createElementNS('http://www.w3.org/1999/xhtml', 'style');
 		style.setAttribute('type', 'text/css');
-		style.appendChild(doc.createTextNode(<![CDATA[
-			@namespace url("%XULNS%");
-			treechildren::-moz-tree-image(%THUMBNAIL%):not(::-moz-tree-image(container)) {
-				width: %WIDTH%px;
-				height: %HEIGHT%px;
-			}
-			treechildren::-moz-tree-row(%THUMBNAIL%) {
-				height: %HEIGHT%px;
-			}
-		]]>.toString()
-			.replace(/%XULNS%/g, XULNS)
-			.replace(/%THUMBNAIL%/g, kTHUMBNAIL)
-			.replace(/%WIDTH%/g, width)
-			.replace(/%HEIGHT%/g, height)
+		style.appendChild(doc.createTextNode(
+			'@namespace url("' + XULNS + '");\n' +
+			'treechildren::-moz-tree-image(' + kTHUMBNAIL + '):not(::-moz-tree-image(container)) {\n' +
+			'  width: ' + width + 'px;\n' +
+			'  height: ' + height + 'px;\n' +
+			'}\n' +
+			'treechildren::-moz-tree-row(' + kTHUMBNAIL + ') {\n' +
+			'  height: ' + height + 'px;\n' +
+			'}'
 		));
 		doc.getElementsByTagName('head')[0].appendChild(style);
 
