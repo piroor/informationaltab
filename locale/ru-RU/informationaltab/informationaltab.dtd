@@ -3,7 +3,7 @@
 
 <!ENTITY config.tabs.thumbnail "Миниатюры страниц">
 
-<!ENTITY config.thumbnail.enabled "Показывать минитюры страниц в каждой вкладке">
+<!ENTITY config.thumbnail.enabled "Показывать миниатюры страниц на каждой вкладке">
 <!ENTITY config.thumbnail.animation "Перерисовывать миниатюры в реальном времени для анимаций">
 <!ENTITY config.thumbnail.scrolled  "Отображать в миниатюрах прокрутку страниц">
 <!ENTITY config.thumbnail.full      "Показывать полную страницу">
@@ -39,17 +39,17 @@
 
 <!ENTITY config.tabs.progress "Индикация загрузки">
 
-<!ENTITY config.progress.mode.caption   "Отображать шкалу индикации загрузки в">
+<!ENTITY config.progress.mode.caption   "Показывать состояние загрузки с помощью полосы прогресса в">
 <!ENTITY config.progress.mode.statusbar "Строке состояния">
 <!ENTITY config.progress.mode.tab       "Каждой вкладке">
 <!ENTITY config.progress.mode.both      "Строке состояния и каждой вкладке">
-<!ENTITY config.progress.mode.check     "Indicate loading statys by progress meter in each tab">
+<!ENTITY config.progress.mode.check     "Показывать состояние загрузки с помощью полосы прогресса на каждой вкладке">
 
-<!ENTITY config.progress.position.caption "Позиция индикации загрузки в вкладке">
+<!ENTITY config.progress.position.caption "Позиция полосы прогресса на вкладке">
 <!ENTITY config.progress.position.top     "Сверху (имитация стиля Firefox 3.7)">
-<!ENTITY config.progress.position.bottom  "Перед меткой">
+<!ENTITY config.progress.position.bottom  "Под заголовком вкладки">
 
-<!ENTITY config.progress.style.caption        "Стиль индикации загрузки в вкладке">
+<!ENTITY config.progress.style.caption        "Стиль полосы прогресса на вкладке">
 <!ENTITY config.progress.style.default        "По умолчанию">
 <!ENTITY config.progress.style.lighting-blue  "Синий">
 <!ENTITY config.progress.style.lighting-green "Зеленый">
@@ -59,7 +59,7 @@
 
 <!ENTITY config.unread.enabled "Выделять непрочитанные вкладки">
 
-<!ENTITY config.unread.readMethod.caption "Определять вкладки &quot;прочитанными&quot; когда">
+<!ENTITY config.unread.readMethod.caption "Делать вкладки &quot;прочитанными&quot;, когда">
 <!ENTITY config.unread.readMethod.0       "Вкладка была выбрана">
 <!ENTITY config.unread.readMethod.1       "Содержимое вкладки было пролистано">
 
@@ -67,14 +67,14 @@
 <!ENTITY config.tabs.closebutton "Кнопка закрытия">
 
 <!ENTITY config.closebutton.mode.caption "Кнопки закрытия в вкладках">
-<!ENTITY config.closebutton.mode.0   "Показывать кнопку закрытия только в активной вкладке">
-<!ENTITY config.closebutton.mode.1   "Показывать кнопки закрытия во всех вкладках (по умолчанию)">
+<!ENTITY config.closebutton.mode.0   "Показывать кнопку закрытия только на активной вкладке">
+<!ENTITY config.closebutton.mode.1   "Показывать кнопки закрытия на всех вкладках (по умолчанию)">
 <!ENTITY config.closebutton.mode.2   "Не показывать кнопки закрытия вкладок">
-<!ENTITY config.closebutton.mode.3   "Показывать одну кнопку закрытия в конце панели вкладок(в стиле Firefox 1.5)">
+<!ENTITY config.closebutton.mode.3   "Показывать одну кнопку закрытия в конце панели вкладок (в стиле Firefox 1.5)">
 
-<!ENTITY config.closebutton.force_show "Показывать кнопки закрытия, даже если вкладки слишком узкие для отображения кнопок.">
+<!ENTITY config.closebutton.force_show "Показывать кнопки закрытия, даже если вкладки слишком узкие для отображения кнопок">
 
-<!ENTITY config.close_buttons.force_show.last_tab.caption "Кнопка закрытия для единственной вкладки">
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Кнопка закрытия на единственной вкладке">
 <!ENTITY config.close_buttons.force_show.last_tab.0       "Показывать только если вкладка может быть закрыта">
 <!ENTITY config.close_buttons.force_show.last_tab.2       "Показывать всегда (в стиле Firefox 3.0)">
 <!ENTITY config.close_buttons.force_show.last_tab.1       "Скрывать всегда (в стиле Firefox 3.5)">
