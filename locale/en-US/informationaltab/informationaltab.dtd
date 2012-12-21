@@ -43,7 +43,7 @@
 <!ENTITY config.progress.mode.statusbar "the Status Bar">
 <!ENTITY config.progress.mode.tab       "Each Tab">
 <!ENTITY config.progress.mode.both      "both Status Bar and Each Tab">
-<!ENTITY config.progress.mode.check     "Indicate loading statys by progress meter in each tab">
+<!ENTITY config.progress.mode.check     "Indicate loading status by progress meter in each tab">
 
 <!ENTITY config.progress.position.caption "Position of progress bar in tab">
 <!ENTITY config.progress.position.top     "Top (Firefox 3.7 mockup style)">
@@ -72,7 +72,7 @@
 <!ENTITY config.closebutton.mode.2   "Don’t show any close buttons">
 <!ENTITY config.closebutton.mode.3   "Show a single close button at the end of the tab bar (Firefox 1.5 style)">
 
-<!ENTITY config.closebutton.force_show "Show close buttons even if there are too narrow tabs to show buttons.">
+<!ENTITY config.closebutton.force_show "Show close buttons even if there are too narrow tabs to show buttons">
 
 <!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the last tab">
 <!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the last tab can be closed">
