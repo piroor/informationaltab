@@ -9,7 +9,8 @@
                    em:creator="YUKI &quot;Piro&quot; Hiroshi"
                    em:description="Provides thumbnail, progress meter, or others to each tab."
                    em:homepageURL="http://piro.sakura.ne.jp/xul/informationaltab/"
-                   em:optionsURL="chrome://informationaltab/content/config.xul">
+                   em:optionsURL="chrome://informationaltab/content/config.xul"
+                   em:type="2">
 <!--
                    em:iconURL=""
 -->
