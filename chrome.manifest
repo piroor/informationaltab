@@ -1,16 +1,16 @@
-content	informationaltab	jar:chrome/informationaltab.jar!/content/informationaltab/
+content	informationaltab	content/informationaltab/
 
 overlay	chrome://browser/content/browser.xul	chrome://informationaltab/content/informationaltab.xul
 
-locale	informationaltab	en-US	jar:chrome/informationaltab.jar!/locale/en-US/informationaltab/
-locale	informationaltab	ja	jar:chrome/informationaltab.jar!/locale/ja/informationaltab/
-locale	informationaltab	hu-HU	jar:chrome/informationaltab.jar!/locale/hu-HU/informationaltab/
-locale	informationaltab	nl-NL	jar:chrome/informationaltab.jar!/locale/nl-NL/informationaltab/
-locale	informationaltab	it-IT	jar:chrome/informationaltab.jar!/locale/it-IT/informationaltab/
-locale	informationaltab	es-ES	jar:chrome/informationaltab.jar!/locale/es-ES/informationaltab/
-locale	informationaltab	ru-RU	jar:chrome/informationaltab.jar!/locale/ru-RU/informationaltab/
-locale	informationaltab	pl	jar:chrome/informationaltab.jar!/locale/pl/informationaltab/
-locale	informationaltab	zh-CN	jar:chrome/informationaltab.jar!/locale/zh-CN/informationaltab/
-locale	informationaltab	da-DK	jar:chrome/informationaltab.jar!/locale/da-DK/informationaltab/
+locale	informationaltab	en-US	locale/en-US/informationaltab/
+locale	informationaltab	ja	locale/ja/informationaltab/
+locale	informationaltab	hu-HU	locale/hu-HU/informationaltab/
+locale	informationaltab	nl-NL	locale/nl-NL/informationaltab/
+locale	informationaltab	it-IT	locale/it-IT/informationaltab/
+locale	informationaltab	es-ES	locale/es-ES/informationaltab/
+locale	informationaltab	ru-RU	locale/ru-RU/informationaltab/
+locale	informationaltab	pl	locale/pl/informationaltab/
+locale	informationaltab	zh-CN	locale/zh-CN/informationaltab/
+locale	informationaltab	da-DK	locale/da-DK/informationaltab/
 
-skin	informationaltab	classic/1.0	jar:chrome/informationaltab.jar!/skin/classic/informationaltab/
+skin	informationaltab	classic/1.0	skin/classic/informationaltab/

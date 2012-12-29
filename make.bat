@@ -1,3 +1,3 @@
 copy buildscript\makexpi.sh .\
-bash makexpi.sh informationaltab version=0
+bash makexpi.sh -n informationaltab -o
 del makexpi.sh
