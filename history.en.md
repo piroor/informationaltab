@@ -1,5 +1,7 @@
 # History
 
+ - master/HEAD
+   * Modified: "jar" archive is no longer included.
  - 4.0.2012122901
    * Works on Nightly 20.0a1.
  - 0.4.2012111001
