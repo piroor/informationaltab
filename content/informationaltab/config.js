@@ -16,13 +16,10 @@ function init()
 		progressCheck.setAttribute('hidden', true);
 	}
 
-	var thumbnailMinSize = Components.utils.evalInSandbox(
-		Components.classes['@mozilla.org/intl/stringbundle;1']
+	var thumbnailMinSize = parseInt(Components.classes['@mozilla.org/intl/stringbundle;1']
 			.getService(Components.interfaces.nsIStringBundleService)
 			.createBundle('chrome://informationaltab/skin/tabstyle.properties')
-			.GetStringFromName('thumbnail_min_size'),
-		new Components.utils.Sandbox('about:blank')
-	);
+			.GetStringFromName('thumbnail_min_size'));
 	document.getElementById('extensions.informationaltab.thumbnail.max-textbox').setAttribute('min', thumbnailMinSize);
 }
 
