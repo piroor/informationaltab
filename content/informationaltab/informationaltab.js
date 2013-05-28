@@ -804,7 +804,7 @@ var InformationalTabService = {
 			var canvasH = Math.floor((aspectRatio > 1) ? (size / aspectRatio) : size );
 
 			var isBlank = (window.isBlankPageURL ? isBlankPageURL(aTab.linkedBrowser.currentURI.spec) : (aTab.linkedBrowser.currentURI.spec == 'about:blank')) || // BarTab
-						this.isTabRestoring(aTab); // Firefox 4
+						this.isTabNeedToBeRestored(aTab); // Firefox 4
 
 			var imageURL = aImage ? aImage.src : this.getTabValue(aTab, this.kTHUMBNAIL) ;
 			if (imageURL && isBlank)
@@ -905,13 +905,13 @@ var InformationalTabService = {
 
 		aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
 	},
-	isTabRestoring: function(aTab)
+	isTabNeedToBeRestored: function(aTab)
 	{
 		var browser = aTab.linkedBrowser;
 		// Firefox 25 and later. See: https://bugzilla.mozilla.org/show_bug.cgi?id=867142
 		if (this.TabRestoreStates &&
 			this.TabRestoreStates.has(browser))
-			return this.TabRestoreStates.isRestoring(browser);
+			return this.TabRestoreStates.isNeedsRestore(browser);
 
 		return browser.__SS_restoreState == 1;
 	},
