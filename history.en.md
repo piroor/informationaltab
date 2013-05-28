@@ -1,6 +1,7 @@
 # History
 
  - master/HEAD
+   * Improved: Frequency for re-rendering of thumbnails in tabs by changed preferences becomes customizable and throttled. You can change the interval by a secret preference "extensions.informationaltab.thumbnail.update_all_delay".
    * Modified: "jar" archive is no longer included.
    * Modified: Update codes around [session store API](http://dutherenverseauborddelatable.wordpress.com/2013/05/23/add-on-breakage-continued-list-of-add-ons-that-will-probably-be-affected/).
    * ru locale is updated by Infocatcher. Thanks!
