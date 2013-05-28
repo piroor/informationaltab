@@ -2,6 +2,7 @@
 
  - master/HEAD
    * jarファイルを含めない形のパッケージングに変更
+   * [セッション保存APIの仕様変更](http://dutherenverseauborddelatable.wordpress.com/2013/05/23/add-on-breakage-continued-list-of-add-ons-that-will-probably-be-affected/)に追従
  - 4.0.2012122901
    * Nightly 20.0a1に対応
  - 0.4.2012111001
