@@ -3,6 +3,7 @@
  - master/HEAD
    * Modified: "jar" archive is no longer included.
    * Modified: Update codes around [session store API](http://dutherenverseauborddelatable.wordpress.com/2013/05/23/add-on-breakage-continued-list-of-add-ons-that-will-probably-be-affected/).
+   * ru locale is updated by Infocatcher. Thanks!
  - 4.0.2012122901
    * Works on Nightly 20.0a1.
  - 0.4.2012111001
