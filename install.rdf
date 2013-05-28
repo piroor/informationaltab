@@ -75,7 +75,7 @@
     <em:localized>
       <RDF:Description em:locale="ru-RU"
                        em:name="Informational Tab (Информативные вкладки)"
-                       em:description="Обеспечивают миниатюры, прогресс загрузки и прочее вкаждой вкладке"
+                       em:description="Показывает миниатюры, прогресс загрузки и прочее на каждой вкладке"
                        em:homepageURL="http://piro.sakura.ne.jp/xul/_informationaltab.html.en"
                        em:creator="YUKI &quot;Piro&quot; Hiroshi">
 		<em:translator>L'Autour (ru-RU locale)</em:translator>
