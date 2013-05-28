@@ -802,6 +802,7 @@ var InformationalTabService = {
 						this.thumbnailMaxSize :
 						aTab.boxObject.width * this.thumbnailMaxSizePow / 100 ;
 			size = Math.max(size, this.thumbnailMinSize);
+			size = Math.min(size, aTab.boxObject.width);
 			var canvasW = Math.floor((aspectRatio < 1) ? (size * aspectRatio) : size );
 			var canvasH = Math.floor((aspectRatio > 1) ? (size / aspectRatio) : size );
 
