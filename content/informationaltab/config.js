@@ -15,6 +15,15 @@ function init()
 		progressRadiogroup.removeAttribute('hidden');
 		progressCheck.setAttribute('hidden', true);
 	}
+
+	var thumbnailMinSize = Components.utils.evalInSandbox(
+		Components.classes['@mozilla.org/intl/stringbundle;1']
+			.getService(Components.interfaces.nsIStringBundleService)
+			.createBundle('chrome://informationaltab/skin/tabstyle.properties')
+			.GetStringFromName('thumbnail_min_size'),
+		new Components.utils.Sandbox('about:blank')
+	);
+	document.getElementById('extensions.informationaltab.thumbnail.max-textbox').setAttribute('min', thumbnailMinSize);
 }
 
 var gThumbnailItems;
