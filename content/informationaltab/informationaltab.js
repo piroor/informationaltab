@@ -37,6 +37,7 @@ var InformationalTabService = {
 	thumbnailFixAspectRatio   : true,
 	thumbnailFixedAspectRatio : 1,
 	thumbnailUpdateDelay : 0,
+	thumbnailUpdateAllDelay : 500,
 	thumbnailBG          : 'rgba(0,0,0,0.5)',
 
 	kTHUMBNAIL : 'informationaltab-thumbnail',
@@ -266,6 +267,7 @@ var InformationalTabService = {
 		this.onChangePref('extensions.informationaltab.thumbnail.fix_aspect_ratio');
 		this.onChangePref('extensions.informationaltab.thumbnail.fixed_aspect_ratio');
 		this.onChangePref('extensions.informationaltab.thumbnail.update_delay');
+		this.onChangePref('extensions.informationaltab.thumbnail.update_all_delay');
 		this.onChangePref('extensions.informationaltab.close_buttons.force_show.last_tab');
 		this.onChangePref('browser.tabs.tabClipWidth');
 
@@ -934,15 +936,24 @@ var InformationalTabService = {
 	updateAllThumbnails : function ITS_updateAllThumbnails(aTabBrowser, aReason) 
 	{
 		if (this.disabled ||
-			aTabBrowser.updateAllThumbnailsTimer ||
+			this.updatingAllThumbnails ||
 			this.hasUpdatingThumbnail(aTabBrowser))
 			return;
 
-		aTabBrowser.updateAllThumbnailsTimer = window.setTimeout(this.updateAllThumbnailsNow, this.thumbnailUpdateDelay, aTabBrowser, aReason, this);
+		if (aTabBrowser.updateAllThumbnailsTimer)
+			window.clearTimeout(aTabBrowser.updateAllThumbnailsTimer);
+
+		var delay = aReason && aReason & this.UPDATE_INIT ?
+				this.thumbnailUpdateDelay :
+				this.thumbnailUpdateAllDelay ;
+		this.lastUpdateAllThumbnailsDelay = Math.max(delay, this.lastUpdateAllThumbnailsDelay || 0);
+		aTabBrowser.updateAllThumbnailsTimer = window.setTimeout(this.updateAllThumbnailsNow, this.lastUpdateAllThumbnailsDelay, aTabBrowser, aReason, this);
 	},
 	updateAllThumbnailsNow : function ITS_updateAllThumbnailsNow(aTabBrowser, aReason, aThis)
 	{
 		aThis = aThis || this;
+		aThis.lastUpdateAllThumbnailsDelay = 0;
+		aThis.updatingAllThumbnails = true;
 
 		var tabs = aThis.getTabs(aTabBrowser);
 		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
@@ -957,6 +968,7 @@ var InformationalTabService = {
 				return;
 			}
 			aTabBrowser.updateAllThumbnailsTimer = null;
+			aThis.updatingAllThumbnails = false;
 		}, aThis.thumbnailUpdateDelay);
 	},
  
@@ -1346,6 +1358,10 @@ var InformationalTabService = {
 
 			case 'extensions.informationaltab.thumbnail.update_delay':
 				this.thumbnailUpdateDelay = value;
+				break;
+
+			case 'extensions.informationaltab.thumbnail.update_all_delay':
+				this.thumbnailUpdateAllDelay = value;
 				break;
 
 			case 'extensions.informationaltab.progress.mode':
