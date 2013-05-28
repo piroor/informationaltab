@@ -160,6 +160,7 @@ var InformationalTabService = {
 	},
  
 	// workaround for http://piro.sakura.ne.jp/latest/blosxom/mozilla/extension/treestyletab/2009-09-29_debug.htm 
+	// This is obsolete for lately Firefox and no need to be updated. See: https://github.com/piroor/treestyletab/issues/508#issuecomment-17526429
 	checkCachedSessionDataExpiration : function ITS_checkCachedSessionDataExpiration(aTab)
 	{
 		var data = aTab.linkedBrowser.__SS_data;
@@ -803,7 +804,7 @@ var InformationalTabService = {
 			var canvasH = Math.floor((aspectRatio > 1) ? (size / aspectRatio) : size );
 
 			var isBlank = (window.isBlankPageURL ? isBlankPageURL(aTab.linkedBrowser.currentURI.spec) : (aTab.linkedBrowser.currentURI.spec == 'about:blank')) || // BarTab
-						(aTab.linkedBrowser.__SS_restoreState == 1); // Firefox 4
+						this.isTabRestoring(aTab); // Firefox 4
 
 			var imageURL = aImage ? aImage.src : this.getTabValue(aTab, this.kTHUMBNAIL) ;
 			if (imageURL && isBlank)
@@ -903,6 +904,31 @@ var InformationalTabService = {
 		}
 
 		aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
+	},
+	isTabRestoring: function(aTab)
+	{
+		var browser = aTab.linkedBrowser;
+		// Firefox 25 and later. See: https://bugzilla.mozilla.org/show_bug.cgi?id=867142
+		if (this.TabRestoreStates &&
+			this.TabRestoreStates.has(browser))
+			return this.TabRestoreStates.isRestoring(browser);
+
+		return browser.__SS_restoreState == 1;
+	},
+	get TabRestoreStates() {
+		return this.SessionStoreNS.TabRestoreStates;
+	},
+	get SessionStoreNS() {
+		if (!this._SessionStoreNS)
+			try {
+				// resource://app/modules/sessionstore/SessionStore.jsm ?
+				this._SessionStoreNS = Components.utils.import('resource:///modules/sessionstore/SessionStore.jsm', {});
+			}
+			catch(e) {
+				this._SessionStoreNS = {};
+			}
+		}
+		return this._SessionStoreNS;
 	},
  
 	updateAllThumbnails : function ITS_updateAllThumbnails(aTabBrowser, aReason) 
