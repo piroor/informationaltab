@@ -183,16 +183,6 @@ var InformationalTabService = {
 				this.getLabel(aTab);
 	},
   
-	evalInSandbox : function ITS_evalInSandbox(aCode, aOwner) 
-	{
-		try {
-			var sandbox = new Components.utils.Sandbox(aOwner || 'about:blank');
-			return Components.utils.evalInSandbox(aCode, sandbox);
-		}
-		catch(e) {
-		}
-		return void(0);
-	},
   
 /* Initializing */ 
 	
