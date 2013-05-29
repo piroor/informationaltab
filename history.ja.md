@@ -4,6 +4,7 @@
    * タブのサムネイルを、タブよりも大きなサイズでは表示しないようにした（意図しない設定変更に対する安全対策）
    * 設定変更時などのサムネイルの再描画間隔を変更できるようにし、また、短い間隔での設定の変更に対しては再描画をスキップするようにした（再描画の最短の間隔は隠し設定「extensions.informationaltab.thumbnail.update_all_delay」で変更可能）
    * jarファイルを含めない形のパッケージングに変更
+   * evalInSandbox()全廃
    * [セッション保存APIの仕様変更](http://dutherenverseauborddelatable.wordpress.com/2013/05/23/add-on-breakage-continued-list-of-add-ons-that-will-probably-be-affected/)に追従
    * ロシア語ロケール更新（by Infocatcher. Thanks!）
  - 4.0.2012122901
