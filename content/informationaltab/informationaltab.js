@@ -176,6 +176,13 @@ var InformationalTabService = {
 	{
 		return document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text tab-label');
 	},
+	getLabelTextElement : function ITS_getLabelTextElement(aTab) 
+	{
+		var label = this.getLabel(aTab);
+		if (!label)
+			return null;
+		return document.getAnonymousElementByAttribute(label, 'class', 'tab-real-text') || label;
+	},
 	getLabelBox : function ITS_getLabelBox(aTab) 
 	{
 		return document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-stack') || // Mac OS X
@@ -1009,7 +1016,7 @@ var InformationalTabService = {
 		var nodes = Array.slice(tabContent ? tabContent.childNodes : document.getAnonymousNodes(aTab) );
 
 		if (this.thumbnailEnabled && !aTab.pinned) {
-			let label =this.getLabel(aTab);
+			let label =this.getLabelTextElement(aTab);
 			let style = window.getComputedStyle(aTab.__informationaltab__canvas, null);
 			let borderWidth = parseInt(style.getPropertyValue('border-top-width').replace('px', ''))+
 						parseInt(style.getPropertyValue('border-bottom-width').replace('px', ''));
