@@ -1008,7 +1008,7 @@ var InformationalTabService = {
 
 		if (this.thumbnailEnabled && !aTab.pinned) {
 			let label =this.getLabel(aTab);
-			let canvasHeight = Math.max(parseInt(aTab.__informationaltab__canvas.height), label.boxObject.height);
+			let canvasHeight = Math.max(aTab.__informationaltab__canvas.offsetHeight, label.boxObject.height);
 
 			let b = aTab.__informationaltab__parentTabBrowser;
 			let box = b.mTabContainer.mTabstrip || b.mTabContainer ;
