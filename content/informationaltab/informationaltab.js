@@ -1008,7 +1008,10 @@ var InformationalTabService = {
 
 		if (this.thumbnailEnabled && !aTab.pinned) {
 			let label =this.getLabel(aTab);
-			let canvasHeight = Math.max(aTab.__informationaltab__canvas.offsetHeight, label.boxObject.height);
+			let style = window.getComputedStyle(aTab.__informationaltab__canvas, null);
+			let borderWidth = parseInt(style.getPropertyValue('border-top-width').replace('px', ''))+
+						parseInt(style.getPropertyValue('border-bottom-width').replace('px', ''));
+			let canvasHeight = Math.max(parseInt(aTab.__informationaltab__canvas.height) + borderWidth, label.boxObject.height);
 
 			let b = aTab.__informationaltab__parentTabBrowser;
 			let box = b.mTabContainer.mTabstrip || b.mTabContainer ;
@@ -1024,9 +1027,9 @@ var InformationalTabService = {
 			if (/[-+\/\*]/.test(contentsHeight))
 				contentsHeight = 'calc(' + contentsHeight + ')';
 
-			let style = window.getComputedStyle(aTab.__informationaltab__canvas.parentNode, null);
-			let margin = parseInt(style.getPropertyValue('margin-top').replace('px', ''))+
-						parseInt(style.getPropertyValue('margin-bottom').replace('px', ''));
+			let containerStyle = window.getComputedStyle(aTab.__informationaltab__canvas.parentNode, null);
+			let margin = parseInt(containerStyle.getPropertyValue('margin-top').replace('px', ''))+
+						parseInt(containerStyle.getPropertyValue('margin-bottom').replace('px', ''));
 			let tabHeight = this.thumbnailStyle[orient][selected].tab
 							.replace(/%canvas_height%/g, canvasHeight + 'px') || '0px';
 			tabHeight += ' - ' + margin + 'px';
