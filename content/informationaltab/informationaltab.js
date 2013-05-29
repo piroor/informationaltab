@@ -222,7 +222,7 @@ var InformationalTabService = {
 
 		this.styleStringBundle = document.getElementById('informationaltab-tab-style-bundle');
 
-		this.thumbnailMinSize = this.evalInSandbox(this.styleStringBundle.getString('thumbnail_min_size'));
+		this.thumbnailMinSize = parseInt(this.styleStringBundle.getString('thumbnail_min_size'));
 
 		this.thumbnailStyle = {
 			vertical : {
@@ -246,7 +246,7 @@ var InformationalTabService = {
 				}
 			}
 		};
-		this.thumbnailStyle.background = this.evalInSandbox(String(this.styleStringBundle.getString('thumbnail_background') || '').quote());
+		this.thumbnailStyle.background = this.styleStringBundle.getString('thumbnail_background') || '';
 
 
 		this.addPrefListener(this);
