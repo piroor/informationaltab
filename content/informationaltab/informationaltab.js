@@ -1029,24 +1029,25 @@ var InformationalTabService = {
 			if (key == nodes[0].getAttribute(this.kLAST_STYLE_KEY)) return;
 			nodes[0].setAttribute(this.kLAST_STYLE_KEY, key);
 
-			var tabHeight = this.evalInSandbox(this.thumbnailStyle[orient][selected].tab);
-			var contentsHeight = this.evalInSandbox(
-					this.thumbnailStyle[orient][selected]
-						.contents
-						.replace(/%canvas_height%/g, canvasHeight)
-				);
+			let contentsHeight = this.thumbnailStyle[orient][selected].contents
+							.replace(/%canvas_height%/g, canvasHeight + 'px');
+			if (/[-+\/\*]/.test(contentsHeight))
+				contentsHeight = '-moz-calc(' + contentsHeight + ')';
 
 			let style = window.getComputedStyle(aTab.__informationaltab__canvas.parentNode, null);
 			let margin = parseInt(style.getPropertyValue('margin-top').replace('px', ''))+
 						parseInt(style.getPropertyValue('margin-bottom').replace('px', ''));
-			tabHeight -= margin;
+			let tabHeight = this.thumbnailStyle[orient][selected].tab
+							.replace(/%canvas_height%/g, canvasHeight + 'px');
+			tabHeight = ' - ' + margin + 'px';
+			tabHeight = '-moz-calc(' + tabHeight + ')';
 
 			for (let i = 0, maxi = nodes.length; i < maxi; i++)
 			{
 				let node = nodes[i];
-				node.style.setProperty('height', contentsHeight+'px', 'important');
+				node.style.setProperty('height', contentsHeight, 'important');
 			}
-			aTab.style.setProperty('height', tabHeight+'px', 'important');
+			aTab.style.setProperty('height', tabHeight, 'important');
 		}
 		else {
 			let key = '';
