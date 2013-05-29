@@ -1039,7 +1039,7 @@ var InformationalTabService = {
 						parseInt(style.getPropertyValue('margin-bottom').replace('px', ''));
 			let tabHeight = this.thumbnailStyle[orient][selected].tab
 							.replace(/%canvas_height%/g, canvasHeight + 'px');
-			tabHeight = ' - ' + margin + 'px';
+			tabHeight += ' - ' + margin + 'px';
 			tabHeight = '-moz-calc(' + tabHeight + ')';
 
 			for (let i = 0, maxi = nodes.length; i < maxi; i++)
