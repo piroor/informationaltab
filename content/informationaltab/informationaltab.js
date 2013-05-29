@@ -1030,7 +1030,7 @@ var InformationalTabService = {
 			nodes[0].setAttribute(this.kLAST_STYLE_KEY, key);
 
 			let contentsHeight = this.thumbnailStyle[orient][selected].contents
-							.replace(/%canvas_height%/g, canvasHeight + 'px');
+							.replace(/%canvas_height%/g, canvasHeight + 'px') || '0px';
 			if (/[-+\/\*]/.test(contentsHeight))
 				contentsHeight = '-moz-calc(' + contentsHeight + ')';
 
@@ -1038,7 +1038,7 @@ var InformationalTabService = {
 			let margin = parseInt(style.getPropertyValue('margin-top').replace('px', ''))+
 						parseInt(style.getPropertyValue('margin-bottom').replace('px', ''));
 			let tabHeight = this.thumbnailStyle[orient][selected].tab
-							.replace(/%canvas_height%/g, canvasHeight + 'px');
+							.replace(/%canvas_height%/g, canvasHeight + 'px') || '0px';
 			tabHeight += ' - ' + margin + 'px';
 			tabHeight = '-moz-calc(' + tabHeight + ')';
 
