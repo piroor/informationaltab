@@ -1,6 +1,8 @@
 # History
 
  - master/HEAD
+ - 0.4.2013053001
+   * Fixed: Load ru locale correctly. (by Infocatcher)
  - 0.4.2013052901
    * Drop support for Firefox 10-16
    * Improved: Shrink the size of thumbnails in tabs smaller than width of their owner tabs. (foolproof)
