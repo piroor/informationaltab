@@ -1103,6 +1103,7 @@ var InformationalTabService = {
 			let marginForIcon = iconBox.width ? progressBox.screenX - Math.max(iconBox.screenX, tabX) : 0 ;
 
 			let close = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button always-right') || // Tab Mix Plus
+						document.getAnonymousElementByAttribute(aTab, 'anonid', 'close-button') || // with Australis
 						document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button');
 			let closeBox = close.boxObject;
 			let marginForClose = closeBox.width ? progressBox.screenX - Math.max(closeBox.screenX, tabX) : 0 ;
