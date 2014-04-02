@@ -1,4 +1,7 @@
-var InformationalTabService = { 
+(function() {
+var prefs = window['piro.sakura.ne.jp'].prefs;
+
+var InformationalTabService = window.InformationalTabService = { 
 	ID       : 'informationaltab@piro.sakura.ne.jp',
 	PREFROOT : 'extensions.informationaltab@piro.sakura.ne.jp',
 
@@ -246,7 +249,7 @@ var InformationalTabService = {
 		this.thumbnailStyle.background = this.styleStringBundle.getString('thumbnail_background') || '';
 
 
-		this.addPrefListener(this);
+		prefs.addPrefListener(this);
 		this.onChangePref('extensions.informationaltab.progress.mode');
 		this.onChangePref('extensions.informationaltab.progress.style');
 		this.onChangePref('extensions.informationaltab.unread.enabled');
@@ -294,51 +297,51 @@ var InformationalTabService = {
 	migratePrefs : function ITS_migratePrefs() 
 	{
 		// migrate old prefs
-		switch (this.getPref('extensions.informationaltab.prefsVersion'))
+		switch (prefs.getPref('extensions.informationaltab.prefsVersion'))
 		{
 			case 0:
-				var maxPixels = this.getPref('extensions.informationaltab.thumbnail.partial.maxPixcels');
+				var maxPixels = prefs.getPref('extensions.informationaltab.thumbnail.partial.maxPixcels');
 				if (maxPixels !== null) {
-					this.setPref('extensions.informationaltab.thumbnail.partial.maxPixels', maxPixels);
-					this.clearPref('extensions.informationaltab.thumbnail.partial.maxPixcels');
+					prefs.setPref('extensions.informationaltab.thumbnail.partial.maxPixels', maxPixels);
+					prefs.clearPref('extensions.informationaltab.thumbnail.partial.maxPixcels');
 				}
 			case 1:
-				switch (this.getPref('extensions.informationaltab.progress.style'))
+				switch (prefs.getPref('extensions.informationaltab.progress.style'))
 				{
 					case 'modern':
-						this.setPref('extensions.informationaltab.progress.position', 'top');
-						this.setPref('extensions.informationaltab.progress.style', 'default');
+						prefs.setPref('extensions.informationaltab.progress.position', 'top');
+						prefs.setPref('extensions.informationaltab.progress.style', 'default');
 						break;
 					case 'classic':
-						this.setPref('extensions.informationaltab.progress.position', 'bottom');
-						this.setPref('extensions.informationaltab.progress.style', 'default');
+						prefs.setPref('extensions.informationaltab.progress.position', 'bottom');
+						prefs.setPref('extensions.informationaltab.progress.style', 'default');
 						break;
 				}
 			default:
 				break;
 		}
-		this.setPref('extensions.informationaltab.prefsVersion', this.kPREF_VERSION);
+		prefs.setPref('extensions.informationaltab.prefsVersion', this.kPREF_VERSION);
 	},
  
 	applyPlatformDefaultPrefs : function ITS_applyPlatformDefaultPrefs() 
 	{
 		var OS = this.XULAppInfo.OS;
 		var processed = {};
-		var originalKeys = this.getDescendant('extensions.informationaltab.platform.'+OS);
+		var originalKeys = prefs.getDescendant('extensions.informationaltab.platform.'+OS);
 		for (let i = 0, maxi = originalKeys.length; i < maxi; i++)
 		{
 			let originalKey = originalKeys[i];
 			let key = originalKey.replace('platform.'+OS+'.', '');
-			this.setDefaultPref(key, this.getPref(originalKey));
+			prefs.setDefaultPref(key, prefs.getPref(originalKey));
 			processed[key] = true;
 		}
-		originalKeys = this.getDescendant('extensions.informationaltab.platform.default');
+		originalKeys = prefs.getDescendant('extensions.informationaltab.platform.default');
 		for (let i = 0, maxi = originalKeys.length; i < maxi; i++)
 		{
 			let originalKey = originalKeys[i];
 			let key = originalKey.replace('platform.default.', '');
 			if (!(key in processed))
-				this.setDefaultPref(key, this.getPref(originalKey));
+				prefs.setDefaultPref(key, prefs.getPref(originalKey));
 		}
 	},
  
@@ -571,7 +574,7 @@ var InformationalTabService = {
 		this.ObserverService.removeObserver(this, 'em-action-requested');
 		this.ObserverService.removeObserver(this, 'quit-application');
 
-		this.removePrefListener(this);
+		prefs.removePrefListener(this);
 	},
 	
 	destroyTabBrowser : function ITS_destroyTabBrowser(aTabBrowser) 
@@ -642,7 +645,7 @@ var InformationalTabService = {
 		canvas.width = canvas.height = canvas.style.width = canvas.style.height = 1;
 		canvas.style.display = 'none';
 
-		this.insertThumbnailTo(canvas, aTab, aTabBrowser, this.getPref('extensions.informationaltab.thumbnail.position'));
+		this.insertThumbnailTo(canvas, aTab, aTabBrowser, prefs.getPref('extensions.informationaltab.thumbnail.position'));
 
 		aTab.__informationaltab__canvas = canvas;
 		this.updateThumbnailNow(aTab, aTabBrowser, this.UPDATE_INIT);
@@ -724,8 +727,8 @@ var InformationalTabService = {
 				return parseInt(aA.getAttribute('ordinal') || 0) - parseInt(aB.getAttribute('ordinal') || 0);
 			});
 		if (isTreeAvailable &&
-			this.getPref('extensions.treestyletab.tabbar.position') == 'right' &&
-			this.getPref('extensions.treestyletab.tabbar.invertTabContents')) {
+			prefs.getPref('extensions.treestyletab.tabbar.position') == 'right' &&
+			prefs.getPref('extensions.treestyletab.tabbar.invertTabContents')) {
 			container.setAttribute('ordinal',
 				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(orderedNodes[orderedNodes.length-1].getAttribute('ordinal')) + 5 :
 				(aPosition == this.POSITION_BEFORE_LABEL) ? parseInt(labelBox.getAttribute('ordinal')) + 5 :
@@ -979,7 +982,7 @@ var InformationalTabService = {
 		var tabs = this.getTabs(aTabBrowser);
 		var tab;
 		var canvas;
-		var pos = this.getPref('extensions.informationaltab.thumbnail.position');
+		var pos = prefs.getPref('extensions.informationaltab.thumbnail.position');
 		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 		{
 			tab = tabs.snapshotItem(i);
@@ -1254,25 +1257,25 @@ var InformationalTabService = {
 			case 'quit-application':
 				if (
 					!(this._toBeDisabled || this._toBeUninstalled) ||
-					this.getPref('extensions.informationaltab.restoring_backup_prefs')
+					prefs.getPref('extensions.informationaltab.restoring_backup_prefs')
 					)
 					return;
-				this.setPref('extensions.informationaltab.restoring_backup_prefs', true);
+				prefs.setPref('extensions.informationaltab.restoring_backup_prefs', true);
 				var backupValue;
 
-				backupValue = this.getPref('extensions.informationaltab.backup.browser.tabs.closeButtons');
+				backupValue = prefs.getPref('extensions.informationaltab.backup.browser.tabs.closeButtons');
 				if (backupValue > -1) {
-					this.clearPref('extensions.informationaltab.backup.browser.tabs.closeButtons');
-					this.setPref('browser.tabs.closeButtons', backupValue);
+					prefs.clearPref('extensions.informationaltab.backup.browser.tabs.closeButtons');
+					prefs.setPref('browser.tabs.closeButtons', backupValue);
 				}
 
-				backupValue = this.getPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
+				backupValue = prefs.getPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
 				if (backupValue > -1) {
-					this.clearPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
-					this.setPref('browser.tabs.tabClipWidth', backupValue);
+					prefs.clearPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
+					prefs.setPref('browser.tabs.tabClipWidth', backupValue);
 				}
 
-				this.setPref('extensions.informationaltab.restoring_backup_prefs', false);
+				prefs.setPref('extensions.informationaltab.restoring_backup_prefs', false);
 				break;
 		}
 	},
@@ -1280,13 +1283,13 @@ var InformationalTabService = {
 	adjustTabstrip : function ITS_adjustTabstrip(aTabBrowser) 
 	{
 		var container = aTabBrowser.mTabContainer;
-		container.mTabClipWidth = this.getPref('browser.tabs.tabClipWidth');
+		container.mTabClipWidth = prefs.getPref('browser.tabs.tabClipWidth');
 		container.adjustTabstrip();
 	},
  
 	get tabMinWidth() 
 	{
-		var width = this.getPref('browser.tabs.tabMinWidth');
+		var width = prefs.getPref('browser.tabs.tabMinWidth');
 		return width === null ? 100 : width ;
 	},
    
@@ -1300,7 +1303,7 @@ var InformationalTabService = {
  
 	onChangePref : function ITS_onChangePref(aPrefName) 
 	{
-		var value = this.getPref(aPrefName);
+		var value = prefs.getPref(aPrefName);
 		switch (aPrefName)
 		{
 			case 'extensions.informationaltab.thumbnail.enabled':
@@ -1314,7 +1317,7 @@ var InformationalTabService = {
 			case 'extensions.informationaltab.thumbnail.position':
 				if (this.thumbnailEnabled) {
 					document.documentElement.setAttribute(this.kTHUMBNAIL_POSITION,
-						this.getPref('extensions.informationaltab.thumbnail.position'));
+						prefs.getPref('extensions.informationaltab.thumbnail.position'));
 				}
 				else {
 					document.documentElement.removeAttribute(this.kTHUMBNAIL_POSITION);
@@ -1381,7 +1384,7 @@ var InformationalTabService = {
 				break;
 			case 'extensions.informationaltab.progress.position':
 			case 'extensions.informationaltab.progress.style':
-				this.progressStyle = this.getPref('extensions.informationaltab.progress.position')+' '+this.getPref('extensions.informationaltab.progress.style');
+				this.progressStyle = prefs.getPref('extensions.informationaltab.progress.position')+' '+prefs.getPref('extensions.informationaltab.progress.style');
 				if (this.progressStyle) {
 					document.documentElement.setAttribute(this.kPROGRESS_STYLE, this.progressStyle);
 				}
@@ -1404,12 +1407,12 @@ var InformationalTabService = {
 
 			case 'browser.tabs.closeButtons':
 				if (this.updatingTabCloseButtonPrefs ||
-					this.getPref('extensions.informationaltab.restoring_backup_prefs'))
+					prefs.getPref('extensions.informationaltab.restoring_backup_prefs'))
 					return;
 				this.updatingTabCloseButtonPrefs = true;
-				var backupValue = this.getPref('extensions.informationaltab.backup.browser.tabs.closeButtons');
+				var backupValue = prefs.getPref('extensions.informationaltab.backup.browser.tabs.closeButtons');
 				if (backupValue < 0) {
-					this.setPref('extensions.informationaltab.backup.browser.tabs.closeButtons', value);
+					prefs.setPref('extensions.informationaltab.backup.browser.tabs.closeButtons', value);
 				}
 				this.updatingTabCloseButtonPrefs = false;
 				break;
@@ -1417,14 +1420,14 @@ var InformationalTabService = {
 
 			case 'extensions.informationaltab.close_buttons.force_show':
 				if (!value) {
-					var backupValue = this.getPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
+					var backupValue = prefs.getPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
 					if (backupValue < 0) return;
 					this.updatingTabWidthPrefs = true;
-					if (backupValue > this.getPref('browser.tabs.tabMinWidth'))
-						this.setPref('browser.tabs.tabClipWidth', backupValue);
+					if (backupValue > prefs.getPref('browser.tabs.tabMinWidth'))
+						prefs.setPref('browser.tabs.tabClipWidth', backupValue);
 					else
-						this.clearPref('browser.tabs.tabClipWidth');
-					this.clearPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
+						prefs.clearPref('browser.tabs.tabClipWidth');
+					prefs.clearPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth');
 					this.updatingTabWidthPrefs = false;
 				}
 				else {
@@ -1437,8 +1440,8 @@ var InformationalTabService = {
 
 			case 'extensions.informationaltab.close_buttons.force_show.last_tab':
 			case 'browser.tabs.closeWindowWithLastTab':
-				var mode = this.getPref('extensions.informationaltab.close_buttons.force_show.last_tab');
-				var closable = !this.getPref('browser.tabs.closeWindowWithLastTab');
+				var mode = prefs.getPref('extensions.informationaltab.close_buttons.force_show.last_tab');
+				var closable = !prefs.getPref('browser.tabs.closeWindowWithLastTab');
 				if (mode == 2 || (mode == 0 && closable))
 					document.documentElement.setAttribute(this.kSHOW_LAST_CLOSE_BUTTON, true);
 				else
@@ -1447,8 +1450,8 @@ var InformationalTabService = {
 
 			case 'browser.tabs.tabClipWidth':
 				if (this.updatingTabWidthPrefs ||
-					!this.getPref('extensions.informationaltab.close_buttons.force_show') ||
-					this.getPref('extensions.informationaltab.restoring_backup_prefs'))
+					!prefs.getPref('extensions.informationaltab.close_buttons.force_show') ||
+					prefs.getPref('extensions.informationaltab.restoring_backup_prefs'))
 					return;
 				this.updatingTabWidthPrefs = true;
 				this.overrideTabClipWidth(this.tabMinWidth);
@@ -1458,8 +1461,8 @@ var InformationalTabService = {
 
 			case 'browser.tabs.tabMinWidth':
 				if (this.updatingTabWidthPrefs ||
-					!this.getPref('extensions.informationaltab.close_buttons.force_show') ||
-					this.getPref('extensions.informationaltab.restoring_backup_prefs'))
+					!prefs.getPref('extensions.informationaltab.close_buttons.force_show') ||
+					prefs.getPref('extensions.informationaltab.restoring_backup_prefs'))
 					return;
 				this.updatingTabWidthPrefs = true;
 				this.overrideTabClipWidth(this.tabMinWidth);
@@ -1472,12 +1475,12 @@ var InformationalTabService = {
 			case 'extensions.treestyletab.tabbar.width':
 			case 'extensions.treestyletab.tabbar.shrunkenWidth':
 				if (!('TreeStyleTabService' in window) ||
-					!this.getPref('extensions.informationaltab.close_buttons.force_show'))
+					!prefs.getPref('extensions.informationaltab.close_buttons.force_show'))
 					return;
-				var pos = this.getPref('extensions.treestyletab.tabbar.position');
+				var pos = prefs.getPref('extensions.treestyletab.tabbar.position');
 				if (pos == 'left' || pos == 'right') {
-					var width = this.getPref('extensions.treestyletab.tabbar.width');
-					switch (this.getPref('extensions.treestyletab.tabbar.autoHide.mode'))
+					var width = prefs.getPref('extensions.treestyletab.tabbar.width');
+					switch (prefs.getPref('extensions.treestyletab.tabbar.autoHide.mode'))
 					{
 						case gBrowser.treeStyleTab.autoHide.kMODE_DISABLED:
 							break;
@@ -1487,7 +1490,7 @@ var InformationalTabService = {
 
 						default:
 						case gBrowser.treeStyleTab.autoHide.kMODE_SHRINK:
-							width = this.getPref('extensions.treestyletab.tabbar.shrunkenWidth');
+							width = prefs.getPref('extensions.treestyletab.tabbar.shrunkenWidth');
 							break;
 					}
 					this.overrideTabClipWidth(width);
@@ -1503,9 +1506,9 @@ var InformationalTabService = {
 	},
 	overrideTabClipWidth : function ITS_overrideTabClipWidth(aWidth)
 	{
-		if (!this.getPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth'))
-			this.setPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth', this.getPref('browser.tabs.tabClipWidth'));
-		this.setPref('browser.tabs.tabClipWidth', aWidth || 0);
+		if (!prefs.getPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth'))
+			prefs.setPref('extensions.informationaltab.backup.browser.tabs.tabClipWidth', prefs.getPref('browser.tabs.tabClipWidth'));
+		prefs.setPref('browser.tabs.tabClipWidth', aWidth || 0);
 	},
 	updatingTabCloseButtonPrefs : false,
 	updatingTabWidthPrefs : false,
@@ -1608,8 +1611,6 @@ var InformationalTabService = {
   
 }; 
 
-InformationalTabService.__proto__ = window['piro.sakura.ne.jp'].prefs;
-
 window.addEventListener('DOMContentLoaded', InformationalTabService, true);
 window.addEventListener('load', InformationalTabService, false);
 window.addEventListener('unload', InformationalTabService, false);
@@ -1629,7 +1630,7 @@ InformationalTabEventListener.prototype = {
 
 		this.mTabBrowser.mTabContainer.addEventListener('select', this, false);
 		this.mTab.linkedBrowser.addEventListener('scroll', this, false);
-		InformationalTabService.addPrefListener(this);
+		prefs.addPrefListener(this);
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.animation');
 	},
 	destroy : function ITEL_destroy()
@@ -1638,7 +1639,7 @@ InformationalTabEventListener.prototype = {
 			this.mTab.linkedBrowser.removeEventListener('MozAfterPaint', this, false);
 		this.mTabBrowser.mTabContainer.removeEventListener('select', this, false);
 		this.mTab.linkedBrowser.removeEventListener('scroll', this, false);
-		InformationalTabService.removePrefListener(this);
+		prefs.removePrefListener(this);
 
 		delete this.mTab;
 		delete this.mTabBrowser;
@@ -1691,14 +1692,14 @@ InformationalTabEventListener.prototype = {
 		if (aTopic != 'nsPref:changed') return;
 		const ITS = InformationalTabService;
 
-		var value = ITS.getPref(aPrefName);
+		var value = prefs.getPref(aPrefName);
 		switch (aPrefName)
 		{
 			case 'extensions.informationaltab.thumbnail.partial':
 			case 'extensions.informationaltab.thumbnail.animation':
 				var shouldWatch = (
-//						!ITS.getPref('extensions.informationaltab.thumbnail.partial') &&
-						ITS.getPref('extensions.informationaltab.thumbnail.animation')
+//						!prefs.getPref('extensions.informationaltab.thumbnail.partial') &&
+						prefs.getPref('extensions.informationaltab.thumbnail.animation')
 					);
 				if (shouldWatch && !this.watchingRedrawEvent)
 					this.mTab.linkedBrowser.addEventListener('MozAfterPaint', this, false);
@@ -1712,6 +1713,7 @@ InformationalTabEventListener.prototype = {
 		}
 	}
 };
+window.InformationalTabEventListener = InformationalTabEventListener;
  
 function InformationalTabBrowserEventListener(aTabBrowser) 
 {
@@ -1740,6 +1742,7 @@ InformationalTabBrowserEventListener.prototype = {
 		}
 	}
 };
+window.InformationalTabBrowserEventListener = InformationalTabBrowserEventListener;
  
 function InformationalTabPrefListener(aTabBrowser) 
 {
@@ -1750,7 +1753,7 @@ InformationalTabPrefListener.prototype = {
 	init : function ITPL_init(aTabBrowser)
 	{
 		this.mTabBrowser = aTabBrowser;
-		InformationalTabService.addPrefListener(this);
+		prefs.addPrefListener(this);
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.enabled');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.size_mode');
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.max');
@@ -1758,7 +1761,7 @@ InformationalTabPrefListener.prototype = {
 	},
 	destroy : function ITPL_destroy()
 	{
-		InformationalTabService.removePrefListener(this);
+		prefs.removePrefListener(this);
 		delete this.mTabBrowser;
 	},
 	domains : [
@@ -1770,7 +1773,7 @@ InformationalTabPrefListener.prototype = {
 		if (aTopic != 'nsPref:changed') return;
 		const ITS = InformationalTabService;
 
-		var value = ITS.getPref(aPrefName);
+		var value = prefs.getPref(aPrefName);
 		switch (aPrefName)
 		{
 			case 'extensions.informationaltab.thumbnail.enabled':
@@ -1824,4 +1827,6 @@ InformationalTabPrefListener.prototype = {
 		}
 	}
 };
+window.InformationalTabPrefListener = InformationalTabPrefListener;
  
+})();
