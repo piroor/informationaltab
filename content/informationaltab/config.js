@@ -16,6 +16,12 @@ function init()
 		progressCheck.setAttribute('hidden', true);
 	}
 
+	var closeButtonsGroupbox = document.getElementById('browser.tabs.closeButtons-groupbox');
+	if (comparator.compare(XULAppInfo.version, '32.0a1') >= 0)
+		closeButtonsGroupbox.setAttribute('hidden', true);
+	else
+		closeButtonsGroupbox.removeAttribute('hidden');
+
 	var thumbnailMinSize = parseInt(Components.classes['@mozilla.org/intl/stringbundle;1']
 			.getService(Components.interfaces.nsIStringBundleService)
 			.createBundle('chrome://informationaltab/skin/tabstyle.properties')

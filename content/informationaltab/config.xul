@@ -334,7 +334,7 @@
 			type="bool"
 			inverted="true"/>
 	</preferences>
-	<groupbox>
+	<groupbox id="browser.tabs.closeButtons-groupbox">
 		<caption label="&config.closebutton.mode.caption;"/>
 		<vbox>
 			<radiogroup id="browser.tabs.closeButtons-radiogroup"
