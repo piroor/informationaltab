@@ -1518,7 +1518,7 @@ var InformationalTabService = window.InformationalTabService = {
 	onProgressChange : function ITS_onProgressChange(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress)
 	{
 		// ignore not for tab
-		if (!(aWebProgress instanceof Components.interfaces.nsIDOMElement))
+		if (!(aWebProgress instanceof Element))
 			return;
 
 		var browser = arguments[0];
@@ -1564,7 +1564,7 @@ var InformationalTabService = window.InformationalTabService = {
 	onStateChange : function ITS_onStateChange(aWebProgress, aRequest, aStateFlags, aStatus)
 	{
 		// ignore not for tab
-		if (!(aWebProgress instanceof Components.interfaces.nsIDOMElement))
+		if (!(aWebProgress instanceof Element))
 			return;
 
 		var browser = arguments[0];
@@ -1588,7 +1588,7 @@ var InformationalTabService = window.InformationalTabService = {
 	onLocationChange : function ITS_onLocationChange(aWebProgress, aRequest, aLocation)
 	{
 		// ignore not for tab
-		if (!(aWebProgress instanceof Components.interfaces.nsIDOMElement))
+		if (!(aWebProgress instanceof Element))
 			return;
 
 		var browser = arguments[0];
@@ -1652,7 +1652,7 @@ InformationalTabEventListener.prototype = {
 		{
 			case 'scroll':
 				let node = aEvent.originalTarget;
-				if (node instanceof Components.interfaces.nsIDOMElement ||
+				if (node instanceof Element ||
 					!ITS.isTabRead(this.mTab, aEvent.type))
 					return;
 				this.mTab.removeAttribute(ITS.kUNREAD);
