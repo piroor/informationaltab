@@ -144,7 +144,7 @@ var InformationalTabService = window.InformationalTabService = {
 		aTab.setAttribute(aKey, aValue);
 		try {
 			this.checkCachedSessionDataExpiration(aTab);
-			this.SessionStore.setTabValue(aTab, aKey, aValue);
+			this.SessionStore.setTabValue(aTab, aKey, String(aValue));
 		}
 		catch(e) {
 		}
