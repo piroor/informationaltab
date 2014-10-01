@@ -14,3 +14,5 @@ locale	informationaltab	zh-CN	locale/zh-CN/informationaltab/
 locale	informationaltab	da-DK	locale/da-DK/informationaltab/
 
 skin	informationaltab	classic/1.0	skin/classic/informationaltab/
+
+resource informationaltab-modules modules/
