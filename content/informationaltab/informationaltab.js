@@ -1110,8 +1110,15 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 	
 	isTabRead : function ITS_isTabRead(aTab, aEventType) 
 	{
-		if (!aTab.selected) return false;
-		if (aTab.linkedBrowser.contentDocument.contentType.toLowerCase().indexOf('image/') == 0) return true;
+		if (!aTab.selected)
+			return false;
+
+		// in e10s window, contentDocument.contentType is always undefined...
+		// so we should rewrite codes based on content-utils.js.
+		var d = aTab.linkedBrowser.contentDocument;
+		if (d.contentType &&
+			d.contentType.toLowerCase().indexOf('image/') == 0)
+			return true;
 
 		var isScrollable = this.isFrameScrollable(aTab.linkedBrowser.contentWindow);
 		switch (this.readMethod)
@@ -1126,7 +1133,8 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
  
 	isFrameScrollable : function ITS_isFrameScrollable(aFrame) 
 	{
-		if (!aFrame) return false;
+		if (!aFrame)
+			return false;
 
 		if (aFrame.scrollMaxY > 0)
 			return true;
