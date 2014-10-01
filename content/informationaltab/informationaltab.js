@@ -339,6 +339,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		aTab.__informationaltab__parentTabBrowser = aTabBrowser;
 
 		aTab.__informationaltab__label = this.getLabel(aTab);
+		aTab.__informationaltab__eventListener = new InformationalTabEventListener(aTab, aTabBrowser);
 
 		// Tab Mix Plus
 		aTab.__informationaltab__progress = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container');
@@ -350,8 +351,6 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		aTab.linkedBrowser.__informationaltab__tab = aTab;
 
 		this.initThumbnail(aTab, aTabBrowser);
-
-		aTab.__informationaltab__eventListener = new InformationalTabEventListener(aTab, aTabBrowser);
 	},
  
 	overrideExtensionsPreInit : function ITS_overrideExtensionsPreInit() 
@@ -524,6 +523,10 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
   
 	destroy : function ITS_destroy() 
 	{
+		window.messageManager.broadcastAsyncMessage(this.MESSAGE_TYPE, {
+			command: this.COMMAND_SHUTDOWN
+		});
+
 		this.destroyTabBrowser(gBrowser);
 
 		window.removeEventListener('unload', this, false);
@@ -754,7 +757,6 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 				reason:               aReason,
 				viewportWidth:        aTab.linkedBrowser.boxObject.width,
 				viewportHeight:       aTab.linkedBrowser.boxObject.height,
-				window:               aTab.linkedBrowser.contentWindow,
 				partial:              this.thumbnailPartial,
 				partialMaxPercentage: this.thumbnailPartialMaxPercentage,
 				partialMaxPixels:     this.thumbnailPartialMaxPixels,
@@ -783,32 +785,26 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 				this.updateTabStyle(aTab);
 			}
 
-			let isBlank = (
-					(window.isBlankPageURL ?
-						isBlankPageURL(aTab.linkedBrowser.currentURI.spec) :
-						(aTab.linkedBrowser.currentURI.spec == 'about:blank') // BarTab
-					) ||
-					this.isTabNeedToBeRestored(aTab) // Firefox native
-				);
-			let cachedThumbnailImageURI = this.getTabValue(aTab, this.kTHUMBNAIL);
-			if (isBlank && cachedThumbnailImageURI) {
-				drawImageFromURI(cachedThumbnailImageURI, canvas, (function() {
+			if (this.isBlankTab(aTab)) {
+				let cachedThumbnailImageURI = this.getTabValue(aTab, this.kTHUMBNAIL);
+				if (cachedThumbnailImageURI) {
+					drawImageFromURI(cachedThumbnailImageURI, canvas, (function() {
+						aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
+						return;
+					}).bind(this));
+				}
+				else {
 					aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
-					return;
-				}).bind(this));
+				}
+				return;
 			}
 
-			getThumbnailImageURI(params, (function(aThumbnailImageURI) {
-				if (!aThumbnailImageURI) {
-					aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
-					return;
-				}
-
-				this.setTabValue(aTab, this.kTHUMBNAIL, aThumbnailImageURI);
-				drawImageFromURI(aThumbnailImageURI, canvas, (function() {
-					aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
-				}).bind(this));
-			}).bind(this));
+			var manager = aTab.linkedBrowser.messageManager;
+			manager.sendAsyncMessage(this.MESSAGE_TYPE, {
+				command: this.COMMAND_REQUEST_THUMBNAIL_URI,
+				params:  params
+			});
+			// continue to ITEL_handleMessage!
 		}
 		else {
 			canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
@@ -817,7 +813,16 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 			aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
 		}
 	},
-	isTabNeedToBeRestored: function(aTab)
+	isBlankTab : function ITS_isBlankTab(aTab) {
+		return (
+			(window.isBlankPageURL ?
+				isBlankPageURL(aTab.linkedBrowser.currentURI.spec) :
+				(aTab.linkedBrowser.currentURI.spec == 'about:blank') // BarTab
+			) ||
+			this.isTabNeedToBeRestored(aTab) // Firefox native
+		);
+	},
+	isTabNeedToBeRestored : function ITS_isTabNeedToBeRestored(aTab)
 	{
 		var browser = aTab.linkedBrowser;
 		// Firefox 25 and later. See: https://bugzilla.mozilla.org/show_bug.cgi?id=867142
@@ -1446,7 +1451,6 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		}
 		else {
 			if (this.progressMode == this.PROGRESS_STATUSBAR) {
-
 				tab.__informationaltab__label.removeAttribute(this.kPROGRESS);
 			}
 			else {
@@ -1535,6 +1539,11 @@ InformationalTabEventListener.prototype = {
 		this.mTab = aTab;
 		this.mTabBrowser = aTabBrowser;
 		this.lastSelected = this.mTabBrowser.selectedTab == this.mTab;
+		this.handleMessage = this.handleMessage.bind(this);
+
+		var manager = this.mTab.linkedBrowser.messageManager;
+		manager.loadFrameScript(InformationalTabConstants.CONTENT_SCRIPT, true);
+		manager.addMessageListener(InformationalTabConstants.MESSAGE_TYPE, this.handleMessage);
 
 		this.mTabBrowser.mTabContainer.addEventListener('select', this, false);
 		this.mTab.linkedBrowser.addEventListener('scroll', this, false);
@@ -1543,6 +1552,12 @@ InformationalTabEventListener.prototype = {
 	},
 	destroy : function ITEL_destroy()
 	{
+		var manager = this.mTab.linkedBrowser.messageManager;
+		manager.removeMessageListener(InformationalTabConstants.MESSAGE_TYPE, this.handleMessage);
+		manager.sendAsyncMessage(InformationalTabConstants.MESSAGE_TYPE, {
+			command: InformationalTabConstants.COMMAND_SHUTDOWN
+		});
+
 		if (this.watchingRedrawEvent)
 			this.mTab.linkedBrowser.removeEventListener('MozAfterPaint', this, false);
 		this.mTabBrowser.mTabContainer.removeEventListener('select', this, false);
@@ -1619,6 +1634,26 @@ InformationalTabEventListener.prototype = {
 			default:
 				break;
 		}
+	},
+	handleMessage : function ITEL_handleMessage(aMessage)
+	{
+		switch (aMessage.json.command)
+		{
+			case InformationalTabConstants.COMMAND_REPORT_THUMBNAIL_URI:
+				return this.handleThumbnailURI(aMessage.json.uri);
+		}
+	},
+	handleThumbnailURI : function ITEL_handleThumbnailURI(aURI)
+	{
+		// continued from ITS_updateThumbnailNow!
+		if (!aURI) {
+			this.mTab.removeAttribute(InformationalTabConstants.kTHUMBNAIL_UPDATING);
+			return;
+		}
+		InformationalTabService.setTabValue(this.mTab, InformationalTabConstants.kTHUMBNAIL, aURI);
+		drawImageFromURI(aURI, this.mTab.__informationaltab__canvas, (function() {
+			this.mTab.removeAttribute(InformationalTabConstants.kTHUMBNAIL_UPDATING);
+		}).bind(this));
 	}
 };
 window.InformationalTabEventListener = InformationalTabEventListener;

@@ -47,5 +47,12 @@ var InformationalTabConstants = {
 	UPDATE_SCROLL    : 8,
 	UPDATE_REFLOW    : 16,
 	UPDATE_REPAINT   : 32,
-	UPDATE_RESTORING : 64
+	UPDATE_RESTORING : 64,
+
+	CONTENT_SCRIPT : 'chrome://informationaltab/content/content-utils.js',
+	MESSAGE_TYPE : 'informationaltab',
+
+	COMMAND_SHUTDOWN              : 'shutdown',
+	COMMAND_REQUEST_THUMBNAIL_URI : 'request-thumbnail-uri',
+	COMMAND_REPORT_THUMBNAIL_URI  : 'report-thumbnail-uri'
 };
