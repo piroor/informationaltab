@@ -4,6 +4,8 @@ var InformationalTabConstants = {
 	ID       : 'informationaltab@piro.sakura.ne.jp',
 	PREFROOT : 'extensions.informationaltab@piro.sakura.ne.jp',
 
+	kPREF_VERSION : 2,
+
 	POSITION_BEFORE_FAVICON  : 0,
 	POSITION_BEFORE_LABEL    : 1,
 	POSITION_BEFORE_CLOSEBOX : 2,

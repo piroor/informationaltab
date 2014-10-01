@@ -4,6 +4,8 @@ var prefs = window['piro.sakura.ne.jp'].prefs;
 var { InformationalTabConstants } = Components.utils.import('resource://informationaltab-modules/constants.js', {});
 var { inherit } = Components.utils.import('resource://informationaltab-modules/inherit.jsm', {});
 
+var { calculateCanvasSize, getThumbnailImageURI, drawImageFromURI } = Components.utils.import('resource://informationaltab-modules/thumbnail-utils.js', {});
+
 var InformationalTabService = window.InformationalTabService = inherit(InformationalTabConstants, { 
 	disabled : false,
 
@@ -252,7 +254,6 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		this.initialized = true;
 	},
 	
-	kPREF_VERSION : 2,
 	migratePrefs : function ITS_migratePrefs() 
 	{
 		// migrate old prefs
@@ -600,6 +601,8 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 	initThumbnail : function ITS_initThumbnail(aTab, aTabBrowser) 
 	{
 		var canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
+		canvas.mozOpaque = true;
+		canvas.mozImageSmoothingEnabled = true;
 		canvas.setAttribute('class', this.kTHUMBNAIL);
 		canvas.width = canvas.height = canvas.style.width = canvas.style.height = 1;
 		canvas.style.display = 'none';
@@ -728,7 +731,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 			aSelf.updateThumbnailNow(aTab, aTabBrowser);
 		}, this.thumbnailUpdateDelay, this, aTab, aTabBrowser);
 	},
-	updateThumbnailNow : function ITS_updateThumbnailNow(aTab, aTabBrowser, aReason, aImage)
+	updateThumbnailNow : function ITS_updateThumbnailNow(aTab, aTabBrowser, aReason)
 	{
 		if (!aReason) {
 			aReason = aTab.__informationaltab__lastReason;
@@ -747,127 +750,67 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		}
 
 		if (this.thumbnailEnabled) {
-			var b   = aTab.linkedBrowser;
-			var win = b.contentWindow;
-			var w   = Math.max(win.innerWidth, 200);
-			var h   = Math.max(win.innerHeight, 150);
-			if (this.thumbnailPartial) {
-				w = Math.min(w, Math.max(w * this.thumbnailPartialMaxPercentage, this.thumbnailPartialMaxPixels));
-				h = Math.min(h, Math.max(h * this.thumbnailPartialMaxPercentage, this.thumbnailPartialMaxPixels));
+			let params = {
+				reason:               aReason,
+				window:               aTab.linkedBrowser.contentWindow,
+				partial:              this.thumbnailPartial,
+				partialMaxPercentage: this.thumbnailPartialMaxPercentage,
+				partialMaxPixels:     this.thumbnailPartialMaxPixels,
+				partialBaseX:         this.thumbnailPartialBaseX,
+				partialBaseY:         this.thumbnailPartialBaseY,
+				fixAspectRatio:       this.thumbnailFixAspectRatio,
+				fixedAspectRatio:     this.thumbnailFixedAspectRatio,
+				sizeMode:             this.thumbnailSizeMode,
+				maxSize:              this.thumbnailMaxSize,
+				maxSizePow:           this.thumbnailMaxSizePow,
+				minSize:              this.thumbnailMinSize,
+				tabWidth:             aTab.boxObject.width,
+				windowWidth:          aTab.ownerDocument.defaultView.innerWidth,
+				scroll:               this.thumbnailScrolled,
+				background:           this.thumbnailStyle.background
+			};
+
+			let canvasSize = calculateCanvasSize(params);
+			canvas.width  = canvasSize.width;
+			canvas.height = canvasSize.height;
+			canvas.style.width  = canvasSize.width+'px';
+			canvas.style.height = canvasSize.height+'px';
+			canvas.style.display = 'block';
+			this.updateTabStyle(aTab);
+
+			let isBlank = (
+					(window.isBlankPageURL ?
+						isBlankPageURL(aTab.linkedBrowser.currentURI.spec) :
+						(aTab.linkedBrowser.currentURI.spec == 'about:blank') // BarTab
+					) ||
+					this.isTabNeedToBeRestored(aTab) // Firefox native
+				);
+			let cachedThumbnailImageURI = this.getTabValue(aTab, this.kTHUMBNAIL);
+			if (isBlank && cachedThumbnailImageURI) {
+				drawImageFromURI(cachedThumbnailImageURI, canvas, (function() {
+					aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
+					return;
+				}).bind(this));
 			}
-			var aspectRatio = this.thumbnailFixAspectRatio ? this.thumbnailFixedAspectRatio : (w / h) ;
 
-			var size = this.thumbnailSizeMode == this.SIZE_MODE_FIXED ?
-						this.thumbnailMaxSize :
-						aTab.boxObject.width * this.thumbnailMaxSizePow / 100 ;
-			size = Math.max(size, this.thumbnailMinSize);
-			size = Math.min(size, b.ownerDocument.defaultView.innerWidth);
-			if (aTab.boxObject.width)
-				size = Math.min(size, aTab.boxObject.width);
-			var canvasW = Math.floor((aspectRatio < 1) ? (size * aspectRatio) : size );
-			var canvasH = Math.floor((aspectRatio > 1) ? (size / aspectRatio) : size );
-
-			var isBlank = (window.isBlankPageURL ? isBlankPageURL(aTab.linkedBrowser.currentURI.spec) : (aTab.linkedBrowser.currentURI.spec == 'about:blank')) || // BarTab
-						this.isTabNeedToBeRestored(aTab); // Firefox 4
-
-			var imageURL = aImage ? aImage.src : this.getTabValue(aTab, this.kTHUMBNAIL) ;
-			if (imageURL && isBlank)
-				aReason |= this.UPDATE_RESTORING;
-
-			var isImage = b.contentDocument.contentType.indexOf('image') == 0;
-			if ((aReason & this.UPDATE_RESTORING) && imageURL && !aImage) {
-				let image = new Image();
-				let self = this;
-				image.onload = function() {
-					self.updateThumbnailNow(aTab, aTabBrowser, aReason, image);
-				};
-				image.src = imageURL;
-				return;
-			}
-
-			if (
-				(
-					aReason & this.UPDATE_RESIZE ||
-					aReason & this.UPDATE_REFLOW
-				) ?
-					!(
-						Math.abs(parseInt(canvas.width) - canvasW) <= 1 &&
-						Math.abs(parseInt(canvas.height) - canvasH) <= 1
-					) :
-				aReason & this.UPDATE_SCROLL ?
-					!isImage :
-					true
-				) {
-
-				canvas.width  = canvasW;
-				canvas.height = canvasH;
-				canvas.style.width  = canvasW+'px';
-				canvas.style.height = canvasH+'px';
-				canvas.style.display = 'block';
-				this.updateTabStyle(aTab);
-
-				try {
-					var ctx = canvas.getContext('2d');
-					ctx.clearRect(0, 0, canvasW, canvasH);
-					ctx.save();
-					if (!isImage && !aImage) {
-						let x = 0,
-							y = 0;
-						if (this.thumbnailPartial) {
-							x = this.thumbnailPartialBaseX;
-							if (x < 0) x += win.innerWidth;
-							y = this.thumbnailPartialBaseY;
-							if (y < 0) y += win.innerHeight;
-						}
-						if (this.thumbnailScrolled) {
-							if (this.thumbnailPartial) x += win.scrollX;
-							y += win.scrollY;
-						}
-						if (h * canvasW/w < canvasH)
-							ctx.scale(canvasH/h, canvasH/h);
-						else
-							ctx.scale(canvasW/w, canvasW/w);
-						ctx.drawWindow(win, x, y, w, h, this.thumbnailStyle.background);
-					}
-					else {
-						let image = aImage || b.contentDocument.getElementsByTagName('img')[0];
-						ctx.fillStyle = this.thumbnailStyle.background;
-						ctx.fillRect(0, 0, canvasW, canvasH);
-						let iW = parseInt(image.width);
-						let iH = parseInt(image.height);
-						let x = 0;
-						let y = 0;
-						if ((iW / iH) <= 1) {
-							iW = iW * canvasH / iH;
-							x = Math.floor((canvasW - iW) / 2 );
-							iH = canvasH;
-						}
-						else {
-							iH = iH * canvasW / iW;
-							y = Math.floor((canvasH - iH) / 2 );
-							iW = canvasW;
-						}
-						ctx.drawImage(image, x, y, iW, iH);
-					}
-
-					if (!(aReason & this.UPDATE_RESTORING) &&
-						!isBlank &&
-						'toDataURL' in canvas)
-						this.setTabValue(aTab, this.kTHUMBNAIL, canvas.toDataURL());
-
-					ctx.restore();
+			getThumbnailImageURI(params, (function(aThumbnailImageURI) {
+				if (!aThumbnailImageURI) {
+					aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
+					return;
 				}
-				catch(e) {
-				}
-			}
+
+				this.setTabValue(aTab, this.kTHUMBNAIL, aThumbnailImageURI);
+				drawImageFromURI(aThumbnailImageURI, canvas, (function() {
+					aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
+				}).bind(this));
+			}).bind(this));
 		}
 		else {
 			canvas.width = canvas.height = canvas.style.width = canvas.style.height = 0;
 			canvas.style.display = 'none';
 			this.updateTabStyle(aTab);
+			aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
 		}
-
-		aTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
 	},
 	isTabNeedToBeRestored: function(aTab)
 	{
