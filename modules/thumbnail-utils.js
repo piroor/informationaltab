@@ -8,10 +8,8 @@ Components.utils.import('resource://gre/modules/XPCOMUtils.jsm');
 XPCOMUtils.defineLazyModuleGetter(this, 'InformationalTabConstants', 'resource://informationaltab-modules/constants.js');
 
 function calculateCanvasSize(aParams) {
-	var win = aParams.window;
-
-	var w   = Math.max(win.innerWidth, 200);
-	var h   = Math.max(win.innerHeight, 150);
+	var w   = Math.max(aParams.viewportWidth, 200);
+	var h   = Math.max(aParams.viewportHeight, 150);
 	if (aParams.partial) {
 		w = Math.min(w, Math.max(w * aParams.partialMaxPercentage, aParams.partialMaxPixels));
 		h = Math.min(h, Math.max(h * aParams.partialMaxPercentage, aParams.partialMaxPixels));

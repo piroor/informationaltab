@@ -752,6 +752,8 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		if (this.thumbnailEnabled) {
 			let params = {
 				reason:               aReason,
+				viewportWidth:        aTab.linkedBrowser.boxObject.width,
+				viewportHeight:       aTab.linkedBrowser.boxObject.height,
 				window:               aTab.linkedBrowser.contentWindow,
 				partial:              this.thumbnailPartial,
 				partialMaxPercentage: this.thumbnailPartialMaxPercentage,
