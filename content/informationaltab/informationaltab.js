@@ -930,7 +930,9 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		var tabContent = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-content');
 		var nodes = Array.slice(tabContent ? tabContent.childNodes : document.getAnonymousNodes(aTab) );
 
-		if (this.thumbnailEnabled && !aTab.pinned) {
+		if (this.thumbnailEnabled &&
+			!aTab.pinned &&
+			aTab.__informationaltab__canvas) {
 			let label =this.getLabelTextElement(aTab);
 			let style = window.getComputedStyle(aTab.__informationaltab__canvas, null);
 			let borderWidth = parseInt(style.borderTopWidth)+
@@ -999,7 +1001,8 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		if (key == progress.getAttribute(this.kLAST_STYLE_KEY)) return;
 		progress.setAttribute(this.kLAST_STYLE_KEY, key);
 
-		if (this.progressStyle.indexOf('top') > -1) {
+		if (this.progressStyle.indexOf('top') > -1 &&
+			aTab.__informationaltab__canvas) {
 			progress.style.marginBottom = '';
 			progress.style.marginTop = '-'+(progressBox.screenY - aTab.boxObject.screenY)+'px';
 
