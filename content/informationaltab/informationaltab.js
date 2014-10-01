@@ -771,12 +771,15 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 			};
 
 			let canvasSize = calculateCanvasSize(params);
-			canvas.width  = canvasSize.width;
-			canvas.height = canvasSize.height;
-			canvas.style.width  = canvasSize.width+'px';
-			canvas.style.height = canvasSize.height+'px';
-			canvas.style.display = 'block';
-			this.updateTabStyle(aTab);
+			if (canvas.width != canvasSize.width ||
+				canvas.height != canvasSize.height) {
+				canvas.width  = canvasSize.width;
+				canvas.height = canvasSize.height;
+				canvas.style.width  = canvasSize.width+'px';
+				canvas.style.height = canvasSize.height+'px';
+				canvas.style.display = 'block';
+				this.updateTabStyle(aTab);
+			}
 
 			let isBlank = (
 					(window.isBlankPageURL ?
