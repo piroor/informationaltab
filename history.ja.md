@@ -1,6 +1,7 @@
 # 更新履歴
 
  - master/HEAD
+   * マルチプロセスのウィンドウでサムネイルを正しく表示できるようにした
    * タブの「閉じる」ボタンの表示設定において、[Firefox 32以降で削除された `browser.tabs.closeButtons` についての設定](https://bugzilla.mozilla.org/show_bug.cgi?id=865826)はUIを表示しないようにした
  - 0.4.2013053001
    * ロシア語ロケールが正しく読み込まれなくなっていたのを修正 (by Infocatcher)
