@@ -13,28 +13,40 @@
 
 	var { InformationalTabConstants } = Cu.import('resource://informationaltab-modules/constants.js', {});
 	var { getThumbnailImageURI } = Cu.import('resource://informationaltab-modules/thumbnail-utils.js', {});
+	var timer = Cu.import('resource://informationaltab-modules/jstimer.jsm', {});
 
 	function free() {
 		cleanup =
 			Cc = Ci = Cu = Cr =
+
+			InformationalTabConstants =
+			getThumbnailImageURI =
+			timer =
+
 			config =
+
 			messageListener =
 			lastThumbnailParams =
 			reportThumbnailImageURI =
 			isPageRead =
 			isFrameScrollable =
+
 			webProgress =
 			progressListener =
 			progressFilter =
-			InformationalTabConstants =
-			getThumbnailImageURI =
+
+			updateThumbnailTimer =
+			handleEvent =
+
 			mydump =
 				undefined;
 	}
 
 	var config = {
-			thumbnailEnabled : false,
-			readMethod       : 0
+			thumbnailEnabled     : false,
+			thumbnailScrolled    : false,
+			thumbnailUpdateDelay : false,
+			readMethod           : 0
 		};
 
 	var messageListener = function(aMessage) {
@@ -46,6 +58,9 @@
 				global.removeMessageListener(InformationalTabConstants.MESSAGE_TYPE, messageListener);
 				webProgress.removeProgressListener(progressFilter);
 				progressFilter.removeProgressListener(progressListener);
+				global.removeEventListener('scroll', handleEvent, true);
+				if (updateThumbnailTimer)
+					timer.clearTimeout(updateThumbnailTimer);
 				free();
 				return;
 
@@ -55,6 +70,7 @@
 					switch (aKey)
 					{
 						case 'thumbnailEnabled':
+						case 'thumbnailScrolled':
 							reportThumbnailImageURI(InformationalTabConstants.UPDATE_INIT);
 							break;
 					}
@@ -182,4 +198,29 @@
 							.createInstance(Ci.nsIWebProgress);
 	progressFilter.addProgressListener(progressListener, Ci.nsIWebProgress.NOTIFY_ALL);
 	webProgress.addProgressListener(progressFilter, Ci.nsIWebProgress.NOTIFY_ALL);
+
+	var updateThumbnailTimer = null;
+	function handleEvent(aEvent) {
+		switch (aEvent.type)
+		{
+			case 'scroll':
+				let node = aEvent.originalTarget;
+				if (node.nodeType == Ci.nsIDOMNode.ELEMENT_NODE ||
+					!isPageRead(aEvent.type))
+					return;
+				global.sendAsyncMessage(InformationalTabConstants.MESSAGE_TYPE, {
+					command : InformationalTabConstants.COMMAND_REPORT_PAGE_SCROLLED
+				});
+				if (config.thumbnailScrolled) {
+					if (updateThumbnailTimer)
+						timer.clearTimeout(updateThumbnailTimer);
+					updateThumbnailTimer = timer.setTimeout(function() {
+						reportThumbnailImageURI(InformationalTabConstants.UPDATE_SCROLL);
+						updateThumbnailTimer = null;
+					}, config.thumbnailUpdateDelay);
+				}
+				break;
+		}
+	}
+	global.addEventListener('scroll', handleEvent, true);
 })(this);

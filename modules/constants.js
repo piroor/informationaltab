@@ -58,5 +58,6 @@ var InformationalTabConstants = {
 	COMMAND_REPORT_THUMBNAIL_URI    : 'report-thumbnail-uri',
 	COMMAND_REPORT_PROGRESS         : 'report-progress',
 	COMMAND_REPORT_PAGE_LOADED      : 'report-page-load',
-	COMMAND_REPORT_LOCATION_CHANGED : 'report-location-changed'
+	COMMAND_REPORT_LOCATION_CHANGED : 'report-location-changed',
+	COMMAND_REPORT_PAGE_SCROLLED    : 'report-page-scrolled'
 };

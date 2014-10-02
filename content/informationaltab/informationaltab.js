@@ -1252,6 +1252,12 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 
 			case 'extensions.informationaltab.thumbnail.scrolled':
 				this.thumbnailScrolled = value;
+				window.messageManager.broadcastAsyncMessage(this.MESSAGE_TYPE, {
+					command : this.COMMAND_NOTIFY_CONFIG_UPDATED,
+					config  : {
+						thumbnailScrolled : value
+					}
+				});
 				break;
 			case 'extensions.informationaltab.thumbnail.partial':
 				this.thumbnailPartial = value;
@@ -1291,6 +1297,12 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 
 			case 'extensions.informationaltab.thumbnail.update_delay':
 				this.thumbnailUpdateDelay = value;
+				window.messageManager.broadcastAsyncMessage(this.MESSAGE_TYPE, {
+					command : this.COMMAND_NOTIFY_CONFIG_UPDATED,
+					config  : {
+						thumbnailUpdateDelay : value
+					}
+				});
 				break;
 
 			case 'extensions.informationaltab.thumbnail.update_all_delay':
@@ -1472,13 +1484,14 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 		manager.sendAsyncMessage(this.MESSAGE_TYPE, {
 			command : this.COMMAND_NOTIFY_CONFIG_UPDATED,
 			config  : {
-				thumbnailEnabled : InformationalTabService.thumbnailEnabled,
-				readMethod       : InformationalTabService.readMethod
+				thumbnailEnabled     : InformationalTabService.thumbnailEnabled,
+				thumbnailScrolled    : InformationalTabService.thumbnailScrolled,
+				thumbnailUpdateDelay : InformationalTabService.thumbnailUpdateDelay,
+				readMethod           : InformationalTabService.readMethod
 			}
 		});
 
 		this.mTabBrowser.mTabContainer.addEventListener('select', this, false);
-		this.mTab.linkedBrowser.addEventListener('scroll', this, false);
 		prefs.addPrefListener(this);
 		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.animation');
 	},
@@ -1493,7 +1506,6 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 		if (this.watchingRedrawEvent)
 			this.mTab.linkedBrowser.removeEventListener('MozAfterPaint', this, false);
 		this.mTabBrowser.mTabContainer.removeEventListener('select', this, false);
-		this.mTab.linkedBrowser.removeEventListener('scroll', this, false);
 		prefs.removePrefListener(this);
 
 		delete this.mTab;
@@ -1504,22 +1516,6 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 		const ITS = InformationalTabService;
 		switch (aEvent.type)
 		{
-			case 'scroll':
-				let node = aEvent.originalTarget;
-				if (node instanceof Element ||
-					!ITS.isTabRead(this.mTab, aEvent.type))
-					return;
-				this.mTab.removeAttribute(ITS.kUNREAD);
-				if (ITS.thumbnailScrolled) {
-					if (this.mUpdateThumbnailTimer)
-						window.clearTimeout(this.mUpdateThumbnailTimer);
-					this.mUpdateThumbnailTimer = window.setTimeout(function(aSelf) {
-						ITS.updateThumbnail(aSelf.mTab, aSelf.mTabBrowser, ITS.UPDATE_SCROLL);
-						aSelf.mUpdateThumbnailTimer = null;
-					}, ITS.thumbnailUpdateDelay, this);
-				}
-				break;
-
 			case 'select':
 				var selected = this.mTabBrowser.selectedTab == this.mTab;
 				if (ITS.thumbnailEnabled && this.lastSelected != selected)
@@ -1569,6 +1565,7 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 	},
 	handleMessage : function ITEL_handleMessage(aMessage)
 	{
+dump(aMessage.json.command+'\n');
 		switch (aMessage.json.command)
 		{
 			case this.COMMAND_REPORT_THUMBNAIL_URI:
@@ -1582,6 +1579,9 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 
 			case this.COMMAND_REPORT_LOCATION_CHANGED:
 				return this.handleLocationChanged();
+
+			case this.COMMAND_REPORT_PAGE_SCROLLED:
+				return this.handlePageScrolled();
 		}
 	},
 	handleThumbnailURI : function ITEL_handleThumbnailURI(aURI)
@@ -1643,6 +1643,10 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 	handleLocationChanged : function ITEL_handleLocationChanged()
 	{
 		this.mTab.setAttribute(this.kUNREAD, true);
+	},
+	handlePageScrolled : function ITEL_handlePageScrolled()
+	{
+		this.mTab.removeAttribute(this.kUNREAD);
 	}
 });
 window.InformationalTabEventListener = InformationalTabEventListener;
