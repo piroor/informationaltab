@@ -52,7 +52,11 @@ var InformationalTabConstants = {
 	CONTENT_SCRIPT : 'chrome://informationaltab/content/content-utils.js',
 	MESSAGE_TYPE : 'informationaltab',
 
-	COMMAND_SHUTDOWN              : 'shutdown',
-	COMMAND_REQUEST_THUMBNAIL_URI : 'request-thumbnail-uri',
-	COMMAND_REPORT_THUMBNAIL_URI  : 'report-thumbnail-uri'
+	COMMAND_SHUTDOWN                : 'shutdown',
+	COMMAND_NOTIFY_CONFIG_UPDATED   : 'notify-config-updated',
+	COMMAND_REQUEST_THUMBNAIL_URI   : 'request-thumbnail-uri',
+	COMMAND_REPORT_THUMBNAIL_URI    : 'report-thumbnail-uri',
+	COMMAND_REPORT_PROGRESS         : 'report-progress',
+	COMMAND_REPORT_PAGE_LOADED      : 'report-page-load',
+	COMMAND_REPORT_LOCATION_CHANGED : 'report-location-changed'
 };

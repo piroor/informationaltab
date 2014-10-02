@@ -307,8 +307,6 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
  
 	initTabBrowser : function ITS_initTabBrowser(aTabBrowser) 
 	{
-		aTabBrowser.addTabsProgressListener(this, Components.interfaces.nsIWebProgress.NOTIFY_ALL);
-
 		let (tabs, i, maxi, listener) {
 			tabs = this.getTabs(aTabBrowser);
 			for (i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
@@ -524,7 +522,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 	destroy : function ITS_destroy() 
 	{
 		window.messageManager.broadcastAsyncMessage(this.MESSAGE_TYPE, {
-			command: this.COMMAND_SHUTDOWN
+			command : this.COMMAND_SHUTDOWN
 		});
 
 		this.destroyTabBrowser(gBrowser);
@@ -542,8 +540,6 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 	
 	destroyTabBrowser : function ITS_destroyTabBrowser(aTabBrowser) 
 	{
-		aTabBrowser.removeTabsProgressListener(this);
-
 		aTabBrowser.__informationaltab__prefListener.destroy();
 		delete aTabBrowser.__informationaltab__prefListener;
 
@@ -801,8 +797,8 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 
 			var manager = aTab.linkedBrowser.messageManager;
 			manager.sendAsyncMessage(this.MESSAGE_TYPE, {
-				command: this.COMMAND_REQUEST_THUMBNAIL_URI,
-				params:  params
+				command : this.COMMAND_REQUEST_THUMBNAIL_URI,
+				params  : params
 			});
 			// continue to ITEL_handleMessage!
 		}
@@ -1238,6 +1234,12 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 				else {
 					document.documentElement.removeAttribute(this.kTHUMBNAIL_ENABLED);
 				}
+				window.messageManager.broadcastAsyncMessage(this.MESSAGE_TYPE, {
+					command : this.COMMAND_NOTIFY_CONFIG_UPDATED,
+					config  : {
+						thumbnailEnabled : value
+					}
+				});
 			case 'extensions.informationaltab.thumbnail.position':
 				if (this.thumbnailEnabled) {
 					document.documentElement.setAttribute(this.kTHUMBNAIL_POSITION,
@@ -1326,6 +1328,12 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 
 			case 'extensions.informationaltab.unread.readMethod':
 				this.readMethod = value;
+				window.messageManager.broadcastAsyncMessage(this.MESSAGE_TYPE, {
+					command : this.COMMAND_NOTIFY_CONFIG_UPDATED,
+					config  : {
+						readMethod : value
+					}
+				});
 				break;
 
 
@@ -1437,100 +1445,6 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 	updatingTabCloseButtonPrefs : false,
 	updatingTabWidthPrefs : false,
   
-/* nsIWebProgressListener */ 
-	onProgressChange : function ITS_onProgressChange(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress)
-	{
-		// ignore not for tab
-		if (!(aWebProgress instanceof Element))
-			return;
-
-		var browser = arguments[0];
-		var tab = browser.__informationaltab__tab;
-		aCurTotalProgress = arguments[5];
-		aMaxTotalProgress = arguments[6];
-
-		if (aMaxTotalProgress < 1)
-			return;
-
-		var percentage = parseInt((aCurTotalProgress * 100) / aMaxTotalProgress);
-
-		var shouldUpdateStyle = false;
-		if (tab.__informationaltab__progress) { // Tab Mix Plus
-			shouldUpdateStyle = !tab.__informationaltab__progress.hasAttribute('value');
-			this.updateProgress(tab, 'tab-progress', percentage);
-			this.updateProgress(tab.__informationaltab__progress, 'value', percentage);
-		}
-		else {
-			if (this.progressMode == this.PROGRESS_STATUSBAR) {
-				tab.__informationaltab__label.removeAttribute(this.kPROGRESS);
-			}
-			else {
-				shouldUpdateStyle = !tab.__informationaltab__label.hasAttribute(this.kPROGRESS);
-				this.updateProgress(tab.__informationaltab__label, this.kPROGRESS, percentage);
-			}
-		}
-		if (percentage && shouldUpdateStyle)
-			this.updateProgressStyle(tab);
-	},
-	updateProgress : function ITS_updateProgress(aTarget, aAttr, aPercentage)
-	{
-		if (aPercentage > 0 && aPercentage < 100) {
-			aTarget.setAttribute(aAttr, aPercentage);
-		}
-		else if (aPercentage <= 0 || aPercentage >= 100) {
-			aTarget.removeAttribute(aAttr);
-		}
-	},
-	onStatusChange : function ITS_onStatusChange() {},
-	onSecurityChange : function ITS_onSecurityChange() {},
-	onStateChange : function ITS_onStateChange(aWebProgress, aRequest, aStateFlags, aStatus)
-	{
-		// ignore not for tab
-		if (!(aWebProgress instanceof Element))
-			return;
-
-		var browser = arguments[0];
-		var tab = browser.__informationaltab__tab;
-		aStateFlags = arguments[3];
-
-		const nsIWebProgressListener = Components.interfaces.nsIWebProgressListener;
-		if (
-			aStateFlags & nsIWebProgressListener.STATE_STOP &&
-			aStateFlags & nsIWebProgressListener.STATE_IS_NETWORK
-			) {
-			this.updateThumbnail(tab, tab.__informationaltab__parentTabBrowser, this.UPDATE_PAGELOAD);
-			tab.__informationaltab__label.removeAttribute(this.kPROGRESS);
-			let uri = tab.linkedBrowser.currentURI;
-			if (!uri || uri.spec == 'about:config' || this.isTabRead(tab, 'load'))
-				tab.removeAttribute(this.kUNREAD);
-			if (uri && uri.spec == 'about:sessionrestore')
-				this.overrideSessionRestore(tab.linkedBrowser.contentWindow);
-		}
-	},
-	onLocationChange : function ITS_onLocationChange(aWebProgress, aRequest, aLocation)
-	{
-		// ignore not for tab
-		if (!(aWebProgress instanceof Element))
-			return;
-
-		var browser = arguments[0];
-		var tab = browser.__informationaltab__tab;
-		tab.setAttribute(this.kUNREAD, true);
-	},
-
-/* nsIWebProgressListener2 */
-	onProgressChange64 : function ITS_onProgressChange64() {},
-	onRefreshAttempted : function ITS_onRefreshAttempted() { return true; },
-
-/* nsISupports */
-	QueryInterface : function (aIID)
-	{
-		if (aIID.equals(Ci.nsIWebProgressListener) ||
-			aIID.equals(Ci.nsIWebProgressListener2) ||
-			aIID.equals(Ci.nsISupports))
-			return this;
-		throw Components.results.NS_NOINTERFACE;
-	}
   
 }); 
 
@@ -1542,7 +1456,7 @@ function InformationalTabEventListener(aTab, aTabBrowser)
 {
 	this.init(aTab, aTabBrowser);
 }
-InformationalTabEventListener.prototype = {
+InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 	mTab : null,
 	mTabBrowser : null,
 	init : function ITEL_init(aTab, aTabBrowser)
@@ -1553,8 +1467,15 @@ InformationalTabEventListener.prototype = {
 		this.handleMessage = this.handleMessage.bind(this);
 
 		var manager = this.mTab.linkedBrowser.messageManager;
-		manager.loadFrameScript(InformationalTabConstants.CONTENT_SCRIPT, true);
-		manager.addMessageListener(InformationalTabConstants.MESSAGE_TYPE, this.handleMessage);
+		manager.loadFrameScript(this.CONTENT_SCRIPT, true);
+		manager.addMessageListener(this.MESSAGE_TYPE, this.handleMessage);
+		manager.sendAsyncMessage(this.MESSAGE_TYPE, {
+			command : this.COMMAND_NOTIFY_CONFIG_UPDATED,
+			config  : {
+				thumbnailEnabled : InformationalTabService.thumbnailEnabled,
+				readMethod       : InformationalTabService.readMethod
+			}
+		});
 
 		this.mTabBrowser.mTabContainer.addEventListener('select', this, false);
 		this.mTab.linkedBrowser.addEventListener('scroll', this, false);
@@ -1564,9 +1485,9 @@ InformationalTabEventListener.prototype = {
 	destroy : function ITEL_destroy()
 	{
 		var manager = this.mTab.linkedBrowser.messageManager;
-		manager.removeMessageListener(InformationalTabConstants.MESSAGE_TYPE, this.handleMessage);
-		manager.sendAsyncMessage(InformationalTabConstants.MESSAGE_TYPE, {
-			command: InformationalTabConstants.COMMAND_SHUTDOWN
+		manager.removeMessageListener(this.MESSAGE_TYPE, this.handleMessage);
+		manager.sendAsyncMessage(this.MESSAGE_TYPE, {
+			command : this.COMMAND_SHUTDOWN
 		});
 
 		if (this.watchingRedrawEvent)
@@ -1650,23 +1571,80 @@ InformationalTabEventListener.prototype = {
 	{
 		switch (aMessage.json.command)
 		{
-			case InformationalTabConstants.COMMAND_REPORT_THUMBNAIL_URI:
+			case this.COMMAND_REPORT_THUMBNAIL_URI:
 				return this.handleThumbnailURI(aMessage.json.uri);
+
+			case this.COMMAND_REPORT_PROGRESS:
+				return this.handleProgress(aMessage.json.percentage);
+
+			case this.COMMAND_REPORT_PAGE_LOADED:
+				return this.handlePageLoaded(aMessage.json);
+
+			case this.COMMAND_REPORT_LOCATION_CHANGED:
+				return this.handleLocationChanged();
 		}
 	},
 	handleThumbnailURI : function ITEL_handleThumbnailURI(aURI)
 	{
+		if (!InformationalTabService.thumbnailEnabled)
+			return;
+
 		// continued from ITS_updateThumbnailNow!
 		if (!aURI) {
-			this.mTab.removeAttribute(InformationalTabConstants.kTHUMBNAIL_UPDATING);
+			this.mTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
 			return;
 		}
-		InformationalTabService.setTabValue(this.mTab, InformationalTabConstants.kTHUMBNAIL, aURI);
+		InformationalTabService.setTabValue(this.mTab, this.kTHUMBNAIL, aURI);
 		drawImageFromURI(aURI, this.mTab.__informationaltab__canvas, (function() {
-			this.mTab.removeAttribute(InformationalTabConstants.kTHUMBNAIL_UPDATING);
+			this.mTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
 		}).bind(this));
+	},
+	handleProgress : function ITEL_handleProgress(aPercentage)
+	{
+		var shouldUpdateStyle = false;
+		if (this.mTab.__informationaltab__progress) { // Tab Mix Plus
+			shouldUpdateStyle = !this.mTab.__informationaltab__progress.hasAttribute('value');
+			this.updateProgress(this.mTab, 'tab-progress', aPercentage);
+			this.updateProgress(this.mTab.__informationaltab__progress, 'value', aPercentage);
+		}
+		else {
+			if (InformationalTabService.progressMode == this.PROGRESS_STATUSBAR) {
+				this.mTab.__informationaltab__label.removeAttribute(this.kPROGRESS);
+			}
+			else {
+				shouldUpdateStyle = !this.mTab.__informationaltab__label.hasAttribute(this.kPROGRESS);
+				this.updateProgress(this.mTab.__informationaltab__label, this.kPROGRESS, aPercentage);
+			}
+		}
+		if (aPercentage && shouldUpdateStyle)
+			InformationalTabService.updateProgressStyle(this.mTab);
+	},
+	updateProgress : function ITEL_updateProgress(aTarget, aAttr, aPercentage)
+	{
+		if (aPercentage > 0 && aPercentage < 100) {
+			aTarget.setAttribute(aAttr, aPercentage);
+		}
+		else if (aPercentage <= 0 || aPercentage >= 100) {
+			aTarget.removeAttribute(aAttr);
+		}
+	},
+	handlePageLoaded : function ITEL_handlePageLoaded(aState)
+	{
+		this.mTab.__informationaltab__label.removeAttribute(this.kPROGRESS);
+
+		if (!aState.uri ||
+			aState.uri == 'about:config' ||
+			aState.read)
+			this.mTab.removeAttribute(this.kUNREAD);
+
+		if (aState.uri == 'about:sessionrestore')
+			InformationalTabService.overrideSessionRestore(this.mTab.linkedBrowser.contentWindow);
+	},
+	handleLocationChanged : function ITEL_handleLocationChanged()
+	{
+		this.mTab.setAttribute(this.kUNREAD, true);
 	}
-};
+});
 window.InformationalTabEventListener = InformationalTabEventListener;
  
 function InformationalTabBrowserEventListener(aTabBrowser) 
