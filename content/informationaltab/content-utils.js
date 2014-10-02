@@ -96,12 +96,20 @@
 				delete lastThumbnailParams.reason;
 				reportThumbnailImageURI(reason);
 				return;
+
+			case InformationalTabConstants.COMMAND_REQUEST_PAGE_READ:
+				global.sendAsyncMessage(InformationalTabConstants.MESSAGE_TYPE, {
+					command : InformationalTabConstants.COMMAND_REPORT_PAGE_LOADED,
+					read    : isPageRead(aMessage.json.event)
+				});
+				return;
 		}
 	};
 	global.addMessageListener(InformationalTabConstants.MESSAGE_TYPE, messageListener);
 
 	var lastThumbnailParams = null;
 	function reportThumbnailImageURI(aReason) {
+dump('reportThumbnailImageURI '+aReason+' / '+[config.thumbnailEnabled,lastThumbnailParams]+'\n');
 		if (!config.thumbnailEnabled || !lastThumbnailParams)
 			return;
 		let params = {

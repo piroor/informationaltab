@@ -1054,8 +1054,10 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 			case 'TabSelect':
 				if (this.disabled) return;
 				var tab = aEvent.originalTarget;
-				if (this.isTabRead(tab, aEvent.type))
-					tab.removeAttribute(this.kUNREAD);
+				tab.linkedBrowser.messageManager.sendAsyncMessage(this.MESSAGE_TYPE, {
+					command : this.COMMAND_REQUEST_PAGE_READ,
+					event   : aEvent.type
+				});
 				return;
 
 			case 'TabOpen':
@@ -1108,45 +1110,6 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		}
 	},
 	
-	isTabRead : function ITS_isTabRead(aTab, aEventType) 
-	{
-		if (!aTab.selected)
-			return false;
-
-		// in e10s window, contentDocument.contentType is always undefined...
-		// so we should rewrite codes based on content-utils.js.
-		var d = aTab.linkedBrowser.contentDocument;
-		if (d.contentType &&
-			d.contentType.toLowerCase().indexOf('image/') == 0)
-			return true;
-
-		var isScrollable = this.isFrameScrollable(aTab.linkedBrowser.contentWindow);
-		switch (this.readMethod)
-		{
-			case 1:
-				return !isScrollable || aEventType == 'scroll';
-
-			default:
-				return true;
-		}
-	},
- 
-	isFrameScrollable : function ITS_isFrameScrollable(aFrame) 
-	{
-		if (!aFrame)
-			return false;
-
-		if (aFrame.scrollMaxY > 0)
-			return true;
-
-		var children = aFrame.frames;
-		if (children && children.length)
-			for (var i = 0, maxi = children.length; i  <maxi; i++)
-				if (arguments.callee(children[i]))
-					return true;
-
-		return false;
-	},
   
 	observe : function ITS_observe(aSubject, aTopic, aData) 
 	{
@@ -1551,6 +1514,11 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 
 			case this.COMMAND_REPORT_PAGE_SCROLLED:
 				return this.handlePageScrolled();
+
+			case this,COMMAND_REPORT_PAGE_READ:
+				if (aMessage.json.read)
+					this.mTab.removeAttribute(this.kUNREAD);
+				return;
 		}
 	},
 	handleThumbnailURI : function ITEL_handleThumbnailURI(aURI)
@@ -1603,7 +1571,8 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 
 		if (!aState.uri ||
 			aState.uri == 'about:config' ||
-			aState.read)
+			aState.read &&
+			this.mTab.selected)
 			this.mTab.removeAttribute(this.kUNREAD);
 
 		if (aState.uri == 'about:sessionrestore')
@@ -1615,7 +1584,8 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 	},
 	handlePageScrolled : function ITEL_handlePageScrolled()
 	{
-		this.mTab.removeAttribute(this.kUNREAD);
+		if (this.mTab.selected)
+			this.mTab.removeAttribute(this.kUNREAD);
 	}
 });
 window.InformationalTabEventListener = InformationalTabEventListener;

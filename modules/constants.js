@@ -59,5 +59,7 @@ var InformationalTabConstants = {
 	COMMAND_REPORT_PROGRESS         : 'report-progress',
 	COMMAND_REPORT_PAGE_LOADED      : 'report-page-load',
 	COMMAND_REPORT_LOCATION_CHANGED : 'report-location-changed',
-	COMMAND_REPORT_PAGE_SCROLLED    : 'report-page-scrolled'
+	COMMAND_REPORT_PAGE_SCROLLED    : 'report-page-scrolled',
+	COMMAND_REQUEST_PAGE_READ       : 'request-page-read',
+	COMMAND_REPORT_PAGE_READ        : 'report-page-read'
 };
