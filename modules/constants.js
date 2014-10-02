@@ -48,6 +48,7 @@ var InformationalTabConstants = {
 	UPDATE_REFLOW    : 16,
 	UPDATE_REPAINT   : 32,
 	UPDATE_RESTORING : 64,
+	UPDATE_REFRESH   : 128,
 
 	CONTENT_SCRIPT : 'chrome://informationaltab/content/content-utils.js',
 	MESSAGE_TYPE : 'informationaltab',

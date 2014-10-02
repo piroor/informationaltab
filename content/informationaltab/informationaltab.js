@@ -899,7 +899,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 			canvas.parentNode.parentNode.removeChild(canvas.parentNode);
 			canvas.parentNode.removeChild(canvas);
 			this.insertThumbnailTo(canvas, tab, aTabBrowser, pos);
-			this.updateThumbnail(tab, aTabBrowser, this.UPDATE_INIT);
+			this.updateThumbnail(tab, aTabBrowser, this.UPDATE_REFRESH);
 		}
 	},
  
@@ -1054,6 +1054,8 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 			case 'TabSelect':
 				if (this.disabled) return;
 				var tab = aEvent.originalTarget;
+				b = this.getTabBrowserFromChild(aEvent.currentTarget);
+				this.updateThumbnailNow(tab, b, this.UPDATE_REFRESH);
 				tab.linkedBrowser.messageManager.sendAsyncMessage(this.MESSAGE_TYPE, {
 					command : this.COMMAND_REQUEST_PAGE_READ,
 					event   : aEvent.type
