@@ -1,7 +1,9 @@
 # 更新履歴
 
  - master/HEAD
+ - 0.5.2014100301
    * マルチプロセスモード（E10S）に対応
+   * Firefox 30およびそれ以前への対応を終了
    * タブの「閉じる」ボタンの表示設定において、[Firefox 32以降で削除された `browser.tabs.closeButtons` についての設定](https://bugzilla.mozilla.org/show_bug.cgi?id=865826)はUIを表示しないようにした
  - 0.4.2013053001
    * ロシア語ロケールが正しく読み込まれなくなっていたのを修正 (by Infocatcher)

@@ -1,7 +1,9 @@
 # History
 
  - master/HEAD
+ - 0.5.2014100301
    * Works correctly on the multi-process mode (E10S).
+   * Drop support for Firefox 30 and older versions.
    * Don't show configuration UI for [the preference `browser.tabs.closeButtons` removed on Firefox 32 and later](https://bugzilla.mozilla.org/show_bug.cgi?id=865826).
  - 0.4.2013053001
    * Fixed: Load ru locale correctly. (by Infocatcher)
