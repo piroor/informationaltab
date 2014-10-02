@@ -222,6 +222,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		this.onChangePref('extensions.informationaltab.thumbnail.partial.maxPercentage');
 		this.onChangePref('extensions.informationaltab.thumbnail.partial.startX');
 		this.onChangePref('extensions.informationaltab.thumbnail.partial.startY');
+		this.onChangePref('extensions.informationaltab.thumbnail.animation');
 		this.onChangePref('extensions.informationaltab.thumbnail.size_mode');
 		this.onChangePref('extensions.informationaltab.thumbnail.max');
 		this.onChangePref('extensions.informationaltab.thumbnail.pow');
@@ -1275,6 +1276,16 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 				this.thumbnailPartialBaseY = value;
 				break;
 
+			case 'extensions.informationaltab.thumbnail.animation':
+				this.thumbnailWatchAnimation = value;
+				window.messageManager.broadcastAsyncMessage(this.MESSAGE_TYPE, {
+					command : this.COMMAND_NOTIFY_CONFIG_UPDATED,
+					config  : {
+						thumbnailWatchAnimation : value
+					}
+				});
+				break;
+
 			case 'extensions.informationaltab.thumbnail.size_mode':
 				this.thumbnailSizeMode = value;
 				break;
@@ -1487,13 +1498,12 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 				thumbnailEnabled     : InformationalTabService.thumbnailEnabled,
 				thumbnailScrolled    : InformationalTabService.thumbnailScrolled,
 				thumbnailUpdateDelay : InformationalTabService.thumbnailUpdateDelay,
+				thumbnailWatchAnimation : InformationalTabService.thumbnailWatchAnimation,
 				readMethod           : InformationalTabService.readMethod
 			}
 		});
 
 		this.mTabBrowser.mTabContainer.addEventListener('select', this, false);
-		prefs.addPrefListener(this);
-		this.observe(null, 'nsPref:changed', 'extensions.informationaltab.thumbnail.animation');
 	},
 	destroy : function ITEL_destroy()
 	{
@@ -1503,8 +1513,6 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 			command : this.COMMAND_SHUTDOWN
 		});
 
-		if (this.watchingRedrawEvent)
-			this.mTab.linkedBrowser.removeEventListener('MozAfterPaint', this, false);
 		this.mTabBrowser.mTabContainer.removeEventListener('select', this, false);
 		prefs.removePrefListener(this);
 
@@ -1522,50 +1530,11 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 					ITS.updateTabStyle(this.mTab);
 				this.lastSelected = selected;
 				break;
-
-			case 'MozAfterPaint':
-				if (this.mUpdateThumbnailTimer)
-					window.clearTimeout(this.mUpdateThumbnailTimer);
-				this.mUpdateThumbnailTimer = window.setTimeout(function(aSelf) {
-					ITS.updateThumbnail(aSelf.mTab, aSelf.mTabBrowser, ITS.UPDATE_REPAINT);
-					aSelf.mUpdateThumbnailTimer = null;
-				}, ITS.thumbnailUpdateDelay, this);
-				break;
-		}
-	},
-	watchingRedrawEvent : false,
-	domains : [
-//		'extensions.informationaltab.thumbnail.partial',
-		'extensions.informationaltab.thumbnail.animation'
-	],
- 	observe : function ITEL_observe(aSubject, aTopic, aPrefName)
-	{
-		if (aTopic != 'nsPref:changed') return;
-		const ITS = InformationalTabService;
-
-		var value = prefs.getPref(aPrefName);
-		switch (aPrefName)
-		{
-			case 'extensions.informationaltab.thumbnail.partial':
-			case 'extensions.informationaltab.thumbnail.animation':
-				var shouldWatch = (
-//						!prefs.getPref('extensions.informationaltab.thumbnail.partial') &&
-						prefs.getPref('extensions.informationaltab.thumbnail.animation')
-					);
-				if (shouldWatch && !this.watchingRedrawEvent)
-					this.mTab.linkedBrowser.addEventListener('MozAfterPaint', this, false);
-				else if (!shouldWatch && this.watchingRedrawEvent)
-					this.mTab.linkedBrowser.removeEventListener('MozAfterPaint', this, false);
-				this.watchingRedrawEvent = shouldWatch;
-				break;
-
-			default:
-				break;
 		}
 	},
 	handleMessage : function ITEL_handleMessage(aMessage)
 	{
-dump(aMessage.json.command+'\n');
+		//dump(aMessage.json.command+'\n');
 		switch (aMessage.json.command)
 		{
 			case this.COMMAND_REPORT_THUMBNAIL_URI:

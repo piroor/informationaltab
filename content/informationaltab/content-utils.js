@@ -36,6 +36,7 @@
 			progressFilter =
 
 			updateThumbnailTimer =
+			paintEventListening =
 			handleEvent =
 
 			mydump =
@@ -46,6 +47,7 @@
 			thumbnailEnabled     : false,
 			thumbnailScrolled    : false,
 			thumbnailUpdateDelay : false,
+			thumbnailWatchAnimation : false,
 			readMethod           : 0
 		};
 
@@ -61,17 +63,28 @@
 				global.removeEventListener('scroll', handleEvent, true);
 				if (updateThumbnailTimer)
 					timer.clearTimeout(updateThumbnailTimer);
+				if (paintEventListening)
+					global.removeEventListener('MozAfterPaint', handleEvent, false);
 				free();
 				return;
 
 			case InformationalTabConstants.COMMAND_NOTIFY_CONFIG_UPDATED:
 				Object.keys(aMessage.json.config).forEach(function(aKey) {
-					config[aKey] = aMessage.json.config[aKey];
+					var value = aMessage.json.config[aKey];
+					config[aKey] = value;
 					switch (aKey)
 					{
 						case 'thumbnailEnabled':
 						case 'thumbnailScrolled':
 							reportThumbnailImageURI(InformationalTabConstants.UPDATE_INIT);
+							break;
+
+						case 'thumbnailWatchAnimation':
+							if (value && !paintEventListening)
+								global.addEventListener('MozAfterPaint', handleEvent, false);
+							else if (!value && paintEventListening)
+								global.removeEventListener('MozAfterPaint', handleEvent, false);
+							paintEventListening = value;
 							break;
 					}
 				});
@@ -200,6 +213,7 @@
 	webProgress.addProgressListener(progressFilter, Ci.nsIWebProgress.NOTIFY_ALL);
 
 	var updateThumbnailTimer = null;
+	var paintEventListening = false;
 	function handleEvent(aEvent) {
 		switch (aEvent.type)
 		{
@@ -219,6 +233,15 @@
 						updateThumbnailTimer = null;
 					}, config.thumbnailUpdateDelay);
 				}
+				break;
+
+			case 'MozAfterPaint':
+				if (updateThumbnailTimer)
+					timer.clearTimeout(updateThumbnailTimer);
+				updateThumbnailTimer = timer.setTimeout(function() {
+					reportThumbnailImageURI(InformationalTabConstants.UPDATE_REPAINT);
+					updateThumbnailTimer = null;
+				}, config.thumbnailUpdateDelay);
 				break;
 		}
 	}
