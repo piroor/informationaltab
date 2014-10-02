@@ -11,6 +11,15 @@
 
 	mydump('CONTENT SCRIPT LOADED');
 
+	function free() {
+		cleanup =
+			messageListener =
+			InformationalTabConstants =
+			getThumbnailImageURI =
+			mydump =
+				undefined;
+	}
+
 	var messageListener = function(aMessage) {
 		mydump('CONTENT MESSAGE LISTENED');
 		mydump(JSON.stringify(aMessage.json));
@@ -18,7 +27,7 @@
 		{
 			case InformationalTabConstants.COMMAND_SHUTDOWN:
 				global.removeMessageListener(InformationalTabConstants.MESSAGE_TYPE, messageListener);
-				messageListener = null;
+				free();
 				return;
 
 			case InformationalTabConstants.COMMAND_REQUEST_THUMBNAIL_URI:
