@@ -109,7 +109,6 @@
 
 	var lastThumbnailParams = null;
 	function reportThumbnailImageURI(aReason) {
-dump('reportThumbnailImageURI '+aReason+' / '+[config.thumbnailEnabled,lastThumbnailParams]+'\n');
 		if (!config.thumbnailEnabled || !lastThumbnailParams)
 			return;
 		let params = {
