@@ -13,7 +13,7 @@
 
 	var { InformationalTabConstants } = Cu.import('resource://informationaltab-modules/constants.js', {});
 	var { getThumbnailImageURI } = Cu.import('resource://informationaltab-modules/thumbnail-utils.js', {});
-	var timer = Cu.import('resource://informationaltab-modules/jstimer.jsm', {});
+	var timer = Cu.import('resource://gre/modules/Timer.jsm', {});
 
 	function free() {
 		cleanup =
