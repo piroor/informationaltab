@@ -1,6 +1,8 @@
 # History
 
  - master/HEAD
+ - 0.5.2014100302
+   * Use Timer.jsm instead of my alternative library.
  - 0.5.2014100301
    * Works correctly on the multi-process mode (E10S).
    * Drop support for Firefox 30 and older versions.
