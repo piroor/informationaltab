@@ -955,7 +955,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 						parseInt(containerStyle.marginBottom);
 			let tabHeight = this.thumbnailStyle[orient][selected].tab
 							.replace(/%canvas_height%/g, canvasHeight + 'px') || '0px';
-			tabHeight += ' - ' + margin + 'px';
+			tabHeight += '0 - ' + margin + 'px';
 			tabHeight = 'calc(' + tabHeight + ')';
 
 			for (let i = 0, maxi = nodes.length; i < maxi; i++)
