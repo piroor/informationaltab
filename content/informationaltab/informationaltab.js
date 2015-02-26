@@ -308,14 +308,13 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
  
 	initTabBrowser : function ITS_initTabBrowser(aTabBrowser) 
 	{
-		let (tabs, i, maxi, listener) {
-			tabs = this.getTabs(aTabBrowser);
-			for (i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
+			var tabs = this.getTabs(aTabBrowser);
+			for (let i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
 			{
 				this.initTab(tabs.snapshotItem(i), aTabBrowser);
 			}
 
-			listener = new InformationalTabPrefListener(aTabBrowser);
+			var listener = new InformationalTabPrefListener(aTabBrowser);
 			aTabBrowser.__informationaltab__prefListener = listener;
 
 			aTabBrowser.__informationaltab__eventListener = new InformationalTabBrowserEventListener(aTabBrowser);
@@ -327,7 +326,6 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 			aTabBrowser.mTabContainer.addEventListener('TabUnpinned',    this, false);
 			aTabBrowser.mTabContainer.addEventListener('SSTabRestoring', this, false);
 			aTabBrowser.mTabContainer.addEventListener('TreeStyleTabCollapsedStateChange', this, false);
-		}
 	},
  
 	initTab : function ITS_initTab(aTab, aTabBrowser) 
