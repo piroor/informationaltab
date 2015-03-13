@@ -1,6 +1,7 @@
 # History
 
  - master/HEAD
+   * Events in the content area are correctly handled even if tabs' remoteness is dynamically changed.
  - 0.5.2014100302
    * Use Timer.jsm instead of my alternative library.
  - 0.5.2014100301
