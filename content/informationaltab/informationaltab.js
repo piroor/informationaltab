@@ -1459,7 +1459,7 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 		this.notifyConfigUpdatedMessage();
 
 		this.mTabBrowser.mTabContainer.addEventListener('select', this, false);
-		this.mTab.addeEventListener('TabRemotenessChange', this, false);
+		this.mTab.addEventListener('TabRemotenessChange', this, false);
 	},
 	notifyConfigUpdatedMessage : function ITEL_notifyConfigUpdatedMessage()
 	{
