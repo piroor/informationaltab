@@ -250,6 +250,8 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 
 		this.overrideExtensionsOnInitAfter();
 
+		window.messageManager.loadFrameScript(this.CONTENT_SCRIPT, true);
+
 		this.initTabBrowser(gBrowser);
 
 		this.initialized = true;
@@ -1454,10 +1456,16 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 		this.lastSelected = this.mTabBrowser.selectedTab == this.mTab;
 		this.handleMessage = this.handleMessage.bind(this);
 
-		var manager = this.mTab.linkedBrowser.messageManager;
-		manager.loadFrameScript(this.CONTENT_SCRIPT, true);
+		var manager = window.messageManager;
 		manager.addMessageListener(this.MESSAGE_TYPE, this.handleMessage);
-		manager.sendAsyncMessage(this.MESSAGE_TYPE, {
+		this.notifyConfigUpdatedMessage();
+
+		this.mTabBrowser.mTabContainer.addEventListener('select', this, false);
+		this.mTab.addeEventListener('TabRemotenessChange', this, false);
+	},
+	notifyConfigUpdatedMessage : function ITEL_notifyConfigUpdatedMessage()
+	{
+		this.mTab.messageManager.sendAsyncMessage(this.MESSAGE_TYPE, {
 			command : this.COMMAND_NOTIFY_CONFIG_UPDATED,
 			config  : {
 				thumbnailEnabled     : InformationalTabService.thumbnailEnabled,
@@ -1467,16 +1475,13 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 				readMethod           : InformationalTabService.readMethod
 			}
 		});
-
-		this.mTabBrowser.mTabContainer.addEventListener('select', this, false);
 	},
 	destroy : function ITEL_destroy()
 	{
-		var manager = this.mTab.linkedBrowser.messageManager;
+		this.mTab.removeEventListener('TabRemotenessChange', this, false);
+
+		var manager = window.messageManager;
 		manager.removeMessageListener(this.MESSAGE_TYPE, this.handleMessage);
-		manager.sendAsyncMessage(this.MESSAGE_TYPE, {
-			command : this.COMMAND_SHUTDOWN
-		});
 
 		this.mTabBrowser.mTabContainer.removeEventListener('select', this, false);
 		prefs.removePrefListener(this);
@@ -1495,11 +1500,20 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 					ITS.updateTabStyle(this.mTab);
 				this.lastSelected = selected;
 				break;
+
+			case 'TabRemotenessChange':
+				return this.notifyConfigUpdatedMessage();
 		}
 	},
 	handleMessage : function ITEL_handleMessage(aMessage)
 	{
-		//dump(aMessage.json.command+'\n');
+//		dump('*********************handleMessage*******************\n');
+//		dump('TARGET IS: '+aMessage.target.localName+'\n');
+//		dump(JSON.stringify(aMessage.json)+'\n');
+
+		if (aMessage.target != this.mTab.linkedBrowser)
+		  return;
+
 		switch (aMessage.json.command)
 		{
 			case this.COMMAND_REPORT_THUMBNAIL_URI:
