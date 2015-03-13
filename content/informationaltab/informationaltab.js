@@ -1463,7 +1463,7 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 	},
 	notifyConfigUpdatedMessage : function ITEL_notifyConfigUpdatedMessage()
 	{
-		this.mTab.messageManager.sendAsyncMessage(this.MESSAGE_TYPE, {
+		this.mTab.linkedBrowser.messageManager.sendAsyncMessage(this.MESSAGE_TYPE, {
 			command : this.COMMAND_NOTIFY_CONFIG_UPDATED,
 			config  : {
 				thumbnailEnabled     : InformationalTabService.thumbnailEnabled,
