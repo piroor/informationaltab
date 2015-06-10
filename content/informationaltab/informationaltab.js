@@ -3,6 +3,7 @@ var prefs = window['piro.sakura.ne.jp'].prefs;
 
 var { InformationalTabConstants } = Components.utils.import('resource://informationaltab-modules/constants.js', {});
 var { inherit } = Components.utils.import('resource://informationaltab-modules/inherit.jsm', {});
+var { visuallyselectedTabs } = Components.utils.import('resource://informationaltab-modules/visuallyselectedTabs.jsm', {});
 
 var { calculateCanvasSize, getThumbnailImageURI, drawImageFromURI } = Components.utils.import('resource://informationaltab-modules/thumbnail-utils.js', {});
 
@@ -177,6 +178,8 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 			this.preInit();
 
 		window.removeEventListener('load', this, false);
+
+		visuallyselectedTabs(gBrowser);
 
 		window.addEventListener('beforecustomization', this, true);
 		window.addEventListener('aftercustomization', this, false);

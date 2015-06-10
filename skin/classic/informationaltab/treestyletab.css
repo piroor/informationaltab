@@ -7,13 +7,13 @@
   .tabbrowser-tab label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="square"][treestyletab-mode="vertical"]
-  .tabbrowser-tab:not([selected="true"]) label,
+  .tabbrowser-tab:not([visuallyselected="true"]) label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="square"][treestyletab-tabbar-position="bottom"]
   .tabbrowser-tab label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="square"][treestyletab-tabbar-position="bottom"]
-  .tabbrowser-tab:not([selected="true"]) label {
+  .tabbrowser-tab:not([visuallyselected="true"]) label {
 	text-shadow: 0 0 0.2em ThreeDFace,
 	             0 0 0.2em ThreeDFace,
 	             0 0 0.2em ThreeDFace,
@@ -27,10 +27,10 @@
 }
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="square"][treestyletab-mode="vertical"]
-  .tabbrowser-tab[selected="true"] label,
+  .tabbrowser-tab[visuallyselected="true"] label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="square"][treestyletab-tabbar-position="bottom"]
-  .tabbrowser-tab[selected="true"] label {
+  .tabbrowser-tab[visuallyselected="true"] label {
 	text-shadow: 0 0 0.2em ThreeDHighlight,
 	             0 0 0.2em ThreeDHighlight,
 	             0 0 0.2em ThreeDHighlight,
@@ -46,16 +46,16 @@
 /* Vertigo, Mixed */
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="vertigo"][treestyletab-mode="vertical"]
-  .tabbrowser-tab:not([selected="true"]):hover label,
+  .tabbrowser-tab:not([visuallyselected="true"]):hover label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="vertigo"][treestyletab-tabbar-position="bottom"]
-  .tabbrowser-tab:not([selected="true"]):hover label,
+  .tabbrowser-tab:not([visuallyselected="true"]):hover label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="mixed"][treestyletab-mode="vertical"]
-  .tabbrowser-tab:not([selected="true"]):hover label,
+  .tabbrowser-tab:not([visuallyselected="true"]):hover label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="mixed"][treestyletab-tabbar-position="bottom"]
-  .tabbrowser-tab:not([selected="true"]):hover label {
+  .tabbrowser-tab:not([visuallyselected="true"]):hover label {
 	text-shadow: 0 0 0.2em #e0e8f6,
 	             0 0 0.2em #e0e8f6,
 	             0 0 0.2em #e0e8f6,
@@ -69,16 +69,16 @@
 }
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="vertigo"][treestyletab-mode="vertical"]
-  .tabbrowser-tab[selected="true"] label,
+  .tabbrowser-tab[visuallyselected="true"] label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="vertigo"][treestyletab-tabbar-position="bottom"]
-  .tabbrowser-tab[selected="true"] label,
+  .tabbrowser-tab[visuallyselected="true"] label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="mixed"][treestyletab-mode="vertical"]
-  .tabbrowser-tab[selected="true"] label,
+  .tabbrowser-tab[visuallyselected="true"] label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="mixed"][treestyletab-tabbar-position="bottom"]
-  .tabbrowser-tab[selected="true"] label {
+  .tabbrowser-tab[visuallyselected="true"] label {
 	text-shadow: 0 0 0.2em #c1d2ee,
 	             0 0 0.2em #c1d2ee,
 	             0 0 0.2em #c1d2ee,
@@ -92,16 +92,16 @@
 }
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="vertigo"][treestyletab-mode="vertical"]
-  .tabbrowser-tab[selected="true"]:hover label,
+  .tabbrowser-tab[visuallyselected="true"]:hover label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="vertigo"][treestyletab-tabbar-position="bottom"]
-  .tabbrowser-tab[selected="true"]:hover label,
+  .tabbrowser-tab[visuallyselected="true"]:hover label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="mixed"][treestyletab-mode="vertical"]
-  .tabbrowser-tab[selected="true"]:hover label,
+  .tabbrowser-tab[visuallyselected="true"]:hover label,
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style~="mixed"][treestyletab-tabbar-position="bottom"]
-  .tabbrowser-tab[selected="true"]:hover label {
+  .tabbrowser-tab[visuallyselected="true"]:hover label {
 	text-shadow: 0 0 0.2em #d1e2fe,
 	             0 0 0.2em #d1e2fe,
 	             0 0 0.2em #d1e2fe,
@@ -134,7 +134,7 @@
 }
 :root[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style="metal"][treestyletab-mode="vertical"]
-  .tabbrowser-tab[selected="true"] label {
+  .tabbrowser-tab[visuallyselected="true"] label {
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4),
 	             0 0 0.2em #b3b2b3,
 	             0 0 0.2em #b3b2b3,
@@ -167,10 +167,10 @@
 }
 :root:not([active="true"])[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style="metal"][treestyletab-mode="vertical"]
-  .tabbrowser-tab[selected="true"] label,
+  .tabbrowser-tab[visuallyselected="true"] label,
 :root:-moz-window-inactive[informationaltab-thumbnail-position^="5"]
   .tabbrowser-tabs[treestyletab-style="metal"][treestyletab-mode="vertical"]
-  .tabbrowser-tab[selected="true"] label {
+  .tabbrowser-tab[visuallyselected="true"] label {
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4),
 	             0 0 0.2em #e4e4e4,
 	             0 0 0.2em #e4e4e4,

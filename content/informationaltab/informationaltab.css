@@ -21,7 +21,7 @@ tabs.tabbrowser-tabs label.tab-text {
 
 :root[informationaltab-show-last-tab-close-button="true"]
   .tabbrowser-tabs:not([closebuttons="noclose"]):not([closebuttons="closeatend"])
-  > .tabbrowser-tab[selected="true"]:only-child
+  > .tabbrowser-tab[visuallyselected="true"]:only-child
   .tab-close-button,
 :root[informationaltab-show-last-tab-close-button="true"]
   .tabbrowser-tabs[closebuttons="alltabs"]
@@ -32,7 +32,7 @@ tabs.tabbrowser-tabs label.tab-text {
 
 :root[informationaltab-show-last-tab-close-button="false"]
   .tabbrowser-tabs:not([closebuttons="noclose"]):not([closebuttons="closeatend"])
-  > .tabbrowser-tab[selected="true"]:only-child
+  > .tabbrowser-tab[visuallyselected="true"]:only-child
   .tab-close-button,
 :root[informationaltab-show-last-tab-close-button="false"]
   .tabbrowser-tabs[closebuttons="activetab"]
