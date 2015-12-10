@@ -1483,6 +1483,7 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 
 		var manager = window.messageManager;
 		manager.removeMessageListener(this.MESSAGE_TYPE, this.handleMessage);
+		manager.removeDelayedFrameScript(this.CONTENT_SCRIPT);
 
 		this.mTabBrowser.mTabContainer.removeEventListener('select', this, false);
 		prefs.removePrefListener(this);
