@@ -531,6 +531,8 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 
 		this.destroyTabBrowser(gBrowser);
 
+		window.messageManager.removeDelayedFrameScript(this.CONTENT_SCRIPT);
+
 		window.removeEventListener('unload', this, false);
 
 		window.removeEventListener('beforecustomization', this, true);
@@ -1483,7 +1485,6 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 
 		var manager = window.messageManager;
 		manager.removeMessageListener(this.MESSAGE_TYPE, this.handleMessage);
-		manager.removeDelayedFrameScript(this.CONTENT_SCRIPT);
 
 		this.mTabBrowser.mTabContainer.removeEventListener('select', this, false);
 		prefs.removePrefListener(this);
