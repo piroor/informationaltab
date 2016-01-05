@@ -1,6 +1,7 @@
 # History
 
  - master/HEAD
+   * Don't mark tab as "read", when the tab is selected but not scrolled.
  - 0.5.2016010501
    * Supports Nightly 46.0a1.
    * Events in the content area are correctly handled even if tabs' remoteness is dynamically changed.
