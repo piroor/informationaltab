@@ -1,6 +1,8 @@
 # History
 
  - master/HEAD
+ - 0.5.2016010501
+   * Supports Nightly 46.0a1.
    * Events in the content area are correctly handled even if tabs' remoteness is dynamically changed.
  - 0.5.2014100302
    * Use Timer.jsm instead of my alternative library.
