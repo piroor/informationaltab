@@ -230,7 +230,10 @@
 					!isPageRead(aEvent.type))
 					return;
 				global.sendAsyncMessage(InformationalTabConstants.MESSAGE_TYPE, {
-					command : InformationalTabConstants.COMMAND_REPORT_PAGE_SCROLLED
+					command : InformationalTabConstants.COMMAND_REPORT_PAGE_SCROLLED,
+					source:   String(aEvent.originalTarget),
+					x:        aEvent.originalTarget.defaultView.scrollX,
+					y:        aEvent.originalTarget.defaultView.scrollY
 				});
 				if (config.thumbnailScrolled) {
 					if (updateThumbnailTimer)

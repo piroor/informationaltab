@@ -7,6 +7,11 @@ var { visuallyselectedTabs } = Components.utils.import('resource://informational
 
 var { calculateCanvasSize, getThumbnailImageURI, drawImageFromURI } = Components.utils.import('resource://informationaltab-modules/thumbnail-utils.js', {});
 
+function mydump(aString) {
+	if (prefs.getPref('extensions.informationaltab.debug'))
+		dump(aString);
+}
+
 var InformationalTabService = window.InformationalTabService = inherit(InformationalTabConstants, { 
 	disabled : false,
 
@@ -588,7 +593,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 			}
 		}
 		catch(e) {
-			dump(e+'\n'+e.stack+'\n');
+			mydump(e+'\n'+e.stack+'\n');
 		}
 	},
   
@@ -1510,9 +1515,9 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 	},
 	handleMessage : function ITEL_handleMessage(aMessage)
 	{
-//		dump('*********************handleMessage*******************\n');
-//		dump('TARGET IS: '+aMessage.target.localName+'\n');
-//		dump(JSON.stringify(aMessage.json)+'\n');
+		mydump('*********************handleMessage*******************\n');
+		mydump('TARGET IS: '+aMessage.target.localName+'\n');
+		mydump(JSON.stringify(aMessage.json)+'\n');
 
 		if (aMessage.target != this.mTab.linkedBrowser)
 		  return;
