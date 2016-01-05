@@ -99,7 +99,7 @@
 
 			case InformationalTabConstants.COMMAND_REQUEST_PAGE_READ:
 				global.sendAsyncMessage(InformationalTabConstants.MESSAGE_TYPE, {
-					command : InformationalTabConstants.COMMAND_REPORT_PAGE_LOADED,
+					command : InformationalTabConstants.COMMAND_REPORT_PAGE_READ,
 					read    : isPageRead(aMessage.json.event)
 				});
 				return;

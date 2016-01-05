@@ -1539,7 +1539,7 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 			case this.COMMAND_REPORT_PAGE_SCROLLED:
 				return this.handlePageScrolled();
 
-			case this,COMMAND_REPORT_PAGE_READ:
+			case this.COMMAND_REPORT_PAGE_READ:
 				if (aMessage.json.read)
 					this.mTab.removeAttribute(this.kUNREAD);
 				return;
