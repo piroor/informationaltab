@@ -716,17 +716,31 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		}
 	},
  
-	updateThumbnail : function ITS_updateThumbnail(aTab, aTabBrowser, aReason) 
+	isTabSuspended : function ITS_isTabSuspended(aTab)
 	{
-		// compatibility for Suspend Tab (https://github.com/piroor/suspendtab)
 		if (
 			'SuspendTab' in window &&
 			(
 				(typeof SuspendTab.isSuspended == 'function' && SuspendTab.isSuspended(aTab)) ||
 				(typeof SuspendTab.isSuspending == 'function' && SuspendTab.isSuspending(aTab))
-			) &&
-			!(aReason & this.UPDATE_RESTORING)
 			)
+			)
+			return true;
+
+		return false;
+	},
+ 
+	canUpdateThumbnail : function ITS_canUpdateThumbnail(aTab, aReason)
+	{
+		if (this.isTabSuspended(aTab))
+			return false;
+
+		return (aReason & this.UPDATE_RESTORING);
+	},
+ 
+	updateThumbnail : function ITS_updateThumbnail(aTab, aTabBrowser, aReason) 
+	{
+		if (!this.canUpdateThumbnail(aTab, aReason))
 			return;
 
 		if (!('__informationaltab__lastReason' in aTab)) {
@@ -829,17 +843,13 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 				isBlankPageURL(aTab.linkedBrowser.currentURI.spec) :
 				(aTab.linkedBrowser.currentURI.spec == 'about:blank') // BarTab
 			) ||
+			this.isTabSuspended(aTab) ||
 			this.isTabNeedToBeRestored(aTab) // Firefox native
 		);
 	},
 	isTabNeedToBeRestored : function ITS_isTabNeedToBeRestored(aTab)
 	{
 		var browser = aTab.linkedBrowser;
-		// Firefox 25 and later. See: https://bugzilla.mozilla.org/show_bug.cgi?id=867142
-		if (this.TabRestoreStates &&
-			this.TabRestoreStates.has(browser))
-			return this.TabRestoreStates.isNeedsRestore(browser);
-
 		return browser.__SS_restoreState == 1;
 	},
 	get TabRestoreStates() {
@@ -1550,7 +1560,8 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 	},
 	handleThumbnailURI : function ITEL_handleThumbnailURI(aURI)
 	{
-		if (!InformationalTabService.thumbnailEnabled)
+		if (!InformationalTabService.thumbnailEnabled ||
+			InformationalTabService.isTabSuspended(this.mTab))
 			return;
 
 		// continued from ITS_updateThumbnailNow!
@@ -1558,6 +1569,7 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 			this.mTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
 			return;
 		}
+
 		InformationalTabService.setTabValue(this.mTab, this.kTHUMBNAIL, aURI);
 		drawImageFromURI(aURI, this.mTab.__informationaltab__canvas, (function() {
 			this.mTab.removeAttribute(this.kTHUMBNAIL_UPDATING);
