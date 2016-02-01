@@ -721,7 +721,10 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		// compatibility for Suspend Tab (https://github.com/piroor/suspendtab)
 		if (
 			'SuspendTab' in window &&
-			SuspendTab.isSuspended(aTab) &&
+			(
+				(typeof SuspendTab.isSuspended == 'function' && SuspendTab.isSuspended(aTab)) ||
+				(typeof SuspendTab.isSuspending == 'function' && SuspendTab.isSuspending(aTab))
+			) &&
 			!(aReason & this.UPDATE_RESTORING)
 			)
 			return;
