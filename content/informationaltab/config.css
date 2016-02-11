@@ -25,3 +25,7 @@ radiogroup[value="503"] .tabbrowser-tab #thumbnail-position-indicator-503 {
 .tab-close-button {
 	pointer-events: none;
 }
+
+.tabbrowser-tab {
+	pointer-events: auto !important;
+}
