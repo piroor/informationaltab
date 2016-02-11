@@ -1,6 +1,7 @@
 # History
 
  - master/HEAD
+   * Better descriptions for configurations about the sole tab of a window.
    * Don't mark tab as "read", when the tab is selected but not scrolled.
  - 0.5.2016010501
    * Supports Nightly 46.0a1.
