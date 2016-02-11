@@ -74,8 +74,8 @@
 
 <!ENTITY config.closebutton.force_show "Mostrar los botones de cerrado incluso sí hay muchas pestañas como para mostrar los botones.">
 
-<!ENTITY config.close_buttons.force_show.last_tab.caption "Botón de cerrar en la última pestaña">
-<!ENTITY config.close_buttons.force_show.last_tab.0       "Mostrar sólo cuando la pestaña se puede cerrar">
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the sole tab of a window">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the window is not closed together">
 <!ENTITY config.close_buttons.force_show.last_tab.2       "Mostrar siempre (Estilo Firefox 3.0)">
 <!ENTITY config.close_buttons.force_show.last_tab.1       "Ocultar siempre (Estilo Firefox 3.5)">
-<!ENTITY config.closeWindowWithLastTab "Permitir el cerrado de la última pestaña">
+<!ENTITY config.closeWindowWithLastTab "Close the window together when the sole tab is closed">

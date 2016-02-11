@@ -74,8 +74,9 @@
 
 <!ENTITY config.closebutton.force_show "Показывать кнопки закрытия, даже если вкладки слишком узкие для отображения кнопок">
 
-<!ENTITY config.close_buttons.force_show.last_tab.caption "Кнопка закрытия на единственной вкладке">
-<!ENTITY config.close_buttons.force_show.last_tab.0       "Показывать только если вкладка может быть закрыта">
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the sole tab of a window">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the window is not closed together">
 <!ENTITY config.close_buttons.force_show.last_tab.2       "Показывать всегда (в стиле Firefox 3.0)">
 <!ENTITY config.close_buttons.force_show.last_tab.1       "Скрывать всегда (в стиле Firefox 3.5)">
-<!ENTITY config.closeWindowWithLastTab "Разрешить закрытие единственной вкладки">
+<!ENTITY config.closeWindowWithLastTab "Close the window together when the sole tab is closed">
+

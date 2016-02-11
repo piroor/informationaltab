@@ -74,8 +74,9 @@
 
 <!ENTITY config.closebutton.force_show "在标签宽度太少时仍然显示关闭按钮。">
 
-<!ENTITY config.close_buttons.force_show.last_tab.caption "最后一个标签的关闭按钮">
-<!ENTITY config.close_buttons.force_show.last_tab.0       "仅在最后一个标签可以关闭时显示">
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the sole tab of a window">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the window is not closed together">
 <!ENTITY config.close_buttons.force_show.last_tab.2       "一直显示（Firefox 3.0 的样式）">
 <!ENTITY config.close_buttons.force_show.last_tab.1       "一直隐藏（Firefox 3.5 的样式）">
-<!ENTITY config.closeWindowWithLastTab "允许关闭最后一个标签">
+<!ENTITY config.closeWindowWithLastTab "Close the window together when the sole tab is closed">
+

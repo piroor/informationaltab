@@ -73,8 +73,9 @@
 
 <!ENTITY config.closebutton.force_show "Wyświetlaj przycisk zamykania zawsze">
 
-<!ENTITY config.close_buttons.force_show.last_tab.caption "Przycisk zamykania na etykiecie ostatniej karty">
-<!ENTITY config.close_buttons.force_show.last_tab.0       "Wyświetlaj tylko jeśli ostatnia karta może być zamykana">
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the sole tab of a window">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the window is not closed together">
 <!ENTITY config.close_buttons.force_show.last_tab.2       "Wyświetlaj zawsze (styl Firefoksa 3.0)">
 <!ENTITY config.close_buttons.force_show.last_tab.1       "Nie wyświetlaj nigdy (styl Firefoksa 3.5)">
-<!ENTITY config.closeWindowWithLastTab "Zezwalaj na zamykanie ostatniej karty">
+<!ENTITY config.closeWindowWithLastTab "Close the window together when the sole tab is closed">
+

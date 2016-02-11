@@ -73,8 +73,9 @@
 
 <!ENTITY config.closebutton.force_show "Mostra il pulsante di chiusura anche se le schede sono troppo piccole per visualizzarlo.">
 
-<!ENTITY config.close_buttons.force_show.last_tab.caption "Pulsante di chiusura sull'ultima scheda">
-<!ENTITY config.close_buttons.force_show.last_tab.0       "Mostra solo quando è possibile chiudere l'ultima scheda">
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the sole tab of a window">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the window is not closed together">
 <!ENTITY config.close_buttons.force_show.last_tab.2       "Mostra sempre (stile Firefox 3.0)">
 <!ENTITY config.close_buttons.force_show.last_tab.1       "Nascondi sempre (stile Firefox 3.5)">
-<!ENTITY config.closeWindowWithLastTab "Permetti la chiusura dell'ultima scheda">
+<!ENTITY config.closeWindowWithLastTab "Close the window together when the sole tab is closed">
+

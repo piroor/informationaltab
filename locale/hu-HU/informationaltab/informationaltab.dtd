@@ -74,8 +74,9 @@
 
 <!ENTITY config.closebutton.force_show "Ha elég hely van a fülön a gomb megjelenítéséhez">
 
-<!ENTITY config.close_buttons.force_show.last_tab.caption "Az utolsó lap fülének bezárás gombja">
-<!ENTITY config.close_buttons.force_show.last_tab.0       "Megjelenítés csak akkor, ha az utolsó lap bezárható">
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the sole tab of a window">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the window is not closed together">
 <!ENTITY config.close_buttons.force_show.last_tab.2       "Megjelenítés mindig (Firefox 3.0 stílus)">
 <!ENTITY config.close_buttons.force_show.last_tab.1       "Elrejtés mindig (Firefox 3.5 stílus)">
-<!ENTITY config.closeWindowWithLastTab "Az utolsó lap bezárhatóságának engedélyezése">
+<!ENTITY config.closeWindowWithLastTab "Close the window together when the sole tab is closed">
+

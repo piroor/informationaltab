@@ -331,8 +331,7 @@
 			type="int"/>
 		<preference id="browser.tabs.closeWindowWithLastTab"
 			name="browser.tabs.closeWindowWithLastTab"
-			type="bool"
-			inverted="true"/>
+			type="bool"/>
 	</preferences>
 	<groupbox id="browser.tabs.closeButtons-groupbox">
 		<caption label="&config.closebutton.mode.caption;"/>
@@ -353,6 +352,9 @@
 			</radiogroup>
 		</vbox>
 	</groupbox>
+	<checkbox id="browser.tabs.closeWindowWithLastTab-check"
+		preference="browser.tabs.closeWindowWithLastTab"
+		label="&config.closeWindowWithLastTab;"/>
 	<groupbox id="lastTabCloseBoxGroup">
 		<caption label="&config.close_buttons.force_show.last_tab.caption;"/>
 		<vbox>
@@ -360,12 +362,6 @@
 				preference="extensions.informationaltab.close_buttons.force_show.last_tab"
 				orient="vertical">
 				<radio value="0" label="&config.close_buttons.force_show.last_tab.0;"/>
-				<hbox align="center">
-					<spacer style="width: 1em;"/>
-					<checkbox id="browser.tabs.closeWindowWithLastTab-check"
-						preference="browser.tabs.closeWindowWithLastTab"
-						label="&config.closeWindowWithLastTab;"/>
-				</hbox>
 				<radio value="2" label="&config.close_buttons.force_show.last_tab.2;"/>
 				<radio value="1" label="&config.close_buttons.force_show.last_tab.1;"/>
 			</radiogroup>
