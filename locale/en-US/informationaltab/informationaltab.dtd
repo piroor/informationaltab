@@ -75,7 +75,7 @@
 <!ENTITY config.closebutton.force_show "Show close buttons even if there are too narrow tabs to show buttons">
 
 <!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the sole tab of a window">
-<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the window is not closed together">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only if closing the sole tab does not close the window">
 <!ENTITY config.close_buttons.force_show.last_tab.2       "Show always (Firefox 3.0 style)">
 <!ENTITY config.close_buttons.force_show.last_tab.1       "Hide always (Firefox 3.5 style)">
-<!ENTITY config.closeWindowWithLastTab "Close the window together when the sole tab is closed">
+<!ENTITY config.closeWindowWithLastTab "Close the sole tab closes window">

@@ -75,8 +75,8 @@
 <!ENTITY config.closebutton.force_show "Vis Luk knapper selv om fanerne er for små til at vise knapper.">
 
 <!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the sole tab of a window">
-<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only when the window is not closed together">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only if closing the sole tab does not close the window">
 <!ENTITY config.close_buttons.force_show.last_tab.2       "Vis altid (Firefox 3.0 stil)">
 <!ENTITY config.close_buttons.force_show.last_tab.1       "Vis aldrig (Firefox 3.5 stil)">
-<!ENTITY config.closeWindowWithLastTab "Close the window together when the sole tab is closed">
+<!ENTITY config.closeWindowWithLastTab "Close the sole tab closes window">
 
