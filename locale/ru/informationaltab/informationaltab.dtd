@@ -9,7 +9,7 @@
 <!ENTITY config.thumbnail.full      "Показывать полную страницу">
 <!ENTITY config.thumbnail.partial   "Показывать частично">
 <!ENTITY config.thumbnail.partial.area.before  "">
-<!ENTITY config.thumbnail.partial.area.middle  "пикселов или">
+<!ENTITY config.thumbnail.partial.area.middle  "пикселей или">
 <!ENTITY config.thumbnail.partial.area.after   "&#37; от угла">
 
 <!ENTITY config.thumbnail.position.caption "Расположение миниатюры:">
@@ -31,7 +31,7 @@
 <!ENTITY config.thumbnail.size_mode.caption  "Размер миниатюры">
 <!ENTITY config.thumbnail.size_mode.fixed    "Фиксированный размер:">
 <!ENTITY config.thumbnail.max.before         "">
-<!ENTITY config.thumbnail.max.after          "пикселов">
+<!ENTITY config.thumbnail.max.after          "пикселей">
 <!ENTITY config.thumbnail.size_mode.flexible "Зависит от размера вкладок:">
 <!ENTITY config.thumbnail.pow.before         "">
 <!ENTITY config.thumbnail.pow.after          "&#37; от ширины вкладки">
@@ -52,7 +52,7 @@
 <!ENTITY config.progress.style.caption        "Стиль полосы прогресса на вкладке">
 <!ENTITY config.progress.style.default        "По умолчанию">
 <!ENTITY config.progress.style.lighting-blue  "Синий">
-<!ENTITY config.progress.style.lighting-green "Зеленый">
+<!ENTITY config.progress.style.lighting-green "Зелёный">
 
 
 <!ENTITY config.tabs.unread "Статус непрочитанности">
