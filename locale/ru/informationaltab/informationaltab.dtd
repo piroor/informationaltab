@@ -9,7 +9,7 @@
 <!ENTITY config.thumbnail.full      "Показывать полную страницу">
 <!ENTITY config.thumbnail.partial   "Показывать частично">
 <!ENTITY config.thumbnail.partial.area.before  "">
-<!ENTITY config.thumbnail.partial.area.middle  "пикселов или">
+<!ENTITY config.thumbnail.partial.area.middle  "пикселей или">
 <!ENTITY config.thumbnail.partial.area.after   "&#37; от угла">
 
 <!ENTITY config.thumbnail.position.caption "Расположение миниатюры:">
@@ -31,7 +31,7 @@
 <!ENTITY config.thumbnail.size_mode.caption  "Размер миниатюры">
 <!ENTITY config.thumbnail.size_mode.fixed    "Фиксированный размер:">
 <!ENTITY config.thumbnail.max.before         "">
-<!ENTITY config.thumbnail.max.after          "пикселов">
+<!ENTITY config.thumbnail.max.after          "пикселей">
 <!ENTITY config.thumbnail.size_mode.flexible "Зависит от размера вкладок:">
 <!ENTITY config.thumbnail.pow.before         "">
 <!ENTITY config.thumbnail.pow.after          "&#37; от ширины вкладки">
@@ -52,7 +52,7 @@
 <!ENTITY config.progress.style.caption        "Стиль полосы прогресса на вкладке">
 <!ENTITY config.progress.style.default        "По умолчанию">
 <!ENTITY config.progress.style.lighting-blue  "Синий">
-<!ENTITY config.progress.style.lighting-green "Зеленый">
+<!ENTITY config.progress.style.lighting-green "Зелёный">
 
 
 <!ENTITY config.tabs.unread "Статус непрочитанности">
@@ -74,9 +74,9 @@
 
 <!ENTITY config.closebutton.force_show "Показывать кнопки закрытия, даже если вкладки слишком узкие для отображения кнопок">
 
-<!ENTITY config.close_buttons.force_show.last_tab.caption "Close button on the sole tab of a window">
-<!ENTITY config.close_buttons.force_show.last_tab.0       "Show only if closing the sole tab does not close the window">
+<!ENTITY config.close_buttons.force_show.last_tab.caption "Кнопка закрытия на единственной вкладке в окне">
+<!ENTITY config.close_buttons.force_show.last_tab.0       "Показывать только если закрытие единственной вкладки не приведёт к закрытию окна">
 <!ENTITY config.close_buttons.force_show.last_tab.2       "Показывать всегда (в стиле Firefox 3.0)">
 <!ENTITY config.close_buttons.force_show.last_tab.1       "Скрывать всегда (в стиле Firefox 3.5)">
-<!ENTITY config.closeWindowWithLastTab "Close the sole tab closes window">
+<!ENTITY config.closeWindowWithLastTab "Закрытие единственной вкладки закрывает окно">
 
