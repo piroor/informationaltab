@@ -637,6 +637,15 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 
 		switch (aPosition)
 		{
+			case this.POSITION_BEFORE_CLOSEBOX:
+				{
+					let close = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button always-right') || // Tab Mix Plus
+								document.getAnonymousElementByAttribute(aTab, 'anonid', 'close-button') || // with Australis
+								document.getAnonymousElementByAttribute(aTab, 'class', 'tab-close-button');
+					close.parentNode.insertBefore(container, close);
+				}
+				break;
+
 			case this.POSITION_ABOVE_LEFT:
 			case this.POSITION_ABOVE_CENTER:
 			case this.POSITION_ABOVE_RIGHT:
