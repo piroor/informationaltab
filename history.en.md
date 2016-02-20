@@ -4,6 +4,7 @@
    * Better descriptions for configurations about the sole tab of a window.
    * Better compatibility with the latest version of the Suspend Tab.
    * Don't mark tab as "read", when the tab is selected but not scrolled.
+   * Show thumbnail after the number of collapsed tabs for Tree Style Tab, when it is configured to be placed before a closebox.
  - 0.5.2016010501
    * Supports Nightly 46.0a1.
    * Events in the content area are correctly handled even if tabs' remoteness is dynamically changed.

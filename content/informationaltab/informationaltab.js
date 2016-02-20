@@ -641,15 +641,15 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		var pack = (aPosition > 100) ? (aPosition % 100) : 0 ;
 		pack = pack == 1 ? 'start' : pack == 3 ? 'end' : 'center' ;
 
+		/** XXX
+		 * Insertion before an anonymous element breaks its "xbl:inherits".
+		 * For example, "xbl:inherits" of the closebox in a tab (Tab Mix Plus
+		 * defines it) doesn't work. So, I don't use insertBefore().
+		 * Instead, the counter will be rearranged by "ordinal" attribute
+		 * given by initTabContentsOrder().
+		 */
 		switch (aPosition)
 		{
-			case this.POSITION_BEFORE_CLOSEBOX:
-				{
-					let close = this.getCloseButton(aTab);
-					close.parentNode.insertBefore(container, close);
-				}
-				break;
-
 			case this.POSITION_ABOVE_LEFT:
 			case this.POSITION_ABOVE_CENTER:
 			case this.POSITION_ABOVE_RIGHT:
@@ -691,6 +691,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 	initTabContentsOrder : function ITS_initTabContentsOrder(aTab, aTabBrowser, aPosition) 
 	{
 		var labelBox = this.getLabelBox(aTab);
+		var close = this.getCloseButton(aTab);
 
 		var container = aTab.__informationaltab__thumbnailContainer;
 		if (!container)
@@ -715,16 +716,24 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 			prefs.getPref('extensions.treestyletab.tabbar.position') == 'right' &&
 			prefs.getPref('extensions.treestyletab.tabbar.invertTabContents')) {
 			container.setAttribute('ordinal',
-				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(orderedNodes[orderedNodes.length-1].getAttribute('ordinal')) + 5 :
-				(aPosition == this.POSITION_BEFORE_LABEL) ? parseInt(labelBox.getAttribute('ordinal')) + 5 :
-				1
+				(aPosition == this.POSITION_BEFORE_FAVICON) ?
+					parseInt(orderedNodes[orderedNodes.length-1].getAttribute('ordinal')) + 5 :
+				(aPosition == this.POSITION_BEFORE_LABEL) ?
+					parseInt(labelBox.getAttribute('ordinal')) + 5 :
+				(aPosition == this.POSITION_BEFORE_CLOSEBOX) ?
+					parseInt(close.getAttribute('ordinal')) + 5 :
+					1
 			);
 		}
 		else {
 			container.setAttribute('ordinal',
-				(aPosition == this.POSITION_BEFORE_FAVICON) ? parseInt(orderedNodes[0].getAttribute('ordinal')) - 5 :
-				(aPosition == this.POSITION_BEFORE_LABEL) ? parseInt(labelBox.getAttribute('ordinal')) - 5 :
-				parseInt(labelBox.getAttribute('ordinal')) + 5
+				(aPosition == this.POSITION_BEFORE_FAVICON) ?
+					parseInt(orderedNodes[0].getAttribute('ordinal')) - 5 :
+				(aPosition == this.POSITION_BEFORE_LABEL) ?
+					parseInt(labelBox.getAttribute('ordinal')) - 5 :
+				(aPosition == this.POSITION_BEFORE_CLOSEBOX) ?
+					parseInt(close.getAttribute('ordinal')) - 5 :
+					parseInt(labelBox.getAttribute('ordinal')) + 5
 			);
 		}
 	},
