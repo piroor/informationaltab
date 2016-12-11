@@ -709,7 +709,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 			}
 		}
 
-		var orderedNodes = Array.slice(nodes).sort(function(aA, aB) {
+		var orderedNodes = [...nodes].sort(function(aA, aB) {
 				return parseInt(aA.getAttribute('ordinal') || 0) - parseInt(aB.getAttribute('ordinal') || 0);
 			});
 		if (isTreeAvailable &&
@@ -970,7 +970,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 	updateTabBoxStyle : function ITS_updateTabBoxStyle(aTab) 
 	{
 		var tabContent = document.getAnonymousElementByAttribute(aTab, 'class', 'tab-content');
-		var nodes = Array.slice(tabContent ? tabContent.childNodes : document.getAnonymousNodes(aTab) );
+		var nodes = [...(tabContent ? tabContent.childNodes : document.getAnonymousNodes(aTab))];
 
 		if (this.thumbnailEnabled &&
 			!aTab.pinned &&
