@@ -23,6 +23,10 @@ tabs.tabbrowser-tabs .tabbrowser-tab .tab-label-container {
 	visibility: collapse !important;
 }
 
+.tab-label-container[pinned="true"] {
+	visibility: collapse !important;
+}
+
 :root[informationaltab-show-last-tab-close-button="true"]
   .tabbrowser-tabs:not([closebuttons="noclose"]):not([closebuttons="closeatend"])
   > .tabbrowser-tab[visuallyselected="true"]:only-child
