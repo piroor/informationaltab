@@ -4,6 +4,10 @@ tabs.tabbrowser-tabs label.tab-text {
 	-moz-binding: url("informationaltab.xml#tab-label") !important;
 }
 
+tabs.tabbrowser-tabs .tabbrowser-tab .tab-label-container {
+	-moz-box-align: center;
+}
+
 .tab-icon-image,
 .tab-throbber {
 	/**

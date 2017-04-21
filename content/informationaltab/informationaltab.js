@@ -155,8 +155,8 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 	},
 	getLabelBox : function ITS_getLabelBox(aTab) 
 	{
-		return document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-stack') || // Mac OS X
-				document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-container') || // Tab Mix Plus
+		return document.getAnonymousElementByAttribute(aTab, 'class', 'tab-label-container') || // Firefox 53 and later (and Tab Mix Plus)
+				document.getAnonymousElementByAttribute(aTab, 'class', 'tab-text-stack') || // Mac OS X
 				this.getLabel(aTab);
 	},
 	getCloseButton : function ITS_getCloseButton(aTab) 
