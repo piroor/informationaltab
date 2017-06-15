@@ -2,7 +2,6 @@
 
 <?xml-stylesheet href="chrome://global/skin/"?>
 <?xml-stylesheet href="config.css"?>
-<?xml-stylesheet href="chrome://browser/skin/browser.css"?>
 
 <!DOCTYPE prefwindow [
 <!ENTITY % mainDTD SYSTEM "chrome://informationaltab/locale/informationaltab.dtd">
