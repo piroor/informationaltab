@@ -13,6 +13,7 @@
 <!ENTITY config.thumbnail.partial.area.after   "&#37; desde el borde">
 
 <!ENTITY config.thumbnail.position.caption "Mostrar vista previa en">
+<!ENTITY config.thumbnail.position.icon    "(Icon)">
 <!ENTITY config.thumbnail.position.label   "(Título de la pestaña)">
 <!ENTITY config.thumbnail.position.0   "↑">
 <!ENTITY config.thumbnail.position.1   "↑">

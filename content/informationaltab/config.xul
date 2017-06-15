@@ -101,16 +101,6 @@
 			preference="extensions.informationaltab.thumbnail.position"
 			orient="vertical">
 			<hbox>
-			<hbox class="tabbrowser-tab"
-				orient="horizontal"
-				align="stretch">
-				<stack class="tab-stack" flex="1">
-					<hbox class="tab-background">
-						<hbox class="tab-background-start"/>
-						<hbox class="tab-background-middle"/>
-						<hbox class="tab-background-end"/>
-					</hbox>
-					<hbox class="tab-content" align="center">
 						<grid>
 							<columns>
 								<column/>
@@ -144,7 +134,7 @@
 											<spacer id="thumbnail-position-indicator-0" />
 											<radio value="0"/>
 										</stack>
-										<image class="tab-icon-image"/>
+										<label value="&config.thumbnail.position.icon;"/>
 										<stack align="center">
 											<spacer id="thumbnail-position-indicator-1" />
 											<radio value="1"/>
@@ -194,10 +184,7 @@
 								</row>
 							</rows>
 						</grid>
-					</hbox>
-				</stack>
-			</hbox>
-			<spacer flex="1"/>
+				<spacer flex="1"/>
 			</hbox>
 			<hbox align="center">
 				<label value="&config.thumbnail.position.5;"/>

@@ -13,6 +13,7 @@
 <!ENTITY config.thumbnail.partial.area.after   "&#37;の範囲">
 
 <!ENTITY config.thumbnail.position.caption "プレビューの表示位置">
+<!ENTITY config.thumbnail.position.icon    "(アイコン)">
 <!ENTITY config.thumbnail.position.label   "(タブのタイトル)">
 <!ENTITY config.thumbnail.position.0   "↑">
 <!ENTITY config.thumbnail.position.1   "↑">

@@ -1,21 +1,25 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
-.tabbrowser-tab radio .radio-label-box {
+#extensions\.informationaltab\.thumbnail\.position-radiogroup grid {
+	border: 1px solid rgba(0,0,0,0.5);
+}
+
+#extensions\.informationaltab\.thumbnail\.position-radiogroup radio .radio-label-box {
 	visibility: collapse;
 }
 
-radiogroup[value="0"] .tabbrowser-tab #thumbnail-position-indicator-0,
-radiogroup[value="1"] .tabbrowser-tab #thumbnail-position-indicator-1,
-radiogroup[value="2"] .tabbrowser-tab #thumbnail-position-indicator-2,
-radiogroup[value="301"] .tabbrowser-tab #thumbnail-position-indicator-301,
-radiogroup[value="302"] .tabbrowser-tab #thumbnail-position-indicator-302,
-radiogroup[value="303"] .tabbrowser-tab #thumbnail-position-indicator-303,
-radiogroup[value="401"] .tabbrowser-tab #thumbnail-position-indicator-401,
-radiogroup[value="402"] .tabbrowser-tab #thumbnail-position-indicator-402,
-radiogroup[value="403"] .tabbrowser-tab #thumbnail-position-indicator-403,
-radiogroup[value="501"] .tabbrowser-tab #thumbnail-position-indicator-501,
-radiogroup[value="502"] .tabbrowser-tab #thumbnail-position-indicator-502,
-radiogroup[value="503"] .tabbrowser-tab #thumbnail-position-indicator-503 {
+radiogroup[value="0"] #thumbnail-position-indicator-0,
+radiogroup[value="1"] #thumbnail-position-indicator-1,
+radiogroup[value="2"] #thumbnail-position-indicator-2,
+radiogroup[value="301"] #thumbnail-position-indicator-301,
+radiogroup[value="302"] #thumbnail-position-indicator-302,
+radiogroup[value="303"] #thumbnail-position-indicator-303,
+radiogroup[value="401"] #thumbnail-position-indicator-401,
+radiogroup[value="402"] #thumbnail-position-indicator-402,
+radiogroup[value="403"] #thumbnail-position-indicator-403,
+radiogroup[value="501"] #thumbnail-position-indicator-501,
+radiogroup[value="502"] #thumbnail-position-indicator-502,
+radiogroup[value="503"] #thumbnail-position-indicator-503 {
 	background: rgba(255,255,255,0.5);
 	border:1px solid ThreeDShadow;
 	height: 32px;

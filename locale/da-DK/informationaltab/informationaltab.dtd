@@ -13,6 +13,7 @@
 <!ENTITY config.thumbnail.partial.area.after   "&#37; fra kanten">
 
 <!ENTITY config.thumbnail.position.caption "Vis miniaturen ved:">
+<!ENTITY config.thumbnail.position.icon    "(Icon)">
 <!ENTITY config.thumbnail.position.label   "(Fanens titel)">
 <!ENTITY config.thumbnail.position.0   "↑">
 <!ENTITY config.thumbnail.position.1   "↑">

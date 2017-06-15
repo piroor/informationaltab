@@ -13,6 +13,7 @@
 <!ENTITY config.thumbnail.partial.area.after   "&#37; della dimensioni a partire dall'angolo in alto a sinistra">
 
 <!ENTITY config.thumbnail.position.caption "Mostra anteprima alla sinistra del:">
+<!ENTITY config.thumbnail.position.icon    "(Icon)">
 <!ENTITY config.thumbnail.position.label   "(Titolo della scheda)">
 <!ENTITY config.thumbnail.position.0   "↑">
 <!ENTITY config.thumbnail.position.1   "↑">

@@ -12,6 +12,7 @@
 <!ENTITY config.thumbnail.partial.area.after   "&#37; od krawędzi">
 
 <!ENTITY config.thumbnail.position.caption "Miejsce  wyświetlania miniatury">
+<!ENTITY config.thumbnail.position.icon    "(Icon)">
 <!ENTITY config.thumbnail.position.label   "(Tytuł karty)">
 <!ENTITY config.thumbnail.position.0   "↑">
 <!ENTITY config.thumbnail.position.1   "↑">

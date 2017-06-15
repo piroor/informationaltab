@@ -13,6 +13,7 @@
 <!ENTITY config.thumbnail.partial.area.after   "&#37;（较大的一个）。">
 
 <!ENTITY config.thumbnail.position.caption "显示预览的位置：">
+<!ENTITY config.thumbnail.position.icon    "(Icon)">
 <!ENTITY config.thumbnail.position.label   "（标签标题位置）">
 <!ENTITY config.thumbnail.position.0   "↑">
 <!ENTITY config.thumbnail.position.1   "↑">

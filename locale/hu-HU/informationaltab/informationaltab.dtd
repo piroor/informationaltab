@@ -13,6 +13,7 @@
 <!ENTITY config.thumbnail.partial.area.after   "&#37; a képernyőszéltől">
 
 <!ENTITY config.thumbnail.position.caption "A gyorsnézet helyzete:">
+<!ENTITY config.thumbnail.position.icon    "(Icon)">
 <!ENTITY config.thumbnail.position.label   "(A lap neve)">
 <!ENTITY config.thumbnail.position.0   "↑">
 <!ENTITY config.thumbnail.position.1   "↑">
