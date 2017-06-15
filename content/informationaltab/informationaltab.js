@@ -1,5 +1,5 @@
 (function() {
-var prefs = window['piro.sakura.ne.jp'].prefs;
+var prefs = Components.utils.import('resource://informationaltab-modules/prefs.js', {});
 
 var { InformationalTabConstants } = Components.utils.import('resource://informationaltab-modules/constants.js', {});
 var { inherit } = Components.utils.import('resource://informationaltab-modules/inherit.jsm', {});
