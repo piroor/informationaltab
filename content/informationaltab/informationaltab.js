@@ -252,14 +252,17 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 
 
 		if ('PrintUtils' in window) {
-			eval('PrintUtils.printPreview = '+PrintUtils.printPreview.toSource().replace(
-				'{',
-				'{ InformationalTabService.disableAllFeatures();'
-			));
-			eval('PrintUtils.exitPrintPreview = '+PrintUtils.exitPrintPreview.toSource().replace(
-				/(\}\)?)$/,
-				'InformationalTabService.enableAllFeatures(); $1'
-			));
+			PrintUtils.__informationaltab__printPreview = PrintUtils.printPreview;
+			PrintUtils.printPreview = function(...aArgs) {
+				InformationalTabService.disableAllFeatures();
+				return PrintUtils.__informationaltab__printPreview.call(this, ...aArgs);
+			};
+			PrintUtils.__informationaltab__exitPrintPreview = PrintUtils.exitPrintPreview;
+			PrintUtils.exitPrintPreview = function(...aArgs) {
+				var returnValue = PrintUtils.__informationaltab__exitPrintPreview.call(this, ...aArgs);
+				InformationalTabService.enableAllFeatures();
+				return returnValue;
+			};
 		}
 
 		this.overrideExtensionsOnInitAfter();
