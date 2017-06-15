@@ -1,6 +1,7 @@
 # History
 
  - master/HEAD
+ - 0.5.2017061501
    * Supports Nightly 56.0a1.
    * Hide label container in pinned tabs correctly
    * Better descriptions for configurations about the sole tab of a window.
