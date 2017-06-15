@@ -35,24 +35,43 @@
 			var node = this.parentNode;
 			while (node && node.localName != 'tab')
 				node = node.parentNode;
-			if (node && node.localName == 'tab')
-				node.addEventListener('DOMAttrModified', this.eventHandler, false);
+			if (node && node.localName == 'tab') {
+				let MutationObserver = window.MutationObserver || window.MozMutationObserver;
+				this.__informationaltab__mutationObserver = new MutationObserver((function(aMutations, aObserver) {
+					this.__informationaltab__mutationHandler.onMutations(aMutations, aObserver);
+				}).bind(this));
+				this.__informationaltab__mutationObserver.observe(node, {
+					attributes      : true,
+					attributeFilter : ['label']
+				});
+			}
 		]]></constructor>
 		<destructor><![CDATA[
-			var node = this.parentNode;
-			while (node && node.localName != 'tab')
-				node = node.parentNode;
-			if (node && node.localName == 'tab')
-				node.removeEventListener('DOMAttrModified', this.eventHandler, false);
+			if (this.__informationaltab__mutationObserver) {
+				this.__informationaltab__mutationObserver.disconnect();
+				delete this.__informationaltab__mutationObserver;
+			}
 		]]></destructor>
-		<field name="eventHandler"><![CDATA[
+		<field name="__informationaltab__mutationHandler"><![CDATA[
 			({
 				mOwner : this,
-				handleEvent : function(aEvent)
+				onMutations : function(aMutations, aObserver)
 				{
-					if (aEvent.attrName != 'label') return;
+					aMutations.forEach(function(aMutation) {
+						switch (aMutation.type)
+						{
+							case 'attributes':
+								this.onAttributeModified(aMutation, aObserver);
+								return;
+						}
+					}, this);
+				},
+				onAttributeModified : function(aMutation, aObserver)
+				{
+					if (aMutation.target.localName != 'tab')
+						return;
 
-					this.mOwner.setAttribute('value', aEvent.target.getAttribute('label'));
+					this.mOwner.setAttribute('value', aMutation.target.getAttribute('label'));
 				}
 			})
 		]]></field>
