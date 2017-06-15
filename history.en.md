@@ -1,6 +1,8 @@
 # History
 
  - master/HEAD
+   * Supports Nightly 56.0a1.
+   * Hide label container in pinned tabs correctly
    * Better descriptions for configurations about the sole tab of a window.
    * Better compatibility with the latest version of the Suspend Tab.
    * Don't mark tab as "read", when the tab is selected but not scrolled.
