@@ -24,7 +24,7 @@
 <!ENTITY config.thumbnail.position.401 "←">
 <!ENTITY config.thumbnail.position.402 "←">
 <!ENTITY config.thumbnail.position.403 "←">
-<!ENTITY config.thumbnail.position.5   "За заголовком:">
+<!ENTITY config.thumbnail.position.5   "Позади заголовка:">
 <!ENTITY config.thumbnail.position.501 "Слева">
 <!ENTITY config.thumbnail.position.502 "В центре">
 <!ENTITY config.thumbnail.position.503 "Справа">
