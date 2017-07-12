@@ -13,7 +13,7 @@
 <!ENTITY config.thumbnail.partial.area.after   "&#37; от угла">
 
 <!ENTITY config.thumbnail.position.caption "Расположение миниатюры:">
-<!ENTITY config.thumbnail.position.icon    "(Icon)">
+<!ENTITY config.thumbnail.position.icon    "(иконка)">
 <!ENTITY config.thumbnail.position.label   "(заголовок вкладки)">
 <!ENTITY config.thumbnail.position.0   "↑">
 <!ENTITY config.thumbnail.position.1   "↑">
