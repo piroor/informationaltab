@@ -70,7 +70,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 	{
 		return aTabBrowser.ownerDocument.evaluate(
 				'descendant::*[local-name()="tab"]',
-				aTabBrowser.mTabContainer,
+				aTabBrowser.tabContainer,
 				null,
 				XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
 				null
@@ -337,14 +337,14 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		aTabBrowser.__informationaltab__prefListener = listener;
 
 		aTabBrowser.__informationaltab__eventListener = new InformationalTabBrowserEventListener(aTabBrowser);
-		aTabBrowser.mTabContainer.addEventListener('TabSelect',      this, false);
-		aTabBrowser.mTabContainer.addEventListener('TabOpen',        this, false);
-		aTabBrowser.mTabContainer.addEventListener('TabClose',       this, false);
-		aTabBrowser.mTabContainer.addEventListener('TabMove',        this, false);
-		aTabBrowser.mTabContainer.addEventListener('TabPinned',      this, false);
-		aTabBrowser.mTabContainer.addEventListener('TabUnpinned',    this, false);
-		aTabBrowser.mTabContainer.addEventListener('SSTabRestoring', this, false);
-		aTabBrowser.mTabContainer.addEventListener('TreeStyleTabCollapsedStateChange', this, false);
+		aTabBrowser.tabContainer.addEventListener('TabSelect',      this, false);
+		aTabBrowser.tabContainer.addEventListener('TabOpen',        this, false);
+		aTabBrowser.tabContainer.addEventListener('TabClose',       this, false);
+		aTabBrowser.tabContainer.addEventListener('TabMove',        this, false);
+		aTabBrowser.tabContainer.addEventListener('TabPinned',      this, false);
+		aTabBrowser.tabContainer.addEventListener('TabUnpinned',    this, false);
+		aTabBrowser.tabContainer.addEventListener('SSTabRestoring', this, false);
+		aTabBrowser.tabContainer.addEventListener('TreeStyleTabCollapsedStateChange', this, false);
 	},
  
 	initTab : function ITS_initTab(aTab, aTabBrowser) 
@@ -566,14 +566,14 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		aTabBrowser.__informationaltab__eventListener.destroy();
 		delete aTabBrowser.__informationaltab__eventListener;
 
-		aTabBrowser.mTabContainer.removeEventListener('TabSelect',      this, false);
-		aTabBrowser.mTabContainer.removeEventListener('TabOpen',        this, false);
-		aTabBrowser.mTabContainer.removeEventListener('TabClose',       this, false);
-		aTabBrowser.mTabContainer.removeEventListener('TabMove',        this, false);
-		aTabBrowser.mTabContainer.removeEventListener('TabPinned',      this, false);
-		aTabBrowser.mTabContainer.removeEventListener('TabUnpinned',    this, false);
-		aTabBrowser.mTabContainer.removeEventListener('SSTabRestoring', this, false);
-		aTabBrowser.mTabContainer.removeEventListener('TreeStyleTabCollapsedStateChange', this, false);
+		aTabBrowser.tabContainer.removeEventListener('TabSelect',      this, false);
+		aTabBrowser.tabContainer.removeEventListener('TabOpen',        this, false);
+		aTabBrowser.tabContainer.removeEventListener('TabClose',       this, false);
+		aTabBrowser.tabContainer.removeEventListener('TabMove',        this, false);
+		aTabBrowser.tabContainer.removeEventListener('TabPinned',      this, false);
+		aTabBrowser.tabContainer.removeEventListener('TabUnpinned',    this, false);
+		aTabBrowser.tabContainer.removeEventListener('SSTabRestoring', this, false);
+		aTabBrowser.tabContainer.removeEventListener('TreeStyleTabCollapsedStateChange', this, false);
 
 		var tabs = this.getTabs(aTabBrowser);
 		for (var i = 0, maxi = tabs.snapshotLength; i < maxi; i++)
@@ -955,7 +955,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 	{
 		return aTabBrowser.ownerDocument.evaluate(
 					'descendant::*[@'+this.kTHUMBNAIL_UPDATING+'="true"]',
-					aTabBrowser.mTabContainer,
+					aTabBrowser.tabContainer,
 					null,
 					XPathResult.BOOLEAN_TYPE,
 					null
@@ -985,7 +985,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 			let canvasHeight = Math.max(parseInt(aTab.__informationaltab__canvas.height) + borderWidth, label.boxObject.height);
 
 			let b = aTab.__informationaltab__parentTabBrowser;
-			let box = b.mTabContainer.mTabstrip || b.mTabContainer ;
+			let box = b.tabContainer.mTabstrip || b.tabContainer ;
 			let orient = box.getAttribute('orient') || window.getComputedStyle(box, '').MozBoxOrient;
 			let selected = aTab.getAttribute('selected') == 'true' ? 'foreground' : 'background' ;
 
@@ -1214,7 +1214,7 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 	
 	adjustTabstrip : function ITS_adjustTabstrip(aTabBrowser) 
 	{
-		var container = aTabBrowser.mTabContainer;
+		var container = aTabBrowser.tabContainer;
 		container.mTabClipWidth = prefs.getPref('browser.tabs.tabClipWidth');
 		container.adjustTabstrip();
 	},
@@ -1504,7 +1504,7 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 		manager.addMessageListener(this.MESSAGE_TYPE, this.handleMessage);
 		this.notifyConfigUpdatedMessage();
 
-		this.mTabBrowser.mTabContainer.addEventListener('select', this, false);
+		this.mTabBrowser.tabContainer.addEventListener('select', this, false);
 		this.mTab.addEventListener('TabRemotenessChange', this, false);
 	},
 	notifyConfigUpdatedMessage : function ITEL_notifyConfigUpdatedMessage()
@@ -1527,7 +1527,7 @@ InformationalTabEventListener.prototype = inherit(InformationalTabConstants, {
 		var manager = window.messageManager;
 		manager.removeMessageListener(this.MESSAGE_TYPE, this.handleMessage);
 
-		this.mTabBrowser.mTabContainer.removeEventListener('select', this, false);
+		this.mTabBrowser.tabContainer.removeEventListener('select', this, false);
 		prefs.removePrefListener(this);
 
 		delete this.mTab;
