@@ -336,6 +336,15 @@ var InformationalTabService = window.InformationalTabService = inherit(Informati
 		var listener = new InformationalTabPrefListener(aTabBrowser);
 		aTabBrowser.__informationaltab__prefListener = listener;
 
+		aTabBrowser.tabContainer.__informationaltab__adjustTabstrip = aTabBrowser.tabContainer.adjustTabstrip;
+		aTabBrowser.tabContainer.adjustTabstrip = function(...aArgs) {
+			if (prefs.getPref('extensions.informationaltab.close_buttons.force_show')) {
+				this.removeAttribute('closebuttons');
+				return;
+			}
+			return this.__informationaltab__adjustTabstrip(...aArgs);
+		};
+
 		aTabBrowser.__informationaltab__eventListener = new InformationalTabBrowserEventListener(aTabBrowser);
 		aTabBrowser.tabContainer.addEventListener('TabSelect',      this, false);
 		aTabBrowser.tabContainer.addEventListener('TabOpen',        this, false);
