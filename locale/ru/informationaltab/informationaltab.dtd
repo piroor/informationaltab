@@ -13,7 +13,7 @@
 <!ENTITY config.thumbnail.partial.area.after   "&#37; от угла">
 
 <!ENTITY config.thumbnail.position.caption "Расположение миниатюры:">
-<!ENTITY config.thumbnail.position.icon    "(Icon)">
+<!ENTITY config.thumbnail.position.icon    "(иконка)">
 <!ENTITY config.thumbnail.position.label   "(заголовок вкладки)">
 <!ENTITY config.thumbnail.position.0   "↑">
 <!ENTITY config.thumbnail.position.1   "↑">
@@ -24,7 +24,7 @@
 <!ENTITY config.thumbnail.position.401 "←">
 <!ENTITY config.thumbnail.position.402 "←">
 <!ENTITY config.thumbnail.position.403 "←">
-<!ENTITY config.thumbnail.position.5   "За заголовком:">
+<!ENTITY config.thumbnail.position.5   "Позади заголовка:">
 <!ENTITY config.thumbnail.position.501 "Слева">
 <!ENTITY config.thumbnail.position.502 "В центре">
 <!ENTITY config.thumbnail.position.503 "Справа">
